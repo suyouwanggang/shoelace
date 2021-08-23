@@ -79,7 +79,7 @@ export default class SlGallery extends LitElement {
   /** 可以通过 全局 left,right 键来调整当前图片 */
   @property({ type: Boolean, attribute: false }) windowKeyEnable = false;
 
-  /** 是否全屏 */
+  /** 是否全屏 :内部使用*/
   @state() isFullScreened = false;
 
   @watch('autoPlay')
@@ -271,12 +271,15 @@ export default class SlGallery extends LitElement {
       return nothing;
     }
     return this.show_fullscreen
-      ? html`<button class="nav-button button-fullscreen" @click=${this.handerFullScreen} part="full-screen">
+      ? html`<button class="nav-button button-fullscreen" @click=${this.changeFullScreenState} part="full-screen">
           ${this.isFullScreened ? svgFullscreened : svgFullscreen}
         </button>`
       : '';
   }
-  private handerFullScreen() {
+  /**
+   * 改变组件全屏状态
+   */
+  public changeFullScreenState() {
     if (isFullscreen()) {
       exitFullscreen();
       this.isFullScreened = false;
