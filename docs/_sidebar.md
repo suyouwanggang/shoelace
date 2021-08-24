@@ -59,6 +59,7 @@
   - [Splitter](/components/splitter)
   - [Page Btn](/components/page-btn)
   - [Gallery](/components/gallery)
+  - [Date Panel](/components/date-panel)
   <!--plop:component-->
 
 - Utilities

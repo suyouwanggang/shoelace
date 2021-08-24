@@ -59,6 +59,7 @@ export { default as SlTreeNode } from './components/tree-node/tree-node';
 export { default as SlSplitter } from './components/splitter/splitter';
 export { default as SlPageBtn } from './components/page-btn/page-btn';
 export { default as SlGallery } from './components/gallery/gallery';
+export { default as SlDatePanel } from './components/date-panel/date-panel';
 /* plop:component */
 
 // Utilities

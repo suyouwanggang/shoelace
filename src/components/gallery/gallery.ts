@@ -188,7 +188,9 @@ export default class SlGallery extends LitElement {
         <img part="thumb-image" class="thumb-image" .src=${item} />
       </button>`;
     });
-    return html`<div class="thumb-image-conatainer" id="thumb-image-conatainer">${this._loadedOneImage?to:nothing}</div>`;
+    return html`<div class="thumb-image-conatainer" id="thumb-image-conatainer">
+      ${this._loadedOneImage ? to : nothing}
+    </div>`;
   }
 
   /** 渲染 images*/
