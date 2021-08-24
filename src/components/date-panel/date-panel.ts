@@ -45,10 +45,14 @@ export default class SlDatePanel extends LitElement {
 
   @state()
   private innerMode: 'year' | 'month' | 'date' = 'date';
-  @state()
-  private _year: number;
-  @state()
-  private _month: number;
+  
+  private  get _innerYear(){
+    return this.innerDate.getFullYear();
+  }
+  
+  private  get _innerMonth(){
+    return this.innerDate.getMonth();
+  }
 
   /** 内部 value 所对应的日期 */
   @state()
@@ -69,8 +73,6 @@ export default class SlDatePanel extends LitElement {
     if (!this.innerDate) {
       this.innerDate = new Date();
     }
-    this._year = this.innerDate.getFullYear();
-    this._month = this.innerDate.getMonth();
   }
   private get innerDisplayDateStr(): string {
     const date = this.innerDate;
@@ -102,11 +104,12 @@ export default class SlDatePanel extends LitElement {
     </div>`;
     let minDate = this.minDate;
     const maxDate = this.maxDate;
-    const dateArray = getDaysPanel(this._year, this._month + 1);
+    const dateArray = getDaysPanel(this._innerYear, this._innerMonth + 1);
     const dateResult = [];
     for (let i = 0, j = dateArray.length; i < j; i++) {
       const tempDate = dateArray[i];
-      let other = this._year !== tempDate.getFullYear() || this._month !== tempDate.getMonth();
+      console.log(tempDate.toLocaleString())
+      let other = this._innerYear !== tempDate.getFullYear() || this._innerMonth !== tempDate.getMonth();
       const disabled = (minDate != null && tempDate < minDate) || (maxDate != null && tempDate > maxDate);
       const isCurent = this.innerDate && isEqualsDate(tempDate, this.valueDate, 'date');
       dateResult.push(
