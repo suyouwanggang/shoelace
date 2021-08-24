@@ -188,4 +188,34 @@ Add descriptive help text to a select with the `help-text` attribute. For help t
 </sl-select>
 ```
 
+### Prefix & Suffix Icons
+
+Use the `prefix` and `suffix` slots to add icons.
+
+```html preview
+<sl-select placeholder="Small" size="small">
+  <sl-icon name="house" slot="prefix"></sl-icon>
+  <sl-menu-item value="option-1">Option 1</sl-menu-item>
+  <sl-menu-item value="option-2">Option 2</sl-menu-item>
+  <sl-menu-item value="option-3">Option 3</sl-menu-item>
+  <sl-icon name="chat" slot="suffix"></sl-icon>
+</sl-select>
+<br>
+<sl-select placeholder="Medium" size="medium">
+  <sl-icon name="house" slot="prefix"></sl-icon>
+  <sl-menu-item value="option-1">Option 1</sl-menu-item>
+  <sl-menu-item value="option-2">Option 2</sl-menu-item>
+  <sl-menu-item value="option-3">Option 3</sl-menu-item>
+  <sl-icon name="chat" slot="suffix"></sl-icon>
+</sl-select>
+<br>
+<sl-select placeholder="Large" size="large">
+  <sl-icon name="house" slot="prefix"></sl-icon>
+  <sl-menu-item value="option-1">Option 1</sl-menu-item>
+  <sl-menu-item value="option-2">Option 2</sl-menu-item>
+  <sl-menu-item value="option-3">Option 3</sl-menu-item>
+  <sl-icon name="chat" slot="suffix"></sl-icon>
+</sl-select>
+```
+
 [component-metadata:sl-select]

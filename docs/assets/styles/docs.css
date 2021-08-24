@@ -49,6 +49,7 @@ strong {
 .sidebar-buttons {
   text-align: center;
   margin-top: 0;
+  width:110%;
 }
 
 /* Search */
@@ -585,6 +586,7 @@ strong {
 
 /* Repo buttons */
 html .repo-button {
+  /*
   display: inline-flex;
   align-items: center;
   background-color: rgb(var(--sl-color-neutral-1000));
@@ -599,12 +601,13 @@ html .repo-button {
   padding: var(--sl-spacing-xx-small) var(--sl-spacing-small);
   margin-bottom: var(--sl-spacing-xx-small);
   transition: 0.25s all;
+  */
 }
 
 html .repo-button:hover {
-  text-decoration: none;
+  /*text-decoration: none;
   background-color: rgb(var(--sl-color-neutral-50));
-  border: solid 1px rgb(var(--sl-color-neutral-200));
+  border: solid 1px rgb(var(--sl-color-neutral-200));*/
 }
 
 .sl-theme-dark .repo-button:hover {
