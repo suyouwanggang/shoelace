@@ -42,7 +42,8 @@ Responsive and flexible carousel component with thumbnail support .
  'https://raw.githubusercontent.com/xiaolin/react-image-gallery/master/static/10t.jpg',
 'https://raw.githubusercontent.com/xiaolin/react-image-gallery/master/static/11t.jpg'];
 
-   
+//   galleryDiv.images=galleryDiv.images.slice(0,4); 
+//   galleryDiv.thumb_images=galleryDiv.thumb_images.slice(0,4); 
 
 galleryDiv.image_datas=galleryDiv.images;
 // galleryDiv.imageRender=(image,index)=>{

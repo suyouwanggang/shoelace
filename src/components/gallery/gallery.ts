@@ -1,9 +1,9 @@
 import { LitElement, html, TemplateResult, svg, PropertyValues, nothing } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
-import '../../components/resize-observer/resize-observer';
 import { emit } from '../../internal/event';
 import { watch } from '../../internal/watch';
 import { addEvent, exitFullscreen, fullscreen, getCssValue, isFullscreen } from '../../utilities/common';
+import { addResizeHander, DisposeObject } from '../../utilities/resize.util';
 import styles from './gallery.styles';
 
 const svgLeft = svg`<svg class="image-gallery-svg" xmlns="http://www.w3.org/2000/svg" viewBox="6 0 12 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>`;
@@ -16,7 +16,7 @@ const svgFullscreen = svg`<svg class="image-gallery-svg" xmlns="http://www.w3.or
  * @since 2.0
  * @status experimental
  *
- * @dependency sl-resize-observer
+ * 
  *
  * @event {{value:number,toValue:number}} sl-gallery-before-change - Emitted when before change the current image index .
  * @event {{value:number}} sl-gallery-change - Emitted current image index changed.
@@ -99,9 +99,7 @@ export default class SlGallery extends LitElement {
       }
     }
   }
-  private _windowKeyHander?: {
-    dispose: () => void;
-  };
+  private _windowKeyHander?: DisposeObject;
   @watch('windowKeyEnable')
   private keyEnableChange() {
     this._windowKeyHander?.dispose();
@@ -153,6 +151,7 @@ export default class SlGallery extends LitElement {
       this._intervalTimeID = undefined;
     }
     this._windowKeyHander?.dispose();
+    this._resizeRemoveAbleObj?.dispose();
   }
 
   @watch('images')
@@ -189,7 +188,7 @@ export default class SlGallery extends LitElement {
         <img part="thumb-image" class="thumb-image" .src=${item} />
       </button>`;
     });
-    return html`<div class="thumb-image-conatainer">${to}</div>`;
+    return html`<div class="thumb-image-conatainer" id='thumb-image-conatainer'>${to}</div>`;
   }
 
   /** 渲染 images*/
@@ -289,12 +288,7 @@ export default class SlGallery extends LitElement {
     }
   }
 
-  firstUpdated(map: PropertyValues) {
-    super.firstUpdated(map);
-    this.watchAutoPlay();
-    this.caculateThumbPotion();
-    this.keyEnableChange();
-  }
+ 
   private caculateThumbPotion() {
     const thumbs = this.renderRoot.querySelector('div.thumbs') as HTMLElement;
     const thumbContainer = thumbs?.querySelector('div.thumb-image-conatainer') as HTMLElement;
@@ -319,9 +313,21 @@ export default class SlGallery extends LitElement {
         if (scroll > 0 && this.thumb_images && this.thumb_images.length > 0) {
           scrollHeight = (scroll / (this.thumb_images.length - 1)) * this.currentIndex;
         }
+        thumbContainer.style.justifyContent=scroll>0?'flex-start':'center';
         thumbContainer.style.transform = `translate3d(0px,-${scrollHeight}px, 0px)`;
       }
     }
+  }
+  private _resizeRemoveAbleObj:DisposeObject;
+  firstUpdated(map: PropertyValues) {
+    super.firstUpdated(map);
+    this.watchAutoPlay();
+    this.caculateThumbPotion();
+    this.keyEnableChange();
+    const thumbs=this.renderRoot.querySelector('div[part=thumbs]') as HTMLElement;
+    this._resizeRemoveAbleObj= addResizeHander([this,thumbs.querySelector('#thumb-image-conatainer')as HTMLElement],(_el:Element)=>{
+      this.caculateThumbPotion();
+    });
   }
   updated(map: PropertyValues) {
     super.updated(map);
@@ -331,16 +337,16 @@ export default class SlGallery extends LitElement {
     this.caculateThumbPotion();
   }
   render() {
-    return html`<sl-resize-observer @sl-resize=${() => this.caculateThumbPotion()}
-      ><div part="base" class=" base ${this.thumbPosition} ${this.isFullScreened ? 'full-screen' : ''}">
+    return html`
+      <div part="base" class=" base ${this.thumbPosition} ${this.isFullScreened ? 'full-screen' : ''}">
         <div part="images" class="images">
           ${this.renderImages()} ${this.renderNavLefAndRight()} ${this.renderImgeNavigations()}
           ${this.renderPauseButton()} ${this.renderFullScreenButton()}
           <slot></slot>
         </div>
         <div part="thumbs" class="thumbs">${this.renderThumbimages()}</div>
-      </div></sl-resize-observer
-    >`;
+      </div>
+    `;
   }
 }
 
