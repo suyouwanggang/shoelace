@@ -16,7 +16,7 @@ const svgFullscreen = svg`<svg class="image-gallery-svg" xmlns="http://www.w3.or
  * @since 2.0
  * @status experimental
  *
- * 
+ *
  *
  * @event {{value:number,toValue:number}} sl-gallery-before-change - Emitted when before change the current image index .
  * @event {{value:number}} sl-gallery-change - Emitted current image index changed.
@@ -188,7 +188,7 @@ export default class SlGallery extends LitElement {
         <img part="thumb-image" class="thumb-image" .src=${item} />
       </button>`;
     });
-    return html`<div class="thumb-image-conatainer" id='thumb-image-conatainer'>${to}</div>`;
+    return html`<div class="thumb-image-conatainer" id="thumb-image-conatainer">${this._loadedOneImage?to:nothing}</div>`;
   }
 
   /** 渲染 images*/
@@ -288,7 +288,6 @@ export default class SlGallery extends LitElement {
     }
   }
 
- 
   private caculateThumbPotion() {
     const thumbs = this.renderRoot.querySelector('div.thumbs') as HTMLElement;
     const thumbContainer = thumbs?.querySelector('div.thumb-image-conatainer') as HTMLElement;
@@ -313,21 +312,24 @@ export default class SlGallery extends LitElement {
         if (scroll > 0 && this.thumb_images && this.thumb_images.length > 0) {
           scrollHeight = (scroll / (this.thumb_images.length - 1)) * this.currentIndex;
         }
-        thumbContainer.style.justifyContent=scroll>0?'flex-start':'center';
+        thumbContainer.style.justifyContent = scroll > 0 ? 'flex-start' : 'center';
         thumbContainer.style.transform = `translate3d(0px,-${scrollHeight}px, 0px)`;
       }
     }
   }
-  private _resizeRemoveAbleObj:DisposeObject;
+  private _resizeRemoveAbleObj: DisposeObject;
   firstUpdated(map: PropertyValues) {
     super.firstUpdated(map);
     this.watchAutoPlay();
     this.caculateThumbPotion();
     this.keyEnableChange();
-    const thumbs=this.renderRoot.querySelector('div[part=thumbs]') as HTMLElement;
-    this._resizeRemoveAbleObj= addResizeHander([this,thumbs.querySelector('#thumb-image-conatainer')as HTMLElement],(_el:Element)=>{
-      this.caculateThumbPotion();
-    });
+    const thumbs = this.renderRoot.querySelector('div[part=thumbs]') as HTMLElement;
+    this._resizeRemoveAbleObj = addResizeHander(
+      [this, thumbs.querySelector('#thumb-image-conatainer') as HTMLElement],
+      (_el: Element) => {
+        this.caculateThumbPotion();
+      }
+    );
   }
   updated(map: PropertyValues) {
     super.updated(map);

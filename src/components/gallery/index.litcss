@@ -17,7 +17,7 @@
     }
 }
 .full-screen.left, .full-screen.right{
-    max-height: calc( 100vh - 30px );
+    max-height:100vh;
 } 
 .base {
     position: relative;
