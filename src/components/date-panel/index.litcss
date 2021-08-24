@@ -57,31 +57,32 @@ svg{
     background-color: rgb(var(--sl-date-hover-color));
 }
 
+ //按钮样式
+ .button{
+    border-radius: 50%;
+    width: 2.5em;
+    height: 2.5em;
+    transition: .3s;
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.87);
+    background: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    outline: 0;
+    border: 0;
+    &:hover{
+        color: rgb(var(--sl-date-color));
+        background-color: rgb(var(--sl-date-hover-color));
+    }
+}
 
 /** base ***/
 .date-base{
     padding:var(--sl-date-panel-padding);
     display: relative;
     overflow: hidden;
-    //按钮样式
-    .button{
-        border-radius: 50%;
-        width: 2.5em;
-        height: 2.5em;
-        transition: .3s;
-        cursor: pointer;
-        color: rgba(0, 0, 0, 0.87);
-        background: none;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        outline: 0;
-        border: 0;
-        &:hover{
-            color: rgb(var(--sl-date-color));
-            background-color: rgb(var(--sl-date-hover-color));
-        }
-    }
+   
     //头部 显示区域（切换上下）
     .date-head{
         display:flex;
@@ -96,62 +97,60 @@ svg{
         }
     }
     //年，月，日看板布局
-    
-        
-        .date-panel{
-            opacity: 1;
-            visibility: visible;
-            transition: .3s opacity,.3s visibility;
-        }
-        //选天看板
-        .date-date{
-            position: relative;
-            //显示 周日，周一，二，三，四，五，六
-            .date-week{
-                margin:0.8em 0;
-                display: flex;
-                //周日，周一，二，三，四，五，六
-                .date-week-item{
-                    flex: 1;//均分
-                    text-align: center;
-                    color:rgb(var(--sl-color-gray-400));
-                }
-            }
-            //显示 月的天(7列，6行)
-            .date-body{
-                display: grid;
-                grid-template-columns: repeat(7, 1fr);
-                grid-template-rows: repeat(5, 1fr);
-                grid-gap:var(--sl-date-grid-gap);
+    .date-panel{
+        opacity: 1;
+        visibility: visible;
+        transition: .3s opacity,.3s visibility;
+    }
+    //选天看板
+    .date-date{
+        position: relative;
+        //显示 周日，周一，二，三，四，五，六
+        .date-week{
+            margin:0.8em 0;
+            display: flex;
+            //周日，周一，二，三，四，五，六
+            .date-week-item{
+                flex: 1;//均分
+                text-align: center;
+                color:rgb(var(--sl-color-gray-400));
             }
         }
-        .date-month, .date-year{
-            position: relative;
+        //显示 月的天(7列，6行)
+        .date-body{
             display: grid;
-            left: 0;
-            top: .8em;
-            right: 0;
-            bottom: 0;
-            grid-gap: var(--sl-date-grid-gap);
+            grid-template-columns: repeat(7, 1fr);
+            grid-template-rows: repeat(5, 1fr);
+            grid-gap:var(--sl-date-grid-gap);
         }
-        //选月看板 4*3 ,（4列3行 12个月）
-        .date-month{
-            grid-template-columns: repeat(4, 1fr);
-            grid-template-rows: repeat(3, 1fr);
-        }
+    }
+    .date-month, .date-year{
+        position: relative;
+        display: grid;
+        left: 0;
+        top: .8em;
+        right: 0;
+        bottom: 0;
+        grid-gap: var(--sl-date-grid-gap);
+    }
+    //选月看板 4*3 ,（4列3行 12个月）
+    .date-month{
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+    }
 
-        //year看板 4*5 ,（4行5列 20 个年）
-        .date-year{
-            grid-template-columns: repeat(5, 1fr);
-            grid-template-rows: repeat(4, 1fr);
-        }
-        .animate-left{
-            animation:slider-left 0.2s ease-out ;
+    //year看板 4*5 ,（4行5列 20 个年）
+    .date-year{
+        grid-template-columns: repeat(5, 1fr);
+        grid-template-rows: repeat(4, 1fr);
+    }
+    .animate-left{
+        animation:slider-left 0.2s ease-out ;
 
-        }
-        .animate-right{
-            animation:slider-right 0.2s ease-out ;
-        }
+    }
+    .animate-right{
+        animation:slider-right 0.2s ease-out ;
+    }
 }
 
 @keyframes slider-left {

@@ -9,21 +9,22 @@ const resouce = {
     next: '下一页'
   },
   noData: '没有任何数据',
-  date:{
-      showHeaderStr:function(date:Date,mode:'year'|'month'|'date' ){
-        if (mode=== 'date') {
-            return date.getFullYear() + '年' + String(date.getMonth() + 1).padStart(2, '0') + '月';
-        } if (mode=== 'month') {
-            return date.getFullYear() + '年';
-        } else {
-            const nv = date.getFullYear();
-            const n = parseInt(String(nv / 20));
-            const year = n * 20;
-            return year.toString().padStart(4, '0') + '年-' + (year + 20).toString().padStart(4, '0') + '年';
-        }
-      },
-      months:['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
-      weekDays:['日', '一','二', '三', '四', '五', '六'],
+  date: {
+    showHeaderStr: function (date: Date, mode: 'year' | 'month' | 'date') {
+      if (mode === 'date') {
+        return date.getFullYear() + '年' + String(date.getMonth() + 1).padStart(2, '0') + '月';
+      }
+      if (mode === 'month') {
+        return date.getFullYear() + '年';
+      } else {
+        const nv = date.getFullYear();
+        const n = parseInt(String(nv / 20));
+        const year = n * 20;
+        return year.toString().padStart(4, '0') + '年-' + (year + 20).toString().padStart(4, '0') + '年';
+      }
+    },
+    months: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+    weekDays: ['日', '一', '二', '三', '四', '五', '六']
   }
 };
 export default resouce;
