@@ -1,7 +1,7 @@
 :host{
     display: inline-block;
     --sl-date-panel-padding:1em;
-    --sl-date-grid-gap:1em;
+    --sl-date-grid-gap:0.5em;
     --sl-date-hover-color: var(--sl-color-primary-500);
     --sl-date-color: var(--sl-color-neutral-1000);
 }
@@ -38,13 +38,14 @@ svg{
         opacity: 0.6;
     }
     &[part=item-month]{
-        padding:4px;
-        min-width:48px;
-        min-height: 48px;
+        padding:3px;
+        min-width:2.8em;
+        min-height:2.8em;
     }
     &[part=item-year]{
-        min-width:43px;
-        min-height:43px;
+        padding:3px;
+        min-width:2.8em;
+        min-height:2.8em;
     }
 }
 .other{
@@ -98,29 +99,24 @@ svg{
     }
     //年，月，日看板布局
     .date-panel{
+        margin-top: 12px;
         opacity: 1;
         visibility: visible;
         transition: .3s opacity,.3s visibility;
     }
+    //显示 周日，周一，二，三，四，五，六
+    .date-week-item{
+        flex: 1;//均分
+        text-align: center;
+        color:rgb(var(--sl-color-gray-400));
+    }
     //选天看板
     .date-date{
-        position: relative;
-        //显示 周日，周一，二，三，四，五，六
-        .date-week{
-            margin:0.8em 0;
-            display: flex;
-            //周日，周一，二，三，四，五，六
-            .date-week-item{
-                flex: 1;//均分
-                text-align: center;
-                color:rgb(var(--sl-color-gray-400));
-            }
-        }
         //显示 月的天(7列，6行)
         .date-body{
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            grid-template-rows: repeat(5, 1fr);
+            grid-template-rows: repeat(6, 1fr);
             grid-gap:var(--sl-date-grid-gap);
         }
     }

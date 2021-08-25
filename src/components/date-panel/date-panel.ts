@@ -45,12 +45,12 @@ export default class SlDatePanel extends LitElement {
 
   @state()
   private innerMode: 'year' | 'month' | 'date' = 'date';
-  
-  private  get _innerYear(){
+
+  private get _innerYear() {
     return this.innerDate.getFullYear();
   }
-  
-  private  get _innerMonth(){
+
+  private get _innerMonth() {
     return this.innerDate.getMonth();
   }
 
@@ -99,16 +99,14 @@ export default class SlDatePanel extends LitElement {
   /** 渲染 周和月的天 */
   private renderDatePanel() {
     const weekArray = getResouceValue('date.weekDays') as Array<string>;
-    const weeks = html`<div class="date-week">
-      ${weekArray.map(item => html`<span class="date-week-item" part="week-head">${item}</span>`)}
-    </div>`;
+    const weeks = html`${weekArray.map(item => html`<span class="date-week-item" part="week-head">${item}</span>`)} `;
     let minDate = this.minDate;
     const maxDate = this.maxDate;
     const dateArray = getDaysPanel(this._innerYear, this._innerMonth + 1);
     const dateResult = [];
     for (let i = 0, j = dateArray.length; i < j; i++) {
       const tempDate = dateArray[i];
-      console.log(tempDate.toLocaleString())
+      console.log(tempDate.toLocaleString());
       let other = this._innerYear !== tempDate.getFullYear() || this._innerMonth !== tempDate.getMonth();
       const disabled = (minDate != null && tempDate < minDate) || (maxDate != null && tempDate > maxDate);
       const isCurent = this.innerDate && isEqualsDate(tempDate, this.valueDate, 'date');
@@ -123,8 +121,7 @@ export default class SlDatePanel extends LitElement {
         </button>`
       );
     }
-    const dates = html`<div class="date-body">${dateResult}</div>`;
-    return html`${weeks}${dates}`;
+    return html`<div class="date-body">${weeks}${dateResult}</div>`;
   }
   /** 渲染 年选月Body */
   private renderMonthBody() {

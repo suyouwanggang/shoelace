@@ -20,7 +20,7 @@ const resouce = {
         const nv = date.getFullYear();
         const n = parseInt(String(nv / 20));
         const year = n * 20;
-        return year.toString().padStart(4, '0') + ' - ' + (year + 20).toString().padStart(4, '0') + '';
+        return year.toString().padStart(4, '0') + ' - ' + (year + 19).toString().padStart(4, '0') + '';
       }
     },
     months: [
