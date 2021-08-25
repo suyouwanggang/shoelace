@@ -9,9 +9,9 @@ export const castDate = (d: string | number | undefined) => {
   return date;
 };
 /** 判断 一个日期是否是 一个合法的日期 */
-export const isValidDate=(date?:Date|null|undefined)=>{
-    return  date&& date instanceof Date &&!isNaN(date.getTime());
-}
+export const isValidDate = (date?: Date | null | undefined) => {
+  return date && date instanceof Date && !isNaN(date.getTime());
+};
 export type selectDateType = 'date' | 'month' | 'year';
 /**
  * 获取 日期的 年，月，日 组成的数据（月起始为1）

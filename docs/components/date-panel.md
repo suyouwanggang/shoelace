@@ -29,7 +29,6 @@ A description of the component goes here.
             datePenl.mode=target.textContent;
         });
     })
-
 </script>
 ```
 

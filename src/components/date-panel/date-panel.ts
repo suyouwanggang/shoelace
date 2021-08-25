@@ -16,7 +16,7 @@ import styles from './date-panel.styles';
  *
  * @event sl-date-select - Emitted when a date select.
  *
-
+ *
  *
  * @csspart base - The component's base wrapper.
  * @csspart prevButton - The component's prevButton .
@@ -41,15 +41,15 @@ export default class SlDatePanel extends LitElement {
   /**选择模式，年，月，日 */
   @property({ type: String, attribute: 'mode' }) mode: 'year' | 'month' | 'date' = 'date';
   /** 最小值 */
-  @property({ type: String, attribute: false }) min?: string|number;
+  @property({ type: String, attribute: false }) min?: string | number;
   /** 最大值 */
-  @property({ type: String, attribute: false }) max?: string|number;
+  @property({ type: String, attribute: false }) max?: string | number;
 
   get maxDate() {
-    return this.max? castDate(this.max) : null;
+    return this.max ? castDate(this.max) : null;
   }
   get minDate() {
-    return this.min? castDate(this.min) : null;
+    return this.min ? castDate(this.min) : null;
   }
 
   @state()
@@ -66,9 +66,9 @@ export default class SlDatePanel extends LitElement {
   /** 内部 value 所对应的日期 */
   @state()
   valueDate?: Date;
-  /**获取 日期显示值 */
-  public get valueDateString(){
-    return this.valueDate? parseDate(this.valueDate, this.mode):'';
+  
+  public get valueDateString() {
+    return this.valueDate ? parseDate(this.valueDate, this.mode) : '';
   }
 
   /** 内部：维护切换上下面板后显示的时间 */
@@ -166,15 +166,15 @@ export default class SlDatePanel extends LitElement {
     return nothing;
   }
   /** 触发 date-select 事件 */
-  public emitValueSelectEvent(detail={}){
+  private emitValueSelectEvent(detail = {}) {
     this.watchSelectModeChange();
-    emit(this,'sl-date-select',{
-      detail:{
-        value:this.valueDateString,
-        date:this.valueDate,
+    emit(this, 'sl-date-select', {
+      detail: {
+        value: this.valueDateString,
+        date: this.valueDate,
         ...detail
       }
-    })
+    });
   }
   /** 渲染 年选月Body */
   private renderYearBody() {
@@ -244,14 +244,14 @@ export default class SlDatePanel extends LitElement {
       }
     });
     addEvent(this, 'keydown', (event: KeyboardEvent) => {
-        const code = event.key;
-        if(this.naviagtorByKeyCode(code)){
-          event.preventDefault();
-        }
+      const code = event.key;
+      if (this.naviagtorByKeyCode(code)) {
+        event.preventDefault();
+      }
     });
   }
 
-  naviagtorByKeyCode(keyCode:string){
+  naviagtorByKeyCode(keyCode: string) {
     const panelBase = this.renderRoot.querySelector('div[part=panel-base]') as HTMLElement;
     let date = this.valueDate;
     if (!date) {
@@ -309,15 +309,14 @@ export default class SlDatePanel extends LitElement {
         panelBase.querySelector('.date-day-item.current')?.classList.remove('current');
         animateCss(panelBase, set > 0 ? 'animate-right' : 'animate-left').then(() => {
           this.value = parseDate(date as Date, this.mode);
-          this.emitValueSelectEvent({key:keyCode});
+          this.emitValueSelectEvent({ key: keyCode });
         });
       } else {
         this.value = parseDate(date as Date, this.mode);
-        this.emitValueSelectEvent({key:keyCode});
+        this.emitValueSelectEvent({ key: keyCode });
       }
     }
-    return set!=0;
-      
+    return set != 0;
   }
   render() {
     return html`<div class="date-base" part="base">

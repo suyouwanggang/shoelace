@@ -8,9 +8,6 @@ A description of the component goes here.
 <sl-date></sl-date>
 <sl-date value='2012-05' id='month' mode='month'></sl-date>
 <sl-date value='2022' id='year' mode='year' ></sl-date>
-<style>
-   
-</style>
 ```
 
 ## Examples
