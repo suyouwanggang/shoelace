@@ -60,6 +60,7 @@
   - [Page Btn](/components/page-btn)
   - [Gallery](/components/gallery)
   - [Date Panel](/components/date-panel)
+  - [Date](/components/date)
   <!--plop:component-->
 
 - Utilities

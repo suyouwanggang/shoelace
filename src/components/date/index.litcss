@@ -1,0 +1,19 @@
+:host{
+    display: inline-flex;
+}
+:host([block]){
+    display: block;
+    sl-dropDown[part=dropDown]{
+        display: block;
+    }
+    sl-input{
+        display: block;
+    }
+}
+sl-icon{
+    cursor: pointer;
+}
+sl-input{
+    display: inline-flex;
+}
+

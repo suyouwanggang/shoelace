@@ -1,6 +1,7 @@
 import { html, LitElement, nothing, PropertyValues } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { castDate, getDaysPanel, isEqualsDate, parseDate } from '../../internal/date.util';
+import { emit } from '../../internal/event';
 import resourceLocal from '../../internal/resourceLocal';
 import { watchProps } from '../../internal/watchProps';
 import { addEvent, animateCss, onEvent } from '../../utilities/common';
@@ -11,14 +12,22 @@ import styles from './date-panel.styles';
  * @since 2.0
  * @status experimental
  *
- * @dependency sl-example
+ * 
  *
- * @event sl-event-name - Emitted as an example.
+ * @event sl-date-select - Emitted when a date select.
  *
- * @slot - The default slot.
- * @slot example - An example slot.
+
  *
  * @csspart base - The component's base wrapper.
+ * @csspart prevButton - The component's prevButton .
+ * @csspart nextButton - The component's prevButton .
+ * @csspart panel-base - The component's  panel wrap select DIV.
+ * @csspart date-date - The component's  select date panel.
+ * @csspart date-month - The component's  select month panel.
+ * @csspart date-year - The component's  select year panel.
+ * @csspart item-year - The component's year panel item: item year.
+ * @csspart item-month - The component's month panel item: item month.
+ * @csspart item-date - The component's day panel item: item day .
  *
  * @cssproperty --example - An example CSS custom property.
  */
@@ -27,20 +36,20 @@ import styles from './date-panel.styles';
 export default class SlDatePanel extends LitElement {
   static styles = styles;
 
-  /** 选中日期 */
+  /** 选中日期 ,格式：2018，2018-02, 2018/01， 2018/02/02 ,2018-01-02 */
   @property({ type: String, attribute: 'value' }) value?: string;
   /**选择模式，年，月，日 */
   @property({ type: String, attribute: 'mode' }) mode: 'year' | 'month' | 'date' = 'date';
   /** 最小值 */
-  @property({ type: String, attribute: false }) min?: string;
+  @property({ type: String, attribute: false }) min?: string|number;
   /** 最大值 */
-  @property({ type: String, attribute: false }) max?: string;
+  @property({ type: String, attribute: false }) max?: string|number;
 
   get maxDate() {
-    return this.max !== undefined ? castDate(this.max) : null;
+    return this.max? castDate(this.max) : null;
   }
   get minDate() {
-    return this.min !== undefined ? castDate(this.min) : null;
+    return this.min? castDate(this.min) : null;
   }
 
   @state()
@@ -57,6 +66,10 @@ export default class SlDatePanel extends LitElement {
   /** 内部 value 所对应的日期 */
   @state()
   valueDate?: Date;
+  /**获取 日期显示值 */
+  public get valueDateString(){
+    return this.valueDate? parseDate(this.valueDate, this.mode):'';
+  }
 
   /** 内部：维护切换上下面板后显示的时间 */
   @state()
@@ -106,7 +119,6 @@ export default class SlDatePanel extends LitElement {
     const dateResult = [];
     for (let i = 0, j = dateArray.length; i < j; i++) {
       const tempDate = dateArray[i];
-      console.log(tempDate.toLocaleString());
       let other = this._innerYear !== tempDate.getFullYear() || this._innerMonth !== tempDate.getMonth();
       const disabled = (minDate != null && tempDate < minDate) || (maxDate != null && tempDate > maxDate);
       const isCurent = this.innerDate && isEqualsDate(tempDate, this.valueDate, 'date');
@@ -153,7 +165,17 @@ export default class SlDatePanel extends LitElement {
     }
     return nothing;
   }
-
+  /** 触发 date-select 事件 */
+  public emitValueSelectEvent(detail={}){
+    this.watchSelectModeChange();
+    emit(this,'sl-date-select',{
+      detail:{
+        value:this.valueDateString,
+        date:this.valueDate,
+        ...detail
+      }
+    })
+  }
   /** 渲染 年选月Body */
   private renderYearBody() {
     const current = this.innerDate;
@@ -218,73 +240,84 @@ export default class SlDatePanel extends LitElement {
         });
       } else if (el.matches('.date-day-item')) {
         this.value = parseDate((el as any).date as Date, this.mode);
+        this.emitValueSelectEvent();
       }
     });
     addEvent(this, 'keydown', (event: KeyboardEvent) => {
-      const code = event.key;
-      let date = this.valueDate;
-      if (!date) {
-        date = this.innerDate;
-      }
-      let set = 0;
-      switch (code) {
-        case 'ArrowDown':
-          set = 1;
-          if (this.innerMode == 'year') {
-            date.setFullYear(date.getFullYear() + 5);
-          } else if (this.innerMode == 'month') {
-            date.setMonth(date.getMonth() + 4);
-          } else if (this.innerMode == 'date') {
-            date.setDate(date.getDate() + 7);
-          }
-          break;
-        case 'ArrowRight':
-          set = 1;
-          if (this.innerMode == 'year') {
-            date.setFullYear(date.getFullYear() + 1);
-          } else if (this.innerMode == 'month') {
-            date.setMonth(date.getMonth() + 1);
-          } else if (this.innerMode == 'date') {
-            date.setDate(date.getDate() + 1);
-          }
-          break;
-        case 'ArrowUp':
-          set = -1;
-          if (this.innerMode == 'year') {
-            date.setFullYear(date.getFullYear() - 5);
-          } else if (this.innerMode == 'month') {
-            date.setMonth(date.getMonth() - 4);
-          } else if (this.innerMode == 'date') {
-            date.setDate(date.getDate() - 7);
-          }
-          break;
-        case 'ArrowLeft':
-          set = -1;
-          if (this.innerMode == 'year') {
-            date.setFullYear(date.getFullYear() - 1);
-          } else if (this.innerMode == 'month') {
-            date.setMonth(date.getMonth() - 1);
-          } else if (this.innerMode == 'date') {
-            date.setDate(date.getDate() - 1);
-          }
-          break;
-        default:
-          break;
-      }
-      if (set != 0 && date) {
-        const dateStr = getResouceValue('date.showHeaderStr')(this.innerDate, this.innerMode) as string;
-        const newDateStr = getResouceValue('date.showHeaderStr')(date, this.innerMode) as string;
-        event.preventDefault();
-        if (newDateStr != dateStr) {
-          panelBase.querySelector('.date-day-item.current')?.classList.remove('current');
-          animateCss(panelBase, set > 0 ? 'animate-right' : 'animate-left').then(() => {
-            this.value = parseDate(date as Date, this.mode);
-          });
-        } else {
-          this.value = parseDate(date as Date, this.mode);
+        const code = event.key;
+        if(this.naviagtorByKeyCode(code)){
+          event.preventDefault();
         }
-      }
     });
+  }
+
+  naviagtorByKeyCode(keyCode:string){
+    const panelBase = this.renderRoot.querySelector('div[part=panel-base]') as HTMLElement;
+    let date = this.valueDate;
+    if (!date) {
+      date = this.innerDate;
+    }
+    let set = 0;
+    switch (keyCode) {
+      case 'ArrowDown':
+        set = 1;
+        if (this.innerMode == 'year') {
+          date.setFullYear(date.getFullYear() + 5);
+        } else if (this.innerMode == 'month') {
+          date.setMonth(date.getMonth() + 4);
+        } else if (this.innerMode == 'date') {
+          date.setDate(date.getDate() + 7);
+        }
+        break;
+      case 'ArrowRight':
+        set = 1;
+        if (this.innerMode == 'year') {
+          date.setFullYear(date.getFullYear() + 1);
+        } else if (this.innerMode == 'month') {
+          date.setMonth(date.getMonth() + 1);
+        } else if (this.innerMode == 'date') {
+          date.setDate(date.getDate() + 1);
+        }
+        break;
+      case 'ArrowUp':
+        set = -1;
+        if (this.innerMode == 'year') {
+          date.setFullYear(date.getFullYear() - 5);
+        } else if (this.innerMode == 'month') {
+          date.setMonth(date.getMonth() - 4);
+        } else if (this.innerMode == 'date') {
+          date.setDate(date.getDate() - 7);
+        }
+        break;
+      case 'ArrowLeft':
+        set = -1;
+        if (this.innerMode == 'year') {
+          date.setFullYear(date.getFullYear() - 1);
+        } else if (this.innerMode == 'month') {
+          date.setMonth(date.getMonth() - 1);
+        } else if (this.innerMode == 'date') {
+          date.setDate(date.getDate() - 1);
+        }
+        break;
+      default:
+        break;
+    }
+    if (set != 0 && date) {
+      const dateStr = getResouceValue('date.showHeaderStr')(this.innerDate, this.innerMode) as string;
+      const newDateStr = getResouceValue('date.showHeaderStr')(date, this.innerMode) as string;
+      if (newDateStr != dateStr) {
+        panelBase.querySelector('.date-day-item.current')?.classList.remove('current');
+        animateCss(panelBase, set > 0 ? 'animate-right' : 'animate-left').then(() => {
+          this.value = parseDate(date as Date, this.mode);
+          this.emitValueSelectEvent({key:keyCode});
+        });
+      } else {
+        this.value = parseDate(date as Date, this.mode);
+        this.emitValueSelectEvent({key:keyCode});
+      }
+    }
+    return set!=0;
+      
   }
   render() {
     return html`<div class="date-base" part="base">

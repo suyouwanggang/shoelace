@@ -10,9 +10,15 @@ A description of the component goes here.
     <sl-button >month</sl-button>
     <sl-button >year</sl-button>
 </sl-button-group>
-<sl-date-panel id='datePenl'></sl-date-panel>
+<div>
+    <sl-date-panel id='datePenl' value='2018/02'></sl-date-panel>
+</div>
 <script>
     let datePenl=document.querySelector('#datePenl');
+    datePenl.addEventListener('sl-date-select',(event)=>{
+        console.log(event.detail.value);
+        console.log(event.detail.date);
+    })
     let groupDIV=document.querySelector('#groupDIV');
     groupDIV.querySelectorAll('sl-button').forEach(item=>{
         item.addEventListener('click',(event)=>{

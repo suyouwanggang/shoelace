@@ -60,6 +60,7 @@ export { default as SlSplitter } from './components/splitter/splitter';
 export { default as SlPageBtn } from './components/page-btn/page-btn';
 export { default as SlGallery } from './components/gallery/gallery';
 export { default as SlDatePanel } from './components/date-panel/date-panel';
+export { default as SlDate } from './components/date/date';
 /* plop:component */
 
 // Utilities

@@ -54,7 +54,7 @@ try {
       'process.env.NODE_ENV': '"production"'
     },
     bundle: true,
-    splitting: true,
+    splitting: false,
     plugins: []
   });
   const buildResult = await esbuild
