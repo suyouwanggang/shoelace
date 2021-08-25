@@ -1,10 +1,9 @@
-
 sl-date[mode='month']:not([block])::part(input) {
-    width: 130px;
-  }
+  width: 130px;
+}
 sl-date[mode='year']:not([block])::part(input) {
   width: 100px;
-} 
+}
 
 .sl-scroll-lock {
   overflow: hidden !important;

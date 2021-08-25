@@ -12,7 +12,7 @@ import styles from './date-panel.styles';
  * @since 2.0
  * @status experimental
  *
- * 
+ *
  *
  * @event sl-date-select - Emitted when a date select.
  *
@@ -66,7 +66,7 @@ export default class SlDatePanel extends LitElement {
   /** 内部 value 所对应的日期 */
   @state()
   valueDate?: Date;
-  
+
   public get valueDateString() {
     return this.valueDate ? parseDate(this.valueDate, this.mode) : '';
   }

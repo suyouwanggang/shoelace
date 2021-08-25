@@ -13,19 +13,19 @@ import sass from 'sass';
 const files = glob.sync('./src/themes/**/*.styles.ts');
 const cssFiles = glob.sync('./src/themes/**/*.css');
 const outdir = './dist/themes';
-let cssArray='';
+let cssArray = '';
 mkdirp.sync(outdir);
-try{
-   cssFiles.map(file=>{
+try {
+  cssFiles.map(file => {
     const source = sass.renderSync({
-      file:file
+      file: file
     });
-    cssArray+=''+source.css.toString();
-  })
-}catch(ex){
+    cssArray += '' + source.css.toString();
+  });
+} catch (ex) {
   console.error(chalk.red('Error generating styleseheets!'));
   console.error(err);
-};
+}
 
 try {
   files.map(async file => {
@@ -40,7 +40,8 @@ try {
       process.exit(1);
     }
     const filename = path.basename(file).replace('.styles.ts', '.css');
-    const formattedStyles = prettier.format(stripComments(css), { parser: 'css' })+(filename=='light.css'?cssArray:'');
+    const formattedStyles =
+      prettier.format(stripComments(css), { parser: 'css' }) + (filename == 'light.css' ? cssArray : '');
     const outfile = path.join(outdir, filename);
     await fs.writeFile(outfile, formattedStyles, 'utf8');
   });

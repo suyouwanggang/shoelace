@@ -61,6 +61,7 @@
   - [Gallery](/components/gallery)
   - [Date Panel](/components/date-panel)
   - [Date](/components/date)
+  - [Markdown Element](/components/markdown-element)
   <!--plop:component-->
 
 - Utilities
