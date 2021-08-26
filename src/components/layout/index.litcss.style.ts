@@ -1,0 +1,2 @@
+import {css} from 'lit';
+export default css`:host{display:flex !important;flex-direction:row}:host([row]){flex-direction:row}:host([column]){flex-direction:column}:host([expand]){flex:1}:host([center]){justify-content:center;align-items:center}`; 
