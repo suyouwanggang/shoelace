@@ -10,4 +10,5 @@ mkdirp.sync('./dist');
 // Run the analyzer
 console.log('Generating component metadata');
 execSync('cem analyze --litelement --outdir dist', { stdio: 'inherit' });
+execSync('npx wca analyze "src/components" --outFile  components.md', { stdio: 'inherit' });
 console.log(chalk.cyan(`Successfully generated metadata 🏷\n`));

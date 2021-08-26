@@ -32,13 +32,17 @@ function getCssFiles(jsonPath) {
   return cssFiles;
 }
 
-const writeCssToFile = filePath => {
+const writeCssToFile = (filePath, ugligf = true) => {
   setTimeout(function () {
     try {
       let result = sass.renderSync({
         file: filePath
       });
-      result = uglifycss.processString(result.css.toString());
+      if (ugligf) {
+        result = uglifycss.processString(result.css.toString().replace('`', '`'));
+      } else {
+        result = result.css.toString().replace('`', '`');
+      }
       var oldData = cache.get(filePath);
       const d = `import {css} from 'lit';\nexport default css\`${result}\`; `;
       if (oldData == undefined || oldData != d) {
@@ -63,7 +67,6 @@ const writeCssToFile = filePath => {
     }
   });
 });
-
 // One-liner for current directory
 chokidar
   .watch([dir, dir2], {

@@ -4,12 +4,26 @@
 
 A description of the component goes here.
 
+
 ```html preview
-<sl-markdown-element id='markObj'></sl-markdown-element>
+<sl-select id='selectSelct' label='选择markdown 文件'>
+</sl-select>
+<sl-markdown-element  id='markObj'></sl-markdown-element>
 <script>
     let markObj=document.querySelector('#markObj');
-    markObj.mdsrc='/assets/prism-themes/Markdown Reference.md';
-    markObj.themeURL='/assets/prism-themes/themes/prism-cb.css';
+    let selectSelct=document.querySelector('#selectSelct');
+    markObj.mdsrc='/assets/prism-themes/vditor.md';
+    const array=['vditor.md','Use Typora From Shell or cmd.md','More Documents.md','Change Log.md','Markdown Reference.md','README.md'];
+    let str='';
+    for(let file of array){
+        var d=`<sl-menu-item value='${file}'>${file}</sl-menu-item>`;
+        str+=d;
+    }
+    selectSelct.innerHTML=str;
+    selectSelct.value='vditor.md';
+    selectSelct.addEventListener('sl-change',(event)=>{
+        markObj.mdsrc=`/assets/prism-themes/${event.target.value}`;
+    });
 </script>
 ```
 
