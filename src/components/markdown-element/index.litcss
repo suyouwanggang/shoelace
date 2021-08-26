@@ -1,11 +1,9 @@
-sl-markdown-element{
-    border:1px solid green;
-    #base{
-        position: relative;
-        height: 100%;
-        overflow: auto;
-     }
+#base{
+    position: relative;
+    height: 100%;
+    overflow: auto;
 }
+
 
 
 

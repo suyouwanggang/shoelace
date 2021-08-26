@@ -65,6 +65,11 @@ try {
       outdir: './dist',
       chunkNames: 'chunks/[name].[hash]',
       incremental: dev,
+      loader:{
+        '.png':'dataurl',
+        '.svg':'text',
+        '.css':'text'
+      },
       define: {
         // Popper.js expects this to be set
         'process.env.NODE_ENV': '"production"'
