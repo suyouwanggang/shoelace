@@ -13,7 +13,7 @@ A description of the component goes here.
     let markObj=document.querySelector('#markObj');
     let selectSelct=document.querySelector('#selectSelct');
     markObj.mdsrc='/assets/prism-themes/vditor.md';
-    const array=['vditor.md','Use Typora From Shell or cmd.md','More Documents.md','Change Log.md','Markdown Reference.md','README.md'];
+    const array=['vditor.md','components.md','More Documents.md','Change Log.md','Markdown Reference.md','README.md'];
     let str='';
     for(let file of array){
         var d=`<sl-menu-item value='${file}'>${file}</sl-menu-item>`;

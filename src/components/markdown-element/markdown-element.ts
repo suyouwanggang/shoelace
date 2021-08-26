@@ -74,7 +74,7 @@ export default class SlMarkdownElement extends LitElement {
     }
   }
 
-  private cdn: string ='https://cdn.jsdelivr.net/npm/vditor@3.8.6';
+  private cdn: string = 'https://cdn.jsdelivr.net/npm/vditor@3.8.6';
   @state()
   fetchMode: 'cors' | 'same-origin' | 'no-cors' | 'navigate' = 'same-origin';
   /**

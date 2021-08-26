@@ -19,7 +19,7 @@ import './col';
 export default class SlRow extends LitElement {
   static styles = styles;
 
-  /** 行等分为多少列表 */
+  /** grid等分多少列 */
   @property({ type: Number, attribute: 'columns' }) columns = 12;
   /** grid 单元格的间距 */
   @property({ type: String, attribute: 'grap' }) grap: string = '0';

@@ -1909,7 +1909,7 @@
 
 | Property | Attribute | Type     | Default | Description |
 |----------|-----------|----------|---------|-------------|
-| `row`    | `row`     | `number` | 1       | 占多少列        |
+| `row`    | `row`     | `number` | 1       | 占多少行        |
 | `span`   | `span`    | `number` | 1       | 占多少列        |
 
 ## Methods
@@ -1925,7 +1925,7 @@
 
 | Property  | Attribute | Type     | Default | Description |
 |-----------|-----------|----------|---------|-------------|
-| `columns` | `columns` | `number` | 12      | 行等分为多少列表    |
+| `columns` | `columns` | `number` | 12      | grid等分多少列   |
 | `grap`    | `grap`    | `string` | "0"     | grid 单元格的间距 |
 
 ## Methods
