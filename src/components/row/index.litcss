@@ -4,4 +4,13 @@
     grid-template-columns:repeat(var(--sl-row-columns),1fr);
     grid-gap:var(--sl-row-grap,0);
 }
-
+@for $i from 1 to 24 {
+    ::slotted([span="{$i}"]){
+        grid-column: span $i;
+    }
+}
+@for $i from 1 to 24 {
+    ::slotted([row="{$i}"]){
+        grid-row: span $i;
+    }
+}
