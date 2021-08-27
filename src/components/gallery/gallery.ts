@@ -238,6 +238,9 @@ export default class SlGallery extends LitElement {
     return html`<div class="image-sliders">${to}</div>`;
   }
   private renderImgeNavigations() {
+    if(!this._loadedOneImage){
+      return nothing;
+    }
     return html`<div class="imgage-navigation" part="image-naviagation">
       <div class="imgage-navigation-wrap" part="image-naviagation-wrap">
         ${this.images?.map((_item, index) => {

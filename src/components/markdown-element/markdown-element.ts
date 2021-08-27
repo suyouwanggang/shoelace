@@ -3,6 +3,17 @@ import { customElement, property, query, state } from 'lit/decorators.js';
 import styles from './markdown-element.styles';
 import Vditor from 'vditor';
 import { watch } from '../../internal/watch';
+import ant from 'vditor/dist/css/content-theme/ant-design.css';
+import dark from 'vditor/dist/css/content-theme/dark.css';
+import light from 'vditor/dist/css/content-theme/light.css';
+import wechat from 'vditor/dist/css/content-theme/wechat.css';
+
+const mapCssMap={
+  ant,
+  dark,
+  light,
+  wechat
+}
 /**
  * @since 2.0
  * @status experimental
@@ -29,24 +40,16 @@ export default class SlMarkdownElement extends LitElement {
   @property({ type: String }) markdown: string;
 
   /** theme name for  prismjs  */
-  @property({ type: String, attribute: false, reflect: true }) theme: 'light' | 'dark' | 'wechat' = 'wechat';
+  @property({ type: String, attribute: false, reflect: true }) theme: 'light' | 'dark' | 'ant'|'wechat' = 'ant';
 
   @state() _themeCss: string;
 
   @watch('theme')
   themeChange() {
-    switch (
-      this.theme
-      // case 'light':
-      //     this._themeCss=light.toString();
-      //     break;
-      // case 'dark':
-      //       this._themeCss=dark.toString();
-      //       break;
-      // case 'wechat':
-      //   this._themeCss=wechat.toString();
-      //    break;
-    ) {
+    if(mapCssMap[this.theme]){
+      this._themeCss=mapCssMap[this.theme];
+    }else{
+      this._themeCss='';
     }
   }
   firstUpdated(map: PropertyValues) {
@@ -54,7 +57,7 @@ export default class SlMarkdownElement extends LitElement {
   }
   update(map: PropertyValues) {
     super.update(map);
-    if (map.has('mdsrc')) {
+    if ( this.mdsrc &&(map.has('mdsrc') ||map.has('_themeCss')|| map.has('theme'))) {
       this.fetchAsText(this.mdsrc).then(markdown => {
         this.markdown = markdown;
         Vditor.md2html(markdown).then(res => {
@@ -88,15 +91,16 @@ export default class SlMarkdownElement extends LitElement {
       mode: this.fetchMode
     }).then(res => res.text());
   }
-  createRenderRoot() {
-    return this;
-  }
+  
   @query('#base')
   private baseDiv: HTMLDivElement;
-  @state() _innerStyles: String = '';
+  
+  protected createRenderRoot(){
+    return this;
+  }
 
   render() {
-    return html`<div id="base"></div>`;
+    return html`<style>${this._themeCss} </style><div id="base"></div>`;
   }
 }
 

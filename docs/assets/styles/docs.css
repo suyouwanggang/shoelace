@@ -269,7 +269,7 @@ strong {
 }
 
 .markdown-section {
-  max-width: 860px;
+  max-width:75vw;
   overflow-anchor: none;
 }
 
