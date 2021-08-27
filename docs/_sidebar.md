@@ -64,6 +64,8 @@
   - [Markdown Element](/components/markdown-element)
   - [Row](/components/row)
   - [Layout](/components/layout)
+  - [Table](/components/table)
+  - [Column](/components/column)
   <!--plop:component-->
 
 - Utilities

@@ -1,0 +1,97 @@
+:host{
+    display: block;
+}
+.sl-table-base {
+    position: relative;
+    overflow: hidden;
+    //必须设置为相对，此时table-header-div 绝对，竖直位置不会移动
+    --sl-th-padding-size:12px 8px;
+    --sl-table-background-color: 255 255 255;
+    --sl-table-border-color:var(--sl-color-netural-200);
+    --sl-table-header-bg-color:var(--sl-color-neutral-100);
+    
+    --sl-table-scroll-barWidth:16px;
+    &[size=small]{
+        --sl-th-padding-size:8px;
+    }
+    &[size=larger]{
+        --sl-th-padding-size:16px;
+    }
+    //滚动容器（主要table）
+    &-scroll-div{
+        overflow: auto;
+        // &::-webkit-scrollbar{
+        //     width:var(--sl-table-scroll-barWidth);
+        //     height: var(--sl-table-scroll-barWidth);
+        // }
+
+        //高亮行颜色
+        .stripe{
+            background-color: rgb(var(--sl-color-neutral-50));
+        }
+        .cell{
+            padding:var(--sl-th-padding-size);
+            transition: background-color 1s cubic-bezier(.075,.82,.165,1);
+        }
+        .tdBorder{
+            //border-top: solid 1px rgb(var(--sl-color-neutral-200));
+            border-bottom: solid 1px rgb(var(--sl-color-neutral-200));
+            border-left: none;
+            border-right: none;
+        }
+        &[hover-able] {
+            table tbody tr:hover{
+                @extend .stripe;
+            }
+        }
+        &[stripe]{
+            //奇数的行 斑马线
+            tbody tr:nth-child(odd) { 
+                @extend .stripe;
+            } 
+        }
+        &[border]{
+            table {
+                border:1px solid rgb(var(--sl-table-border-color));
+                th, td {
+                    border: solid 1px rgb(var(--sl-color-neutral-200));
+                }
+                th:last-child{
+                    border: solid 1px rgb(var(--sl-color-neutral-200));
+                }
+            }
+        }
+        table{
+            border-collapse: collapse;
+            border-spacing: 0;
+            /** 背景色 **/
+            background-color: rgb(var(--sl-table-background-color));
+            
+            td {
+                @extend .cell;
+                @extend .tdBorder;
+            }
+            th{
+                @extend .cell;
+                @extend .tdBorder;
+               
+                position: relative;
+                font-weight: normal;
+                background-color: rgb(var(--sl-table-header-bg-color));
+               
+                border-right: solid 1px rgb(var(--sl-color-neutral-200));
+                &:last-child{
+                    border-right:none;
+                }
+                
+            }
+        }
+    }
+    div[part=table-header-div]{
+        overflow: hidden;
+        position: absolute;
+        top:0px;
+        left:0px;
+    }
+}
+

@@ -52,7 +52,7 @@
 |------------|------------|--------------------------------------------------|------------|--------------------------------------------------|
 | `base`     |            | `HTMLElement`                                    |            |                                                  |
 | `closable` | `closable` | `boolean`                                        | false      | Makes the alert closable.                        |
-| `duration` | `duration` | `number`                                         | "Infinity" | The length of time, in milliseconds, the alert will show before closing itself. If the user interacts with<br />the alert before it closes (e.g. moves the mouse over it), the timer will restart. Defaults to `Infinity`. |
+| `duration` | `duration` | `number`                                         | "Infinity" | The length of time, in milliseconds, the alert will show before closing itself. If the user interacts with<br />the alert before it closes (e.g. moves the mouse over it), the timer will restart. Defaults to `Infinity`. |
 | `open`     | `open`     | `boolean`                                        | false      | Indicates whether or not the alert is open. You can use this in lieu of the show/hide methods. |
 | `type`     | `type`     | `"primary" \| "success" \| "neutral" \| "warning" \| "danger"` | "primary"  | The type of alert.                               |
 
@@ -67,7 +67,7 @@
 | `hide`                 | `(): Promise<void>` | Hides the alert                                  |
 | `restartAutoHide`      | `(): void`          |                                                  |
 | `show`                 | `(): Promise<void>` | Shows the alert.                                 |
-| `toast`                | `(): Promise<void>` | Displays the alert as a toast notification. This will move the alert out of its position in the DOM and, when<br />dismissed, it will be removed from the DOM completely. By storing a reference to the alert, you can reuse it by<br />calling this method again. The returned promise will resolve after the alert is hidden. |
+| `toast`                | `(): Promise<void>` | Displays the alert as a toast notification. This will move the alert out of its position in the DOM and, when<br />dismissed, it will be removed from the DOM completely. By storing a reference to the alert, you can reuse it by<br />calling this method again. The returned promise will resolve after the alert is hidden. |
 
 ## Events
 
@@ -112,15 +112,15 @@
 | `delay`          | `delay`           | `number`                   | 0          | The number of milliseconds to delay the start of the animation. |
 | `direction`      | `direction`       | `PlaybackDirection`        | "normal"   | Determines the direction of playback as well as the behavior when reaching the end of an iteration. |
 | `duration`       | `duration`        | `number`                   | 1000       | The number of milliseconds each iteration of the animation takes to complete. |
-| `easing`         | `easing`          | `string`                   | "linear"   | The easing function to use for the animation. This can be a Shoelace easing function or a custom easing function<br />such as `cubic-bezier(0, 1, .76, 1.14)`. |
+| `easing`         | `easing`          | `string`                   | "linear"   | The easing function to use for the animation. This can be a Shoelace easing function or a custom easing function<br />such as `cubic-bezier(0, 1, .76, 1.14)`. |
 | `endDelay`       | `end-delay`       | `number`                   | 0          | The number of milliseconds to delay after the active period of an animation sequence. |
 | `fill`           | `fill`            | `FillMode`                 | "auto"     | Sets how the animation applies styles to its target before and after its execution. |
 | `iterationStart` | `iteration-start` | `number`                   | 0          | The offset at which to start the animation, usually between 0 (start) and 1 (end). |
 | `iterations`     | `iterations`      | `number`                   | "Infinity" | The number of iterations to run before the animation completes. Defaults to `Infinity`, which loops. |
 | `keyframes`      |                   | `Keyframe[]`               |            | The keyframes to use for the animation. If this is set, `name` will be ignored. |
 | `name`           | `name`            | `string`                   | "none"     | The name of the built-in animation to use. For custom animations, use the `keyframes` prop. |
-| `play`           | `play`            | `boolean`                  | false      | Plays the animation. When omitted, the animation will be paused. This prop will be automatically removed when the<br />animation finishes or gets canceled. |
-| `playbackRate`   | `playback-rate`   | `number`                   | 1          | Sets the animation's playback rate. The default is `1`, which plays the animation at a normal speed. Setting this<br />to `2`, for example, will double the animation's speed. A negative value can be used to reverse the animation. This<br />value can be changed without causing the animation to restart. |
+| `play`           | `play`            | `boolean`                  | false      | Plays the animation. When omitted, the animation will be paused. This prop will be automatically removed when the<br />animation finishes or gets canceled. |
+| `playbackRate`   | `playback-rate`   | `number`                   | 1          | Sets the animation's playback rate. The default is `1`, which plays the animation at a normal speed. Setting this<br />to `2`, for example, will double the animation's speed. A negative value can be used to reverse the animation. This<br />value can be changed without causing the animation to restart. |
 
 ## Methods
 
@@ -447,17 +447,17 @@
 |------------------|--------------------|----------------------------------|--------------------------------------------------|--------------------------------------------------|
 | `disabled`       | `disabled`         | `boolean`                        | false                                            | Disables the color picker.                       |
 | `dropdown`       |                    | `SlDropdown`                     |                                                  |                                                  |
-| `format`         | `format`           | `"hex" \| "rgb" \| "hsl"`        | "hex"                                            | The format to use for the display value. If opacity is enabled, these will translate to HEXA, RGBA, and HSLA<br />respectively. The color picker will always accept user input in any format (including CSS color names) and convert<br />it to the desired format. |
-| `hoist`          | `hoist`            | `boolean`                        | false                                            | Enable this option to prevent the panel from being clipped when the component is placed inside a container with<br />`overflow: auto\|scroll`. |
+| `format`         | `format`           | `"hex" \| "rgb" \| "hsl"`        | "hex"                                            | The format to use for the display value. If opacity is enabled, these will translate to HEXA, RGBA, and HSLA<br />respectively. The color picker will always accept user input in any format (including CSS color names) and convert<br />it to the desired format. |
+| `hoist`          | `hoist`            | `boolean`                        | false                                            | Enable this option to prevent the panel from being clipped when the component is placed inside a container with<br />`overflow: auto\|scroll`. |
 | `inline`         | `inline`           | `boolean`                        | false                                            | Renders the color picker inline rather than inside a dropdown. |
 | `input`          |                    | `SlInput`                        |                                                  |                                                  |
-| `invalid`        | `invalid`          | `boolean`                        | false                                            | This will be true when the control is in an invalid state. Validity is determined by the `setCustomValidity()`<br />method using the browser's constraint validation API. |
+| `invalid`        | `invalid`          | `boolean`                        | false                                            | This will be true when the control is in an invalid state. Validity is determined by the `setCustomValidity()`<br />method using the browser's constraint validation API. |
 | `name`           | `name`             | `string`                         | ""                                               | The input's name attribute.                      |
 | `noFormatToggle` | `no-format-toggle` | `boolean`                        | false                                            | Removes the format toggle.                       |
 | `opacity`        | `opacity`          | `boolean`                        | false                                            | Whether to show the opacity slider.              |
 | `previewButton`  |                    | `HTMLButtonElement`              |                                                  |                                                  |
 | `size`           | `size`             | `"small" \| "medium" \| "large"` | "medium"                                         | Determines the size of the color picker's trigger. This has no effect on inline color pickers. |
-| `swatches`       |                    | `string[]`                       | ["#d0021b","#f5a623","#f8e71c","#8b572a","#7ed321","#417505","#bd10e0","#9013fe","#4a90e2","#50e3c2","#b8e986","#000","#444","#888","#ccc","#fff"] | An array of predefined color swatches to display. Can include any format the color picker can parse, including<br />HEX(A), RGB(A), HSL(A), and CSS color names. |
+| `swatches`       |                    | `string[]`                       | ["#d0021b","#f5a623","#f8e71c","#8b572a","#7ed321","#417505","#bd10e0","#9013fe","#4a90e2","#50e3c2","#b8e986","#000","#444","#888","#ccc","#fff"] | An array of predefined color swatches to display. Can include any format the color picker can parse, including<br />HEX(A), RGB(A), HSL(A), and CSS color names. |
 | `uppercase`      | `uppercase`        | `boolean`                        | false                                            | By default, the value will be set in lowercase. Set this to true to set it in uppercase instead. |
 | `value`          | `value`            | `string`                         | "#ffffff"                                        | The current color.                               |
 
@@ -595,7 +595,7 @@
 | `minDate`         |             | readonly  | `Date \| null \| undefined`                      |                |                                                  |
 | `mode`            | `mode`      |           | `"year" \| "month" \| "date"`                    | "date"         | 选择模式，年，月，日                                       |
 | `pill`            | `pill`      |           | `boolean`                                        | false          | Draws a pill-style button with rounded edges.    |
-| `placement`       | `placement` |           | `"top" \| "top-start" \| "top-end" \| "bottom" \| "bottom-start" \| "bottom-end" \| "right" \| "right-start" \| "right-end" \| "left" \| "left-start" \| "left-end"` | "bottom-start" | The preferred placement of the dropdown panel. Note that the actual placement may vary as needed to keep the panel<br />inside of the viewport. |
+| `placement`       | `placement` |           | `"top" \| "top-start" \| "top-end" \| "bottom" \| "bottom-start" \| "bottom-end" \| "right" \| "right-start" \| "right-end" \| "left" \| "left-start" \| "left-end"` | "bottom-start" | The preferred placement of the dropdown panel. Note that the actual placement may vary as needed to keep the panel<br />inside of the viewport. |
 | `readonly`        | `readonly`  |           | `boolean`                                        | false          | Makes the input readonly.                        |
 | `size`            | `size`      |           | `"small" \| "medium" \| "large"`                 | "medium"       | set input size                                   |
 | `value`           | `value`     |           | `string \| undefined`                            |                | 选中日期 ,格式：2018，2018-02, 2018/01， 2018/02/02 ,2018-01-02 |
@@ -680,8 +680,8 @@
 | Property   | Attribute   | Type          | Default | Description                                      |
 |------------|-------------|---------------|---------|--------------------------------------------------|
 | `dialog`   |             | `HTMLElement` |         |                                                  |
-| `label`    | `label`     | `string`      | ""      | The dialog's label as displayed in the header. You should always include a relevant label even when using<br />`no-header`, as it is required for proper accessibility. |
-| `noHeader` | `no-header` | `boolean`     | false   | Disables the header. This will also remove the default close button, so please ensure you provide an easy,<br />accessible way for users to dismiss the dialog. |
+| `label`    | `label`     | `string`      | ""      | The dialog's label as displayed in the header. You should always include a relevant label even when using<br />`no-header`, as it is required for proper accessibility. |
+| `noHeader` | `no-header` | `boolean`     | false   | Disables the header. This will also remove the default close button, so please ensure you provide an easy,<br />accessible way for users to dismiss the dialog. |
 | `open`     | `open`      | `boolean`     | false   | Indicates whether or not the dialog is open. You can use this in lieu of the show/hide methods. |
 | `overlay`  |             | `HTMLElement` |         |                                                  |
 | `panel`    |             | `HTMLElement` |         |                                                  |
@@ -703,8 +703,8 @@
 | `sl-after-hide`    | Emitted after the dialog closes and all transitions are complete. |
 | `sl-after-show`    | Emitted after the dialog opens and all transitions are complete. |
 | `sl-hide`          | Emitted when the dialog closes.                  |
-| `sl-initial-focus` | Emitted when the dialog opens and the panel gains focus. Calling `event.preventDefault()`will prevent focus and allow you to set it on a different element in the dialog, such as an input or button. |
-| `sl-request-close` | Emitted when the user attempts to close the dialog by clicking the close button, clicking theoverlay, or pressing the escape key. Calling `event.preventDefault()` will prevent the dialog from closing. Avoidusing this unless closing the dialog will result in destructive behavior such as data loss. |
+| `sl-initial-focus` | Emitted when the dialog opens and the panel gains focus. Calling `event.preventDefault()`<br />will prevent focus and allow you to set it on a different element in the dialog, such as an input or button. |
+| `sl-request-close` | Emitted when the user attempts to close the dialog by clicking the close button, clicking the<br />overlay, or pressing the escape key. Calling `event.preventDefault()` will prevent the dialog from closing. Avoid<br />using this unless closing the dialog will result in destructive behavior such as data loss. |
 | `sl-show`          | Emitted when the dialog opens.                   |
 
 ## Slots
@@ -744,10 +744,10 @@
 
 | Property    | Attribute   | Type                                    | Default | Description                                      |
 |-------------|-------------|-----------------------------------------|---------|--------------------------------------------------|
-| `contained` | `contained` | `boolean`                               | false   | By default, the drawer slides out of its containing block (usually the viewport). To make the drawer slide out of<br />its parent element, set this prop and add `position: relative` to the parent. |
+| `contained` | `contained` | `boolean`                               | false   | By default, the drawer slides out of its containing block (usually the viewport). To make the drawer slide out of<br />its parent element, set this prop and add `position: relative` to the parent. |
 | `drawer`    |             | `HTMLElement`                           |         |                                                  |
-| `label`     | `label`     | `string`                                | ""      | The drawer's label as displayed in the header. You should always include a relevant label even when using<br />`no-header`, as it is required for proper accessibility. |
-| `noHeader`  | `no-header` | `boolean`                               | false   | Removes the header. This will also remove the default close button, so please ensure you provide an easy,<br />accessible way for users to dismiss the drawer. |
+| `label`     | `label`     | `string`                                | ""      | The drawer's label as displayed in the header. You should always include a relevant label even when using<br />`no-header`, as it is required for proper accessibility. |
+| `noHeader`  | `no-header` | `boolean`                               | false   | Removes the header. This will also remove the default close button, so please ensure you provide an easy,<br />accessible way for users to dismiss the drawer. |
 | `open`      | `open`      | `boolean`                               | false   | Indicates whether or not the drawer is open. You can use this in lieu of the show/hide methods. |
 | `overlay`   |             | `HTMLElement`                           |         |                                                  |
 | `panel`     |             | `HTMLElement`                           |         |                                                  |
@@ -770,8 +770,8 @@
 | `sl-after-hide`    | Emitted after the drawer closes and all transitions are complete. |
 | `sl-after-show`    | Emitted after the drawer opens and all transitions are complete. |
 | `sl-hide`          | Emitted when the drawer closes.                  |
-| `sl-initial-focus` | Emitted when the drawer opens and the panel gains focus. Calling `event.preventDefault()` willprevent focus and allow you to set it on a different element in the drawer, such as an input or button. |
-| `sl-request-close` | Emitted when the user attempts to close the drawer by clicking the close button, clicking theoverlay, or pressing the escape key. Calling `event.preventDefault()` will prevent the drawer from closing. Avoidusing this unless closing the drawer will result in destructive behavior such as data loss. |
+| `sl-initial-focus` | Emitted when the drawer opens and the panel gains focus. Calling `event.preventDefault()` will<br />prevent focus and allow you to set it on a different element in the drawer, such as an input or button. |
+| `sl-request-close` | Emitted when the user attempts to close the drawer by clicking the close button, clicking the<br />overlay, or pressing the escape key. Calling `event.preventDefault()` will prevent the drawer from closing. Avoid<br />using this unless closing the drawer will result in destructive behavior such as data loss. |
 | `sl-show`          | Emitted when the drawer opens.                   |
 
 ## Slots
@@ -802,7 +802,7 @@
 | `--body-spacing`   | The amount of padding to use for the body.       |
 | `--footer-spacing` | The amount of padding to use for the footer.     |
 | `--header-spacing` | The amount of padding to use for the header.     |
-| `--size`           | The preferred size of the drawer. This will be applied to the drawer's width or heightdepending on its `placement`. Note that the drawer will shrink to accommodate smaller screens. |
+| `--size`           | The preferred size of the drawer. This will be applied to the drawer's width or height<br />depending on its `placement`. Note that the drawer will shrink to accommodate smaller screens. |
 
 
 # sl-dropdown
@@ -814,13 +814,13 @@
 | `containingElement` |                       | `HTMLElement`                                    |                | The dropdown will close when the user interacts outside of this element (e.g. clicking). |
 | `disabled`          | `disabled`            | `boolean`                                        | false          | Disables the dropdown so the panel will not open. |
 | `distance`          | `distance`            | `number`                                         | 2              | The distance in pixels from which to offset the panel away from its trigger. |
-| `hoist`             | `hoist`               | `boolean`                                        | false          | Enable this option to prevent the panel from being clipped when the component is placed inside a container with<br />`overflow: auto\|scroll`. |
+| `hoist`             | `hoist`               | `boolean`                                        | false          | Enable this option to prevent the panel from being clipped when the component is placed inside a container with<br />`overflow: auto\|scroll`. |
 | `open`              | `open`                | `boolean`                                        | false          | Indicates whether or not the dropdown is open. You can use this in lieu of the show/hide methods. |
 | `panel`             |                       | `HTMLElement`                                    |                |                                                  |
-| `placement`         | `placement`           | `"top" \| "top-start" \| "top-end" \| "bottom" \| "bottom-start" \| "bottom-end" \| "right" \| "right-start" \| "right-end" \| "left" \| "left-start" \| "left-end"` | "bottom-start" | The preferred placement of the dropdown panel. Note that the actual placement may vary as needed to keep the panel<br />inside of the viewport. |
+| `placement`         | `placement`           | `"top" \| "top-start" \| "top-end" \| "bottom" \| "bottom-start" \| "bottom-end" \| "right" \| "right-start" \| "right-end" \| "left" \| "left-start" \| "left-end"` | "bottom-start" | The preferred placement of the dropdown panel. Note that the actual placement may vary as needed to keep the panel<br />inside of the viewport. |
 | `positioner`        |                       | `HTMLElement`                                    |                |                                                  |
 | `skidding`          | `skidding`            | `number`                                         | 0              | The distance in pixels from which to offset the panel along its trigger. |
-| `stayOpenOnSelect`  | `stay-open-on-select` | `boolean`                                        | false          | By default, the dropdown is closed when an item is selected. This attribute will keep it open instead. Useful for<br />controls that allow multiple selections. |
+| `stayOpenOnSelect`  | `stay-open-on-select` | `boolean`                                        | false          | By default, the dropdown is closed when an item is selected. This attribute will keep it open instead. Useful for<br />controls that allow multiple selections. |
 | `trigger`           |                       | `HTMLElement`                                    |                |                                                  |
 
 ## Methods
@@ -840,7 +840,7 @@
 | `handleTriggerKeyUp`         | `(event: KeyboardEvent): void`    |                                                  |
 | `handleTriggerSlotChange`    | `(): void`                        |                                                  |
 | `hide`                       | `(): Promise<void>`               | Hides the dropdown panel                         |
-| `reposition`                 | `(): void`                        | Instructs the dropdown menu to reposition. Useful when the position or size of the trigger changes when the menu<br />is activated. |
+| `reposition`                 | `(): void`                        | Instructs the dropdown menu to reposition. Useful when the position or size of the trigger changes when the menu<br />is activated. |
 | `show`                       | `(): Promise<void>`               | Shows the dropdown panel.                        |
 | `updateAccessibleTrigger`    | `(): void`                        |                                                  |
 
@@ -887,13 +887,13 @@
 | `handleClick`      | `(event: MouseEvent): void`                      |                                                  |
 | `handleKeyDown`    | `(event: KeyboardEvent): void`                   |                                                  |
 | `serializeElement` | `(el: HTMLElement, formData: FormData): void \| null` |                                                  |
-| `submit`           | `(): boolean`                                    | Submits the form. If all controls are valid, the `sl-submit` event will be emitted and the promise will resolve<br />with `true`. If any form control is invalid, the promise will resolve with `false` and no event will be emitted. |
+| `submit`           | `(): boolean`                                    | Submits the form. If all controls are valid, the `sl-submit` event will be emitted and the promise will resolve<br />with `true`. If any form control is invalid, the promise will resolve with `false` and no event will be emitted. |
 
 ## Events
 
 | Event       | Type                                       | Description                                      |
 |-------------|--------------------------------------------|--------------------------------------------------|
-| `sl-submit` | `{ formData: FormData, formControls: [] }` | Emitted when the form is submitted. This event will notbe emitted if any form control inside of it is in an invalid state, unless the form has the `novalidate` attribute.Note that there is never a need to prevent this event, since it doen't send a GET or POST request like nativeforms. To "prevent" submission, use a conditional around the XHR request you use to submit the form's data with. |
+| `sl-submit` | `{ formData: FormData, formControls: [] }` | Emitted when the form is submitted. This event will not<br />be emitted if any form control inside of it is in an invalid state, unless the form has the `novalidate` attribute.<br />Note that there is never a need to prevent this event, since it doen't send a GET or POST request like native<br />forms. To "prevent" submission, use a conditional around the XHR request you use to submit the form's data with. |
 
 ## Slots
 
@@ -1034,7 +1034,7 @@
 | `disabled` | `disabled` | `boolean`                                    | false   | Disables the button.                             |
 | `download` | `download` | `string`                                     |         | Tells the browser to download the linked file as this filename. Only used when `href` is set. |
 | `href`     | `href`     | `string`                                     |         | When set, the underlying button will be rendered as an `<a>` with this `href` instead of a `<button>`. |
-| `label`    | `label`    | `string`                                     | ""      | A description that gets read by screen readers and other assistive devices. For optimal accessibility, you should<br />always include a label that describes what the icon button does. |
+| `label`    | `label`    | `string`                                     | ""      | A description that gets read by screen readers and other assistive devices. For optimal accessibility, you should<br />always include a label that describes what the icon button does. |
 | `library`  | `library`  | `string`                                     |         | The name of a registered custom icon library.    |
 | `name`     | `name`     | `string`                                     |         | The name of the icon to draw.                    |
 | `src`      | `src`      | `string`                                     |         | An external URL of an SVG file.                  |
@@ -1137,7 +1137,7 @@
 
 | Property       | Attribute       | Type                                   | Default | Description                                      |
 |----------------|-----------------|----------------------------------------|---------|--------------------------------------------------|
-| `allowScripts` | `allow-scripts` | `boolean`                              | false   | Allows included scripts to be executed. You must ensure the content you're including is trusted, otherwise this<br />option can lead to XSS vulnerabilities in your app! |
+| `allowScripts` | `allow-scripts` | `boolean`                              | false   | Allows included scripts to be executed. You must ensure the content you're including is trusted, otherwise this<br />option can lead to XSS vulnerabilities in your app! |
 | `mode`         | `mode`          | `"cors" \| "no-cors" \| "same-origin"` | "cors"  | The fetch mode to use.                           |
 | `src`          | `src`           | `string`                               |         | The location of the HTML file to include.        |
 
@@ -1171,7 +1171,7 @@
 | `helpText`       | `help-text`       | `string`                                         | ""       | The input's help text. Alternatively, you can use the help-text slot. |
 | `input`          |                   | `HTMLInputElement`                               |          |                                                  |
 | `inputmode`      | `inputmode`       | `"none" \| "text" \| "numeric" \| "decimal" \| "tel" \| "search" \| "email" \| "url"` |          | The input's inputmode attribute.                 |
-| `invalid`        | `invalid`         | `boolean`                                        | false    | This will be true when the control is in an invalid state. Validity is determined by props such as `type`,<br />`required`, `minlength`, `maxlength`, and `pattern` using the browser's constraint validation API. |
+| `invalid`        | `invalid`         | `boolean`                                        | false    | This will be true when the control is in an invalid state. Validity is determined by props such as `type`,<br />`required`, `minlength`, `maxlength`, and `pattern` using the browser's constraint validation API. |
 | `label`          | `label`           | `string`                                         |          | The input's label. Alternatively, you can use the label slot. |
 | `max`            | `max`             | `string \| number`                               |          | The input's maximum value.                       |
 | `maxlength`      | `maxlength`       | `number`                                         |          | The maximum length of input that will be considered valid. |
@@ -1386,7 +1386,7 @@
 | `handleMouseDown`  | `(event: MouseEvent): void`                      |                                                  |
 | `handleSlotChange` | `(): void`                                       |                                                  |
 | `setCurrentItem`   | `(item: SlMenuItem): void`                       |                                                  |
-| `typeToSelect`     | `(key: string): void`                            | Initiates type-to-select logic, which automatically selects an option based on what the user is currently typing.<br />The key passed will be appended to the internal query and the selection will be updated. After a brief period, the<br />internal query is cleared automatically. This method is intended to be used with the keydown event. Useful for<br />enabling type-to-select when the menu doesn't have focus. |
+| `typeToSelect`     | `(key: string): void`                            | Initiates type-to-select logic, which automatically selects an option based on what the user is currently typing.<br />The key passed will be appended to the internal query and the selection will be updated. After a brief period, the<br />internal query is cleared automatically. This method is intended to be used with the keydown event. Useful for<br />enabling type-to-select when the menu doesn't have focus. |
 
 ## Events
 
@@ -1483,7 +1483,7 @@
 | `align`           | `align`            |           | `"right" \| "left" \| "center"` | "right"                                          | 布局对齐方式         |
 | `pageCount`       |                    | readonly  | `number`                        |                                                  |                |
 | `pageSize`        | `page-size`        |           | `number`                        | 20                                               | 分页大小           |
-| `pageSizeOptions` |                    |           | `Number[]`                      | "Array.from(\r\n    { length: 10 },\r\n    (_item, value) => 10 + value * 10\r\n  )" | 支持调整的分页大小      |
+| `pageSizeOptions` |                    |           | `Number[]`                      | "Array.from(\n    { length: 10 },\n    (_item, value) => 10 + value * 10\n  )" | 支持调整的分页大小      |
 | `showFirst`       |                    |           | `boolean`                       | false                                            | 是否显示 直接跳转到第一页  |
 | `showLast`        |                    |           | `boolean`                       | false                                            | 是否显示 直接跳转到最后一页 |
 | `showPageChange`  | `show-page-change` |           | `boolean`                       | false                                            | 是否允许直接调整第几页    |
@@ -1661,7 +1661,7 @@
 | `checked`  | `checked`  | `boolean`          | false   | Draws the radio in a checked state.              |
 | `disabled` | `disabled` | `boolean`          | false   | Disables the radio.                              |
 | `input`    |            | `HTMLInputElement` |         |                                                  |
-| `invalid`  | `invalid`  | `boolean`          | false   | This will be true when the control is in an invalid state. Validity in range inputs is determined by the message<br />provided by the `setCustomValidity` method. |
+| `invalid`  | `invalid`  | `boolean`          | false   | This will be true when the control is in an invalid state. Validity in range inputs is determined by the message<br />provided by the `setCustomValidity` method. |
 | `name`     | `name`     | `string`           |         | The radio's name attribute.                      |
 | `value`    | `value`    | `string`           |         | The radio's value attribute.                     |
 
@@ -1717,7 +1717,7 @@
 | `disabled`         | `disabled`  | `boolean`                     | false                                 | Disables the input.                              |
 | `helpText`         | `help-text` | `string`                      | ""                                    | The range's help text. Alternatively, you can use the help-text slot. |
 | `input`            |             | `HTMLInputElement`            |                                       |                                                  |
-| `invalid`          | `invalid`   | `boolean`                     | false                                 | This will be true when the control is in an invalid state. Validity in range inputs is determined by the message<br />provided by the `setCustomValidity` method. |
+| `invalid`          | `invalid`   | `boolean`                     | false                                 | This will be true when the control is in an invalid state. Validity in range inputs is determined by the message<br />provided by the `setCustomValidity` method. |
 | `label`            | `label`     | `string`                      | ""                                    | The range's label. Alternatively, you can use the label slot. |
 | `max`              | `max`       | `number`                      | 100                                   | The input's max attribute.                       |
 | `min`              | `min`       | `number`                      | 0                                     | The input's min attribute.                       |
@@ -1775,7 +1775,7 @@
 | Property    | Attribute   | Type                        | Default                                          | Description                                      |
 |-------------|-------------|-----------------------------|--------------------------------------------------|--------------------------------------------------|
 | `disabled`  | `disabled`  | `boolean`                   | false                                            | Disables the rating.                             |
-| `getSymbol` | `getSymbol` | `(value: number) => string` | "(value: number) =>\r\n    '<sl-icon name=\"star-fill\" library=\"system\"></sl-icon>'" | The name of the icon to display as the symbol.   |
+| `getSymbol` | `getSymbol` | `(value: number) => string` | "(value: number) =>\n    '<sl-icon name=\"star-fill\" library=\"system\"></sl-icon>'" | The name of the icon to display as the symbol.   |
 | `max`       | `max`       | `number`                    | 5                                                | The highest rating to show.                      |
 | `precision` | `precision` | `number`                    | 1                                                | The minimum increment value allowed by the control. |
 | `rating`    |             | `HTMLElement`               |                                                  |                                                  |
@@ -1834,7 +1834,7 @@
 | `date`    | `date`    | `string \| Date`                |         | The date from which to calculate time from.      |
 | `format`  | `format`  | `"narrow" \| "short" \| "long"` | "long"  | The formatting style to use.                     |
 | `locale`  | `locale`  | `string`                        |         | The locale to use when formatting the number.    |
-| `numeric` | `numeric` | `"auto" \| "always"`            | "auto"  | When `auto`, values such as "yesterday" and "tomorrow" will be shown when possible. When `always`, values such as<br />"1 day ago" and "in 1 day" will be shown. |
+| `numeric` | `numeric` | `"auto" \| "always"`            | "auto"  | When `auto`, values such as "yesterday" and "tomorrow" will be shown when possible. When `always`, values such as<br />"1 day ago" and "in 1 day" will be shown. |
 | `sync`    | `sync`    | `boolean`                       | false   | Keep the displayed value up to date as time passes. |
 
 ## Methods
@@ -1865,7 +1865,7 @@
 
 | Property      | Attribute      | Type                   | Default | Description                                      |
 |---------------|----------------|------------------------|---------|--------------------------------------------------|
-| `aspectRatio` | `aspect-ratio` | `string`               | "16:9"  | The aspect ratio of the embedded media in the format of `width:height`, e.g. `16:9`, `4:3`, or `1:1`. Ratios not in<br />this format will be ignored. |
+| `aspectRatio` | `aspect-ratio` | `string`               | "16:9"  | The aspect ratio of the embedded media in the format of `width:height`, e.g. `16:9`, `4:3`, or `1:1`. Ratios not in<br />this format will be ignored. |
 | `fit`         | `fit`          | `"cover" \| "contain"` | "cover" | Determines how content will be resized to fit its container. |
 
 ## Slots
@@ -2024,11 +2024,11 @@
 | `disabled`       | `disabled`         | `boolean`                        | false    | Disables the select control.                     |
 | `dropdown`       |                    | `SlDropdown`                     |          |                                                  |
 | `helpText`       | `help-text`        | `string`                         |          | The select's help text. Alternatively, you can use the help-text slot. |
-| `hoist`          | `hoist`            | `boolean`                        | false    | Enable this option to prevent the panel from being clipped when the component is placed inside a container with<br />`overflow: auto\|scroll`. |
+| `hoist`          | `hoist`            | `boolean`                        | false    | Enable this option to prevent the panel from being clipped when the component is placed inside a container with<br />`overflow: auto\|scroll`. |
 | `input`          |                    | `HTMLInputElement`               |          |                                                  |
 | `invalid`        | `invalid`          | `boolean`                        | false    | This will be true when the control is in an invalid state. Validity is determined by the `required` prop. |
 | `label`          | `label`            | `string`                         |          | The select's label. Alternatively, you can use the label slot. |
-| `maxTagsVisible` | `max-tags-visible` | `number`                         | 3        | The maximum number of tags to show when `multiple` is true. After the maximum, "+n" will be shown to indicate the<br />number of additional items that are selected. Set to -1 to remove the limit. |
+| `maxTagsVisible` | `max-tags-visible` | `number`                         | 3        | The maximum number of tags to show when `multiple` is true. After the maximum, "+n" will be shown to indicate the<br />number of additional items that are selected. Set to -1 to remove the limit. |
 | `menu`           |                    | `SlMenu`                         |          |                                                  |
 | `multiple`       | `multiple`         | `boolean`                        | false    | Enables multiselect. With this enabled, value will be an array. |
 | `name`           | `name`             | `string`                         | ""       | The select's name.                               |
@@ -2352,7 +2352,7 @@
 
 | Property           | Attribute            | Type                                    | Default | Description                                      |
 |--------------------|----------------------|-----------------------------------------|---------|--------------------------------------------------|
-| `activation`       | `activation`         | `"auto" \| "manual"`                    | "auto"  | When set to auto, navigating tabs with the arrow keys will instantly show the corresponding tab panel. When set to<br />manual, the tab will receive focus but will not show until the user presses spacebar or enter. |
+| `activation`       | `activation`         | `"auto" \| "manual"`                    | "auto"  | When set to auto, navigating tabs with the arrow keys will instantly show the corresponding tab panel. When set to<br />manual, the tab will receive focus but will not show until the user presses spacebar or enter. |
 | `body`             |                      | `HTMLElement`                           |         |                                                  |
 | `indicator`        |                      | `HTMLElement`                           |         |                                                  |
 | `nav`              |                      | `HTMLElement`                           |         |                                                  |
@@ -2533,7 +2533,7 @@
 | `helpText`       | `help-text`      | `string`                                         | ""         | The textarea's help text. Alternatively, you can use the help-text slot. |
 | `input`          |                  | `HTMLTextAreaElement`                            |            |                                                  |
 | `inputmode`      | `inputmode`      | `"none" \| "text" \| "numeric" \| "decimal" \| "tel" \| "search" \| "email" \| "url"` |            | The textarea's inputmode attribute.              |
-| `invalid`        | `invalid`        | `boolean`                                        | false      | This will be true when the control is in an invalid state. Validity is determined by props such as `type`,<br />`required`, `minlength`, and `maxlength` using the browser's constraint validation API. |
+| `invalid`        | `invalid`        | `boolean`                                        | false      | This will be true when the control is in an invalid state. Validity is determined by props such as `type`,<br />`required`, `minlength`, and `maxlength` using the browser's constraint validation API. |
 | `label`          | `label`          | `string`                                         |            | The textarea's label. Alternatively, you can use the label slot. |
 | `maxlength`      | `maxlength`      | `number`                                         |            | The maximum length of input that will be considered valid. |
 | `minlength`      | `minlength`      | `number`                                         |            | The minimum length of input that will be considered valid. |
@@ -2607,11 +2607,11 @@
 | `disabled`   | `disabled`  | `boolean`                                        | false         | Disables the tooltip so it won't show when triggered. |
 | `distance`   | `distance`  | `number`                                         | 10            | The distance in pixels from which to offset the tooltip away from its target. |
 | `open`       | `open`      | `boolean`                                        | false         | Indicates whether or not the tooltip is open. You can use this in lieu of the show/hide methods. |
-| `placement`  | `placement` | `"top" \| "top-start" \| "top-end" \| "bottom" \| "bottom-start" \| "bottom-end" \| "right" \| "right-start" \| "right-end" \| "left" \| "left-start" \| "left-end"` | "top"         | The preferred placement of the tooltip. Note that the actual placement may vary as needed to keep the tooltip<br />inside of the viewport. |
+| `placement`  | `placement` | `"top" \| "top-start" \| "top-end" \| "bottom" \| "bottom-start" \| "bottom-end" \| "right" \| "right-start" \| "right-end" \| "left" \| "left-start" \| "left-end"` | "top"         | The preferred placement of the tooltip. Note that the actual placement may vary as needed to keep the tooltip<br />inside of the viewport. |
 | `positioner` |             | `HTMLElement`                                    |               |                                                  |
 | `skidding`   | `skidding`  | `number`                                         | 0             | The distance in pixels from which to offset the tooltip along its target. |
 | `tooltip`    |             | `HTMLElement`                                    |               |                                                  |
-| `trigger`    | `trigger`   | `string`                                         | "hover focus" | Controls how the tooltip is activated. Possible options include `click`, `hover`, `focus`, and `manual`. Multiple<br />options can be passed by separating them with a space. When manual is used, the tooltip must be activated<br />programmatically. |
+| `trigger`    | `trigger`   | `string`                                         | "hover focus" | Controls how the tooltip is activated. Possible options include `click`, `hover`, `focus`, and `manual`. Multiple<br />options can be passed by separating them with a space. When manual is used, the tooltip must be activated<br />programmatically. |
 | `type`       | `type`      | `"primary" \| "success" \| "warning" \| "danger" \| "default"` | "default"     | tooltip theme type .                             |
 
 ## Methods

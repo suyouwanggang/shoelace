@@ -1,8 +1,8 @@
-import { LitElement, html } from 'lit';
+import { html, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { watchProps } from '../../internal/watchProps';
-import styles from './row.styles';
 import './col';
+import styles from './row.styles';
 /**
  * @since 2.0
  * @status experimental

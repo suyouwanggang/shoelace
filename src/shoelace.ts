@@ -64,6 +64,8 @@ export { default as SlDate } from './components/date/date';
 export { default as SlMarkdownElement } from './components/markdown-element/markdown-element';
 export { default as SlRow } from './components/row/row';
 export { default as SlLayout } from './components/layout/layout';
+export { default as SlTable } from './components/table/table';
+export { default as SlColumn } from './components/column/column';
 /* plop:component */
 
 // Utilities

@@ -34,7 +34,7 @@ export default class SlLayout extends LitElement {
   @property({ type: Boolean, attribute: 'expand' }) expand = false;
 
   /** 主轴子项对齐方式 */
-  @property({ type: String, attribute: 'main' }) main: 'start' | 'end' | 'center' | 'space-between' | 'space-around';
+  @property({ type: String, attribute: 'main' }) main: 'start' | 'end' | 'center' | 'space-between' | 'space-around'|'space-evenly';
 
   /** 次轴子项对齐方式 */
   @property({ type: String, attribute: 'cross' }) cross: 'start' | 'end' | 'center' | 'baseline' | 'stretch';

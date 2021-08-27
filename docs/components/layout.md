@@ -12,6 +12,9 @@ Flex 布局组件简单实现
     <sl-layout column class='c' main='space-around'>
         <span >space-around</span>
         <span >space-around</span>
+        <span >space-around</span>
+        <span >space-around</span>
+        <span >space-around</span>
     </sl-layout>
 </sl-layout>
 <style >
