@@ -1,14 +1,14 @@
 import { css } from 'lit';
 import componentStyles from '../../styles/component.styles';
+import { focusVisibleSelector } from '../../internal/focus-visible';
 
 export default css`
   ${componentStyles}
+
   :host {
     display: block;
   }
-  .ripple-wrap {
-    display: block;
-  }
+
   .menu-item {
     position: relative;
     display: flex;
@@ -32,7 +32,11 @@ export default css`
     color: rgb(var(--sl-color-neutral-400));
     cursor: not-allowed;
   }
-
+  .menu-item.menu-item--highlight:not(.menu-item--disabled){
+    outline: none;
+    background-color: rgb(var(--sl-color-primary-600));
+    color: rgb(var(--sl-color-neutral-0))
+  }
   .menu-item .menu-item__label {
     flex: 1 1 auto;
   }
@@ -60,12 +64,14 @@ export default css`
   :host(:focus) {
     outline: none;
   }
-
+  .ripple-wrap{
+    display:block;
+  }
   :host(:hover:not([aria-disabled='true'])) .menu-item,
-  :host(:focus:not([aria-disabled='true'])) .menu-item {
+  :host(${focusVisibleSelector}:not(.sl-focus-invisible):not([aria-disabled='true'])) .menu-item {
     outline: none;
-    background-color: rgb(var(--sl-color-primary-500));
-    color: rgb(var(--sl-color-neutral-1000));
+    background-color: rgb(var(--sl-color-primary-600));
+    color: rgb(var(--sl-color-neutral-0));
   }
 
   .menu-item .menu-item__check {
@@ -77,7 +83,7 @@ export default css`
     align-items: center;
     font-size: inherit;
   }
-
+ 
   .menu-item--checked .menu-item__check {
     visibility: visible;
   }

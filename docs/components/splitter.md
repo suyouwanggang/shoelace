@@ -11,7 +11,7 @@
             <sl-menu-label>
                 Menu Label
             </sl-menu-label>
-            <sl-menu-item>left</sl-menu-item>
+            <sl-menu-item highlight>left</sl-menu-item>
             <sl-menu-item>right</sl-menu-item>
             <sl-menu-item>top</sl-menu-item>
             <sl-menu-item>bottom</sl-menu-item>
@@ -29,9 +29,9 @@
     menuDiv.addEventListener('sl-select',(event)=>{
         menuDiv.querySelectorAll('sl-menu-item').forEach((item)=>{
             if(event.detail.item==item){
-                item.type='primary';
+                item.highlight=true;
             }else{
-                item.type='default';
+                item.highlight=false;
             }
         })
         spliter.splitType=event.detail.item.textContent;

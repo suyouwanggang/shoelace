@@ -1,6 +1,7 @@
 import { css } from 'lit';
 import componentStyles from '../../styles/component.styles';
 import formControlStyles from '../../styles/form-control.styles';
+import { focusVisibleSelector } from '../../internal/focus-visible';
 
 export default css`
   ${componentStyles}
@@ -42,8 +43,8 @@ export default css`
     width: var(--thumb-size);
     height: var(--thumb-size);
     border-radius: 50%;
-    background-color: rgb(var(--sl-color-primary-500));
-    border: solid var(--sl-input-border-width) rgb(var(--sl-color-primary-500));
+    background-color: rgb(var(--sl-color-primary-600));
+    border: solid var(--sl-input-border-width) rgb(var(--sl-color-primary-600));
     -webkit-appearance: none;
     margin-top: calc(var(--thumb-size) / -2 + var(--track-height) / 2);
     transition: var(--sl-transition-fast) border-color, var(--sl-transition-fast) background-color,
@@ -52,14 +53,14 @@ export default css`
   }
 
   .range__control:not(:disabled)::-webkit-slider-thumb:hover {
-    background-color: rgb(var(--sl-color-primary-400));
-    border-color: rgb(var(--sl-color-primary-400));
+    background-color: rgb(var(--sl-color-primary-500));
+    border-color: rgb(var(--sl-color-primary-500));
   }
 
-  .range__control:not(:disabled):focus::-webkit-slider-thumb {
-    background-color: rgb(var(--sl-color-primary-400));
-    border-color: rgb(var(--sl-color-primary-400));
-    box-shadow: 0 0 0 var(--sl-focus-ring-width) rgb(var(--sl-color-primary-500) / var(--sl-focus-ring-alpha));
+  .range__control:not(:disabled)${focusVisibleSelector}::-webkit-slider-thumb {
+    background-color: rgb(var(--sl-color-primary-500));
+    border-color: rgb(var(--sl-color-primary-500));
+    box-shadow: var(--sl-focus-ring);
   }
 
   .range__control:not(:disabled)::-webkit-slider-thumb:active {
@@ -86,32 +87,32 @@ export default css`
     height: var(--thumb-size);
     width: var(--thumb-size);
     border-radius: 50%;
-    background-color: rgb(var(--sl-color-primary-500));
-    border-color: rgb(var(--sl-color-primary-500));
+    background-color: rgb(var(--sl-color-primary-600));
+    border-color: rgb(var(--sl-color-primary-600));
     transition: var(--sl-transition-fast) border-color, var(--sl-transition-fast) background-color,
       var(--sl-transition-fast) color, var(--sl-transition-fast) box-shadow, var(--sl-transition-fast) transform;
     cursor: pointer;
   }
 
   .range__control:not(:disabled)::-moz-range-thumb:hover {
-    background-color: rgb(var(--sl-color-primary-400));
-    border-color: rgb(var(--sl-color-primary-400));
+    background-color: rgb(var(--sl-color-primary-500));
+    border-color: rgb(var(--sl-color-primary-500));
   }
 
-  .range__control:not(:disabled):focus::-moz-range-thumb {
-    background-color: rgb(var(--sl-color-primary-400));
-    border-color: rgb(var(--sl-color-primary-400));
-    box-shadow: 0 0 0 var(--sl-focus-ring-width) rgb(var(--sl-color-primary-500) / var(--sl-focus-ring-alpha));
+  .range__control:not(:disabled)${focusVisibleSelector}::-moz-range-thumb {
+    background-color: rgb(var(--sl-color-primary-500));
+    border-color: rgb(var(--sl-color-primary-500));
+    box-shadow: var(--sl-focus-ring);
   }
 
   .range__control:not(:disabled)::-moz-range-thumb:active {
-    background-color: rgb(var(--sl-color-primary-600));
-    border-color: rgb(var(--sl-color-primary-600));
+    background-color: rgb(var(--sl-color-primary-500));
+    border-color: rgb(var(--sl-color-primary-500));
     cursor: grabbing;
   }
 
   /* States */
-  .range__control:focus {
+  .range__control${focusVisibleSelector} {
     outline: none;
   }
 

@@ -47,7 +47,7 @@
                 {
                     data: {roleName:'COO', userName:'F.C. Barcelona'},
                     children:[{
-                        data:{roleName:'Operations'}
+                        data:{roleName:'Operations',userName:'AB'}
 
                     }]
                 },

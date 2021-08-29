@@ -42,8 +42,6 @@ let id = 0;
  * @csspart password-toggle-button - The password toggle button.
  * @csspart suffix - The input suffix container.
  * @csspart help-text - The input help text.
- *
- * @cssproperty --focus-ring - The focus ring style to use when the control receives focus, a `box-shadow` property.
  */
 @customElement('sl-input')
 export default class SlInput extends LitElement {
@@ -61,7 +59,8 @@ export default class SlInput extends LitElement {
   @state() private isPasswordVisible = false;
 
   /** The input's type. */
-  @property({ reflect: true }) type: 'email' | 'number' | 'password' | 'search' | 'tel' | 'text' | 'url' = 'text';
+  @property({ reflect: true }) type: 'date' | 'email' | 'number' | 'password' | 'search' | 'tel' | 'text' | 'url' =
+    'text';
 
   /** The input's size. */
   @property({ reflect: true }) size: 'small' | 'medium' | 'large' = 'medium';

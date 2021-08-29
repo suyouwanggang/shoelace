@@ -15,7 +15,7 @@
   border-bottom: none;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
-  background-color: rgb(var(--sl-color-neutral-1000));
+  background-color: rgb(var(--sl-color-neutral-0));
   min-width: 20rem;
   max-width: 100%;
   padding: 1.5rem 3.25rem 1.5rem 1.5rem;
@@ -44,20 +44,11 @@
   width: 1.75rem;
   font-size: 20px;
   color: rgb(var(--sl-color-neutral-500));
-  background-color: rgb(var(--sl-color-neutral-1000));
+  background-color: rgb(var(--sl-color-neutral-0));
   border-left: solid 1px rgb(var(--sl-color-neutral-200));
   border-top-right-radius: 3px;
   cursor: ew-resize;
   transition: 250ms background-color;
-}
-
-.code-block__resizer:focus {
-  outline: none;
-  box-shadow: 0 0 0 1px rgb(var(--sl-color-primary-400)),
-    0 0 0 var(--sl-focus-ring-width) rgb(var(--sl-color-primary-500) / var(--sl-focus-ring-alpha));
-  background-color: rgb(var(--sl-color-primary-50));
-  color: rgb(var(--sl-color-primary-600));
-  z-index: 2;
 }
 
 @media screen and (max-width: 600px) {
@@ -96,7 +87,7 @@
   min-width: 2.5rem;
   border: none;
   border-radius: 0;
-  background: rgb(var(--sl-color-neutral-1000));
+  background: rgb(var(--sl-color-neutral-0));
   font: inherit;
   font-size: 0.7rem;
   font-weight: 500;
@@ -140,8 +131,7 @@
   border-color: rgb(var(--sl-color-primary-400));
   border-right-color: transparent;
   background-color: rgb(var(--sl-color-primary-50));
-  box-shadow: 0 0 0 1px rgb(var(--sl-color-primary-400)),
-    0 0 0 var(--sl-focus-ring-width) rgb(var(--sl-color-primary-500) / var(--sl-focus-ring-alpha));
+  box-shadow: 0 0 0 1px rgb(var(--sl-color-primary-400)), var(--sl-focus-ring);
   z-index: 2;
 }
 
@@ -154,7 +144,6 @@
   width: 100%;
   color: rgb(var(--sl-color-neutral-600));
   cursor: pointer;
-  transition: 250ms background-color;
   -webkit-appearance: none;
 }
 
@@ -207,7 +196,7 @@
 }
 
 .markdown-section .docsify-copy-code-button:focus {
-  box-shadow: 0 0 0 var(--sl-focus-ring-width) rgb(var(--sl-color-neutral-500) / var(--sl-focus-ring-alpha));
+  box-shadow: 0 0 0 3px rgb(var(--sl-color-neutral-500) / 50%);
 }
 
 .markdown-section .docsify-copy-code-button:active {

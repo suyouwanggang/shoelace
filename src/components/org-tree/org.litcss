@@ -41,6 +41,7 @@
   &:after {
     transition: all .35s;
   }
+  
 }
 
 .org-tree-node-children {
@@ -195,7 +196,9 @@
       padding-top: 10px;
       padding-bottom: 10px;
     }
-
+    .only-one{
+      min-height: 100%;
+    }
     &:before,
     &:after {
       width: 19px;

@@ -1,36 +1,4 @@
-import { nothing, TemplateResult } from 'lit';
 import SlColumn from '../column/column';
-import SlTable from './table';
-
-/**
- * 表头TH 自定义渲染函数
- * @param table ,表格
- */
-export interface renderColInteface {
-  (this: SlColumn): TemplateResult<1>;
-}
-
-/**
- * 表头TH 自定义渲染函数
- *
- */
-export interface renderCellInteface {
-  /**
-   * @param:this,当前对象
-   * @param:rowData,当前表格接收的rowData对象
-   * @param:index,当前表格接收的数据的序号
-   * @param:table,当前表格
-   */
-  (this: SlColumn, rowData: any, index: number):
-    | TemplateResult<1>
-    | {
-        template: TemplateResult<1>;
-        colspan?: number;
-        rowspan?: number;
-      }
-    | typeof nothing;
-}
-
 /**
  * 定义排序，升序，降序
  */
@@ -38,132 +6,11 @@ export enum SortingEnum {
   ASC = 'ASC',
   DESC = 'DESC'
 }
+const columnCacheData = new WeakMap<SlColumn, ColumnCacheData>();
 /**
  * table 单元格对齐方式 'left','cener','right'
  */
 export type TdAgile = 'left' | 'center' | 'right';
-/**
- * 定义表头数据，同PColumn 对应
- */
-export type ColumnHeaderData = {
-  /**
-   * 自定义渲染th
-   */
-  renderTh?: (this: SlColumn, tab: SlTable) => TemplateResult<1>;
-  /**
-   * 自定渲染 td
-   */
-  renderTd?: (
-    this: SlColumn,
-    rowData: any,
-    index: number,
-    tab: SlTable
-  ) =>
-    | TemplateResult<1>
-    | {
-        template: TemplateResult | TemplateResult[];
-        colspan?: number;
-        rowspan?: number;
-      };
-  /**
-   * 是否隐藏
-   */
-  hidden?: boolean;
-  /**
-   * 自定义渲染对象的属性，支持"."分隔取多重属性
-   */
-  field?: string;
-  /**
-   * 表头显示内容
-   */
-  label?: string;
-  /**
-   * 表头Th 内容对齐方式，默认是居中对齐
-   */
-  agileCol?: TdAgile;
-  /**
-   * Td 内容对齐方式，默认同表头对齐方式
-   */
-  agileCell?: TdAgile;
-  /**
-   * 是否支持排序
-   */
-  sortAble?: boolean;
-  /**
-   * 排序值
-   */
-  sort?: SortingEnum;
-  /**
-   * 是否可以拖动改变宽度
-   */
-  resizeAble?: boolean;
-  /**
-   * 宽度
-   */
-  width?: number | string;
-
-  /**
-   * 最小宽度
-   */
-  minWidth?: string;
-  /**
-   * 最大宽度
-   */
-  maxWidth?: string;
-  /**
-   * 是否能够拖动改变列顺序
-   */
-  canDrag?: boolean;
-
-  /**
-   * 下级th ，支持多层次嵌套
-   */
-  children?: ColumnHeaderData[];
-
-  /**列的类型 */
-  type: 'index' | 'checkbox' | 'radio';
-
-  /**
-   * 其他自定义属性
-   */
-  [key: string]: unknown;
-};
-
-/**
- * 将columnHeaderData 转化为 table 的孩子 PColumn
- * @param columns
- * @param table
- */
-export const convertHeaderDataToTableColumns = (columns: ColumnHeaderData[], table: SlTable) => {
-  const children = table.children;
-  while (children.length > 0) {
-    table.removeChild(children[0]);
-  }
-  const frag = document.createDocumentFragment();
-  const iteratorData = (
-    _parent: ColumnHeaderData | null,
-    childs: ColumnHeaderData[],
-    parentDom: Element | DocumentFragment
-  ) => {
-    childs.forEach(item => {
-      const col = new SlColumn();
-      parentDom.appendChild(col);
-      for (const key in item) {
-        if (key != 'children') {
-          (col as any)[key] = item[key];
-        } else {
-          const subChildren = item['children'];
-          if (subChildren) {
-            iteratorData(item, subChildren, col);
-          }
-        }
-      }
-    });
-  };
-  iteratorData(null, columns, frag);
-  table.appendChild(frag);
-  // table.columnData=table.childColumn;
-};
 /**
  * 定义需要table 表头 行
  */
@@ -173,11 +20,10 @@ export type RowHeader = Array<Array<SlColumn>>;
  * 清除原来的 PColumn 缓存计算的一些属性;
  * @param columns
  */
-export const clearColumnCacheData = (columns: SlColumn[]) => {
+const clearColumnCacheData = (columns: SlColumn[]) => {
   columns.forEach(item => {
-    const childColumn = [...item.childAllColumn];
+    const childColumn = item.childAllColumn;
     columnCacheData.delete(item);
-    item._cacheCanShowColumn = undefined;
     clearColumnCacheData(childColumn);
   });
 };
@@ -198,20 +44,20 @@ type ColumnCacheData = {
  * @param field 字段
  */
 export const getFieldValue = (data: any, field: String) => {
-  let array = field.split('.');
-  let obj = data;
-  let result = obj;
-  for (let k of array) {
-    result = result[k];
-    if (typeof result == 'undefined') {
-      return '';
+    let array = field.split('.');
+    let obj = data;
+    let result = obj;
+    for (let k of array) {
+      result = result[k];
+      if (typeof result == 'undefined') {
+        return '';
+      }else if(typeof result!='object'){
+        return result;
+      }
     }
-  }
-  return result;
+    return result;
 };
-export const columnCacheData = new WeakMap<SlColumn, ColumnCacheData>();
-
-export const setColumnCacheData = (column: SlColumn, key: keyof ColumnCacheData, value: any) => {
+const setColumnCacheData = (column: SlColumn, key: keyof ColumnCacheData, value: any) => {
   let data = columnCacheData.get(column);
   if (!data) {
     data = {};
@@ -220,7 +66,11 @@ export const setColumnCacheData = (column: SlColumn, key: keyof ColumnCacheData,
   data[key] = value;
 };
 const getColumnCacheDataKey = (column: SlColumn, key: keyof ColumnCacheData) => {
-  return getColumnCacheData(column)[key];
+  let data= getColumnCacheData(column);
+  if(data){
+    return data[key];
+  }
+  return '';
 };
 export const getColumnCacheData = (column: SlColumn) => {
   return columnCacheData.get(column) as ColumnCacheData;
@@ -234,6 +84,7 @@ export const getColumnCacheData = (column: SlColumn) => {
  * }
  */
 const caculateColumnData = (columns: SlColumn[]): { rows: RowHeader; tdRenderColumnData: SlColumn[] } => {
+   clearColumnCacheData(columns);
   //const colspanMap=new Map<ColumnData,number>();//每个th 跨多少列
   // const rowSpanMap=new Map<ColumnData,number>();//每个th 跨多少行
   const getColSpan = (column: SlColumn) => {

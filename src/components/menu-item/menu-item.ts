@@ -37,6 +37,9 @@ export default class SlMenuItem extends LitElement {
   /** Draws the menu item in a disabled state. */
   @property({ type: Boolean, reflect: true }) disabled = false;
 
+  /** hightlight 这个菜单项 */
+  @property({ type: Boolean, reflect: true }) highlight = false;
+
   firstUpdated() {
     this.setAttribute('role', 'menuitem');
   }
@@ -55,6 +58,7 @@ export default class SlMenuItem extends LitElement {
           class=${classMap({
             'menu-item': true,
             'menu-item--checked': this.checked,
+            'menu-item--highlight': this.highlight,
             'menu-item--disabled': this.disabled
           })}
         >

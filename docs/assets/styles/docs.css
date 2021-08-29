@@ -13,7 +13,7 @@ body {
   font-size: var(--sl-font-size-medium);
   font-weight: var(--sl-font-weight-normal);
   letter-spacing: var(--sl-letter-spacing-normal);
-  background-color: rgb(var(--sl-color-neutral-1000));
+  background-color: rgb(var(--sl-color-neutral-0));
   color: rgb(var(--sl-color-neutral-800));
   line-height: var(--sl-line-height-normal);
 }
@@ -28,7 +28,7 @@ strong {
 
 /* Sidebar */
 .sidebar {
-  background: rgb(var(--sl-color-neutral-1000));
+  background: rgb(var(--sl-color-neutral-0));
   border-right: solid 1px rgb(var(--sl-color-neutral-200));
 }
 
@@ -81,7 +81,7 @@ strong {
 
 .sidebar .search input[type='search']:focus {
   background-color: rgb(var(--sl-input-background-color-focus));
-  box-shadow: 0 0 0 var(--sl-focus-ring-width) rgb(var(--sl-color-primary-500) / var(--sl-focus-ring-alpha));
+  box-shadow: var(--sl-focus-ring);
   border-color: rgb(var(--sl-input-border-color-focus));
   color: rgb(var(--sl-input-color-focus));
   outline: none;
@@ -106,11 +106,11 @@ strong {
 }
 
 .sidebar .clear-button svg circle {
-  fill: rgb(var(--sl-color-neutral-400));
+  fill: rgb(var(--sl-color-neutral-500));
 }
 
 .sidebar .clear-button svg path {
-  stroke: rgb(var(--sl-color-neutral-1000));
+  stroke: rgb(var(--sl-color-neutral-0));
 }
 
 .sidebar .clear-button:focus {
@@ -147,13 +147,21 @@ strong {
   width: 2rem;
   height: 2rem;
   border-radius: var(--sl-border-radius-medium);
-  background-color: rgb(var(--sl-color-neutral-1000));
+  background-color: rgb(var(--sl-color-neutral-0));
   padding: 0.5rem;
+}
+
+.sidebar-toggle:hover .sidebar-toggle-button {
+  opacity: 1;
+}
+
+.sidebar-toggle:active .sidebar-toggle-button span {
+  background-color: rgb(var(--sl-color-primary-600));
 }
 
 .sidebar-toggle:focus {
   outline: none;
-  box-shadow: 0 0 0 var(--sl-focus-ring-width) rgb(var(--sl-color-primary-500) / var(--sl-focus-ring-alpha));
+  box-shadow: var(--sl-focus-ring);
 }
 
 .sidebar-toggle span:last-child {
@@ -274,7 +282,7 @@ strong {
 }
 
 .anchor span {
-  color: rgb(var(--sl-color-neutral-0));
+  color: rgb(var(--sl-color-neutral-1000));
 }
 
 .markdown-section blockquote {
@@ -519,7 +527,7 @@ strong {
 .markdown-section p.warn:before {
   content: '!';
   border-radius: 100%;
-  color: rgb(var(--sl-color-neutral-1000));
+  color: rgb(var(--sl-color-neutral-0));
   font-size: 14px;
   font-weight: bold;
   left: -12px;
@@ -727,7 +735,7 @@ body[data-page^='tokens/'] .table-wrapper td:first-child code {
 }
 
 .color-palette__swatch--border {
-  box-shadow: inset 0 0 0 1px rgb(var(--sl-color-neutral-0) / 10%);
+  box-shadow: inset 0 0 0 1px rgb(var(--sl-color-neutral-1000) / 10%);
 }
 
 @media screen and (max-width: 1200px) {

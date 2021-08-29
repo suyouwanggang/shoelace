@@ -6,9 +6,37 @@ Components with the <sl-badge type="warning" pill>Experimental</sl-badge> badge 
 
 _During the beta period, these restrictions may be relaxed in the event of a mission-critical bug._ 🐛
 
-## Next
+## 2.0.0-beta.49
 
-This release improves theming by offering both light and dark themes that can be used autonomously. It also adds a variety of new color primitives and changes the way color tokens are consumed. Previously, color tokens were in hexidecimal format. Now, Shoelace now uses an `R G B` format that requires you to use the `rgb()` function in your CSS.
+This release changes the way focus states are applied to elements. In browsers that support [`:focus-visible`](https://developer.mozilla.org/en-US/docs/Web/CSS/:focus-visible), it will be used. In unsupportive browsers ([currently only Safari](https://caniuse.com/mdn-css_selectors_focus-visible)), `:focus` will be used instead. This means the browser will determine whether a focus ring should be shown based on how the user interacts with the page.
+
+This release also fixes a critical bug in the color scale where `--sl-color-neutral-0` and `--sl-color-neutral-1000` were reversed.
+
+- 🚨 BREAKING: fixed a bug where `--sl-color-neutral-0` and `--sl-color-neutral-1000` were inverted (swap them to update)
+- 🚨 BREAKING: removed the `no-fieldset` property from `sl-radio-group` (fieldsets are now hidden by default; use `fieldset` to show them)
+- 🚨 BREAKING: removed `--focus-ring` custom property from `sl-input`, `sl-select`, `sl-tab` for consistency with other form controls
+- Added `--swatch-size` custom property to `sl-color-picker`
+- Added `date` to `sl-input` as a supported `type`
+- Added the `--sl-focus-ring` design token for a more convenient way to apply focus ring styles
+- Adjusted elevation tokens to use neutral in light mode and black in dark mode
+- Adjusted `--sl-overlay-background-color` in dark theme to be black instead of gray
+- Fixed a bug in `sl-color-picker` where the opacity slider wasn't showing the current color
+- Fixed a bug where Edge in Windows would show the native password toggle next to the custom password toggle [#508](https://github.com/shoelace-style/shoelace/issues/508)
+- Fixed a bug where pressing up/down in `sl-tab-group` didn't select the next/previous tab in vertical placements
+- Improved size of `sl-color-picker`
+- Improved icon contrast in `sl-input`
+- Improved contrast of `sl-switch`
+- Improved `:focus-visible` behavior in many components
+- Removed elevation from `sl-color-picker` when rendered inline
+- Removed custom `:focus-visible` logic in favor of a directive that outputs `:focus-visible` or `:focus` depending on browser support
+- Updated to Lit 2.0.0-rc.3
+- Updated to lit-html 2.0.0-rc.4
+
+## 2.0.0-beta.48
+
+This release improves theming by offering both light and dark themes that can be used autonomously. It also improves contrast in most components, adds a variety of new color primitives, and changes the way color tokens are consumed. 
+
+Previously, color tokens were in hexidecimal format. Now, Shoelace now uses an `R G B` format that requires you to use the `rgb()` function in your CSS.
 
 ```css
 .example {
@@ -35,15 +63,24 @@ This change applies to all design tokens that implement a color. Refer to the [c
 - 🚨 BREAKING: removed `--sl-color-info-*` design token (use `--sl-color-neutral-*` instead)
 - 🚨 BREAKING: renamed `dist/themes/base.css` to `dist/themes/light.css`
 - 🚨 BREAKING: removed `--sl-focus-ring-color-primary` tokens (use color tokens and `--sl-focus-ring-width|alpha` instead)
+- 🚨 BREAKING: removed `--tabs-border-color` from `sl-tab-group` (use `--track-color` instead)
+- 🚨 BREAKING: changed the default value for `effect` to `none` in `sl-skeleton` (use `sheen` to restore the original behavior)
 - Added new color primitives to the base set of design tokens
 - Added `--sl-color-*-950` swatches to all color palettes
 - Added a console error that appears when menu items have duplicate values in `sl-select`
 - Added CodePen link to code examples
+- Added `prefix` and `suffix` slots to `sl-select` [#501](https://github.com/shoelace-style/shoelace/pull/501)
+- Added `--indicator-color` custom property to `sl-tab-group`
 - Exposed base and dark stylesheets so they can be imported via JavaScript [#438](https://github.com/shoelace-style/shoelace/issues/438)
 - Fixed a bug in `sl-menu` where pressing <kbd>Enter</kbd> after using type to select would result in the wrong value
 - Fixed a bug in `sl-radio-group` where clicking a radio button would cause the wrong control to be focused
+- Fixed a bug in `sl-button` and `sl-icon-button` where an unintended `ref` attribute was present
+- Fixed a bug in the focus-visible utility that failed to respond to mouseup events
+- Fixed a bug where clicking on a menu item would persist its hover/focus state
+- Fixed a bug in `sl-select` where it would erroneously intercept important keyboard shortcuts [#504](https://github.com/shoelace-style/shoelace/issues/504)
+- Improved contrast throughout all components [#128](https://github.com/shoelace-style/shoelace/issues/128)
 - Refactored thumb position logic in `sl-switch` [#490](https://github.com/shoelace-style/shoelace/pull/490)
-- Reworked the dark theme to use an inverted token approach instead of light DOM selectors
+- Reworked the dark theme to use an inverted + shifted design token approach instead of component-specific selectors
 
 ## 2.0.0-beta.47
 

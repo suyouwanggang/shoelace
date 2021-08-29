@@ -1,7 +1,9 @@
-import { LitElement, PropertyValues } from 'lit';
+import { html, LitElement, nothing, PropertyValues, TemplateResult } from 'lit';
+import { classMap } from 'lit-html/directives/class-map';
+import { styleMap } from 'lit-html/directives/style-map';
 import { customElement, property } from 'lit/decorators.js';
 import SlTable from '../table/table';
-import { renderCellInteface, renderColInteface, SortingEnum, TdAgile } from '../table/tableHelper';
+import {  getColumnCacheData, getFieldValue, isNumberWidth, SortingEnum, TdAgile } from '../table/tableHelper';
 
 /**
  * @since 2.0
@@ -11,15 +13,126 @@ import { renderCellInteface, renderColInteface, SortingEnum, TdAgile } from '../
  */
 @customElement('sl-column')
 export default class SlColumn extends LitElement {
-  /**表头渲染
-   * 签名<br>:(this:SlColumn,table:SlTable):TemplateResult<1>
+  /*
+   * 渲染表头 TH 
+   * @param column 表头定义
+   * @param fixed  是否固定
+   * @param table  表格对象
+   * @returns 
    */
-  @property({ attribute: false, type: Object }) renderCol: renderColInteface;
+  public static  renderThColTemplate=(column:SlColumn,fixed:boolean=false,table:SlTable)=>{
+      let styleObject: any = {};
+      const cacheData = getColumnCacheData(column);
+      if (!fixed && cacheData.colspan == 1) {
+        if (column.minWidth) {
+          const isNumber = isNumberWidth(column.minWidth);
+          styleObject['min-width'] = column.minWidth + (isNumber ? 'px' : '');
+          if (!column.width) {
+            styleObject['width'] = column.minWidth + (isNumber ? 'px' : '');
+          }
+        }
+        if (column.width) {
+          const isNumber = isNumberWidth(column.width);
+          styleObject['width'] = column.width + (isNumber ? 'px' : '');
+          if (!column.minWidth) {
+            styleObject['min-width'] = styleObject['width'];
+          }
+        }
+        if (column.maxWidth) {
+          const isNumber = isNumberWidth(column.maxWidth);
+          styleObject['max-width'] = column.maxWidth + (isNumber ? 'px' : '');
+        }
+      };
+      const styleInfo=table.customRenderCellHeadStyle?table.customRenderCellHeadStyle(column):null;
+      if(styleInfo){
+        if(typeof styleInfo =='object'){
+          styleObject={...styleObject,styleInfo};
+        }
+      }
+      let classInfo=table.customRenderCellHeadClassMap?table.customRenderCellHeadClassMap(column):null;
+      let classObj:any={};
+      if(classInfo!=null){
+        if(Array.isArray(classInfo)){
+           classInfo.forEach(item=>item.trim()!=''?classObj[item.trim()]=true:'');
+        }else if(typeof classInfo =='string'){
+           classInfo.split(' ').forEach(item=>item.trim()!=''?classObj[item.trim()]=true:'');
+        }else{
+           classObj={...classInfo};
+        }
+      };
+      
+      return html`<th
+      .vAlign=${column.colvAlign}
+      .align=${column.colAlign}
+       class=${classMap(classObj)}
+       style=${styleMap(styleObject)}
+       colIndex=${cacheData.colIndex as number+''}
+      .rowSpan=${cacheData.rowspan as number}
+      .colSpan=${cacheData.colspan as number}
+      draggable=${column.canDrag ? 'true' : 'false'}
+    >
+      <div class="thWrap">
+        ${column.renderCol ? html`${column.renderCol(column)}` : html`<span>${column.label}</span>`}
+      </div>
+    </th>`;
+  }
 
-  /**对应TD渲染 ,接收表格rowData,index来渲染 此对应的TD
-   * 签名<br>:(this:SlColumn,rowData:any,index:number):TemplateResult<1>|{template:TemplateResult<1>,colspan:number,rowSpan:number}
+  private static _renderCellData(rowData: any, rowDataIndex: number, col: SlColumn) {
+    let colResult: any;
+    if (col.renderCell) {
+      return col.renderCell(col,rowData, rowDataIndex);
+    } else {
+      let fieldValue = getFieldValue(rowData, col.field);
+      colResult = html`<div class="tdWrap">${fieldValue}</div>`;
+    }
+    return colResult;
+  }
+
+  /*
+   * 渲染 tbody Td Template
+   * @param column  列定义
+   * @param rowData 行所对应数据源
+   * @param rowDataIndex  行index,从0 开始
+   * @param table  表格对象
    */
-  @property({ attribute: false, type: Object }) renderCell: renderCellInteface;
+  public static renderTdCellTemplate=(column:SlColumn,rowData:any,rowDataIndex:number,table:SlTable)=>{
+    const colData = getColumnCacheData(column);
+    let tdResult = SlColumn._renderCellData(rowData, rowDataIndex, column);
+    if (tdResult==undefined|| tdResult == nothing || tdResult.rowspan == 0 || tdResult.colspan == 0) {
+      return nothing;//标识此td 不进行渲染
+    } else {
+      const styleInfo=table.customRenderCellStyle?table.customRenderCellStyle(column,rowData,rowDataIndex):{};
+      let classInfo=table.customRenderCellClassMap?table.customRenderCellClassMap(column,rowData,rowDataIndex):null;
+      let classObj:any={};
+      if(classInfo!=null){
+        if(Array.isArray(classInfo)){
+           classInfo.forEach(item=>item.trim()!=''?classObj[item.trim()]=true:'');
+        }else if(typeof classInfo =='string'){
+           classInfo.split(' ').forEach(item=>item.trim()!=''?classObj[item.trim()]=true:'');
+        }else{
+           classObj={...classInfo};
+        }
+      };
+      return html`<td
+        colindex=${colData.colIndex + ''}
+        field=${column.field}
+        .column=${column}
+        .align=${column.align}
+        .vAlign=${column.vAlign}
+        style=${styleMap(styleInfo)}
+        class=${classMap(classObj)}
+        colspan=${tdResult.colspan ? tdResult.colspan : 1}
+        rowspan=${tdResult.rowspan ? tdResult.rowspan : 1}
+      >
+        ${tdResult.template ? html`${tdResult.template}`: html`${tdResult}`}
+      </td>`;
+    };
+  }
+  /**表头自定义渲染(this:SlColumn,table:SlTable):TemplateResult<1>*/
+  @property({ attribute: false, type: Object }) renderCol: (column: SlColumn)=>TemplateResult<1>;
+
+  /**对应TD渲染 ,接收表格rowData,index来渲染 此对应的TD*/
+  @property({ attribute: false, type: Object }) renderCell: (column:SlColumn, rowData: any, index: number)=>TemplateResult<1>|{template:TemplateResult<1>,colspan:number,rowspan:number};
 
   /**是否隐藏此列 */
   @property({ type: Boolean, reflect: true, attribute: true })
@@ -33,17 +146,21 @@ export default class SlColumn extends LitElement {
   @property({ type: String, reflect: true, attribute: true })
   label: string;
 
-  /** 列所对应的TH 的水平对齐方式*/
-  @property({ type: String, reflect: true, attribute: 'agile-col' })
-  agileCol: TdAgile = 'center';
+  /** 列所对应表头TH 的水平对齐方式*/
+  @property({ type: String, reflect: true, attribute: 'col-align' })
+  colAlign: 'top' | 'middle' | 'bottom' = 'middle';
+
+   /** 列所对应表头TH 的垂直对齐方式*/
+   @property({ type: String, reflect: true, attribute: 'col-valign' })
+   colvAlign: TdAgile = 'center';
 
   /** 列所对应的TD 的水平对齐方式*/
-  @property({ type: String, reflect: true, attribute: 'agile-cell' })
-  agileCell: TdAgile = 'left';
+  @property({ type: String, reflect: true, attribute: 'align' })
+  align: TdAgile = 'left';
 
   /** 列所对应的TD 的水平对齐方式*/
-  @property({ type: String, reflect: true, attribute: 'vagile-cell' })
-  vAigleCell: 'top' | 'middle' | 'bottom' = 'middle';
+  @property({ type: String, reflect: true, attribute: 'valign' })
+  vAlign: 'top' | 'middle' | 'bottom' = 'middle';
 
   /** 排序，是升序，还是降序*/
   @property({ type: String, reflect: true, attribute: true })
@@ -77,21 +194,28 @@ export default class SlColumn extends LitElement {
   @property({ type: String, reflect: true, attribute: 'drag-accept' })
   dragAccept: string;
 
+  
+  /**顺序:越小越靠前 */
+  @property({ type: Number, reflect: true, attribute: 'order' })
+  order=0;
+
   /**列的类型 */
   type: 'index' | 'checkbox' | 'radio';
 
-  _cacheCanShowColumn?: SlColumn[];
+  
   /**
-   * 缓存 子孩子
+   *  所有hidden!=false直接子column,并且按照order排序了
    */
   get childCanShowColumn(): SlColumn[] {
-    if (!this._cacheCanShowColumn) {
-      this._cacheCanShowColumn = Array.from(this.children).filter((item: Element) => {
-        return item instanceof SlColumn && item.hidden != true;
-      }) as SlColumn[];
-    }
-    return this._cacheCanShowColumn;
+    let children= Array.from(this.children).filter((item: Element) => {
+      return item instanceof SlColumn && item.hidden != true;
+    }) as SlColumn[];
+    return children.sort((item1,item2)=>item1.order-item2.order);
+    
   }
+  /**
+   * 所有直接子column
+   */
   get childAllColumn() {
     return Array.from(this.children).filter((item: Element) => {
       return item instanceof SlColumn;
