@@ -8,12 +8,12 @@ import dark from 'vditor/dist/css/content-theme/dark.css';
 import light from 'vditor/dist/css/content-theme/light.css';
 import wechat from 'vditor/dist/css/content-theme/wechat.css';
 
-const mapCssMap={
+const mapCssMap = {
   ant,
   dark,
   light,
   wechat
-}
+};
 /**
  * @since 2.0
  * @status experimental
@@ -40,16 +40,16 @@ export default class SlMarkdownElement extends LitElement {
   @property({ type: String }) markdown: string;
 
   /** theme name for  prismjs  */
-  @property({ type: String, attribute: false, reflect: true }) theme: 'light' | 'dark' | 'ant'|'wechat' = 'ant';
+  @property({ type: String, attribute: false, reflect: true }) theme: 'light' | 'dark' | 'ant' | 'wechat' = 'ant';
 
   @state() _themeCss: string;
 
   @watch('theme')
   themeChange() {
-    if(mapCssMap[this.theme]){
-      this._themeCss=mapCssMap[this.theme];
-    }else{
-      this._themeCss='';
+    if (mapCssMap[this.theme]) {
+      this._themeCss = mapCssMap[this.theme];
+    } else {
+      this._themeCss = '';
     }
   }
   firstUpdated(map: PropertyValues) {
@@ -57,7 +57,7 @@ export default class SlMarkdownElement extends LitElement {
   }
   update(map: PropertyValues) {
     super.update(map);
-    if ( this.mdsrc &&(map.has('mdsrc') ||map.has('_themeCss')|| map.has('theme'))) {
+    if (this.mdsrc && (map.has('mdsrc') || map.has('_themeCss') || map.has('theme'))) {
       this.fetchAsText(this.mdsrc).then(markdown => {
         this.markdown = markdown;
         Vditor.md2html(markdown).then(res => {
@@ -91,16 +91,19 @@ export default class SlMarkdownElement extends LitElement {
       mode: this.fetchMode
     }).then(res => res.text());
   }
-  
+
   @query('#base')
   private baseDiv: HTMLDivElement;
-  
-  protected createRenderRoot(){
+
+  protected createRenderRoot() {
     return this;
   }
 
   render() {
-    return html`<style>${this._themeCss} </style><div id="base"></div>`;
+    return html`<style>
+        ${this._themeCss}
+      </style>
+      <div id="base"></div>`;
   }
 }
 
