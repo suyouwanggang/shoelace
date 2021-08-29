@@ -6,10 +6,12 @@ import { customStyle } from '../../internal/customStyle';
 import { emit } from '../../internal/event';
 import { watchProps } from '../../internal/watchProps';
 import { getCssValue } from '../../utilities/common';
+import { getResouceValue } from '../../utilities/getResouce';
 import { addResizeHander, DisposeObject } from '../../utilities/resize.util';
 import SlColumn from '../column/column';
 import styles from './table.styles';
 import caculateColumnData, { RowHeader } from './tableHelper';
+
 /**
  * @since 2.0
  * @status experimental
@@ -29,6 +31,7 @@ import caculateColumnData, { RowHeader } from './tableHelper';
 @customElement('sl-table')
 export default class SlTable extends LitElement {
   static styles = styles;
+
 
   /** td size*/
   @property({ type: String, attribute: false }) size: 'small' | 'larger' | 'default' = 'default';
@@ -113,6 +116,7 @@ export default class SlTable extends LitElement {
           (thFixedArray[i] as HTMLTableHeaderCellElement).style.maxWidth = width;
         }
         this.tableHeadDiv.style.height = parseInt(getCssValue(this.thead, 'height')) + 'px';
+        this.watchFixedColumnsChange();
         this.isAsyncTableWidth = false;
       });
     }
@@ -131,8 +135,74 @@ export default class SlTable extends LitElement {
     super.connectedCallback();
     this._resizeResult?.dispose();
   }
+  private _renderNoDataTemplate(){
+    if(this.innerDataSource!=undefined){
+       return  html`<slot @slotchange=${this.columnChangeHanlder} name='no-data'>${getResouceValue('noData')}</slot>`;
+    };
+    return ``;
+  }
+  /** 设置表格 列固定，例如：fixedColumns="2",则为前两列固定，"2,2" 则为前两列，后两列固定，"0,2" 则为最后两列固定 */
+  @property({attribute:false})
+  fixedColumns:string|Array<Number>;
+
+  private caculateFixedColumnStyle(col:SlColumn,tableRect:DOMRect, fixedLeft:boolean){
+    let td=this.table.querySelector(`td[uniqueid=${col.uniqueID}]`);
+    if(!td){
+      td=this.table.querySelector(`th[uniqueid=${col.uniqueID}]`);
+    }
+    if(td){
+      return `
+          th[uniqueid=${col.uniqueID}],
+          td[uniqueid=${col.uniqueID}]{
+            position:sticky;z-index:1; 
+            ${fixedLeft?`left:${td.getBoundingClientRect().left-tableRect.left}px;`:''}
+            ${!fixedLeft?`right:${tableRect.right-td.getBoundingClientRect().right}px;`:''}
+          }
+        `
+    }
+    return '';
+  }
+  @watchProps(['fixedColumns'],{waitUntilFirstUpdate:true})
+  watchFixedColumnsChange(){
+     this.fixedStyleElement.textContent='';
+     let style='';
+     if(this.fixedColumns){
+       let array=Array.isArray(this.fixedColumns)?this.fixedColumns: (this.fixedColumns as string).split(",");
+       let left=parseInt(''+array[0]);
+       let right=array.length>1?parseInt(''+array[1]):0;
+       let table=this.table;
+       let tableRect=table.getBoundingClientRect();
+       let columnSize=this.tdRenderColumns.length;
+       if(!isNaN(left)){
+        for(let i=0,j=Math.min(left,columnSize);i<j;i++){
+          let col=this.tdRenderColumns[i];
+           style+=this.caculateFixedColumnStyle(col,tableRect,true);
+           while(col.parentElement!=null&&col.parentElement!=this&&col.parentElement?.tagName.toLowerCase()=='sl-column'){
+               style+=this.caculateFixedColumnStyle(col.parentElement as SlColumn,tableRect,true);
+           }
+        }
+       }
+       if(!isNaN(right)){
+        for(let i=columnSize-1,j=0;j<right&&i>=0;){
+          let col=this.tdRenderColumns[i];
+          style+=this.caculateFixedColumnStyle(col,tableRect,false);
+           while(col.parentElement!=null&&col.parentElement!=this&&col.parentElement?.tagName.toLowerCase()=='sl-column'){
+               style+=this.caculateFixedColumnStyle(col.parentElement as SlColumn,tableRect,false);
+           }
+           i--;
+           j++;
+        }
+      }
+     }
+     this.fixedStyleElement.textContent=style;
+  }
+  
+  @query("#styleID",true)
+  private fixedStyleElement:HTMLStyleElement;
   render() {
-    return html`<div class="sl-table-base" part="base" size=${this.size}>
+    return html`
+    <style id="styleID"></style>
+    <div class="sl-table-base" part="base" size=${this.size}>
       <div
         class="sl-table-base-scroll-div"
         style=${this.tableHeight ? `height:calc( ${this.tableHeight} )` : ''}
@@ -152,6 +222,7 @@ export default class SlTable extends LitElement {
             ${this._renderDataSourceRows()}
           </tbody>
         </table>
+        ${this._renderNoDataTemplate()}
         <!--渲染tableHeader 区 -->
         <div part="table-header-div">
           <table part="fixed-thead-table">

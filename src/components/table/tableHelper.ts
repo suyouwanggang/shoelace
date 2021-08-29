@@ -75,6 +75,7 @@ const getColumnCacheDataKey = (column: SlColumn, key: keyof ColumnCacheData) => 
 export const getColumnCacheData = (column: SlColumn) => {
   return columnCacheData.get(column) as ColumnCacheData;
 };
+
 /**
  * 将表头排版布局，计算出 有多少行，每个单元格跨多少行，多少列，用于渲染表头，取colspan=4 的columnData来渲染tbody TD
  * @param columns 表头

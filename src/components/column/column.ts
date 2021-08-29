@@ -4,7 +4,7 @@ import { styleMap } from 'lit-html/directives/style-map';
 import { customElement, property } from 'lit/decorators.js';
 import SlTable from '../table/table';
 import { getColumnCacheData, getFieldValue, isNumberWidth, SortingEnum, TdAgile } from '../table/tableHelper';
-
+let columnUniqueID=0;
 /**
  * @since 2.0
  * @status experimental
@@ -62,6 +62,7 @@ export default class SlColumn extends LitElement {
     }
 
     return html`<th
+       uniqueID=${column.uniqueID}
       .vAlign=${column.colvAlign}
       .align=${column.colAlign}
       class=${classMap(classObj)}
@@ -117,6 +118,7 @@ export default class SlColumn extends LitElement {
       }
       return html`<td
         colindex=${colData.colIndex + ''}
+        uniqueID=${column.uniqueID}
         field=${column.field}
         .column=${column}
         .align=${column.align}
@@ -191,6 +193,10 @@ export default class SlColumn extends LitElement {
   /**最大列宽 */
   @property({ type: String, reflect: true, attribute: 'max-width' })
   maxWidth: string;
+
+  /**初始化自动生成唯一ID */
+  @property({type:String,reflect: true,attribute:'uniqueID'})
+  uniqueID: string='unique_'+columnUniqueID++;
 
   /**是否允许拖动列位置 */
   @property({ type: String, reflect: true, attribute: 'can-drag' })

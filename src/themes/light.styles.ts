@@ -560,5 +560,8 @@ export default css`
     --sl-z-index-dropdown: 900;
     --sl-z-index-toast: 950;
     --sl-z-index-tooltip: 1000;
+
+    /***table 背景色 */
+    --sl-table-background-color: 255 255 255;
   }
 `;

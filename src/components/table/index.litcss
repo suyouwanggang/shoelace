@@ -1,22 +1,27 @@
 :host{
     display: block;
-}
-.sl-table-base {
-    position: relative;
-    overflow: hidden;
     //必须设置为相对，此时table-header-div 绝对，竖直位置不会移动
     --sl-th-padding-size:12px 8px;
-    --sl-table-background-color: 255 255 255;
+    
     --sl-table-border-color:var(--sl-color-netural-200);
     --sl-table-header-bg-color:var(--sl-color-neutral-100);
     
     --sl-table-scroll-barWidth:16px;
+}
+td,th{
+    background-color: rgb(var(--sl-table-background-color));
+}
+.sl-table-base {
+    position: relative;
+    overflow: hidden;
+    
     &[size=small]{
         --sl-th-padding-size:8px;
     }
     &[size=larger]{
         --sl-th-padding-size:16px;
     }
+   
     //滚动容器（主要table）
     &-scroll-div{
         overflow: auto;
@@ -27,7 +32,7 @@
 
         //高亮行颜色
         .stripe{
-            background-color: rgb(var(--sl-color-neutral-50));
+              background-color: rgb(var(--sl-color-neutral-50));
         }
         .cell{
             padding:var(--sl-th-padding-size);
@@ -40,13 +45,13 @@
             border-right: none;
         }
         &[hover-able] {
-            table tbody tr:hover{
+            table tbody tr:hover td{
                 @extend .stripe;
             }
         }
         &[stripe]{
             //奇数的行 斑马线
-            tbody tr:nth-child(odd) { 
+            tbody tr:nth-child(odd) td{ 
                 @extend .stripe;
             } 
         }
@@ -64,9 +69,6 @@
         table{
             border-collapse: collapse;
             border-spacing: 0;
-            /** 背景色 **/
-            background-color: rgb(var(--sl-table-background-color));
-            
             td {
                 @extend .cell;
                 @extend .tdBorder;
@@ -74,11 +76,8 @@
             th{
                 @extend .cell;
                 @extend .tdBorder;
-               
-                position: relative;
                 font-weight: normal;
                 background-color: rgb(var(--sl-table-header-bg-color));
-               
                 border-right: solid 1px rgb(var(--sl-color-neutral-200));
                 &:last-child{
                     border-right:none;
@@ -88,6 +87,7 @@
         }
     }
     div[part=table-header-div]{
+        z-index: 1;
         overflow: hidden;
         position: absolute;
         top:0px;
