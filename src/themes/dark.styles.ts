@@ -562,6 +562,6 @@ export default css`
     /***
     table background-color
     */
-     --sl-table-background-color: 0,0,0
+    --sl-table-background-color: 0, 0, 0;
   }
 `;
