@@ -123,7 +123,7 @@ export default class SlOrgNode extends LitElement {
         const collapsible = typeof subNode.collapsible == 'undefined' ? true : subNode.collapsible;
         const classObj = {
           'is-leaf': !(subNode.children && subNode.children.length > 0),
-          'only-one':child.length==1,
+          'only-one': child.length == 1,
           'org-tree-node': true
         };
         result.push(html`<sl-org-node

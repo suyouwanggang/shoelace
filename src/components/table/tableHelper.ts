@@ -44,18 +44,18 @@ type ColumnCacheData = {
  * @param field 字段
  */
 export const getFieldValue = (data: any, field: String) => {
-    let array = field.split('.');
-    let obj = data;
-    let result = obj;
-    for (let k of array) {
-      result = result[k];
-      if (typeof result == 'undefined') {
-        return '';
-      }else if(typeof result!='object'){
-        return result;
-      }
+  let array = field.split('.');
+  let obj = data;
+  let result = obj;
+  for (let k of array) {
+    result = result[k];
+    if (typeof result == 'undefined') {
+      return '';
+    } else if (typeof result != 'object') {
+      return result;
     }
-    return result;
+  }
+  return result;
 };
 const setColumnCacheData = (column: SlColumn, key: keyof ColumnCacheData, value: any) => {
   let data = columnCacheData.get(column);
@@ -66,8 +66,8 @@ const setColumnCacheData = (column: SlColumn, key: keyof ColumnCacheData, value:
   data[key] = value;
 };
 const getColumnCacheDataKey = (column: SlColumn, key: keyof ColumnCacheData) => {
-  let data= getColumnCacheData(column);
-  if(data){
+  let data = getColumnCacheData(column);
+  if (data) {
     return data[key];
   }
   return '';
@@ -84,7 +84,7 @@ export const getColumnCacheData = (column: SlColumn) => {
  * }
  */
 const caculateColumnData = (columns: SlColumn[]): { rows: RowHeader; tdRenderColumnData: SlColumn[] } => {
-   clearColumnCacheData(columns);
+  clearColumnCacheData(columns);
   //const colspanMap=new Map<ColumnData,number>();//每个th 跨多少列
   // const rowSpanMap=new Map<ColumnData,number>();//每个th 跨多少行
   const getColSpan = (column: SlColumn) => {

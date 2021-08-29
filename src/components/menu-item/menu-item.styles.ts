@@ -32,10 +32,10 @@ export default css`
     color: rgb(var(--sl-color-neutral-400));
     cursor: not-allowed;
   }
-  .menu-item.menu-item--highlight:not(.menu-item--disabled){
+  .menu-item.menu-item--highlight:not(.menu-item--disabled) {
     outline: none;
     background-color: rgb(var(--sl-color-primary-600));
-    color: rgb(var(--sl-color-neutral-0))
+    color: rgb(var(--sl-color-neutral-0));
   }
   .menu-item .menu-item__label {
     flex: 1 1 auto;
@@ -64,8 +64,8 @@ export default css`
   :host(:focus) {
     outline: none;
   }
-  .ripple-wrap{
-    display:block;
+  .ripple-wrap {
+    display: block;
   }
   :host(:hover:not([aria-disabled='true'])) .menu-item,
   :host(${focusVisibleSelector}:not(.sl-focus-invisible):not([aria-disabled='true'])) .menu-item {
@@ -83,7 +83,7 @@ export default css`
     align-items: center;
     font-size: inherit;
   }
- 
+
   .menu-item--checked .menu-item__check {
     visibility: visible;
   }

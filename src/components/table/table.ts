@@ -53,11 +53,11 @@ export default class SlTable extends LitElement {
   table: HTMLTableElement;
 
   @state()
-  private innerDataSource:unknown[];
+  private innerDataSource: unknown[];
 
   @watchProps(['dataSource'])
-  watchDataSourceChange(){
-    this.innerDataSource=this.dataSource;
+  watchDataSourceChange() {
+    this.innerDataSource = this.dataSource;
   }
 
   /**
@@ -94,11 +94,12 @@ export default class SlTable extends LitElement {
     this.asynTableHeaderWidth();
   }
   /** 标识是否在进行tableAsync 同步 */
-  private isAsyncTableWidth=false;
+  private isAsyncTableWidth = false;
   asynTableHeaderWidth() {
-    if(!this.isAsyncTableWidth){
-      this.isAsyncTableWidth=true;
-      Promise.resolve().then(()=>{ //改造，多次请求，值执行一次重新计算
+    if (!this.isAsyncTableWidth) {
+      this.isAsyncTableWidth = true;
+      Promise.resolve().then(() => {
+        //改造，多次请求，值执行一次重新计算
         const tablecurrentWidth = parseInt(getCssValue(this.table, 'width'));
         this.tableHeadDiv.style.width = Math.min(this.scrollDiv.clientWidth, tablecurrentWidth) + 'px';
         //注意此处必须是 scroll_div.clientWidth，tableWidth 最小值！
@@ -112,21 +113,21 @@ export default class SlTable extends LitElement {
           (thFixedArray[i] as HTMLTableHeaderCellElement).style.maxWidth = width;
         }
         this.tableHeadDiv.style.height = parseInt(getCssValue(this.thead, 'height')) + 'px';
-        this.isAsyncTableWidth=false;
-      })
+        this.isAsyncTableWidth = false;
+      });
     }
   }
-  private _resizeResult:DisposeObject;
+  private _resizeResult: DisposeObject;
   firstUpdated(map: PropertyValues) {
     super.firstUpdated(map);
     this.columnChangeHanlder();
-    this._resizeResult=addResizeHander([this, this.table], () => {
+    this._resizeResult = addResizeHander([this, this.table], () => {
       this.asynTableHeaderWidth();
       this.handerScroll();
       emit(this, 'sl-table-resize');
     });
   }
-  connectedCallback(){
+  connectedCallback() {
     super.connectedCallback();
     this._resizeResult?.dispose();
   }
@@ -165,47 +166,44 @@ export default class SlTable extends LitElement {
   }
   /**渲染表头行 theader tr th */
   private _renderTheadRows(fixed: boolean) {
-    const table=this;
+    const table = this;
     const trTemplates = (rowColumn: SlColumn[]) => {
       return html`<tr .columns=${rowColumn}>
-        ${rowColumn.map(col =>SlColumn.renderThColTemplate(col,fixed,table))}
+        ${rowColumn.map(col => SlColumn.renderThColTemplate(col, fixed, table))}
       </tr>`;
     };
     return this.theadRows.map(items => trTemplates(items));
   }
 
-  @property({type:Object})
+  @property({ type: Object })
   /**自定义 渲染tbody td的样式 */
-  customRenderCellStyle?:(col:SlColumn,rowData:any,rowIndex:number)=>StyleInfo;
-  
-  @property({type:Object})
+  customRenderCellStyle?: (col: SlColumn, rowData: any, rowIndex: number) => StyleInfo;
+
+  @property({ type: Object })
   /**自定义 渲染tbody td的class  */
-  customRenderCellClassMap?:(col:SlColumn,rowData:any,rowIndex:number)=>ClassInfo|string|string[];
+  customRenderCellClassMap?: (col: SlColumn, rowData: any, rowIndex: number) => ClassInfo | string | string[];
 
- 
-  @property({type:Object})
+  @property({ type: Object })
   /**自定义 渲染tHeader th的样式 */
-  customRenderCellHeadStyle?:(col:SlColumn)=>StyleInfo;
+  customRenderCellHeadStyle?: (col: SlColumn) => StyleInfo;
 
- 
-  @property({type:Object})
+  @property({ type: Object })
   /**自定义 渲染tbody th的class  */
-  customRenderCellHeadClassMap?:(col:SlColumn)=>ClassInfo|string|string[];
+  customRenderCellHeadClassMap?: (col: SlColumn) => ClassInfo | string | string[];
 
-
-  @property({type:Object})
+  @property({ type: Object })
   /**自定义 渲染tbody tr的样式 */
-  customRenderRowStyle?:(rowData:any,rowIndex:number)=>StyleInfo;
+  customRenderRowStyle?: (rowData: any, rowIndex: number) => StyleInfo;
 
-  @property({type:Object})
+  @property({ type: Object })
   /**自定义 渲染tHeader tr的样式 */
-  customRenderRowClassMap?:(rowData:any,rowIndex:number)=>ClassInfo|string|string[];
+  customRenderRowClassMap?: (rowData: any, rowIndex: number) => ClassInfo | string | string[];
 
   private _renderDataSourceRows() {
-    const table=this;
+    const table = this;
     const rowList = [];
     const dataSource = this.innerDataSource;
-    const cellTdArray=this.tdRenderColumns;
+    const cellTdArray = this.tdRenderColumns;
     if (dataSource) {
       for (let index = 0, j = dataSource.length; index < j; index++) {
         //行循环
@@ -214,47 +212,46 @@ export default class SlTable extends LitElement {
         for (let x = 0, y = cellTdArray.length; x < y; x++) {
           //TD循环
           let col = cellTdArray[x];
-          let tdResult=SlColumn.renderTdCellTemplate(col,rowData,index,table);
-          if(tdResult!=nothing&&tdResult!=null&&tdResult!=undefined){
+          let tdResult = SlColumn.renderTdCellTemplate(col, rowData, index, table);
+          if (tdResult != nothing && tdResult != null && tdResult != undefined) {
             rowHtml.push(tdResult);
           }
         }
-        if(rowHtml.length>0){
-            let trStyle=this.customRenderRowStyle?this.customRenderRowStyle(rowData,index):{};
-            let trClassInfo=this.customRenderRowClassMap?this.customRenderRowClassMap(rowData,index):null;
-            let trClassObject:any={};
-            if(trClassInfo){
-              if(Array.isArray(trClassInfo)){
-                  trClassInfo.forEach(item=>item.trim()!=''?trClassObject[item.trim()]=true:'');
-              }else if(typeof trClassInfo =='string'){
-                 trClassInfo.split(' ').forEach(item=>item.trim()!=''?trClassObject[item.trim()]=true:'');
-              }else{
-                 trClassObject={...trClassInfo};
-              }
-            };
-            rowList.push(
-              html`<tr .data=${rowData}
-                   style=${styleMap(trStyle)} class=${classMap(trClassObject)} >
-                    ${rowHtml}
-              </tr>`
-            );
+        if (rowHtml.length > 0) {
+          let trStyle = this.customRenderRowStyle ? this.customRenderRowStyle(rowData, index) : {};
+          let trClassInfo = this.customRenderRowClassMap ? this.customRenderRowClassMap(rowData, index) : null;
+          let trClassObject: any = {};
+          if (trClassInfo) {
+            if (Array.isArray(trClassInfo)) {
+              trClassInfo.forEach(item => (item.trim() != '' ? (trClassObject[item.trim()] = true) : ''));
+            } else if (typeof trClassInfo == 'string') {
+              trClassInfo.split(' ').forEach(item => (item.trim() != '' ? (trClassObject[item.trim()] = true) : ''));
+            } else {
+              trClassObject = { ...trClassInfo };
+            }
+          }
+          rowList.push(
+            html`<tr .data=${rowData} style=${styleMap(trStyle)} class=${classMap(trClassObject)}>
+              ${rowHtml}
+            </tr>`
+          );
         }
       }
     }
     return rowList;
   }
   get allSubColumns(): SlColumn[] {
-    let columns= Array.from(this.children).filter((item: Element) => {
+    let columns = Array.from(this.children).filter((item: Element) => {
       return item instanceof SlColumn;
     }) as SlColumn[];
-    return columns.sort((item1,item2)=>item1.order-item2.order);
+    return columns.sort((item1, item2) => item1.order - item2.order);
   }
 
   get canShowColumns(): SlColumn[] {
-    let columns= Array.from(this.children).filter((item: Element) => {
+    let columns = Array.from(this.children).filter((item: Element) => {
       return item instanceof SlColumn && !item.hidden;
     }) as SlColumn[];
-    return columns.sort((item1,item2)=>item1.order-item2.order);
+    return columns.sort((item1, item2) => item1.order - item2.order);
   }
 
   /**表头真实数据，有多少行，每个th 有rowspan ,colspan*/
