@@ -6,12 +6,36 @@ import { customStyle } from '../../internal/customStyle';
 import { emit } from '../../internal/event';
 import { watchProps } from '../../internal/watchProps';
 import { getCssValue } from '../../utilities/common';
+import { dragHandler, dragOnHandler } from '../../utilities/dragHelper';
 import { getResouceValue } from '../../utilities/getResouce';
 import { addResizeHander, DisposeObject } from '../../utilities/resize.util';
 import SlColumn from '../column/column';
 import styles from './table.styles';
-import caculateColumnData, { RowHeader } from './tableHelper';
-
+import caculateColumnData, { RowHeader, SortingEnum } from './tableHelper';
+export enum SortTrigger{
+  self='self',
+  cell='cell'
+}
+/**
+ * 定义表格的排序规则
+ */
+type SortConfig={
+  //触发排序区域
+  trigger:SortTrigger
+  //轮转顺序
+  orders:Array<SortingEnum>
+  //是否支持多列排序
+  mutil:boolean,
+  //当触发区域为cell,是否总是显示排序图标。
+  alwaysShowIcon:boolean
+};
+const defaultSortConfig={
+  trigger:SortTrigger.cell,
+  //order 轮训值
+  orders:[SortingEnum.ASC,SortingEnum.DESC,SortingEnum.NULL],
+  mutil:false,
+  alwaysShowIcon:true,
+};
 /**
  * @since 2.0
  * @status experimental
@@ -33,19 +57,43 @@ export default class SlTable extends LitElement {
   static styles = styles;
 
   /** td size*/
-  @property({ type: String, attribute: false, reflect:true}) size: 'small' | 'larger' | 'default' = 'default';
+  @property({ type: String, attribute: false, reflect: true }) size: 'small' | 'larger' | 'default' = 'small';
 
   /** table 是否显示border */
-  @property({ type: Boolean, attribute: true ,reflect:true}) border: boolean = false;
+  @property({ type: Boolean, attribute: true, reflect: true }) border: boolean = false;
 
   /** table 是否支持鼠标活动行变色 */
-  @property({ type: Boolean, attribute: false,reflect:true }) hoverAble: boolean = true;
+  @property({ type: Boolean, attribute: false, reflect: true }) hoverAble: boolean = true;
 
   /** table 支持斑马线 */
-  @property({ type: Boolean, attribute: false,reflect:true }) stripe: boolean = false;
+  @property({ type: Boolean, attribute: false, reflect: true }) stripe: boolean = false;
 
   /** 表格需要渲染的数据 */
   @property({ type: Array, attribute: false }) dataSource: unknown[];
+
+  @property({ type: Object, attribute: false }) sortConfig: SortConfig={...defaultSortConfig};
+  /**表格当前排序值**/
+  @property({ type: Object, attribute: false }) sortValue:{
+    field:string,
+    value:SortingEnum,
+  }|Array<{
+    field:string,
+    value:SortingEnum,
+  }>;
+
+  @watchProps(['sortConfig','sortValue'])
+  sortConfigChange(){
+    this.sortConfig={...defaultSortConfig,...this.sortConfig};
+    if(!this.sortConfig.mutil){
+      if(Array.isArray(this.sortValue)&&this.sortValue.length>0){
+        this.sortValue=this.sortValue[this.sortValue.length-1];
+      }
+    }else{
+      if(!Array.isArray(this.sortValue)&&this.sortValue){
+        this.sortValue=[this.sortValue];
+      }
+    }
+  }
 
   /**  table 容器高度，支持类似 css calc "100% - 40px" 或者“ 100vh - 30px ” */
   @property({ type: String })
@@ -129,6 +177,29 @@ export default class SlTable extends LitElement {
       this.handerScroll();
       emit(this, 'sl-table-resize');
     });
+    dragOnHandler(this.baseDiv,'thead th div.th-resize-helper',(changePos,event)=>{
+        let div=(event as any).delegateTarget as HTMLElement;
+        let th=div.closest('th') as HTMLElement;
+        let column=(th as any).column as SlColumn;
+        let width=parseInt(getCssValue(th,'width'));
+        let tableWidth= parseInt(getCssValue(this.table,'width'),10);
+        let oldWidth=width;
+        width+=changePos.x;
+        if(column.maxWidth){
+          let maxWidth=parseInt(column.maxWidth,10);
+          if(width>maxWidth){
+            width=maxWidth;
+          }
+        }
+        if(column.minWidth){
+          let minWidth=parseInt(column.minWidth,10);
+          if(width<minWidth){
+            width=minWidth;
+          }
+        }
+        this.table.style.width=tableWidth+(width-oldWidth)+'px';
+        column.width=width+'px';
+    })
   }
   connectedCallback() {
     super.connectedCallback();
@@ -175,25 +246,19 @@ export default class SlTable extends LitElement {
       if (!isNaN(left)) {
         for (let i = 0, j = Math.min(left, columnSize); i < j; i++) {
           let col = this.tdRenderColumns[i];
-          while (
-            col!=null&& 
-            col.tagName.toLowerCase() == 'sl-column'
-          ) {
+          while (col != null && col.tagName.toLowerCase() == 'sl-column') {
             style += this.caculateFixedColumnStyle(col, tableRect, true);
-            col=col.parentElement as SlColumn ;
+            col = col.parentElement as SlColumn;
           }
         }
       }
       if (!isNaN(right)) {
         for (let i = columnSize - 1, j = 0; j < right && i >= 0; ) {
           let col = this.tdRenderColumns[i];
-         
-          while (
-            col!=null&& 
-            col.tagName.toLowerCase() == 'sl-column'
-          ) {
+
+          while (col != null && col.tagName.toLowerCase() == 'sl-column') {
             style += this.caculateFixedColumnStyle(col, tableRect, false);
-            col=col.parentElement as SlColumn ;
+            col = col.parentElement as SlColumn;
           }
           i--;
           j++;
@@ -210,7 +275,9 @@ export default class SlTable extends LitElement {
       <div class="sl-table-base" part="base" size=${this.size}>
         <div
           class="sl-table-base-scroll-div"
-          style=${this.tableHeight ? `height:calc( ${isNaN(Number(this.tableHeight))? this.tableHeight:this.tableHeight+'px'} )` : ''}
+          style=${this.tableHeight
+            ? `height:calc( ${isNaN(Number(this.tableHeight)) ? this.tableHeight : this.tableHeight + 'px'} )`
+            : ''}
           @scroll=${this.handerScroll}
           @mousewheel=${this.handerScroll}
           part="scroll-div"
@@ -219,13 +286,13 @@ export default class SlTable extends LitElement {
           ?border=${this.border}
         >
           <!--渲染tableHeader 区 -->
-        <div part="table-header-div">
+          <div part="table-header-div">
             <table part="fixed-thead-table">
               <thead part="thead-fixed">
                 ${this._renderTheadRows(true)}
               </thead>
             </table>
-        </div>
+          </div>
           <!--渲染table 区 -->
           <table part="table" id="tableID">
             <thead part="thead-hidden">

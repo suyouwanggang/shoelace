@@ -6,10 +6,10 @@ Table 组件
 
 ```html preview
 <sl-table id='tableDIV' >
-    <sl-column field='name' label='Name'  width='100%' align='left' min-width='300' ></sl-column>
-    <sl-column field='role' label='Role' min-width='200' order=2 ></sl-column>
-    <sl-column field='sex' label='Sex' min-width='150' order=3 agile-cell='right'></sl-column>
-    <sl-column field='address' label='address' min-width='300' order='1'  ></sl-column>
+    <sl-column field='name' sort-able resize-able label='Name'   align='left' min-width='200' ></sl-column>
+    <sl-column field='role'  label='Role' resize-able min-width='100' order=2 ></sl-column>
+    <sl-column field='sex' sort-able label='Sex'resize-able  min-width='100' order=3 agile-cell='right'></sl-column>
+    <sl-column field='address' sort-able label='address' resize-able min-width='200' order='1'  ></sl-column>
 </sl-table>
 <script >
     const table=document.querySelector('#tableDIV');
@@ -116,6 +116,17 @@ Table 组件
     document.querySelector('sl-column[field=sex]').renderCell=(column,rowData,index)=>{
         let sex=rowData['sex'].toLowerCase();
         return window.html`${sex=='man'?'男人':'女人'}`;
+    }
+```
+### 自定义表头
+```javascript
+    //获取table 对象
+    let table=document.querySelector('#tableDIV');
+    document.querySelector('sl-column[field=sex]').renderCol=(column)=>{
+        return window.html`<span>${column.label} <svg style='width:1em;height:1em' xmlns="http://www.w3.org/2000/svg" fill="currentColor" 
+class="bi bi-caret-down" viewBox="0 0 16 16" id="caret-down">
+<path d="M3.204 5h9.592L8 10.481 3.204 5zm-.753.659l4.796 5.48a1 1 0 001.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 00-.753 1.659z">
+</path></svg></span>`;
     }
 ```
 

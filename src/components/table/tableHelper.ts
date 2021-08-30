@@ -1,10 +1,12 @@
+import { svg } from 'lit-html';
 import SlColumn from '../column/column';
 /**
- * 定义排序，升序，降序
+ * 定义排序，升序，降序,不显示
  */
 export enum SortingEnum {
   ASC = 'ASC',
-  DESC = 'DESC'
+  DESC = 'DESC',
+  NULL='null'
 }
 const columnCacheData = new WeakMap<SlColumn, ColumnCacheData>();
 /**
@@ -225,3 +227,4 @@ export const isNumberWidth = (col: Number | string) => {
   return typeof col == 'number' || !isNaN(Number(col));
 };
 export default caculateColumnData;
+

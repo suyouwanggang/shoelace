@@ -2,8 +2,9 @@ import { html, LitElement, nothing, PropertyValues, TemplateResult } from 'lit';
 import { classMap } from 'lit-html/directives/class-map';
 import { styleMap } from 'lit-html/directives/style-map';
 import { customElement, property } from 'lit/decorators.js';
-import SlTable from '../table/table';
-import { getColumnCacheData, getFieldValue, isNumberWidth, SortingEnum, TdAgile } from '../table/tableHelper';
+import { renderSortHeaderTemplate } from '../table/sort';
+import SlTable, { SortTrigger } from '../table/table';
+import { getColumnCacheData, getFieldValue, isNumberWidth,  TdAgile } from '../table/tableHelper';
 let columnUniqueID = 0;
 /**
  * @since 2.0
@@ -60,11 +61,22 @@ export default class SlColumn extends LitElement {
         classObj = { ...classInfo };
       }
     }
-
+    if(table.sortConfig&&table.sortConfig.trigger==SortTrigger.cell){
+        classObj['cursor']=true; 
+    }
+    const trigger=table.sortConfig.trigger;
+    const hander=(event:Event)=>{
+      const th=(event.target as HTMLElement).closest('th');
+    };
+    const handerDIV=(event:Event)=>{
+        const th=event.target;
+    };
     return html`<th
       uniqueID=${column.uniqueID}
+      .column=${column}
       .vAlign=${column.colvAlign}
       .align=${column.colAlign}
+      @click=${handerDIV}
       class=${classMap(classObj)}
       style=${styleMap(styleObject)}
       colIndex=${(cacheData.colIndex as number) + ''}
@@ -73,7 +85,9 @@ export default class SlColumn extends LitElement {
       draggable=${column.canDrag ? 'true' : 'false'}
     >
       <div class="thWrap">
-        ${column.renderCol ? html`${column.renderCol(column)}` : html`<span>${column.label}</span>`}
+        ${column.renderCol ? html`<span class='column-title ${column.sortAble?'sort-able':''}'>${column.renderCol(column)}</span>` : html`<span class='column-title ${column.sortAble?'sort-able':''}'>${column.label}</span>`}
+        ${renderSortHeaderTemplate(table,column,hander)}
+        ${column.resizeAble?html`<div class='th-resize-helper'></div>`:''}
       </div>
     </th>`;
   };
@@ -156,7 +170,7 @@ export default class SlColumn extends LitElement {
 
   /** 列所对应表头TH 的水平对齐方式*/
   @property({ type: String, reflect: true, attribute: 'col-align' })
-  colAlign: TdAgile='center'; 
+  colAlign: TdAgile = 'center';
 
   /** 列所对应表头TH 的垂直对齐方式*/
   @property({ type: String, reflect: true, attribute: 'col-valign' })
@@ -170,9 +184,9 @@ export default class SlColumn extends LitElement {
   @property({ type: String, reflect: true, attribute: 'valign' })
   vAlign: 'top' | 'middle' | 'bottom' = 'middle';
 
-  /** 排序，是升序，还是降序*/
-  @property({ type: String, reflect: true, attribute: true })
-  sort: SortingEnum; //升序，降序
+  // /** 排序，是升序，还是降序*/
+  // @property({ type: String, reflect: true, attribute: true })
+  // sort: SortingEnum; //升序，降序
 
   /** 列是否支持排序 */
   @property({ type: Boolean, reflect: true, attribute: 'sort-able' })
