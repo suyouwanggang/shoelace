@@ -25,10 +25,10 @@ export default class SlCol extends LitElement {
     }
   `;
   /** 占多少列 */
-  @property({ type: Number, attribute: 'span' }) span = 1;
+  @property({ type: Number,reflect:true, attribute: 'span' }) span = 1;
 
   /** 占多少行 */
-  @property({ type: Number, attribute: 'row' }) row = 1;
+  @property({ type: Number, reflect:true,attribute: 'row' }) row = 1;
 
   @watchProps(['span', 'row'])
   changeSpanMethod() {

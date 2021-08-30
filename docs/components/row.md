@@ -75,3 +75,6 @@ css grid 布局组件实现
 TODO
 
 [component-metadata:sl-row]
+# Col
+[component-header:sl-col]
+[component-metadata:sl-col]

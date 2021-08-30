@@ -156,11 +156,11 @@ export default class SlColumn extends LitElement {
 
   /** 列所对应表头TH 的水平对齐方式*/
   @property({ type: String, reflect: true, attribute: 'col-align' })
-  colAlign: 'top' | 'middle' | 'bottom' = 'middle';
+  colAlign: TdAgile='center'; 
 
   /** 列所对应表头TH 的垂直对齐方式*/
   @property({ type: String, reflect: true, attribute: 'col-valign' })
-  colvAlign: TdAgile = 'center';
+  colvAlign: 'top' | 'middle' | 'bottom' = 'middle';
 
   /** 列所对应的TD 的水平对齐方式*/
   @property({ type: String, reflect: true, attribute: 'align' })

@@ -33,16 +33,16 @@ export default class SlTable extends LitElement {
   static styles = styles;
 
   /** td size*/
-  @property({ type: String, attribute: false }) size: 'small' | 'larger' | 'default' = 'default';
+  @property({ type: String, attribute: false, reflect:true}) size: 'small' | 'larger' | 'default' = 'default';
 
   /** table 是否显示border */
-  @property({ type: Boolean, attribute: true }) border: boolean = false;
+  @property({ type: Boolean, attribute: true ,reflect:true}) border: boolean = false;
 
   /** table 是否支持鼠标活动行变色 */
-  @property({ type: Boolean, attribute: false }) hoverAble: boolean = true;
+  @property({ type: Boolean, attribute: false,reflect:true }) hoverAble: boolean = true;
 
   /** table 支持斑马线 */
-  @property({ type: Boolean, attribute: false }) stripe: boolean = false;
+  @property({ type: Boolean, attribute: false,reflect:true }) stripe: boolean = false;
 
   /** 表格需要渲染的数据 */
   @property({ type: Array, attribute: false }) dataSource: unknown[];
@@ -102,8 +102,8 @@ export default class SlTable extends LitElement {
       this.isAsyncTableWidth = true;
       Promise.resolve().then(() => {
         //改造，多次请求，值执行一次重新计算
-        const tablecurrentWidth = parseInt(getCssValue(this.table, 'width'));
-        this.tableHeadDiv.style.width = Math.min(this.scrollDiv.clientWidth, tablecurrentWidth) + 'px';
+        // const tablecurrentWidth = parseInt(getCssValue(this.table, 'width'));
+        this.tableHeadDiv.style.width = Math.min(this.scrollDiv.clientWidth, this.table.offsetWidth) + 'px';
         //注意此处必须是 scroll_div.clientWidth，tableWidth 最小值！
         const thArray = this.thead.querySelectorAll('td,th');
         const thFixedArray = this.theadFixed.querySelectorAll('td,th');
@@ -114,7 +114,7 @@ export default class SlTable extends LitElement {
           (thFixedArray[i] as HTMLTableHeaderCellElement).style.minWidth = width;
           (thFixedArray[i] as HTMLTableHeaderCellElement).style.maxWidth = width;
         }
-        this.tableHeadDiv.style.height = parseInt(getCssValue(this.thead, 'height')) + 'px';
+        this.tableHeadDiv.style.height = this.fixedTable.offsetHeight + 'px';
         this.watchFixedColumnsChange();
         this.isAsyncTableWidth = false;
       });
@@ -135,7 +135,7 @@ export default class SlTable extends LitElement {
     this._resizeResult?.dispose();
   }
   private _renderNoDataTemplate() {
-    if (this.innerDataSource != undefined) {
+    if (this.innerDataSource == undefined) {
       return html`<slot @slotchange=${this.columnChangeHanlder} name="no-data">${getResouceValue('noData')}</slot>`;
     }
     return ``;
@@ -151,8 +151,8 @@ export default class SlTable extends LitElement {
     }
     if (td) {
       return `
-          th[uniqueid=${col.uniqueID}],
-          td[uniqueid=${col.uniqueID}]{
+          th[uniqueid="${col.uniqueID}"],
+          td[uniqueid="${col.uniqueID}"]{
             position:sticky;z-index:1; 
             ${fixedLeft ? `left:${td.getBoundingClientRect().left - tableRect.left}px;` : ''}
             ${!fixedLeft ? `right:${tableRect.right - td.getBoundingClientRect().right}px;` : ''}
@@ -175,26 +175,25 @@ export default class SlTable extends LitElement {
       if (!isNaN(left)) {
         for (let i = 0, j = Math.min(left, columnSize); i < j; i++) {
           let col = this.tdRenderColumns[i];
-          style += this.caculateFixedColumnStyle(col, tableRect, true);
           while (
-            col.parentElement != null &&
-            col.parentElement != this &&
-            col.parentElement?.tagName.toLowerCase() == 'sl-column'
+            col!=null&& 
+            col.tagName.toLowerCase() == 'sl-column'
           ) {
-            style += this.caculateFixedColumnStyle(col.parentElement as SlColumn, tableRect, true);
+            style += this.caculateFixedColumnStyle(col, tableRect, true);
+            col=col.parentElement as SlColumn ;
           }
         }
       }
       if (!isNaN(right)) {
         for (let i = columnSize - 1, j = 0; j < right && i >= 0; ) {
           let col = this.tdRenderColumns[i];
-          style += this.caculateFixedColumnStyle(col, tableRect, false);
+         
           while (
-            col.parentElement != null &&
-            col.parentElement != this &&
-            col.parentElement?.tagName.toLowerCase() == 'sl-column'
+            col!=null&& 
+            col.tagName.toLowerCase() == 'sl-column'
           ) {
-            style += this.caculateFixedColumnStyle(col.parentElement as SlColumn, tableRect, false);
+            style += this.caculateFixedColumnStyle(col, tableRect, false);
+            col=col.parentElement as SlColumn ;
           }
           i--;
           j++;
@@ -211,7 +210,7 @@ export default class SlTable extends LitElement {
       <div class="sl-table-base" part="base" size=${this.size}>
         <div
           class="sl-table-base-scroll-div"
-          style=${this.tableHeight ? `height:calc( ${this.tableHeight} )` : ''}
+          style=${this.tableHeight ? `height:calc( ${isNaN(Number(this.tableHeight))? this.tableHeight:this.tableHeight+'px'} )` : ''}
           @scroll=${this.handerScroll}
           @mousewheel=${this.handerScroll}
           part="scroll-div"
@@ -219,6 +218,14 @@ export default class SlTable extends LitElement {
           ?stripe=${this.stripe}
           ?border=${this.border}
         >
+          <!--渲染tableHeader 区 -->
+        <div part="table-header-div">
+            <table part="fixed-thead-table">
+              <thead part="thead-fixed">
+                ${this._renderTheadRows(true)}
+              </thead>
+            </table>
+        </div>
           <!--渲染table 区 -->
           <table part="table" id="tableID">
             <thead part="thead-hidden">
@@ -229,14 +236,6 @@ export default class SlTable extends LitElement {
             </tbody>
           </table>
           ${this._renderNoDataTemplate()}
-          <!--渲染tableHeader 区 -->
-          <div part="table-header-div">
-            <table part="fixed-thead-table">
-              <thead part="thead-fixed">
-                ${this._renderTheadRows(true)}
-              </thead>
-            </table>
-          </div>
         </div>
         <slot @slotchange=${this.columnChangeHanlder}></slot>
       </div>`;
