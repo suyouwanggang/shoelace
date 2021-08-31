@@ -25,16 +25,19 @@ type SortConfig = {
   //轮转顺序
   orders: Array<SortingEnum>;
   //是否支持多列排序
-  mutil: boolean;
+  multi: boolean;
   //当触发区域为cell,是否总是显示排序图标。
   alwaysShowIcon: boolean;
 };
 export const defaultSortConfig = {
+  //排序区域控制，则
   trigger: SortTrigger.cell,
-  //order 轮训值
-  orders: [SortingEnum.ASC, SortingEnum.DESC, SortingEnum.NULL],
-  mutil: false,
-  alwaysShowIcon: true
+  //order 轮训值,开始为ASC，后面DESC，最后去掉排序 （null,这个跟产品不一致，可以默认去掉)
+  // orders: [SortingEnum.ASC, SortingEnum.DESC, SortingEnum.NULL],
+  orders: [SortingEnum.ASC, SortingEnum.DESC],
+  multi: false,
+  //是否总是显示排序图标,如果总是
+  alwaysShowIcon: false
 };
 /**
  * @since 2.0
@@ -42,14 +45,28 @@ export const defaultSortConfig = {
  *
  * @dependency  sl-column
  *
- * @event sl-event-name - Emitted as an example.
+ * @event sl-table-resize - Emitted table resize.
+ * @event {{column:SLColumn,sortValue:当前排序值}} sl-table-sort - Emitted table column sort.
+ * @event {{column:SLColumn,sortValue:排序前值}} sl-table-before-sort - Emitted before table column sort.
+ * @event {{column:SLColumn,change:改变的宽度}}  sl-table-column-resize - Emitted table column width change by drag.
+ * @event {{div:滚动容器}}  sl-table-scroll - Emitted table'container scroll changed  .
  *
- * @slot - The default slot.
+ *
+ *
+ * @slot no-data - no-data slot.
  * @slot example - An example slot.
  *
  * @csspart base - The component's base wrapper.
+ * @csspart scroll-div - The component's scroll-div .
+ * @csspart part - The component's table .
+ * @csspart resize-hanler - The th's resize-hanlder .
  *
- * @cssproperty --example - An example CSS custom property.
+ * @cssproperty --sl-th-padding-size - td,th padding
+ * @cssproperty --sl-table-border-color - 边框颜色 ，例如 220,180,19 这种数字格式的颜色
+ * @cssproperty --sl-table-background-color - table背景颜色 ，例如 220,180,19 这种数字格式的颜色
+ * @cssproperty --sl-table-td-right-width -1px，定义表格单元格右侧的线条宽度
+ * @cssproperty --sl-table-td-bottom-width -1px，定义表格单元格底侧的线条宽度
+ *
  */
 @customStyle()
 @customElement('sl-table')
@@ -68,7 +85,7 @@ export default class SlTable extends LitElement {
   /** table 支持斑马线 */
   @property({ type: Boolean, attribute: false, reflect: true }) stripe: boolean = false;
 
-  /** 表格需要渲染的数据 */
+  /** 表格需要渲染的数据 ，必须是数组！*/
   @property({ type: Array, attribute: false }) dataSource: unknown[];
 
   @property({ type: Object, attribute: false }) sortConfig: SortConfig = { ...defaultSortConfig };
@@ -79,14 +96,14 @@ export default class SlTable extends LitElement {
         orderType: SortingEnum;
       }
     | Array<{
-      orderBy: string;
-      orderType: SortingEnum;
+        orderBy: string;
+        orderType: SortingEnum;
       }>;
 
   @watchProps(['sortConfig', 'sortValue'])
   sortConfigChange() {
     this.sortConfig = { ...defaultSortConfig, ...this.sortConfig };
-    if (!this.sortConfig.mutil) {
+    if (!this.sortConfig.multi) {
       if (Array.isArray(this.sortValue) && this.sortValue.length > 0) {
         this.sortValue = this.sortValue[this.sortValue.length - 1];
       }
@@ -117,29 +134,12 @@ export default class SlTable extends LitElement {
    */
   @query('thead[part=thead-hidden', true)
   thead: HTMLTableSectionElement;
-  /**
-   * fixed table's  heading
-   */
-  @query('thead[part=thead-fixed', true)
-  theadFixed: HTMLTableSectionElement;
 
-  @query('div[part=table-header-div]', true)
-  private tableHeadDiv: HTMLDivElement;
-
-  /** fixed table */
-  @query('table[part=fixed-thead-table]', true)
-  fixedTable: HTMLTableElement;
-  /** base DIV */
   @query('div[part=base]', true)
   baseDiv: HTMLDivElement;
   /** scroll DIV */
   @query('div[part=scroll-div]', true)
   scrollDiv: HTMLDivElement;
-
-  private handerScroll() {
-    const div = this.scrollDiv;
-    this.tableHeadDiv.scrollLeft = parseInt(div.scrollLeft.toFixed(0));
-  }
 
   updated(map: PropertyValues) {
     super.updated(map);
@@ -153,18 +153,18 @@ export default class SlTable extends LitElement {
       Promise.resolve().then(() => {
         //改造，多次请求，值执行一次重新计算
         // const tablecurrentWidth = parseInt(getCssValue(this.table, 'width'));
-        this.tableHeadDiv.style.width = Math.min(this.scrollDiv.clientWidth, this.table.offsetWidth) + 'px';
-        //注意此处必须是 scroll_div.clientWidth，tableWidth 最小值！
-        const thArray = this.thead.querySelectorAll('td,th');
-        const thFixedArray = this.theadFixed.querySelectorAll('td,th');
-        for (let i = 0, j = thArray.length; i < j; i++) {
-          const d = thArray[i] as HTMLTableHeaderCellElement;
-          const width = getCssValue(d, 'width');
-          (thFixedArray[i] as HTMLTableHeaderCellElement).style.width = width;
-          (thFixedArray[i] as HTMLTableHeaderCellElement).style.minWidth = width;
-          (thFixedArray[i] as HTMLTableHeaderCellElement).style.maxWidth = width;
-        }
-        this.tableHeadDiv.style.height = this.fixedTable.offsetHeight + 'px';
+        // this.tableHeadDiv.style.width = Math.min(this.scrollDiv.clientWidth, this.table.offsetWidth) + 'px';
+        // //注意此处必须是 scroll_div.clientWidth，tableWidth 最小值！
+        // const thArray = this.thead.querySelectorAll('td,th');
+        // const thFixedArray = this.theadFixed.querySelectorAll('td,th');
+        // for (let i = 0, j = thArray.length; i < j; i++) {
+        //   const d = thArray[i] as HTMLTableHeaderCellElement;
+        //   const width = getCssValue(d, 'width');
+        //   (thFixedArray[i] as HTMLTableHeaderCellElement).style.width = width;
+        //   (thFixedArray[i] as HTMLTableHeaderCellElement).style.minWidth = width;
+        //   (thFixedArray[i] as HTMLTableHeaderCellElement).style.maxWidth = width;
+        // }
+        // this.tableHeadDiv.style.height = this.fixedTable.offsetHeight + 'px';
         this.watchFixedColumnsChange();
         this.isAsyncTableWidth = false;
       });
@@ -176,7 +176,6 @@ export default class SlTable extends LitElement {
     this.columnChangeHanlder();
     this._resizeResult = addResizeHander([this, this.table], () => {
       this.asynTableHeaderWidth();
-      this.handerScroll();
       emit(this, 'sl-table-resize');
     });
     dragOnHandler(this.baseDiv, 'thead th div.th-resize-helper', (changePos, event) => {
@@ -201,6 +200,12 @@ export default class SlTable extends LitElement {
       }
       this.table.style.width = tableWidth + (width - oldWidth) + 'px';
       column.width = width + 'px';
+      emit(this, 'sl-table-column-resize', {
+        detail: {
+          column: column,
+          change: width - oldWidth
+        }
+      });
     });
   }
   connectedCallback() {
@@ -226,7 +231,7 @@ export default class SlTable extends LitElement {
       return `
           th[uniqueid="${col.uniqueID}"],
           td[uniqueid="${col.uniqueID}"]{
-            position:sticky;z-index:1; 
+            position:sticky !important;z-index:1; 
             ${fixedLeft ? `left:${td.getBoundingClientRect().left - tableRect.left}px;` : ''}
             ${!fixedLeft ? `right:${tableRect.right - td.getBoundingClientRect().right}px;` : ''}
           }
@@ -239,11 +244,11 @@ export default class SlTable extends LitElement {
     this.fixedStyleElement.textContent = '';
     let style = '';
     if (this.fixedColumns) {
-      let array = Array.isArray(this.fixedColumns) ? this.fixedColumns : (this.fixedColumns as string).split(',');
+      let array = Array.isArray(this.fixedColumns) ? this.fixedColumns : String(this.fixedColumns).split(',');
       let left = parseInt('' + array[0]);
       let right = array.length > 1 ? parseInt('' + array[1]) : 0;
-      let table = this.table;
-      let tableRect = table.getBoundingClientRect();
+      let thead = this.thead;
+      let tableRect = thead.getBoundingClientRect();
       let columnSize = this.tdRenderColumns.length;
       if (!isNaN(left)) {
         for (let i = 0, j = Math.min(left, columnSize); i < j; i++) {
@@ -257,7 +262,6 @@ export default class SlTable extends LitElement {
       if (!isNaN(right)) {
         for (let i = columnSize - 1, j = 0; j < right && i >= 0; ) {
           let col = this.tdRenderColumns[i];
-
           while (col != null && col.tagName.toLowerCase() == 'sl-column') {
             style += this.caculateFixedColumnStyle(col, tableRect, false);
             col = col.parentElement as SlColumn;
@@ -269,7 +273,14 @@ export default class SlTable extends LitElement {
     }
     this.fixedStyleElement.textContent = style;
   }
-
+  private handerScroll(_event: Event) {
+    let div = this.scrollDiv;
+    emit(this, 'sl-table-scroll', {
+      detail: {
+        div: div
+      }
+    });
+  }
   @query('#styleID', true)
   private fixedStyleElement: HTMLStyleElement;
   render() {
@@ -281,20 +292,11 @@ export default class SlTable extends LitElement {
             ? `height:calc( ${isNaN(Number(this.tableHeight)) ? this.tableHeight : this.tableHeight + 'px'} )`
             : ''}
           @scroll=${this.handerScroll}
-          @mousewheel=${this.handerScroll}
           part="scroll-div"
           ?hover-able=${this.hoverAble}
           ?stripe=${this.stripe}
           ?border=${this.border}
         >
-          <!--渲染tableHeader 区 -->
-          <div part="table-header-div">
-            <table part="fixed-thead-table">
-              <thead part="thead-fixed">
-                ${this._renderTheadRows(true)}
-              </thead>
-            </table>
-          </div>
           <!--渲染table 区 -->
           <table part="table" id="tableID">
             <thead part="thead-hidden">
@@ -405,18 +407,17 @@ export default class SlTable extends LitElement {
   /**循环数据，输出tbody 的表头定义数组*/
   @state()
   private tdRenderColumns: SlColumn[] = [];
-  private isColumnChangeHanlderResolved=true;
+  private isColumnHanlderFlag = true;
   /** 如果column 发生了变化，需要重新计算 表头布局 */
   public columnChangeHanlder() {
-    if (this.hasUpdated&& this.isColumnChangeHanlderResolved) {
-      this.isColumnChangeHanlderResolved=false;
-      Promise.resolve().then(()=>{
-        console.log('columnChangeHanlder');
+    if (this.hasUpdated && this.isColumnHanlderFlag) {
+      this.isColumnHanlderFlag = false;
+      Promise.resolve().then(() => {
         const { rows, tdRenderColumnData } = caculateColumnData(this.canShowColumns);
         this.theadRows = rows;
         this.tdRenderColumns = tdRenderColumnData;
-        this.isColumnChangeHanlderResolved=true;
-      })
+        this.isColumnHanlderFlag = true;
+      });
     }
   }
 }

@@ -61,19 +61,19 @@ export default class SlColumn extends LitElement {
         classObj = { ...classInfo };
       }
     }
-    if (table.sortConfig && table.sortConfig.trigger == SortTrigger.cell&&column.sortAble) {
-       classObj['cursor'] = true;
+    if (table.sortConfig && table.sortConfig.trigger == SortTrigger.cell && column.sortAble) {
+      classObj['cursor'] = true;
     }
     const trigger = table.sortConfig.trigger;
     const handerSort = (_event: Event) => {
-      if(trigger==SortTrigger.self){
-          sortRenderHanlder(column,table);
+      if (trigger == SortTrigger.self) {
+        sortRenderHanlder(column, table);
       }
     };
     const handerTHSort = (_event: Event) => {
-        if(trigger==SortTrigger.cell){
-          sortRenderHanlder(column,table);
-        }
+      if (trigger == SortTrigger.cell) {
+        sortRenderHanlder(column, table);
+      }
     };
     return html`<th
       uniqueID=${column.uniqueID}
@@ -86,14 +86,13 @@ export default class SlColumn extends LitElement {
       colIndex=${(cacheData.colIndex as number) + ''}
       .rowSpan=${cacheData.rowspan as number}
       .colSpan=${cacheData.colspan as number}
-      draggable=${column.canDrag ? 'true' : 'false'}
     >
       <div class="thWrap">
         ${column.renderCol
           ? html`<span class="column-title ${column.sortAble ? 'sort-able' : ''}">${column.renderCol(column)}</span>`
           : html`<span class="column-title ${column.sortAble ? 'sort-able' : ''}">${column.label}</span>`}
         ${renderSortHeaderTemplate(table, column, handerSort)}
-        ${column.resizeAble&&column.field ? html`<div class="th-resize-helper"></div>` : ''}
+        ${column.resizeAble ? html`<div part='resize-hanler' class="th-resize-helper"></div>` : ''}
       </div>
     </th>`;
   };
@@ -186,7 +185,7 @@ export default class SlColumn extends LitElement {
   @property({ type: String, reflect: true, attribute: 'align' })
   align: TdAgile = 'left';
 
-  /** 列所对应的TD 的水平对齐方式*/
+  /** 列所对应的TD 的垂直对齐方式*/
   @property({ type: String, reflect: true, attribute: 'valign' })
   vAlign: 'top' | 'middle' | 'bottom' = 'middle';
 

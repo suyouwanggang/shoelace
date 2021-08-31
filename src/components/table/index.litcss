@@ -2,11 +2,12 @@
     display: block;
     //必须设置为相对，此时table-header-div 绝对，竖直位置不会移动
     --sl-th-padding-size:12px 8px;
-    --sl-table-border-color:var(--sl-color-netural-200);
+    --sl-table-border-color:var(--sl-color-neutral-200);
     --sl-table-header-bg-color:var(--sl-color-neutral-50);
     --sl-table-scroll-barWidth:16px;
-    --sl-table-td-right-width:0;
-    
+    --sl-table-td-right-width:0px;
+    --sl-table-td-bottom-width:1px;
+    --sl-table-stripe-color:var(--sl-color-blue-gray-50);
 }
 
 td,th{
@@ -17,16 +18,21 @@ td,th{
 }
 .tdBorder{
     //border-top: solid 1px rgb(var(--sl-color-neutral-200));
-    border-bottom: solid 1px rgb(var(--sl-color-neutral-200));
-    border-right: solid var(--sl-table-td-right-width) rgb(var(--sl-color-neutral-200));
+    border-bottom: solid var(--sl-table-td-bottom-width) rgb(var(--sl-table-border-color));
+    border-right: solid var(--sl-table-td-right-width)  rgb(var(--sl-table-border-color));
 }
 .cell{
     padding:var(--sl-th-padding-size);
     transition: background-color 1s cubic-bezier(.075,.82,.165,1);
 }
-table{
+table[part=table]{
     border-collapse: separate;
     border-spacing: 0;
+    thead{
+        position: sticky;
+        top:0;
+        z-index: 2;
+    }
     td {
         @extend .cell;
         @extend .tdBorder;
@@ -39,16 +45,30 @@ table{
         background-color: rgb(var(--sl-table-header-bg-color));
     }
 }
-:host([border]) table{
+:host([border]) table[part=table]{
     --sl-table-td-right-width:1px;
-    border-top:solid 1px rgb(var(--sl-color-neutral-200));
-    border-left:solid 1px rgb(var(--sl-color-neutral-200));
+    &::before{
+        content:'';
+        top:0;
+        left:0;
+        z-index: 11;
+        position: absolute;
+        width:100%;
+        border-top:solid 1px rgb(var(--sl-table-border-color));
+    }
+    &::after{
+        z-index: 11;
+        content:'';
+        top:0;
+        left:0;
+        position: absolute;
+        height:100%;
+        border-left:solid 1px rgb(var(--sl-table-border-color));
+    }
 }
 .stripe{
-    background-color: rgb(var(--sl-color-neutral-50));
+    background-color: rgb(var(--sl-table-stripe-color));
 }
-
-
 
 .sl-table-base {
     position: relative;
@@ -74,14 +94,6 @@ table{
                 @extend .stripe;
             } 
         }
-        
-    }
-    div[part=table-header-div]{
-        z-index: 2;
-        overflow: hidden;
-        position: absolute;
-        top:0px;
-        left:0px;
     }
 }
 .cursor{
@@ -110,17 +122,19 @@ th[align=right]{
 .sort-wrap{
     cursor: pointer;
     position: relative;
-    margin:0 6px;
+    padding:0 6px;
+    white-space: normal;
     color: #bfbfbf;
     display: inline-flex;
     flex-direction: column;
-    font-size: 10px;
-    line-height:10px;
+    flex:0 0 auto;
+    font-size: 12px;
+    line-height:12px;
     transition: color .3s;
-    min-width: 13px;
-    min-height: 10px;
+    min-width: 12px;
+    min-height: 12px;
     .current{
-        color:rgb(var(--sl-color-primary-400));
+        color:rgb(var(--sl-color-gray-700));
     }
     svg{
        width:1em;
@@ -129,26 +143,26 @@ th[align=right]{
 }
 .th-resize-helper{
     position: absolute;
-    right: -7px;
-    bottom: 0;
-    width: 14px;
-    height: 100%;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    width: 4px;
     text-align: center;
-    z-index: 1;
     cursor: col-resize;
     &::before{
-        width: 1px;
-        height: 50%;
-        content:'';
-        vertical-align: middle;
-        display: inline-block;
-        background-color: #d9dddf;
-    }
-    &::after{
-        width: 0;
+        content: '';
+        position: absolute;
+        left:3px;
+        width:1px;
         height: 100%;
-        content:'';
-        vertical-align: middle;
-        display: inline-block;
+        border-left:solid 1px rgb(var(--sl-table-border-color));
     }
 }
+:host([border]) {
+    .th-resize-helper {
+        &::before{
+            left:4px;
+        }
+    }
+}
+

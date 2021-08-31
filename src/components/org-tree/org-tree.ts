@@ -60,8 +60,9 @@ export default class SlOrgTree extends LitElement {
               .nodeRender=${this.nodeRender}
               .expanded=${this.rootData ? Boolean(this.rootData.expanded) : true}
               .collapsable=${this.rootData ? Boolean(this.rootData.collapsable) : true}
-              @node-click=${this.handNodeEvent}
-              @node-toogle=${this.handNodeEvent}
+              @sl-node-click=${this.handNodeEvent}
+              @sl-node-toogle=${this.handNodeEvent}
+              @sl-node-before-toogle=${this.handNodeEvent}
             ></sl-org-node>`
           : null}
       </div>
@@ -71,13 +72,17 @@ export default class SlOrgTree extends LitElement {
   @query('#root', true)
   rootNode: SlOrgNode;
   private handNodeEvent(event: CustomEvent) {
-    const node = event.target as SlOrgNode;
-    emit(this, `sl-org-tree-${event.type}`, {
-      detail: {
-        node: node,
-        nodeData: node.nodeData
-      }
-    });
+    if (!event.defaultPrevented) {
+      const node = event.target as SlOrgNode;
+      const eventType = `sl-org-tree-${event.type.replace('sl-', '')}`;
+      console.log(eventType);
+      emit(this, eventType, {
+        detail: {
+          node: node,
+          nodeData: node.nodeData
+        }
+      });
+    }
   }
 }
 
