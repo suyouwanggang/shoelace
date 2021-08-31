@@ -6,35 +6,35 @@ import { customStyle } from '../../internal/customStyle';
 import { emit } from '../../internal/event';
 import { watchProps } from '../../internal/watchProps';
 import { getCssValue } from '../../utilities/common';
-import { dragHandler, dragOnHandler } from '../../utilities/dragHelper';
+import { dragOnHandler } from '../../utilities/dragHelper';
 import { getResouceValue } from '../../utilities/getResouce';
 import { addResizeHander, DisposeObject } from '../../utilities/resize.util';
 import SlColumn from '../column/column';
 import styles from './table.styles';
 import caculateColumnData, { RowHeader, SortingEnum } from './tableHelper';
-export enum SortTrigger{
-  self='self',
-  cell='cell'
+export enum SortTrigger {
+  self = 'self',
+  cell = 'cell'
 }
 /**
  * 定义表格的排序规则
  */
-type SortConfig={
-  //触发排序区域
-  trigger:SortTrigger
+type SortConfig = {
+  //触发排序区域,是th :cell, 还是排序区
+  trigger: SortTrigger;
   //轮转顺序
-  orders:Array<SortingEnum>
+  orders: Array<SortingEnum>;
   //是否支持多列排序
-  mutil:boolean,
+  mutil: boolean;
   //当触发区域为cell,是否总是显示排序图标。
-  alwaysShowIcon:boolean
+  alwaysShowIcon: boolean;
 };
-const defaultSortConfig={
-  trigger:SortTrigger.cell,
+export const defaultSortConfig = {
+  trigger: SortTrigger.cell,
   //order 轮训值
-  orders:[SortingEnum.ASC,SortingEnum.DESC,SortingEnum.NULL],
-  mutil:false,
-  alwaysShowIcon:true,
+  orders: [SortingEnum.ASC, SortingEnum.DESC, SortingEnum.NULL],
+  mutil: false,
+  alwaysShowIcon: true
 };
 /**
  * @since 2.0
@@ -71,26 +71,28 @@ export default class SlTable extends LitElement {
   /** 表格需要渲染的数据 */
   @property({ type: Array, attribute: false }) dataSource: unknown[];
 
-  @property({ type: Object, attribute: false }) sortConfig: SortConfig={...defaultSortConfig};
+  @property({ type: Object, attribute: false }) sortConfig: SortConfig = { ...defaultSortConfig };
   /**表格当前排序值**/
-  @property({ type: Object, attribute: false }) sortValue:{
-    field:string,
-    value:SortingEnum,
-  }|Array<{
-    field:string,
-    value:SortingEnum,
-  }>;
-
-  @watchProps(['sortConfig','sortValue'])
-  sortConfigChange(){
-    this.sortConfig={...defaultSortConfig,...this.sortConfig};
-    if(!this.sortConfig.mutil){
-      if(Array.isArray(this.sortValue)&&this.sortValue.length>0){
-        this.sortValue=this.sortValue[this.sortValue.length-1];
+  @property({ type: Object, attribute: false }) sortValue?:
+    | {
+        orderBy: string;
+        orderType: SortingEnum;
       }
-    }else{
-      if(!Array.isArray(this.sortValue)&&this.sortValue){
-        this.sortValue=[this.sortValue];
+    | Array<{
+      orderBy: string;
+      orderType: SortingEnum;
+      }>;
+
+  @watchProps(['sortConfig', 'sortValue'])
+  sortConfigChange() {
+    this.sortConfig = { ...defaultSortConfig, ...this.sortConfig };
+    if (!this.sortConfig.mutil) {
+      if (Array.isArray(this.sortValue) && this.sortValue.length > 0) {
+        this.sortValue = this.sortValue[this.sortValue.length - 1];
+      }
+    } else {
+      if (!Array.isArray(this.sortValue) && this.sortValue) {
+        this.sortValue = [this.sortValue];
       }
     }
   }
@@ -177,29 +179,29 @@ export default class SlTable extends LitElement {
       this.handerScroll();
       emit(this, 'sl-table-resize');
     });
-    dragOnHandler(this.baseDiv,'thead th div.th-resize-helper',(changePos,event)=>{
-        let div=(event as any).delegateTarget as HTMLElement;
-        let th=div.closest('th') as HTMLElement;
-        let column=(th as any).column as SlColumn;
-        let width=parseInt(getCssValue(th,'width'));
-        let tableWidth= parseInt(getCssValue(this.table,'width'),10);
-        let oldWidth=width;
-        width+=changePos.x;
-        if(column.maxWidth){
-          let maxWidth=parseInt(column.maxWidth,10);
-          if(width>maxWidth){
-            width=maxWidth;
-          }
+    dragOnHandler(this.baseDiv, 'thead th div.th-resize-helper', (changePos, event) => {
+      let div = (event as any).delegateTarget as HTMLElement;
+      let th = div.closest('th') as HTMLElement;
+      let column = (th as any).column as SlColumn;
+      let width = parseInt(getCssValue(th, 'width'));
+      let tableWidth = parseInt(getCssValue(this.table, 'width'), 10);
+      let oldWidth = width;
+      width += changePos.x;
+      if (column.maxWidth) {
+        let maxWidth = parseInt(column.maxWidth, 10);
+        if (width > maxWidth) {
+          width = maxWidth;
         }
-        if(column.minWidth){
-          let minWidth=parseInt(column.minWidth,10);
-          if(width<minWidth){
-            width=minWidth;
-          }
+      }
+      if (column.minWidth) {
+        let minWidth = parseInt(column.minWidth, 10);
+        if (width < minWidth) {
+          width = minWidth;
         }
-        this.table.style.width=tableWidth+(width-oldWidth)+'px';
-        column.width=width+'px';
-    })
+      }
+      this.table.style.width = tableWidth + (width - oldWidth) + 'px';
+      column.width = width + 'px';
+    });
   }
   connectedCallback() {
     super.connectedCallback();
@@ -403,12 +405,18 @@ export default class SlTable extends LitElement {
   /**循环数据，输出tbody 的表头定义数组*/
   @state()
   private tdRenderColumns: SlColumn[] = [];
+  private isColumnChangeHanlderResolved=true;
   /** 如果column 发生了变化，需要重新计算 表头布局 */
   public columnChangeHanlder() {
-    if (this.hasUpdated) {
-      const { rows, tdRenderColumnData } = caculateColumnData(this.canShowColumns);
-      this.theadRows = rows;
-      this.tdRenderColumns = tdRenderColumnData;
+    if (this.hasUpdated&& this.isColumnChangeHanlderResolved) {
+      this.isColumnChangeHanlderResolved=false;
+      Promise.resolve().then(()=>{
+        console.log('columnChangeHanlder');
+        const { rows, tdRenderColumnData } = caculateColumnData(this.canShowColumns);
+        this.theadRows = rows;
+        this.tdRenderColumns = tdRenderColumnData;
+        this.isColumnChangeHanlderResolved=true;
+      })
     }
   }
 }

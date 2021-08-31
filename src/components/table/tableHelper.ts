@@ -6,7 +6,7 @@ import SlColumn from '../column/column';
 export enum SortingEnum {
   ASC = 'ASC',
   DESC = 'DESC',
-  NULL='null'
+  NULL = 'null'
 }
 const columnCacheData = new WeakMap<SlColumn, ColumnCacheData>();
 /**
@@ -227,4 +227,3 @@ export const isNumberWidth = (col: Number | string) => {
   return typeof col == 'number' || !isNaN(Number(col));
 };
 export default caculateColumnData;
-

@@ -2,9 +2,9 @@ import { html, LitElement, nothing, PropertyValues, TemplateResult } from 'lit';
 import { classMap } from 'lit-html/directives/class-map';
 import { styleMap } from 'lit-html/directives/style-map';
 import { customElement, property } from 'lit/decorators.js';
-import { renderSortHeaderTemplate } from '../table/sort';
+import { renderSortHeaderTemplate, sortRenderHanlder } from '../table/sort';
 import SlTable, { SortTrigger } from '../table/table';
-import { getColumnCacheData, getFieldValue, isNumberWidth,  TdAgile } from '../table/tableHelper';
+import { getColumnCacheData, getFieldValue, isNumberWidth, TdAgile } from '../table/tableHelper';
 let columnUniqueID = 0;
 /**
  * @since 2.0
@@ -61,22 +61,26 @@ export default class SlColumn extends LitElement {
         classObj = { ...classInfo };
       }
     }
-    if(table.sortConfig&&table.sortConfig.trigger==SortTrigger.cell){
-        classObj['cursor']=true; 
+    if (table.sortConfig && table.sortConfig.trigger == SortTrigger.cell&&column.sortAble) {
+       classObj['cursor'] = true;
     }
-    const trigger=table.sortConfig.trigger;
-    const hander=(event:Event)=>{
-      const th=(event.target as HTMLElement).closest('th');
+    const trigger = table.sortConfig.trigger;
+    const handerSort = (_event: Event) => {
+      if(trigger==SortTrigger.self){
+          sortRenderHanlder(column,table);
+      }
     };
-    const handerDIV=(event:Event)=>{
-        const th=event.target;
+    const handerTHSort = (_event: Event) => {
+        if(trigger==SortTrigger.cell){
+          sortRenderHanlder(column,table);
+        }
     };
     return html`<th
       uniqueID=${column.uniqueID}
       .column=${column}
       .vAlign=${column.colvAlign}
       .align=${column.colAlign}
-      @click=${handerDIV}
+      @click=${handerTHSort}
       class=${classMap(classObj)}
       style=${styleMap(styleObject)}
       colIndex=${(cacheData.colIndex as number) + ''}
@@ -85,9 +89,11 @@ export default class SlColumn extends LitElement {
       draggable=${column.canDrag ? 'true' : 'false'}
     >
       <div class="thWrap">
-        ${column.renderCol ? html`<span class='column-title ${column.sortAble?'sort-able':''}'>${column.renderCol(column)}</span>` : html`<span class='column-title ${column.sortAble?'sort-able':''}'>${column.label}</span>`}
-        ${renderSortHeaderTemplate(table,column,hander)}
-        ${column.resizeAble?html`<div class='th-resize-helper'></div>`:''}
+        ${column.renderCol
+          ? html`<span class="column-title ${column.sortAble ? 'sort-able' : ''}">${column.renderCol(column)}</span>`
+          : html`<span class="column-title ${column.sortAble ? 'sort-able' : ''}">${column.label}</span>`}
+        ${renderSortHeaderTemplate(table, column, handerSort)}
+        ${column.resizeAble&&column.field ? html`<div class="th-resize-helper"></div>` : ''}
       </div>
     </th>`;
   };
@@ -212,13 +218,13 @@ export default class SlColumn extends LitElement {
   @property({ type: String, reflect: true, attribute: 'uniqueID' })
   uniqueID: string = 'unique_' + columnUniqueID++;
 
-  /**是否允许拖动列位置 */
-  @property({ type: String, reflect: true, attribute: 'can-drag' })
-  canDrag: string;
+  // /**是否允许拖动列位置 */
+  // @property({ type: String, reflect: true, attribute: 'can-drag' })
+  // canDrag: string;
 
-  /**是否允许拖动到此列 */
-  @property({ type: String, reflect: true, attribute: 'drag-accept' })
-  dragAccept: string;
+  // /**是否允许拖动到此列 */
+  // @property({ type: String, reflect: true, attribute: 'drag-accept' })
+  // dragAccept: string;
 
   /**顺序:越小越靠前 */
   @property({ type: Number, reflect: true, attribute: 'order' })
