@@ -2,7 +2,7 @@
 
 [component-header:sl-table]
 
-Table 组件启用TreeTable 设置treeConfig，
+Table 组件启用TreeTable 需要设置treeConfig属性
 
 ```html preview
 <sl-table id='tableDIV' >
@@ -89,5 +89,4 @@ export const defaultTreeConfig:TreeConfig={
   treeNodeColumn:'name',
   hasChildProp:'hasChild'
 } ; 
-
 ```
