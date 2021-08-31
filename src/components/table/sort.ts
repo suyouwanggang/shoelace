@@ -120,5 +120,3 @@ export const getSortByAsSql = (table: SlTable, converField?: (field: string) => 
   }
   return '';
 };
-
-

@@ -31,7 +31,6 @@ type SortConfig = {
   alwaysShowIcon: boolean;
 };
 
-
 export const defaultSortConfig = {
   //排序区域控制，则
   trigger: SortTrigger.cell,
@@ -46,34 +45,34 @@ export const defaultSortConfig = {
 /**
  * 定义表格数据为树类型
  */
- type TreeConfig={
+type TreeConfig = {
   //树子节点属性,必须为'chidren';
- // childrenProp:'children';
+  // childrenProp:'children';
   //树节点ID属性
-  idProp?:string;
+  idProp?: string;
   //树节点缩进
-  indent?:number;
+  indent?: number;
   //对于同一级的节点，每次只能展开一个
-  accordion?:boolean;
+  accordion?: boolean;
   //是否显示根节点
-  includeRoot:boolean;
+  includeRoot: boolean;
   //是否默认懒加载
-  lazy?:boolean;
+  lazy?: boolean;
   //指定treeNodeColumn 所在列 field
-  treeNodeColumn:string,
+  treeNodeColumn: string;
   //懒加载时，哪个属性标识有子节点
-  hasChildProp?:string;
-}
-export const defaultTreeConfig:TreeConfig={
-  idProp:'id',
+  hasChildProp?: string;
+};
+export const defaultTreeConfig: TreeConfig = {
+  idProp: 'id',
   //childrenProp:'children',
-  indent:14,
-  accordion:false,
-  lazy:false,
-  includeRoot:true,
-  treeNodeColumn:'name',
-  hasChildProp:'hasChild'
-} ; 
+  indent: 14,
+  accordion: false,
+  lazy: false,
+  includeRoot: true,
+  treeNodeColumn: 'name',
+  hasChildProp: 'hasChild'
+};
 
 /**
  * @since 2.0
@@ -136,8 +135,7 @@ export default class SlTable extends LitElement {
         orderType: SortingEnum;
       }>;
 
-
-  @property({ type: Object, attribute: false }) treeConfig?: TreeConfig ;
+  @property({ type: Object, attribute: false }) treeConfig?: TreeConfig;
 
   @watchProps(['sortConfig', 'sortValue'])
   sortConfigChange() {
@@ -153,7 +151,6 @@ export default class SlTable extends LitElement {
     }
   }
 
- 
   /**  table 容器高度，支持类似 css calc "100% - 40px" 或者“ 100vh - 30px ” */
   @property({ type: String })
   tableHeight: string; //支持css calc ( 支持的内容 )
@@ -164,103 +161,110 @@ export default class SlTable extends LitElement {
   @state()
   private innerDataSource: unknown[];
 
-  public static closeNodeSvg=svg`<svg xmlns="http://www.w3.org/2000/svg" id="caret-right-fill" fill="currentColor" viewBox="0 0 16 16" >
+  public static closeNodeSvg = svg`<svg xmlns="http://www.w3.org/2000/svg" id="caret-right-fill" fill="currentColor" viewBox="0 0 16 16" >
                 <use xlink:href="/assets/icons/sprite.svg#caret-right-fill"></use>
   </svg>`;
- public static openNodeSvg=svg`<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" id="caret-down-fill"><path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 01.753 1.659l-4.796 5.48a1 1 0 01-1.506 0z"></path></svg>`;
-
+  public static openNodeSvg = svg`<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" id="caret-down-fill"><path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 01.753 1.659l-4.796 5.48a1 1 0 01-1.506 0z"></path></svg>`;
 
   /**  当启用TreeConfig ,此时树节点自定义渲染*/
   @property({ type: Object })
-  customRenderTreeNode:(rowData:TreeNodeData,parentData:TreeNodeData,level:number)=>TemplateResult<1> ;
+  customRenderTreeNode: (rowData: TreeNodeData, parentData: TreeNodeData, level: number) => TemplateResult<1>;
 
-  protected treeNodeHasChildren(rowData:TreeNodeData){
-    if(typeof rowData.children =='undefined'&&this.treeConfig&&this.treeConfig.lazy){
+  protected treeNodeHasChildren(rowData: TreeNodeData) {
+    if (typeof rowData.children == 'undefined' && this.treeConfig && this.treeConfig.lazy) {
       return rowData[this.treeConfig.hasChildProp as string];
-    }else{
-      return rowData.children?rowData.children.length>0:false;
+    } else {
+      return rowData.children ? rowData.children.length > 0 : false;
     }
   }
-  private handlerTreeNodeToogle(rowData:TreeNodeData,parentData:TreeNodeData,event:Event){
-    if(typeof rowData.children =='undefined'&&this.treeConfig&&this.treeConfig.lazy){
-        let icon=event.target as HTMLElement;
-        console.log(icon);
+  private handlerTreeNodeToogle(rowData: TreeNodeData, parentData: TreeNodeData, event: Event) {
+    if (typeof rowData.children == 'undefined' && this.treeConfig && this.treeConfig.lazy) {
+      let icon = event.target as HTMLElement;
+      console.log(icon);
     }
-    let nodeEvent= emit(this,`sl-tree-node-before-${rowData.close?'open':'close'}`,{
-      cancelable:true,
-      detail:{
-        node:rowData,
-        parentNode:parentData,
+    let nodeEvent = emit(this, `sl-tree-node-before-${rowData.close ? 'open' : 'close'}`, {
+      cancelable: true,
+      detail: {
+        node: rowData,
+        parentNode: parentData
       }
     });
-    let nodeToogleEvent=emit(this,`sl-tree-node-toogle`,{
-      cancelable:true,
-      detail:{
-        node:rowData,
-        parentNode:parentData,
+    let nodeToogleEvent = emit(this, `sl-tree-node-toogle`, {
+      cancelable: true,
+      detail: {
+        node: rowData,
+        parentNode: parentData
       }
     });
-    if(!nodeEvent.defaultPrevented &&!nodeToogleEvent.defaultPrevented){
-        rowData.close=!rowData.close;
-        emit(this,`sl-tree-node-${rowData.close?'close':'open'}`,{
-          detail:{
-            node:rowData,
-            parentNode:parentData,
-        }});
-        emit(this,`sl-tree-node-toogle`,{
-          detail:{
-            node:rowData,
-            parentNode:parentData,
-        }});
-        this.requestUpdate();
-    }
-  }
-  public  wrapTreeNodeColumnField=(column:SlColumn,rowData:TreeNodeData, wrap:TemplateResult<1>)=>{
-    if(column.field&&this.treeConfig&&column.field==this.treeConfig.treeNodeColumn){
-        let parentData=this.cacheParentMap.get(rowData);
-        let level=this.cacheLevelMap.get(rowData) as number;
-        if(typeof rowData.close =='undefined'){
-            rowData.close=true;
+    if (!nodeEvent.defaultPrevented && !nodeToogleEvent.defaultPrevented) {
+      rowData.close = !rowData.close;
+      emit(this, `sl-tree-node-${rowData.close ? 'close' : 'open'}`, {
+        detail: {
+          node: rowData,
+          parentNode: parentData
         }
-        let closed=rowData.close;
-        let span= html`<span class='tree-node-icon' @click=${(event:Event)=>this.handlerTreeNodeToogle(rowData,parentData,event)}>${closed?SlTable.closeNodeSvg:SlTable.openNodeSvg}</span>`;
-       
-        return html`<div class='tree-node ${closed?'closed':''}' style='padding-left:${level*(this.treeConfig.indent as number)}px;'>
-           ${this.treeNodeHasChildren(rowData)?span:html`<span class='tree-node-empty-node'></span>`}
-           ${rowData.icon?html`<sl-icon class='tree-node-icon' name=${rowData.icon}></sl-icon>`:''}
-           ${this.customRenderTreeNode?this.customRenderTreeNode(rowData,parentData,level):''}
-           ${wrap}
-      </div>`
+      });
+      emit(this, `sl-tree-node-toogle`, {
+        detail: {
+          node: rowData,
+          parentNode: parentData
+        }
+      });
+      this.requestUpdate();
+    }
+  }
+  public wrapTreeNodeColumnField = (column: SlColumn, rowData: TreeNodeData, wrap: TemplateResult<1>) => {
+    if (column.field && this.treeConfig && column.field == this.treeConfig.treeNodeColumn) {
+      let parentData = this.cacheParentMap.get(rowData);
+      let level = this.cacheLevelMap.get(rowData) as number;
+      if (typeof rowData.close == 'undefined') {
+        rowData.close = true;
+      }
+      let closed = rowData.close;
+      let span = html`<span
+        class="tree-node-icon"
+        @click=${(event: Event) => this.handlerTreeNodeToogle(rowData, parentData, event)}
+        >${closed ? SlTable.closeNodeSvg : SlTable.openNodeSvg}</span
+      >`;
+
+      return html`<div
+        class="tree-node ${closed ? 'closed' : ''}"
+        style="padding-left:${level * (this.treeConfig.indent as number)}px;"
+      >
+        ${this.treeNodeHasChildren(rowData) ? span : html`<span class="tree-node-empty-node"></span>`}
+        ${rowData.icon ? html`<sl-icon class="tree-node-icon" name=${rowData.icon}></sl-icon>` : ''}
+        ${this.customRenderTreeNode ? this.customRenderTreeNode(rowData, parentData, level) : ''} ${wrap}
+      </div>`;
     }
     return wrap;
-  }
+  };
   /**Tree 列表的时候启用，缓存节点渲染层次 */
-  private cacheParentMap:WeakMap<any,any>;
-   /**Tree 列表的时候启用，缓存节点渲染层次 */
-  private cacheLevelMap:WeakMap<any,number>;
-  @watchProps(['dataSource','treeConfig'])
+  private cacheParentMap: WeakMap<any, any>;
+  /**Tree 列表的时候启用，缓存节点渲染层次 */
+  private cacheLevelMap: WeakMap<any, number>;
+  @watchProps(['dataSource', 'treeConfig'])
   watchDataSourceChange() {
-    if(this.treeConfig&&this.dataSource){
-      this.treeConfig={...this.treeConfig,...defaultTreeConfig};
-      this.cacheParentMap=new WeakMap();
-      this.cacheLevelMap=new WeakMap();
-      let allTreeNode:unknown[]=[];
-     for(let rowData of this.dataSource){
-        iteratorNodeData(rowData as TreeNodeData,(node:TreeNodeData, parentNode: TreeNodeData)=>{
-          if(typeof node.close =='undefined'){
-            node.close=true;//默认全部关闭
+    if (this.treeConfig && this.dataSource) {
+      this.treeConfig = { ...this.treeConfig, ...defaultTreeConfig };
+      this.cacheParentMap = new WeakMap();
+      this.cacheLevelMap = new WeakMap();
+      let allTreeNode: unknown[] = [];
+      for (let rowData of this.dataSource) {
+        iteratorNodeData(rowData as TreeNodeData, (node: TreeNodeData, parentNode: TreeNodeData) => {
+          if (typeof node.close == 'undefined') {
+            node.close = true; //默认全部关闭
           }
           allTreeNode.push(node);
-          this.cacheParentMap.set(node,parentNode);
-          let level=0;
-          if(parentNode){
-            level=(this.cacheLevelMap.has(parentNode)? this.cacheLevelMap.get(parentNode) as number:0)+1;
+          this.cacheParentMap.set(node, parentNode);
+          let level = 0;
+          if (parentNode) {
+            level = (this.cacheLevelMap.has(parentNode) ? (this.cacheLevelMap.get(parentNode) as number) : 0) + 1;
           }
-          this.cacheLevelMap.set(node,level);
+          this.cacheLevelMap.set(node, level);
         });
-     }
-     this.innerDataSource=allTreeNode;
-    }else{
+      }
+      this.innerDataSource = allTreeNode;
+    } else {
       this.innerDataSource = this.dataSource;
     }
   }
@@ -349,7 +353,7 @@ export default class SlTable extends LitElement {
     this._resizeResult?.dispose();
   }
   private _renderNoDataTemplate() {
-    if (this.innerDataSource &&this.innerDataSource.length==0 ) {
+    if (this.innerDataSource && this.innerDataSource.length == 0) {
       return html`<slot @slotchange=${this.columnChangeHanlder} name="no-data">${getResouceValue('noData')}</slot>`;
     }
     return ``;
@@ -482,12 +486,12 @@ export default class SlTable extends LitElement {
   /**自定义 渲染tHeader tr的样式 */
   customRenderRowClassMap?: (rowData: any, rowIndex: number) => ClassInfo | string | string[];
 
-  private getAllChildrenSize(rowData:TreeNodeData){
-      let size=0;
-      iteratorNodeData(rowData,(_node,_parent)=>{
-        size++;
-      })
-      return size-1;
+  private getAllChildrenSize(rowData: TreeNodeData) {
+    let size = 0;
+    iteratorNodeData(rowData, (_node, _parent) => {
+      size++;
+    });
+    return size - 1;
   }
   private _renderDataSourceRows() {
     const table = this;
@@ -526,8 +530,8 @@ export default class SlTable extends LitElement {
             </tr>`
           );
         }
-        if(table.treeConfig&&rowData.close){
-          index+=this.getAllChildrenSize(rowData);
+        if (table.treeConfig && rowData.close) {
+          index += this.getAllChildrenSize(rowData);
         }
       }
     }

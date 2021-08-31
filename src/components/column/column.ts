@@ -145,12 +145,15 @@ export default class SlColumn extends LitElement {
         colspan=${tdResult.colspan ? tdResult.colspan : 1}
         rowspan=${tdResult.rowspan ? tdResult.rowspan : 1}
       >
-      ${table.wrapTreeNodeColumnField(column, rowData,tdResult.template ? html`${tdResult.template}` : html`${tdResult}`)}
+        ${table.wrapTreeNodeColumnField(
+          column,
+          rowData,
+          tdResult.template ? html`${tdResult.template}` : html`${tdResult}`
+        )}
       </td>`;
     }
   };
-  
- 
+
   /**表头自定义渲染(this:SlColumn,table:SlTable):TemplateResult<1>*/
   @property({ attribute: false, type: Object }) renderCol: (column: SlColumn) => TemplateResult<1>;
 
