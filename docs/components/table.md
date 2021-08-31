@@ -190,11 +190,11 @@ Table 组件
 ```html preview
 <sl-table id='tableDIV2' border>
     <sl-column label='基本信息'  resize-able >
-         <sl-column field='name' col-align='left' resize-able label='Name' sort-able  width='100%' align='left' min-width='300' ></sl-column>
-         <sl-column field='sex' label='Sex'  resize-able col-align='left' sort-able min-width='150'  align='right' order=2></sl-column>
-         <sl-column field='age' label='Age'  resize-able min-width='150' sort-able align='center' order=1></sl-column>
+         <sl-column field='name' resize-able label='Name' sort-able  width='100%' align='left' min-width='300' ></sl-column>
+         <sl-column field='sex' label='Sex'  resize-able  sort-able min-width='150'  align='right' order=2></sl-column>
+         <sl-column field='age' label='Age'  resize-able min-width='150' sort-able align='left' col-align='left' order=1></sl-column>
     </sl-column>
-    <sl-column field='role' label='Role'  resize-able min-width='200' order=2 ></sl-column>
+    <sl-column field='role' label='Role' align='right' resize-able min-width='200' order=2 ></sl-column>
     <sl-column field='address' label='address'  resize-able min-width='300' order='1'  ></sl-column>
 </sl-table>
 <script >

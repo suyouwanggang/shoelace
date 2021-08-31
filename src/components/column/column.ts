@@ -92,11 +92,12 @@ export default class SlColumn extends LitElement {
           ? html`<span class="column-title ${column.sortAble ? 'sort-able' : ''}">${column.renderCol(column)}</span>`
           : html`<span class="column-title ${column.sortAble ? 'sort-able' : ''}">${column.label}</span>`}
         ${renderSortHeaderTemplate(table, column, handerSort)}
-        ${column.resizeAble ? html`<div part="resize-hanler" class="th-resize-helper"></div>` : ''}
-      </div>
+        ${column.resizeAble ? html`<div part="resize-hanler" @click=${SlColumn.stopHanderClick} class="th-resize-helper"></div>` : ''} </div>
     </th>`;
   };
-
+  private static stopHanderClick=(event:Event)=>{
+    event.stopPropagation();
+  }
   private static _renderCellData(rowData: any, rowDataIndex: number, col: SlColumn) {
     let colResult: any;
     if (col.renderCell) {

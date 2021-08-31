@@ -2,9 +2,12 @@
     display: block;
     //必须设置为相对，此时table-header-div 绝对，竖直位置不会移动
     --sl-th-padding-size:12px 8px;
+    --sl-table-border-color:var(--sl-color-netural-200);
     --sl-table-border-color:var(--sl-color-neutral-200);
     --sl-table-header-bg-color:var(--sl-color-neutral-50);
     --sl-table-scroll-barWidth:16px;
+    --sl-table-td-right-width:0;
+    
     --sl-table-td-right-width:0px;
     --sl-table-td-bottom-width:1px;
     --sl-table-stripe-color:var(--sl-color-blue-gray-50);
@@ -17,7 +20,6 @@ td,th{
     border:none;
 }
 .tdBorder{
-    //border-top: solid 1px rgb(var(--sl-color-neutral-200));
     border-bottom: solid var(--sl-table-td-bottom-width) rgb(var(--sl-table-border-color));
     border-right: solid var(--sl-table-td-right-width)  rgb(var(--sl-table-border-color));
 }
@@ -47,6 +49,10 @@ table[part=table]{
 }
 :host([border]) table[part=table]{
     --sl-table-td-right-width:1px;
+    border-top:solid 1px rgb(var(--sl-table-border-color));
+    border-left:solid 1px rgb(var(--sl-table-border-color));
+
+
     &::before{
         content:'';
         top:0;
@@ -102,7 +108,6 @@ table[part=table]{
 
 .thWrap{
     display: flex;
-    white-space: pre-line;
     word-break: break-all;
     align-items: center;
 }
@@ -127,6 +132,8 @@ th[align=right]{
     color: #bfbfbf;
     display: inline-flex;
     flex-direction: column;
+    font-size: 10px;
+    line-height:10px;
     flex:0 0 auto;
     font-size: 12px;
     line-height:12px;

@@ -104,17 +104,19 @@ export default class SlOrgNode extends LitElement {
     this._emitEvent('sl-node-click');
   }
 
-  protected _emitEvent(eventName: string, options?: CustomEventInit) {
-    return emit(this, eventName, { detail: { nodeData: this.nodeData }, ...options });
+  protected _emitEvent(eventName: string,options?: CustomEventInit) {
+    emit(this, eventName, { detail: { nodeData: this.nodeData, ...options } });
   }
   private onToogleNode(event: Event) {
     event.stopPropagation();
-    const beforeEvent = this._emitEvent('sl-node-before-toogle', { cancelable: true });
+	const beforeEvent = this._emitEvent('sl-node-before-toogle', { cancelable: true });
     if (!beforeEvent.defaultPrevented) {
-      this.expanded = !this.expanded;
-      this.nodeData.expanded = this.expanded;
-      this._emitEvent('sl-node-toogle');
-    }
+		this.expanded = !this.expanded;
+        this.nodeData.expanded = this.expanded;
+        this._emitEvent('sl-node-toogle');
+	    this._emitEvent('node-toogle');	
+		
+	}
   }
   private _renderChildNode() {
     const result = [];
