@@ -89,7 +89,7 @@ export default class SlTable extends LitElement {
   @property({ type: Array, attribute: false }) dataSource: unknown[];
 
   @property({ type: Object, attribute: false }) sortConfig: SortConfig = { ...defaultSortConfig };
-  /**表格当前排序值**/
+  /**表格当前排序值 */
   @property({ type: Object, attribute: false }) sortValue?:
     | {
         orderBy: string;

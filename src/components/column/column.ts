@@ -92,7 +92,7 @@ export default class SlColumn extends LitElement {
           ? html`<span class="column-title ${column.sortAble ? 'sort-able' : ''}">${column.renderCol(column)}</span>`
           : html`<span class="column-title ${column.sortAble ? 'sort-able' : ''}">${column.label}</span>`}
         ${renderSortHeaderTemplate(table, column, handerSort)}
-        ${column.resizeAble ? html`<div part='resize-hanler' class="th-resize-helper"></div>` : ''}
+        ${column.resizeAble ? html`<div part="resize-hanler" class="th-resize-helper"></div>` : ''}
       </div>
     </th>`;
   };
