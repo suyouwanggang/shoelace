@@ -22,91 +22,101 @@ export const renderSortHeaderTemplate = (table: SlTable, column: SlColumn, hande
     if (table.sortConfig.alwaysShowIcon) {
       result = html`<div class="sort-wrap" @click=${hander}>
         <div class="sort-ASC  ${sortResult && sortResult.orderType == SortingEnum.ASC ? 'current' : ''}">${sortUp}</div>
-        <div class="sort-DESC ${sortResult && sortResult.orderType == SortingEnum.DESC ? 'current' : ''}">${sortDown}</div>
+        <div class="sort-DESC ${sortResult && sortResult.orderType == SortingEnum.DESC ? 'current' : ''}">
+          ${sortDown}
+        </div>
       </div>`;
     } else {
       result = html`<div class="sort-wrap" @click=${hander}>
-        <div class="sort-${sortResult?sortResult.orderType:'null'} current">${sortResult&&sortResult.orderType == SortingEnum.ASC ? sortUp : (sortResult&&sortResult.orderType == SortingEnum.DESC?sortDown:'')}</div>
+        <div class="sort-${sortResult ? sortResult.orderType : 'null'} current">
+          ${sortResult && sortResult.orderType == SortingEnum.ASC
+            ? sortUp
+            : sortResult && sortResult.orderType == SortingEnum.DESC
+            ? sortDown
+            : ''}
+        </div>
       </div>`;
     }
   }
   return result;
 };
-export const sortRenderHanlder=(column:SlColumn,table:SlTable)=>{
-  if(column.sortAble){
-    if(!column.field){
+export const sortRenderHanlder = (column: SlColumn, table: SlTable) => {
+  if (column.sortAble) {
+    if (!column.field) {
       console.warn('column sort must has field value');
-      return ;
+      return;
     }
-    let value=table.sortValue;
-    let config=table.sortConfig;
-    let array=(value?(Array.isArray(value)?value:[value]): [] ) as Array<{
+    let value = table.sortValue;
+    let config = table.sortConfig;
+    let array = (value ? (Array.isArray(value) ? value : [value]) : []) as Array<{
       orderBy: string;
       orderType: SortingEnum;
     }>;
     let index = array.findIndex(item => item.orderBy == column.field);
-    let currentFieldValue=index>=0?array[index]:null;
-    const event=emit(table,'sl-table-before-sort',{
-      detail:{
-        column:column,
-        sortValue:currentFieldValue
+    let currentFieldValue = index >= 0 ? array[index] : null;
+    const event = emit(table, 'sl-table-before-sort', {
+      cancelable:true,
+      detail: {
+        column: column,
+        sortValue: currentFieldValue
       }
     });
-    if(!event.defaultPrevented){
-      if(index>=0){
-        array.splice(index,1);
+    if (!event.defaultPrevented) {
+      if (index >= 0) {
+        array.splice(index, 1);
       }
-      let orders=config.orders;
-      let nextIndex=0;
-      if(currentFieldValue!=null){
-        let orderIndex=orders.findIndex((item=> item==currentFieldValue?.orderType));
-        if(orderIndex+1<orders.length){
-          nextIndex=orderIndex+1;
-        }else{
-          nextIndex=0;
+      let orders = config.orders;
+      let nextIndex = 0;
+      if (currentFieldValue != null) {
+        let orderIndex = orders.findIndex(item => item == currentFieldValue?.orderType);
+        if (orderIndex + 1 < orders.length) {
+          nextIndex = orderIndex + 1;
+        } else {
+          nextIndex = 0;
         }
       }
-      let newSort=orders[nextIndex];
-      if(newSort!=SortingEnum.NULL){
+      let newSort = orders[nextIndex];
+      if (newSort != SortingEnum.NULL) {
         array.push({
-          orderBy:column.field,
-          orderType:newSort
+          orderBy: column.field,
+          orderType: newSort
         });
       }
-     
-      if(config.mutil){
-        table.sortValue=[...array];
-      }else if(array.length>0){
-        table.sortValue=array[array.length-1];
-      }else {
-        table.sortValue=undefined;
+
+      if (config.multi) {
+        table.sortValue = [...array];
+      } else if (array.length > 0) {
+        table.sortValue = array[array.length - 1];
+      } else {
+        table.sortValue = undefined;
       }
-      emit(table,'sl-table-sort',{
-        detail:{
-          column:column,
-          sortValue:table.sortValue
+      emit(table, 'sl-table-sort', {
+        detail: {
+          column: column,
+          sortValue: table.sortValue
         }
-      })
-      console.log(getSortByAsSql(table,(field)=>'a.'+field));
+      });
     }
   }
-}
+};
 /**
  * 将table 排序字段值转为为Sql
- * @param table 
+ * @param table
  * @param converto 处理字段转sql 字段，例如"name" ->"a.name"
- * @returns 
+ * @returns
  */
-export const getSortByAsSql=(table:SlTable,converField?:(field:string)=>string)=>{
-  let value=table.sortValue;
-  if(value){
-    let array=(value?(Array.isArray(value)?value:[value]): []) as Array<{
+export const getSortByAsSql = (table: SlTable, converField?: (field: string) => string) => {
+  let value = table.sortValue;
+  if (value) {
+    let array = (value ? (Array.isArray(value) ? value : [value]) : []) as Array<{
       orderBy: string;
       orderType: SortingEnum;
     }>;
-    return array.map((item=>{
-      return (converField?converField(item.orderBy):item.orderBy) +' '+item.orderType
-    })).join(' ');
+    return array
+      .map(item => {
+        return (converField ? converField(item.orderBy) : item.orderBy) + ' ' + item.orderType;
+      })
+      .join(' ');
   }
   return '';
-}
+};

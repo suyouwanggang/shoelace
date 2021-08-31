@@ -253,6 +253,7 @@ export default class SlTree extends LitElement {
       const type = oldType.replace('sl-node', 'sl-tree-node');
       const nodeData = node.nodeData;
       emit(this, type, {
+        cancelable:true,
         detail: {
           node: node,
           nodeData: nodeData,

@@ -28,6 +28,12 @@ Table 组件
     table.dataSource=dateList;
     window.table=table;
     table.tableHeight='400px';
+    table.addEventListener('sl-table-before-sort',(event)=>{
+        console.log(event.detail.column.label +' sortValue'+JSON.stringify(event.detail.sortValue));
+    });
+     table.addEventListener('sl-table-sort',(event)=>{
+        console.log(event.detail.column.label +' sortValue'+JSON.stringify(event.detail.sortValue));
+    });
 </script>
 ```
 ### 调整列顺序
@@ -123,10 +129,7 @@ Table 组件
     //获取table 对象
     let table=document.querySelector('#tableDIV');
     document.querySelector('sl-column[field=sex]').renderCol=(column)=>{
-        return window.html`<span>${column.label} <svg style='width:1em;height:1em' xmlns="http://www.w3.org/2000/svg" fill="currentColor" 
-class="bi bi-caret-down" viewBox="0 0 16 16" id="caret-down">
-<path d="M3.204 5h9.592L8 10.481 3.204 5zm-.753.659l4.796 5.48a1 1 0 001.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 00-.753 1.659z">
-</path></svg></span>`;
+        return window.html`<span>${column.label} <font color='red'>*</font>`;
     }
 ```
 
@@ -182,17 +185,17 @@ class="bi bi-caret-down" viewBox="0 0 16 16" id="caret-down">
     }
 ```
 
-### 表头多列
+### 表头多列 ,支持列固定，表头拖动，排序
 
 ```html preview
 <sl-table id='tableDIV2' border>
-    <sl-column label='基本信息' >
-         <sl-column field='name' col-align='left' label='Name'  width='100%' align='left' min-width='300' ></sl-column>
-         <sl-column field='sex' label='Sex' col-align='left' min-width='150'  align='right' order=2></sl-column>
-         <sl-column field='age' label='Age' min-width='150'  align='center' order=1></sl-column>
+    <sl-column label='基本信息'  resize-able >
+         <sl-column field='name' col-align='left' resize-able label='Name' sort-able  width='100%' align='left' min-width='300' ></sl-column>
+         <sl-column field='sex' label='Sex'  resize-able col-align='left' sort-able min-width='150'  align='right' order=2></sl-column>
+         <sl-column field='age' label='Age'  resize-able min-width='150' sort-able align='center' order=1></sl-column>
     </sl-column>
-    <sl-column field='role' label='Role' min-width='200' order=2 ></sl-column>
-    <sl-column field='address' label='address' min-width='300' order='1'  ></sl-column>
+    <sl-column field='role' label='Role'  resize-able min-width='200' order=2 ></sl-column>
+    <sl-column field='address' label='address'  resize-able min-width='300' order='1'  ></sl-column>
 </sl-table>
 <script >
     let table2=document.querySelector('#tableDIV2');
@@ -210,6 +213,9 @@ class="bi bi-caret-down" viewBox="0 0 16 16" id="caret-down">
                 { id: 10008, name: 'Test8', role: 'Develop', sex: 'Man', age: 35, address: 'table 从入门到放弃' }];
     table2.dataSource=dateList2;
     window.table2=table2;
+    table2.fixedColumns=3;
+    table2.tableHeight=400;
+    table2.sortValue={orderBy:'name',orderType:'ASC'};
 </script>
 ```
 

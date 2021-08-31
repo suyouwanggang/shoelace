@@ -28,8 +28,9 @@ export const defaultRoleRender = (data: OrgNodeDataType) => {
  * @status experimental
  *
  
- *  @event node-click {data:any} - click node Data Element .
-    @event node-toogle {data:any} - toogle node Element .
+ *  @event sl-node-click {data:any} - click node Data Element .
+    @event sl-node-toogle {data:any} - toogle node Element .
+    @event sl-node-before-toogle {data:any} -before toogle node Element .
  *
 
  *
@@ -100,23 +101,25 @@ export default class SlOrgNode extends LitElement {
     `;
   }
   onNodeClick() {
-    this._emitEvent('node-click');
+    this._emitEvent('sl-node-click');
   }
 
-  protected _emitEvent(eventName: string) {
-    emit(this, eventName, { detail: { nodeData: this.nodeData } });
+  protected _emitEvent(eventName: string,options?: CustomEventInit) {
+    return emit(this, eventName, { detail: { nodeData: this.nodeData },...options });
   }
   private onToogleNode(event: Event) {
     event.stopPropagation();
-    this.expanded = !this.expanded;
-    this.nodeData.expanded = this.expanded;
-    this._emitEvent('node-toogle');
+    const beforeEvent=this._emitEvent('sl-node-before-toogle',{cancelable:true});
+    if(!beforeEvent.defaultPrevented){
+      this.expanded = !this.expanded;
+      this.nodeData.expanded = this.expanded;
+      this._emitEvent('sl-node-toogle');
+    }
   }
   private _renderChildNode() {
     const result = [];
     if (this.nodeData.children) {
       const child = this.nodeData.children;
-
       for (let i = 0, j = child.length; i < j; i++) {
         const subNode = child[i];
         const expanded = typeof subNode.expanded == 'undefined' ? true : subNode.expanded;

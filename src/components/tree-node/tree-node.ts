@@ -144,6 +144,7 @@ export default class SlTreeNode extends LitElement {
   }
   private emitEvent(eventType: string, event: Event) {
     return emit(this, eventType, {
+      cancelable:true,
       detail: {
         nodeData: this.nodeData,
         node: ((event.target as Element).getRootNode() as any).host as SlTreeNode
