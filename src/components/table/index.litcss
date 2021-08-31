@@ -173,3 +173,24 @@ th[align=right]{
     }
 }
 
+
+//列表树节点样式
+.tree-node{
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    .tree-node-icon{
+        position: relative;
+        cursor: pointer;
+        font-size: var(--sl-tree-trriger-icon,14px);
+        padding: var(--sl-tree-trriger-padding,0 4px 0 2px);
+    }
+    .tree-node-empty-node{
+        display: inline;
+        width:16px;
+    }
+    svg{
+        width: 1em;
+        height: 1em;
+    }
+}

@@ -28,16 +28,10 @@ export default class SlColumn extends LitElement {
       if (column.minWidth) {
         const isNumber = isNumberWidth(column.minWidth);
         styleObject['min-width'] = column.minWidth + (isNumber ? 'px' : '');
-        if (!column.width) {
-          styleObject['width'] = column.minWidth + (isNumber ? 'px' : '');
-        }
       }
       if (column.width) {
         const isNumber = isNumberWidth(column.width);
         styleObject['width'] = column.width + (isNumber ? 'px' : '');
-        if (!column.minWidth) {
-          styleObject['min-width'] = styleObject['width'];
-        }
       }
       if (column.maxWidth) {
         const isNumber = isNumberWidth(column.maxWidth);
@@ -92,12 +86,15 @@ export default class SlColumn extends LitElement {
           ? html`<span class="column-title ${column.sortAble ? 'sort-able' : ''}">${column.renderCol(column)}</span>`
           : html`<span class="column-title ${column.sortAble ? 'sort-able' : ''}">${column.label}</span>`}
         ${renderSortHeaderTemplate(table, column, handerSort)}
-        ${column.resizeAble ? html`<div part="resize-hanler" @click=${SlColumn.stopHanderClick} class="th-resize-helper"></div>` : ''} </div>
+        ${column.resizeAble
+          ? html`<div part="resize-hanler" @click=${SlColumn.stopHanderClick} class="th-resize-helper"></div>`
+          : ''}
+      </div>
     </th>`;
   };
-  private static stopHanderClick=(event:Event)=>{
+  private static stopHanderClick = (event: Event) => {
     event.stopPropagation();
-  }
+  };
   private static _renderCellData(rowData: any, rowDataIndex: number, col: SlColumn) {
     let colResult: any;
     if (col.renderCell) {
@@ -148,10 +145,12 @@ export default class SlColumn extends LitElement {
         colspan=${tdResult.colspan ? tdResult.colspan : 1}
         rowspan=${tdResult.rowspan ? tdResult.rowspan : 1}
       >
-        ${tdResult.template ? html`${tdResult.template}` : html`${tdResult}`}
+      ${table.wrapTreeNodeColumnField(column, rowData,tdResult.template ? html`${tdResult.template}` : html`${tdResult}`)}
       </td>`;
     }
   };
+  
+ 
   /**表头自定义渲染(this:SlColumn,table:SlTable):TemplateResult<1>*/
   @property({ attribute: false, type: Object }) renderCol: (column: SlColumn) => TemplateResult<1>;
 

@@ -78,19 +78,6 @@ export default class SlTreeNode extends LitElement {
     if (levelStr) {
       level = parseInt(levelStr, 10) + 1;
     }
-    // return html`${cache(
-    //   !this.isClose
-    //     ? this.nodeData?.children?.map(data => {
-    //         return html`<sl-tree-node
-    //           .nodeData=${data}
-    //           .nodeRender=${this.nodeRender}
-    //           .tree=${this.tree}
-    //           level=${level + ''}
-    //           style="--sl-node-level:${level}"
-    //         ></sl-tree-node>`;
-    //       })
-    //     : ''
-    // )}`;
     return html`${!this.isClose
       ? this.nodeData?.children?.map((data, index) => {
           return html`<sl-tree-node

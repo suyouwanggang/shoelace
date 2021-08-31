@@ -1,4 +1,4 @@
-import { html, LitElement, nothing, PropertyValues } from 'lit';
+import { html, LitElement, nothing, PropertyValues, svg, TemplateResult } from 'lit';
 import { ClassInfo, classMap } from 'lit-html/directives/class-map';
 import { StyleInfo, styleMap } from 'lit-html/directives/style-map';
 import { customElement, property, query, state } from 'lit/decorators.js';
@@ -10,6 +10,7 @@ import { dragOnHandler } from '../../utilities/dragHelper';
 import { getResouceValue } from '../../utilities/getResouce';
 import { addResizeHander, DisposeObject } from '../../utilities/resize.util';
 import SlColumn from '../column/column';
+import { iteratorNodeData, TreeNodeData } from '../tree-node/tree-node-util';
 import styles from './table.styles';
 import caculateColumnData, { RowHeader, SortingEnum } from './tableHelper';
 export enum SortTrigger {
@@ -29,6 +30,8 @@ type SortConfig = {
   //当触发区域为cell,是否总是显示排序图标。
   alwaysShowIcon: boolean;
 };
+
+
 export const defaultSortConfig = {
   //排序区域控制，则
   trigger: SortTrigger.cell,
@@ -39,6 +42,39 @@ export const defaultSortConfig = {
   //是否总是显示排序图标,如果总是
   alwaysShowIcon: false
 };
+
+/**
+ * 定义表格数据为树类型
+ */
+ type TreeConfig={
+  //树子节点属性,必须为'chidren';
+ // childrenProp:'children';
+  //树节点ID属性
+  idProp?:string;
+  //树节点缩进
+  indent?:number;
+  //对于同一级的节点，每次只能展开一个
+  accordion?:boolean;
+  //是否显示根节点
+  includeRoot:boolean;
+  //是否默认懒加载
+  lazy?:boolean;
+  //指定treeNodeColumn 所在列 field
+  treeNodeColumn:string,
+  //懒加载时，哪个属性标识有子节点
+  hasChildProp?:string;
+}
+export const defaultTreeConfig:TreeConfig={
+  idProp:'id',
+  //childrenProp:'children',
+  indent:14,
+  accordion:false,
+  lazy:false,
+  includeRoot:true,
+  treeNodeColumn:'name',
+  hasChildProp:'hasChild'
+} ; 
+
 /**
  * @since 2.0
  * @status experimental
@@ -85,7 +121,7 @@ export default class SlTable extends LitElement {
   /** table 支持斑马线 */
   @property({ type: Boolean, attribute: false, reflect: true }) stripe: boolean = false;
 
-  /** 表格需要渲染的数据 ，必须是数组！*/
+  /** 表格需要渲染的数据 必须是数组*/
   @property({ type: Array, attribute: false }) dataSource: unknown[];
 
   @property({ type: Object, attribute: false }) sortConfig: SortConfig = { ...defaultSortConfig };
@@ -99,6 +135,9 @@ export default class SlTable extends LitElement {
         orderBy: string;
         orderType: SortingEnum;
       }>;
+
+
+  @property({ type: Object, attribute: false }) treeConfig?: TreeConfig ;
 
   @watchProps(['sortConfig', 'sortValue'])
   sortConfigChange() {
@@ -114,6 +153,7 @@ export default class SlTable extends LitElement {
     }
   }
 
+ 
   /**  table 容器高度，支持类似 css calc "100% - 40px" 或者“ 100vh - 30px ” */
   @property({ type: String })
   tableHeight: string; //支持css calc ( 支持的内容 )
@@ -124,9 +164,105 @@ export default class SlTable extends LitElement {
   @state()
   private innerDataSource: unknown[];
 
-  @watchProps(['dataSource'])
+  public static closeNodeSvg=svg`<svg xmlns="http://www.w3.org/2000/svg" id="caret-right-fill" fill="currentColor" viewBox="0 0 16 16" >
+                <use xlink:href="/assets/icons/sprite.svg#caret-right-fill"></use>
+  </svg>`;
+ public static openNodeSvg=svg`<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" id="caret-down-fill"><path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 01.753 1.659l-4.796 5.48a1 1 0 01-1.506 0z"></path></svg>`;
+
+
+  /**  当启用TreeConfig ,此时树节点自定义渲染*/
+  @property({ type: Object })
+  customRenderTreeNode:(rowData:TreeNodeData,parentData:TreeNodeData,level:number)=>TemplateResult<1> ;
+
+  protected treeNodeHasChildren(rowData:TreeNodeData){
+    if(typeof rowData.children =='undefined'&&this.treeConfig&&this.treeConfig.lazy){
+      return rowData[this.treeConfig.hasChildProp as string];
+    }else{
+      return rowData.children?rowData.children.length>0:false;
+    }
+  }
+  private handlerTreeNodeToogle(rowData:TreeNodeData,parentData:TreeNodeData,event:Event){
+    if(typeof rowData.children =='undefined'&&this.treeConfig&&this.treeConfig.lazy){
+        let icon=event.target as HTMLElement;
+        console.log(icon);
+    }
+    let nodeEvent= emit(this,`sl-tree-node-before-${rowData.close?'open':'close'}`,{
+      cancelable:true,
+      detail:{
+        node:rowData,
+        parentNode:parentData,
+      }
+    });
+    let nodeToogleEvent=emit(this,`sl-tree-node-toogle`,{
+      cancelable:true,
+      detail:{
+        node:rowData,
+        parentNode:parentData,
+      }
+    });
+    if(!nodeEvent.defaultPrevented &&!nodeToogleEvent.defaultPrevented){
+        rowData.close=!rowData.close;
+        emit(this,`sl-tree-node-${rowData.close?'close':'open'}`,{
+          detail:{
+            node:rowData,
+            parentNode:parentData,
+        }});
+        emit(this,`sl-tree-node-toogle`,{
+          detail:{
+            node:rowData,
+            parentNode:parentData,
+        }});
+        this.requestUpdate();
+    }
+  }
+  public  wrapTreeNodeColumnField=(column:SlColumn,rowData:TreeNodeData, wrap:TemplateResult<1>)=>{
+    if(column.field&&this.treeConfig&&column.field==this.treeConfig.treeNodeColumn){
+        let parentData=this.cacheParentMap.get(rowData);
+        let level=this.cacheLevelMap.get(rowData) as number;
+        if(typeof rowData.close =='undefined'){
+            rowData.close=true;
+        }
+        let closed=rowData.close;
+        let span= html`<span class='tree-node-icon' @click=${(event:Event)=>this.handlerTreeNodeToogle(rowData,parentData,event)}>${closed?SlTable.closeNodeSvg:SlTable.openNodeSvg}</span>`;
+       
+        return html`<div class='tree-node ${closed?'closed':''}' style='padding-left:${level*(this.treeConfig.indent as number)}px;'>
+           ${this.treeNodeHasChildren(rowData)?span:html`<span class='tree-node-empty-node'></span>`}
+           ${rowData.icon?html`<sl-icon class='tree-node-icon' name=${rowData.icon}></sl-icon>`:''}
+           ${this.customRenderTreeNode?this.customRenderTreeNode(rowData,parentData,level):''}
+           ${wrap}
+      </div>`
+    }
+    return wrap;
+  }
+  /**Tree 列表的时候启用，缓存节点渲染层次 */
+  private cacheParentMap:WeakMap<any,any>;
+   /**Tree 列表的时候启用，缓存节点渲染层次 */
+  private cacheLevelMap:WeakMap<any,number>;
+  @watchProps(['dataSource','treeConfig'])
   watchDataSourceChange() {
-    this.innerDataSource = this.dataSource;
+    if(this.treeConfig&&this.dataSource){
+      this.treeConfig={...this.treeConfig,...defaultTreeConfig};
+      this.cacheParentMap=new WeakMap();
+      this.cacheLevelMap=new WeakMap();
+      let allTreeNode:unknown[]=[];
+     for(let rowData of this.dataSource){
+        iteratorNodeData(rowData as TreeNodeData,(node:TreeNodeData, parentNode: TreeNodeData)=>{
+          if(typeof node.close =='undefined'){
+            node.close=true;//默认全部关闭
+          }
+          allTreeNode.push(node);
+          this.cacheParentMap.set(node,parentNode);
+          let level=0;
+          if(parentNode){
+            level=(this.cacheLevelMap.has(parentNode)? this.cacheLevelMap.get(parentNode) as number:0)+1;
+          }
+          this.cacheLevelMap.set(node,level);
+        });
+     }
+     this.innerDataSource=allTreeNode;
+    }else{
+      this.innerDataSource = this.dataSource;
+    }
   }
 
   /**
@@ -151,7 +287,7 @@ export default class SlTable extends LitElement {
     if (!this.isAsyncTableWidth) {
       this.isAsyncTableWidth = true;
       Promise.resolve().then(() => {
-        //改造，多次请求，值执行一次重新计算
+        //改造，多次请求，只执行一次重新计算
         // const tablecurrentWidth = parseInt(getCssValue(this.table, 'width'));
         // this.tableHeadDiv.style.width = Math.min(this.scrollDiv.clientWidth, this.table.offsetWidth) + 'px';
         // //注意此处必须是 scroll_div.clientWidth，tableWidth 最小值！
@@ -213,7 +349,7 @@ export default class SlTable extends LitElement {
     this._resizeResult?.dispose();
   }
   private _renderNoDataTemplate() {
-    if (this.innerDataSource == undefined) {
+    if (this.innerDataSource &&this.innerDataSource.length==0 ) {
       return html`<slot @slotchange=${this.columnChangeHanlder} name="no-data">${getResouceValue('noData')}</slot>`;
     }
     return ``;
@@ -346,6 +482,13 @@ export default class SlTable extends LitElement {
   /**自定义 渲染tHeader tr的样式 */
   customRenderRowClassMap?: (rowData: any, rowIndex: number) => ClassInfo | string | string[];
 
+  private getAllChildrenSize(rowData:TreeNodeData){
+      let size=0;
+      iteratorNodeData(rowData,(_node,_parent)=>{
+        size++;
+      })
+      return size-1;
+  }
   private _renderDataSourceRows() {
     const table = this;
     const rowList = [];
@@ -354,7 +497,7 @@ export default class SlTable extends LitElement {
     if (dataSource) {
       for (let index = 0, j = dataSource.length; index < j; index++) {
         //行循环
-        let rowData = dataSource[index];
+        let rowData = dataSource[index] as TreeNodeData;
         const rowHtml = [];
         for (let x = 0, y = cellTdArray.length; x < y; x++) {
           //TD循环
@@ -382,6 +525,9 @@ export default class SlTable extends LitElement {
               ${rowHtml}
             </tr>`
           );
+        }
+        if(table.treeConfig&&rowData.close){
+          index+=this.getAllChildrenSize(rowData);
         }
       }
     }
