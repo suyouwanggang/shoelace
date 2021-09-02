@@ -34,7 +34,6 @@ import styles from './tree.styles';
  * @event {{node: SlTreeNode,nodeData: TreeNodeData, parentData:TreeNodeData}} sl-tree-node-before-open - Emitted before tree-node-state to open.
  * @event {{node: SlTreeNode,nodeData: TreeNodeData, parentData:TreeNodeData}} sl-tree-node-before-close - Emitted before tree-node-state to close.
  * @event {{node:SlTreeNode,checkKeyKeys:checkKeyKeys }} sl-tree-node-select-change - Emitted after tree select node change .
- * @event {{checkKeyKeys:checkKeyKeys }} sl-tree-checkKeys-change - Emitted when tree checkeys has changed .
  *
  *
  * @slot no-data - slot:when no tree has no data  or rootNodeData is undefined.
@@ -131,19 +130,6 @@ export default class SlTree extends LitElement {
         let first = this.checkedKeys[0];
         this.checkedKeys = first;
       }
-    }
-  }
-  @watch('checkedKeys')
-  async watchSelectKeyChange() {
-    let selectKey = this.checkedKeys;
-    if (Array.isArray(selectKey)) {
-      (selectKey as Array<unknown>) = [...selectKey];
-    }
-    if (this.hasUpdated) {
-      await this.updateComplete;
-      emit(this, 'sl-tree-checkKeys-change', {
-        detail: selectKey
-      });
     }
   }
   /** 实现树内部过滤逻辑 */
