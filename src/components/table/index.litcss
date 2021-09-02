@@ -35,6 +35,11 @@ table[part=table]{
         top:0;
         z-index: 2;
     }
+    .fixedFoot{
+        position: sticky;
+        bottom:0;
+        z-index: 2;
+    }
     td {
         @extend .cell;
         @extend .tdBorder;
@@ -153,13 +158,13 @@ th[align=right]{
     top: 0px;
     right: 0px;
     bottom: 0px;
-    width: 4px;
+    width: 6px;
     text-align: center;
     cursor: col-resize;
     &::before{
         content: '';
         position: absolute;
-        left:3px;
+        left:5px;
         width:1px;
         height: 100%;
         border-left:solid 1px rgb(var(--sl-table-border-color));
@@ -168,23 +173,27 @@ th[align=right]{
 :host([border]) {
     .th-resize-helper {
         &::before{
-            left:4px;
+            left:6px;
         }
     }
 }
 
-
+.nowrap-tree-node{
+    white-space: nowrap;
+}
 //列表树节点样式
-.tree-node{
+.tree-node-inner{
     display: flex;
     align-items: center;
-    white-space: nowrap;
     .tree-node-icon{
         position: relative;
         cursor: pointer;
         font-size: var(--sl-tree-trriger-icon,14px);
         padding: var(--sl-tree-trriger-padding,0 4px 0 2px);
     }
+    // sl-spinner{
+       //加载图标的样式
+    // }
     .tree-node-empty-node{
         display: inline;
         width:16px;

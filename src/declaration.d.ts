@@ -7,6 +7,11 @@ declare module '*.css' {
   export default styles;
 }
 declare module '*.svg' {
-  const styles: string;
-  export default styles;
+  const svngString: string;
+  export default svngString;
 }
+interface Event{
+  delegateTarget :HTMLElement;
+}
+
+

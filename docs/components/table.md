@@ -5,7 +5,9 @@
 Table 组件
 
 ```html preview
-<sl-table id='tableDIV' >
+<sl-button size='small' style='margin:10px 0' id='queSheng'>恢复列配置</sl-button>
+
+<sl-table id='tableDIV' cache-key='one'>
     <sl-column field='name' sort-able resize-able label='Name'   align='left' min-width='200' ></sl-column>
     <sl-column field='role'  label='Role' resize-able min-width='100' order=2 ></sl-column>
     <sl-column field='sex' sort-able label='Sex'resize-able  min-width='100' order=3 agile-cell='right'></sl-column>
@@ -34,6 +36,89 @@ Table 组件
      table.addEventListener('sl-table-sort',(event)=>{
         console.log(event.detail.column.label +' sortValue'+JSON.stringify(event.detail.sortValue));
     });
+    const queSheng=document.querySelector('#queSheng');
+    queSheng.addEventListener('click',(event)=>{
+       restoreTableDefault(table);
+       restoreTableDefault(table2);
+    })
+</script>
+```
+
+
+### 表头多列 ,支持列固定，表头表TFoot 固定，排序,事件 ，前端cache 缓存列顺序，宽度，是否显示 演示
+
+```html preview
+<sl-table id='tableDIV2' border cache-key='two'>
+    <sl-column label='基本信息'  resize-able >
+         <sl-column field='name' resize-able label='Name' max-width='500' sort-able  width='100%' align='left' min-width='300' ></sl-column>
+         <sl-column field='sex' label='Sex'  resize-able  sort-able min-width='150'  align='right' order=2></sl-column>
+         <sl-column field='age' label='Age'  resize-able min-width='150' sort-able align='left' col-align='left' order=1></sl-column>
+    </sl-column>
+    <sl-column field='role' label='Role' align='right' resize-able min-width='200' order=2 ></sl-column>
+    <sl-column field='address' label='address'  resize-able min-width='300' order='1'  ></sl-column>
+</sl-table>
+<script >
+    let table2=document.querySelector('#tableDIV2');
+    let dateList2=[
+                { id: 10001, name: 'Test1', role: 'Test1', sex: 'Man', age: 28, address: 'table 从入门到放弃' },
+                { id: 10001, name: 'Test1', role: 'Test2', sex: 'Man', age: 28, address: 'table 从入门到放弃' },
+                { id: 10001, name: 'Test1', role: 'Develop', sex: 'Man', age: 28, address: 'table 从入门到放弃' },
+                { id: 10001, name: 'Test1', role: 'Develop', sex: 'Man', age: 28, address: 'table 从入门到放弃' },
+                { id: 10002, name: 'Test2', role: 'Test', sex: 'Women', age: 22, address: 'Guangzhou' },
+                { id: 10003, name: 'Test3', role: 'PM', sex: 'Man', age: 32, address: 'Shanghai' },
+                { id: 10004, name: 'Test4', role: 'Designer', sex: 'Women', age: 23, address: 'vtable 从入门到放弃' },
+                { id: 10005, name: 'Test5', role: 'Develop', sex: 'Women', age: 30, address: 'Shanghai' },
+                { id: 10006, name: 'Test6', role: 'Designer', sex: 'Women', age: 21, address: 'table 从入门到放弃' },
+                { id: 10007, name: 'Test7', role: 'Test', sex: 'Man', age: 29, address: 'E 从入门到放弃' },
+                { id: 10007, name: 'Test8', role: 'Test', sex: 'Man', age: 29, address: 'F 从入门到放弃' },
+                { id: 10007, name: 'Test9', role: 'Test', sex: 'Man', age: 29, address: 'A  从入门到放弃 ' },
+                { id: 10007, name: 'Test10', role: 'Test', sex: 'Man', age: 29, address: 'B 从入门到放弃' },
+                { id: 10007, name: 'Test11', role: 'Test', sex: 'Man', age: 29, address: 'C 从入门到放弃' },
+                { id: 10007, name: 'Test12', role: 'Test', sex: 'Man', age: 29, address: 'C 从入门到放弃' },
+                { id: 10008, name: 'Test8', role: 'Develop', sex: 'Man', age: 35, address: 'table 从入门到放弃' }];
+    table2.dataSource=dateList2;
+    table2.fixedFoot=true;
+    table2.customRenderFooter=(columns)=>{
+        let result= html`
+            ${columns.map(c=>{
+                //注意列固定的原理 是 选择 td[uniqueid=${c.uniqueID}],自定义TFoot 的时候注意
+                return html`<td style='background-color:rgb(var(--sl-color-blue-gray-100));' uniqueid=${c.uniqueID} >${c.label}</td>`;
+            })}
+        `;
+        return html`<tr >${result}</tr><tr>${result}</tr>`;
+    };
+    
+    let index=0;
+    table2.addEventListener('sl-table-td-click',(event)=>{
+        let detail=event.detail;
+        // console.table({type:event.type,td:detail.td.toString(), column:detail.column.field,row:detail.row.toString(),rowData:JSON.stringify(detail.rowData)});
+       console.log(detail);
+       console.log(event.type,index++);
+    });
+
+    // document.body.addEventListener('click',(event)=>{
+    //      console.log(event.type,index++);
+    // });
+    table2.addEventListener('sl-table-tr-click',(event)=>{
+        let detail=event.detail;
+        // console.table({type:event.type,row:detail.row.toString(),rowData:JSON.stringify(detail.rowData)});
+         console.log(detail);
+         console.log(event);
+         console.log(event.type,index++);
+    });
+    
+    //UI事件    load unload  scroll  resize
+    //焦点事件   blur   focus
+     //鼠标事件  mouseleave  mouseenter
+
+    //三者发生的顺序,冒泡阶段 ：[click, dblclick,]td,tr, document
+    //三者发生的顺序,捕获阶段 ：[mouseenter, mouseleave,]document ,tr,td
+   
+    
+    window.table2=table2;
+    table2.fixedColumns=3;
+    table2.tableHeight=400;
+    table2.sortValue={orderBy:'name',orderType:'ASC'};
 </script>
 ```
 ### 调整列顺序
@@ -185,39 +270,6 @@ Table 组件
     }
 ```
 
-### 表头多列 ,支持列固定，表头拖动，排序
-
-```html preview
-<sl-table id='tableDIV2' border>
-    <sl-column label='基本信息'  resize-able >
-         <sl-column field='name' resize-able label='Name' sort-able  width='100%' align='left' min-width='300' ></sl-column>
-         <sl-column field='sex' label='Sex'  resize-able  sort-able min-width='150'  align='right' order=2></sl-column>
-         <sl-column field='age' label='Age'  resize-able min-width='150' sort-able align='left' col-align='left' order=1></sl-column>
-    </sl-column>
-    <sl-column field='role' label='Role' align='right' resize-able min-width='200' order=2 ></sl-column>
-    <sl-column field='address' label='address'  resize-able min-width='300' order='1'  ></sl-column>
-</sl-table>
-<script >
-    let table2=document.querySelector('#tableDIV2');
-    let dateList2=[
-                { id: 10001, name: 'Test1', role: 'Test1', sex: 'Man', age: 28, address: 'table 从入门到放弃' },
-                { id: 10001, name: 'Test1', role: 'Test2', sex: 'Man', age: 28, address: 'table 从入门到放弃' },
-                { id: 10001, name: 'Test1', role: 'Develop', sex: 'Man', age: 28, address: 'table 从入门到放弃' },
-                { id: 10001, name: 'Test1', role: 'Develop', sex: 'Man', age: 28, address: 'table 从入门到放弃' },
-                { id: 10002, name: 'Test2', role: 'Test', sex: 'Women', age: 22, address: 'Guangzhou' },
-                { id: 10003, name: 'Test3', role: 'PM', sex: 'Man', age: 32, address: 'Shanghai' },
-                { id: 10004, name: 'Test4', role: 'Designer', sex: 'Women', age: 23, address: 'vtable 从入门到放弃' },
-                { id: 10005, name: 'Test5', role: 'Develop', sex: 'Women', age: 30, address: 'Shanghai' },
-                { id: 10006, name: 'Test6', role: 'Designer', sex: 'Women', age: 21, address: 'table 从入门到放弃' },
-                { id: 10007, name: 'Test7', role: 'Test', sex: 'Man', age: 29, address: 'table 从入门到放弃' },
-                { id: 10008, name: 'Test8', role: 'Develop', sex: 'Man', age: 35, address: 'table 从入门到放弃' }];
-    table2.dataSource=dateList2;
-    window.table2=table2;
-    table2.fixedColumns=3;
-    table2.tableHeight=400;
-    table2.sortValue={orderBy:'name',orderType:'ASC'};
-</script>
-```
 
 [component-metadata:sl-table]
 <br>

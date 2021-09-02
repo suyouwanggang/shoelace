@@ -113,7 +113,7 @@ export default class SlTree extends LitElement {
   matchFilterNodeSet?: Set<TreeNodeData>;
 
   @state()
-  real_treeNodeRender = this.nodeRender;
+  private real_treeNodeRender = this.nodeRender;
 
   @watch('selectMode')
   watchSelectModeChange(_oldMode: string, newMode: string) {

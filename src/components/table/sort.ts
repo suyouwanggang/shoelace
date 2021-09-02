@@ -105,7 +105,7 @@ export const sortRenderHanlder = (column: SlColumn, table: SlTable) => {
  * @param converto 处理字段转sql 字段，例如"name" ->"a.name"
  * @returns
  */
-export const getSortByAsSql = (table: SlTable, converField?: (field: string) => string) => {
+export const getSortValueAsSql = (table: SlTable, converField?: (field: string) => string) => {
   let value = table.sortValue;
   if (value) {
     let array = (value ? (Array.isArray(value) ? value : [value]) : []) as Array<{
