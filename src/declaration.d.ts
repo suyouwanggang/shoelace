@@ -10,8 +10,6 @@ declare module '*.svg' {
   const svngString: string;
   export default svngString;
 }
-interface Event{
-  delegateTarget :HTMLElement;
+interface Event {
+  delegateTarget: HTMLElement;
 }
-
-

@@ -106,7 +106,6 @@ export default class SlColumn extends LitElement {
     return colResult;
   }
 
-  
   /*
    * 渲染 tbody Td Template
    * @param column  列定义
@@ -167,7 +166,7 @@ export default class SlColumn extends LitElement {
 
   /**是否隐藏此列 */
   @property({ type: Boolean, reflect: true, attribute: true })
-  hidden: boolean=false;
+  hidden: boolean = false;
 
   /** 列所对应的字段，应该唯一 */
   @property({ type: String, reflect: true, attribute: true })

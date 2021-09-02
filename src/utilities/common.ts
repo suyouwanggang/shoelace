@@ -163,10 +163,10 @@ function onEvent(
       callBack.call(context || delegateTarget, e);
     }
   };
-   //UI事件    load unload  scroll  resize
+  //UI事件    load unload  scroll  resize
   //焦点事件   blur   focus
   //鼠标事件  mouseleave  mouseenter
-  if (type == 'mouseenter' || type == 'mouseleave'||type == 'blur' || type == 'focus') {
+  if (type == 'mouseenter' || type == 'mouseleave' || type == 'blur' || type == 'focus') {
     userCapture = true;
   }
   return addEvent(node, type, listener, userCapture);
@@ -181,17 +181,19 @@ function onEvent(
  * @param context 回调上下文，如果为空，则this 为事件监听的实际节点
  * @returns
  */
-function onEventArray(node: Element,
+function onEventArray(
+  node: Element,
   selector: string,
   eventTypes: string[],
   callBack: EventListener,
   userCapture = false,
-  context?: unknown){
-    let result=[];
-    for(let type of eventTypes){
-      result.push(onEvent(node,selector,type,callBack,userCapture,context));
-    }
-    return result;
+  context?: unknown
+) {
+  let result = [];
+  for (let type of eventTypes) {
+    result.push(onEvent(node, selector, type, callBack, userCapture, context));
+  }
+  return result;
 }
 function exitFullscreen(): Promise<any> {
   const doc = document as any;
@@ -232,7 +234,7 @@ export {
   getChildrenElement,
   closest,
   onEvent,
-   onEventArray, 
+  onEventArray,
   isFullscreen,
   exitFullscreen,
   fullscreen

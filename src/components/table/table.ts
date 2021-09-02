@@ -21,7 +21,6 @@ export enum SortTrigger {
   cell = 'cell'
 }
 
-
 /**
  * 定义表格的排序规则
  */
@@ -86,15 +85,15 @@ export const defaultTreeConfig: TreeConfig = {
  * @dependency  sl-column,sl-icon,sl-spinner
  *
  * @event sl-table-resize - Emitted table resize.
- * 
+ *
  * @event {{div:HTMLDIVElement}} sl-table-scroll - Emitted scroll table.滚动事件
  * @event {{column:SLColumn,sortValue:当前排序值}} sl-table-sort - Emitted table column sort. 排序事件
  * @event {{column:SLColumn,sortValue:排序前值}} sl-table-before-sort - Emitted before table column sort. 排序事件
- * 
- * 
+ *
+ *
  * @event {{column:SLColumn,change:改变的宽度}}  sl-table-column-resize - Emitted table column width change by drag. 拖动列事件
- * 
- * 
+ *
+ *
  * @event {{dom:HTMLElement,column:SlColumn, node:nodeData,parentData:parentNodeData}}  sl-tree-node-before-open - Emitted before table tree node to open   . tree 事件
  * @event {{dom:HTMLElement,column:SlColumn, node:nodeData,parentData:parentNodeData}}  sl-tree-node-before-close - Emitted before table tree node to close  . tree 事件
  * @event {{dom:HTMLElement,column:SlColumn, node:nodeData,parentData:parentNodeData}}  sl-tree-node-before-toogle - Emitted before table tbody td node state toogle  . tree 事件
@@ -102,7 +101,7 @@ export const defaultTreeConfig: TreeConfig = {
  * @event {{dom:HTMLElement,column:SlColumn, node:nodeData,parentData:parentNodeData}}  sl-tree-node-toogle - Emitted after table tbody td node state toogle  .tree 事件
  * @event {{dom:HTMLElement,column:SlColumn, node:nodeData,parentData:parentNodeData}}  sl-tree-node-loaded - after table tree node lazy load children end  .tree load 事件
  * @event {{dom:HTMLElement,column:SlColumn, node:nodeData,parentData:parentNodeData}}  sl-tree-node-load-error - Emitted after table tbody td node state toogle  .tree 事件
- * 
+ *
  *  //tbody 行，tbody td 事件
  * @event {{row:TR,rowData:行数据}}  sl-table-tr-click - Emitted table tbody tr click  .
  * @event {{row:TR,rowData:行数据}}  sl-table-tr-dblclick - Emitted table tbody tr dblclick  .
@@ -125,12 +124,12 @@ export const defaultTreeConfig: TreeConfig = {
  * @event {{row:TR,td:cell,rowData:行数据,column:SlColumn}}  sl-table-td-mousemove - Emitted table tbody td mousemove  .
  * @event {{row:TR,td:cell,rowData:行数据,column:SlColumn}}  sl-table-td-mouseout - Emitted table tbody td mouseout  .
  * @event {{row:TR,td:cell,rowData:行数据,column:SlColumn}}  sl-table-td-mouseover - Emitted table tbody td mouseover  .
- * 
  *
- * 
- * 
  *
- * 
+ *
+ *
+ *
+ *
  *
  *
  *
@@ -166,11 +165,6 @@ export default class SlTable extends LitElement {
   /** table 支持斑马线 */
   @property({ type: Boolean, attribute: false, reflect: true }) stripe: boolean = false;
 
-
-
-
-   
-
   /** 表格需要渲染的数据 必须是数组*/
   @property({ type: Array, attribute: false }) dataSource: unknown[];
 
@@ -188,23 +182,22 @@ export default class SlTable extends LitElement {
 
   @property({ type: Object, attribute: false }) treeConfig?: TreeConfig;
 
-  
   /** table 是否固定footer 到底部 */
   @property({ type: Boolean, attribute: false, reflect: true }) fixedFoot: boolean = false;
 
   /**渲染tfooter 此方法接收所有的列，返回footer 组成的tr template list */
   @property({ type: Object })
-  customRenderFooter: (columns:SlColumn[]) => TemplateResult<1>;
+  customRenderFooter: (columns: SlColumn[]) => TemplateResult<1>;
 
   /** table 前端缓存ID */
-  @property({ type: String, reflect:true, attribute: 'cache-key' }) cacheKey: string; 
+  @property({ type: String, reflect: true, attribute: 'cache-key' }) cacheKey: string;
   @watch('cacheKey')
-  locacheIDChange(oldKey:string){
-    if(oldKey){
-       removeTableCacheByKey(oldKey);
+  locacheIDChange(oldKey: string) {
+    if (oldKey) {
+      removeTableCacheByKey(oldKey);
     }
-    if(this.cacheKey){
-       restoreFormLocalCache(this);
+    if (this.cacheKey) {
+      restoreFormLocalCache(this);
     }
   }
 
@@ -223,23 +216,23 @@ export default class SlTable extends LitElement {
   }
   /** table 容器最大高度 */
   @property({ type: String })
-  tableMaxHeight:string;
+  tableMaxHeight: string;
 
   /** table 容器最小高度 */
   @property({ type: String })
-  tableMinHeight:string;
+  tableMinHeight: string;
 
   /**  table 容器高度，支持类似 css  "100% - 40px" 或者“ 100vh - 30px ” */
   @property({ type: String })
-  tableHeight: string; 
+  tableHeight: string;
 
-   /**  是否表格 是 table-layout ：fixed  */
+  /**  是否表格 是 table-layout ：fixed  */
   @property({ type: Boolean })
-  tableLayoutFixed: boolean; 
+  tableLayoutFixed: boolean;
 
-   /**  true, 则TreeNode 列，不会换行  */
-   @property({ type: Boolean })
-   treeNodeNoWrap: boolean; 
+  /**  true, 则TreeNode 列，不会换行  */
+  @property({ type: Boolean })
+  treeNodeNoWrap: boolean;
 
   @query('#tableID', true)
   table: HTMLTableElement;
@@ -264,11 +257,11 @@ export default class SlTable extends LitElement {
   }
   /**  当启用TreeConfig ,存储当前正在加载中的数据*/
   @state()
-  currentLoadingNode:TreeNodeData[]=[];
+  currentLoadingNode: TreeNodeData[] = [];
 
-  @property({type:Object})
-  loadingNodeMethod:(nodeData:TreeNodeData,parentData:TreeNodeData)=>Promise<Array<TreeNodeData>>;
-  
+  @property({ type: Object })
+  loadingNodeMethod: (nodeData: TreeNodeData, parentData: TreeNodeData) => Promise<Array<TreeNodeData>>;
+
   public wrapTreeNodeColumnField = (column: SlColumn, rowData: TreeNodeData, wrap: TemplateResult<1>) => {
     if (column.field && this.treeConfig && column.field == this.treeConfig.treeNodeColumn) {
       let parentData = this.cacheParentMap.get(rowData);
@@ -277,16 +270,23 @@ export default class SlTable extends LitElement {
         rowData.close = true;
       }
       let closed = rowData.close;
-      let span = html`<span
-        class="tree-node-icon" part='tree-node-toogle'
-        >${this.currentLoadingNode.includes(rowData)?html`<sl-spinner part='tree-node-loading'></sl-spinner>`:(closed ? SlTable.closeNodeSvg : SlTable.openNodeSvg)} </span
-      >`;
-      return html`<div part='tree-node'  class="tree-node ${this.treeNodeNoWrap?'nowrap-tree-node':''} ${closed ? 'closed' : ''}">
-      <div class='tree-node-inner' style="padding-left:${level * (this.treeConfig.indent as number)}px;" >
-        ${this.treeNodeHasChildren(rowData) ? span : html`<span class="tree-node-empty-node"></span>`}
-        ${rowData.icon ? html`<sl-icon class="tree-node-icon" name=${rowData.icon}></sl-icon>` : ''}
-        ${this.customRenderTreeNode ? this.customRenderTreeNode(rowData, parentData, level) : ''} ${wrap}
-      </div></div>`;
+      let span = html`<span class="tree-node-icon" part="tree-node-toogle"
+        >${this.currentLoadingNode.includes(rowData)
+          ? html`<sl-spinner part="tree-node-loading"></sl-spinner>`
+          : closed
+          ? SlTable.closeNodeSvg
+          : SlTable.openNodeSvg}
+      </span>`;
+      return html`<div
+        part="tree-node"
+        class="tree-node ${this.treeNodeNoWrap ? 'nowrap-tree-node' : ''} ${closed ? 'closed' : ''}"
+      >
+        <div class="tree-node-inner" style="padding-left:${level * (this.treeConfig.indent as number)}px;">
+          ${this.treeNodeHasChildren(rowData) ? span : html`<span class="tree-node-empty-node"></span>`}
+          ${rowData.icon ? html`<sl-icon class="tree-node-icon" name=${rowData.icon}></sl-icon>` : ''}
+          ${this.customRenderTreeNode ? this.customRenderTreeNode(rowData, parentData, level) : ''} ${wrap}
+        </div>
+      </div>`;
     }
     return wrap;
   };
@@ -296,18 +296,18 @@ export default class SlTable extends LitElement {
   private cacheLevelMap: WeakMap<any, number>;
 
   /**获取渲染后的 rowData 对应的Tree level */
-  public getRowDataTreeLevel(rowData:TreeNodeData){
+  public getRowDataTreeLevel(rowData: TreeNodeData) {
     return this.cacheLevelMap.get(rowData);
   }
   /**获取渲染后的 rowData 对应的父对象 */
-  public getRowDataParentData(rowData:TreeNodeData){
+  public getRowDataParentData(rowData: TreeNodeData) {
     return this.cacheParentMap.get(rowData);
   }
-  
+
   @watchProps(['dataSource', 'treeConfig'])
   watchDataSourceChange() {
     if (this.treeConfig && this.dataSource) {
-      this.treeConfig = {  ...defaultTreeConfig ,...this.treeConfig };
+      this.treeConfig = { ...defaultTreeConfig, ...this.treeConfig };
       this.cacheParentMap = new WeakMap();
       this.cacheLevelMap = new WeakMap();
       let allTreeNode: unknown[] = [];
@@ -372,7 +372,7 @@ export default class SlTable extends LitElement {
       });
     }
   }
- 
+
   private _resizeResult: DisposeObject;
   firstUpdated(map: PropertyValues) {
     super.firstUpdated(map);
@@ -447,18 +447,23 @@ export default class SlTable extends LitElement {
     }
     this.fixedStyleElement.textContent = style;
   }
-  
+
   @query('#styleID', true)
   private fixedStyleElement: HTMLStyleElement;
   render() {
-    let tableStyle={
-      height:this.tableHeight? `calc( ${isNaN(Number(this.tableHeight)) ? this.tableHeight : this.tableHeight + 'px'} )`:'',
-      minHeight:this.tableMinHeight? `calc( ${isNaN(Number(this.tableMinHeight)) ? this.tableMinHeight : this.tableMinHeight + 'px'} )`:'',
-      maxHeight:this.tableMaxHeight? `calc( ${isNaN(Number(this.tableMaxHeight)) ? this.tableMaxHeight : this.tableMaxHeight + 'px'} )`:'',
-      tableLayout:this.tableLayoutFixed?'fixed':'auto'
+    let tableStyle = {
+      height: this.tableHeight
+        ? `calc( ${isNaN(Number(this.tableHeight)) ? this.tableHeight : this.tableHeight + 'px'} )`
+        : '',
+      minHeight: this.tableMinHeight
+        ? `calc( ${isNaN(Number(this.tableMinHeight)) ? this.tableMinHeight : this.tableMinHeight + 'px'} )`
+        : '',
+      maxHeight: this.tableMaxHeight
+        ? `calc( ${isNaN(Number(this.tableMaxHeight)) ? this.tableMaxHeight : this.tableMaxHeight + 'px'} )`
+        : '',
+      tableLayout: this.tableLayoutFixed ? 'fixed' : 'auto'
     };
-    return html`
-      <style id="styleID"></style>
+    return html` <style id="styleID"></style>
       <div class="sl-table-base" part="base" size=${this.size}>
         <div
           class="sl-table-base-scroll-div"
@@ -476,8 +481,8 @@ export default class SlTable extends LitElement {
             <tbody>
               ${this._renderDataSourceRows()}
             </tbody>
-            <tfoot part='tfoot' class=${this.fixedFoot?'fixedFoot':''} >
-              ${this.customRenderFooter?this.customRenderFooter(this.tdRenderColumns):''}
+            <tfoot part="tfoot" class=${this.fixedFoot ? 'fixedFoot' : ''}>
+              ${this.customRenderFooter ? this.customRenderFooter(this.tdRenderColumns) : ''}
             </tfoot>
           </table>
           ${this._renderNoDataTemplate()}
@@ -565,7 +570,7 @@ export default class SlTable extends LitElement {
           );
         }
         if (table.treeConfig && rowData.close) {
-           index += this.getTreeNodeAllChildrenSize(rowData);
+          index += this.getTreeNodeAllChildrenSize(rowData);
         }
       }
     }
