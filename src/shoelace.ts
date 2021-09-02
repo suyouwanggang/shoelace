@@ -64,8 +64,9 @@ export { default as SlDate } from './components/date/date';
 export { default as SlMarkdownElement } from './components/markdown-element/markdown-element';
 export { default as SlRow } from './components/row/row';
 export { default as SlLayout } from './components/layout/layout';
-export { default as SlTable } from './components/table/table';
 export { default as SlColumn } from './components/column/column';
+export { default as SlTable } from './components/table/table';
+import { restoreFromLocalCache, restoreTableDefault } from './components/table/tableCacheHelper';
 /* plop:component */
 
 // Utilities
@@ -77,7 +78,11 @@ declare global {
   interface Window {
     html: typeof html;
     LitRender: typeof render;
+    restoreFromLocalCache: typeof restoreFromLocalCache;
+    restoreTableDefault: typeof restoreTableDefault;
   }
 }
 (globalThis as any).html = html;
 (globalThis as any).LitRender = render;
+(globalThis as any).restoreTableDefault = restoreTableDefault;
+(globalThis as any).restoreFromLocalCache = restoreFromLocalCache;

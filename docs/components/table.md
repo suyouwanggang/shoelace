@@ -8,28 +8,31 @@ Table 组件
 <sl-button size='small' style='margin:10px 0' id='queSheng'>恢复列配置</sl-button>
 
 <sl-table id='tableDIV' cache-key='one'>
+    <sl-column field='expaned' label='#'   align='left' min-width='40' ></sl-column>
     <sl-column field='name' sort-able resize-able label='Name'   align='left' min-width='200' ></sl-column>
     <sl-column field='role'  label='Role' resize-able min-width='100' order=2 ></sl-column>
-    <sl-column field='sex' sort-able label='Sex'resize-able  min-width='100' order=3 agile-cell='right'></sl-column>
-    <sl-column field='address' sort-able label='address' resize-able min-width='200' order='1'  ></sl-column>
+    <sl-column field='sex' sort-able label='Sex'resize-able   order=3 agile-cell='right'></sl-column>
+    <sl-column field='address' sort-able label='address' resize-able  order='1'  ></sl-column>
 </sl-table>
 <script >
     const table=document.querySelector('#tableDIV');
     const dateList=[
-                { id: 10001, name: 'Test1', role: 'Test1', sex: 'Man', age: 28, address: 'table 从入门到放弃' },
-                { id: 10001, name: 'Test1', role: 'Test2', sex: 'Man', age: 28, address: 'table 从入门到放弃' },
-                { id: 10001, name: 'Test1', role: 'Develop', sex: 'Man', age: 28, address: 'table 从入门到放弃' },
-                { id: 10001, name: 'Test1', role: 'Develop', sex: 'Man', age: 28, address: 'table 从入门到放弃' },
+                { id: 10001, name: 'Test1', role: 'Test1', sex: 'Man', age: 28, address: 'Javascript 从入门到放弃' },
+                { id: 10001, name: 'Test1', role: 'Test2', sex: 'Man', age: 28, address: 'Javascript 从入门到放弃' },
+                { id: 10001, name: 'Test1', role: 'Develop', sex: 'Man', age: 28, address: 'Javascript 从入门到放弃' },
+                { id: 10001, name: 'Test1', role: 'Develop', sex: 'Man', age: 28, address: 'Javascript 从入门到放弃' },
                 { id: 10002, name: 'Test2', role: 'Test', sex: 'Women', age: 22, address: 'Guangzhou' },
                 { id: 10003, name: 'Test3', role: 'PM', sex: 'Man', age: 32, address: 'Shanghai' },
-                { id: 10004, name: 'Test4', role: 'Designer', sex: 'Women', age: 23, address: 'vtable 从入门到放弃' },
+                { id: 10004, name: 'Test4', role: 'Designer', sex: 'Women', age: 23, address: 'Javascript 从入门到放弃' },
                 { id: 10005, name: 'Test5', role: 'Develop', sex: 'Women', age: 30, address: 'Shanghai' },
-                { id: 10006, name: 'Test6', role: 'Designer', sex: 'Women', age: 21, address: 'table 从入门到放弃' },
-                { id: 10007, name: 'Test7', role: 'Test', sex: 'Man', age: 29, address: 'table 从入门到放弃' },
-                { id: 10008, name: 'Test8', role: 'Develop', sex: 'Man', age: 35, address: 'table 从入门到放弃' }];
+                { id: 10006, name: 'Test6', role: 'Designer', sex: 'Women', age: 21, address: 'Javascript 从入门到放弃' },
+                { id: 10007, name: 'Test7', role: 'Test', sex: 'Man', age: 29, address: 'Javascript 从入门到放弃' },
+                { id: 10008, name: 'Test8', role: 'Develop', sex: 'Man', age: 35, address: 'Javascript 从入门到放弃' }];
     table.dataSource=dateList;
     window.table=table;
     table.tableHeight='400px';
+    
+    
     table.addEventListener('sl-table-before-sort',(event)=>{
         console.log(event.detail.column.label +' sortValue'+JSON.stringify(event.detail.sortValue));
     });
@@ -40,7 +43,43 @@ Table 组件
     queSheng.addEventListener('click',(event)=>{
        restoreTableDefault(table);
        restoreTableDefault(table2);
-    })
+    });
+
+     //指定行扩展的图标在哪一列
+   table.expandColumn='expaned';
+   //指定每次只能扩展一行数据，其他扩展的行会关闭
+     table.expandAccordion=true;
+
+    //指定行扩展是lazy模式
+    table.expandLazy=true;
+    table.expandLazyLoadMethod=(rowData)=>{
+        let result={
+            columns:['a','b','c'],
+            dataSource:[[1,2,3],[4,5,6],[7,8,9]]
+        }
+         return new Promise((resolve)=>{
+            window.setTimeout(()=>{
+                resolve(result);
+            },300)
+        } );
+    }
+
+    //必须配置的行扩展渲染函数，
+    //第一个参数，是行数据，第二个参数是所有列
+    //如果是lazy模式，则第三个参数是lazyLoadData
+    table.expandRowRender=(rowData,columns,layLoadData)=>{
+        let lazyResult=layLoadData?html`懒加载数据：${JSON.stringify(layLoadData)}`:'';
+        let result=html`<tr><td colspan=${columns.length} >
+            <div style=' width:80%;display:grid;grid-template-columns: repeat(2,1fr);'>
+            ${columns.map(item=>{
+                return html`${rowData[item.field]?html`<span>${rowData[item.field]}</span>`:''}`;
+            })}
+            <span style='grid-column:span 2'>${lazyResult}<span>
+            </div>
+        </td></tr>`;
+        return result;
+    };
+
 </script>
 ```
 
@@ -50,23 +89,23 @@ Table 组件
 ```html preview
 <sl-table id='tableDIV2' border cache-key='two'>
     <sl-column label='基本信息'  resize-able >
-         <sl-column field='name' resize-able label='Name' max-width='500' sort-able  width='100%' align='left' min-width='300' ></sl-column>
-         <sl-column field='sex' label='Sex'  resize-able  sort-able min-width='150'  align='right' order=2></sl-column>
-         <sl-column field='age' label='Age'  resize-able min-width='150' sort-able align='left' col-align='left' order=1></sl-column>
+         <sl-column field='name' resize-able label='Name'  sort-able  width='80%' align='left'  ></sl-column>
+         <sl-column field='sex' label='Sex'  resize-able  sort-able min-width=60  align='right' order=2></sl-column>
+         <sl-column field='age' label='Age'  resize-able  sort-able min-width=90 align='left' col-align='left' order=1></sl-column>
     </sl-column>
     <sl-column field='role' label='Role' align='right' resize-able min-width='200' order=2 ></sl-column>
-    <sl-column field='address' label='address'  resize-able min-width='300' order='1'  ></sl-column>
+    <sl-column field='address' label='address'  resize-able min-width=200  order='1'  ></sl-column>
 </sl-table>
 <script >
     let table2=document.querySelector('#tableDIV2');
     let dateList2=[
-                { id: 10001, name: 'Test1', role: 'Test1', sex: 'Man', age: 28, address: 'table 从入门到放弃' },
-                { id: 10001, name: 'Test1', role: 'Test2', sex: 'Man', age: 28, address: 'table 从入门到放弃' },
-                { id: 10001, name: 'Test1', role: 'Develop', sex: 'Man', age: 28, address: 'table 从入门到放弃' },
-                { id: 10001, name: 'Test1', role: 'Develop', sex: 'Man', age: 28, address: 'table 从入门到放弃' },
+                { id: 10001, name: 'Test1', role: 'Test1', sex: 'Man', age: 28, address: 'Javascript 从入门到放弃' },
+                { id: 10001, name: 'Test1', role: 'Test2', sex: 'Man', age: 28, address: 'Javascript 从入门到放弃' },
+                { id: 10001, name: 'Test1', role: 'Develop', sex: 'Man', age: 28, address: 'Javascript 从入门到放弃' },
+                { id: 10001, name: 'Test1', role: 'Develop', sex: 'Man', age: 28, address: 'Javascript 从入门到放弃' },
                 { id: 10002, name: 'Test2', role: 'Test', sex: 'Women', age: 22, address: 'Guangzhou' },
                 { id: 10003, name: 'Test3', role: 'PM', sex: 'Man', age: 32, address: 'Shanghai' },
-                { id: 10004, name: 'Test4', role: 'Designer', sex: 'Women', age: 23, address: 'vtable 从入门到放弃' },
+                { id: 10004, name: 'Test4', role: 'Designer', sex: 'Women', age: 23, address: 'Javascript 从入门到放弃' },
                 { id: 10005, name: 'Test5', role: 'Develop', sex: 'Women', age: 30, address: 'Shanghai' },
                 { id: 10006, name: 'Test6', role: 'Designer', sex: 'Women', age: 21, address: 'table 从入门到放弃' },
                 { id: 10007, name: 'Test7', role: 'Test', sex: 'Man', age: 29, address: 'E 从入门到放弃' },
@@ -75,7 +114,7 @@ Table 组件
                 { id: 10007, name: 'Test10', role: 'Test', sex: 'Man', age: 29, address: 'B 从入门到放弃' },
                 { id: 10007, name: 'Test11', role: 'Test', sex: 'Man', age: 29, address: 'C 从入门到放弃' },
                 { id: 10007, name: 'Test12', role: 'Test', sex: 'Man', age: 29, address: 'C 从入门到放弃' },
-                { id: 10008, name: 'Test8', role: 'Develop', sex: 'Man', age: 35, address: 'table 从入门到放弃' }];
+                { id: 10008, name: 'Test8', role: 'Develop', sex: 'Man', age: 35, address: 'Javascript 从入门到放弃' }];
     table2.dataSource=dateList2;
     table2.fixedFoot=true;
     table2.customRenderFooter=(columns)=>{
@@ -143,6 +182,47 @@ Table 组件
     //固定前1列,最后1列
     table.fixedColumns=[1,1];
 ```
+### 行扩展
+```javascript
+    
+    //指定行扩展的图标在哪一列
+   table.expandColumn='name';
+   //指定每次只能扩展一行数据，其他扩展的行会关闭
+    table.expandAccordion=true;
+
+    //指定行扩展是lazy模式
+    table.expandLazy=true;
+    table.expandLazyLoadMethod=(rowData)=>{
+        let result={
+            columns:['a','b','c'],
+            dataSource:[[1,2,3],[4,5,6],[7,8,9]]
+        }
+         return new Promise((resolve)=>{
+            window.setTimeout(()=>{
+                resolve(result);
+            },300)
+        } );
+    }
+
+    //必须配置的行扩展渲染函数，
+    //第一个参数，是行数据，第二个参数是所有列
+    //如果是lazy模式，则第三个参数是lazyLoadData
+    table.expandRowRender=(rowData,columns,layLoadData)=>{
+        let layResult=layLoadData?html`  
+            懒加载数据${JSON.stringify(layLoadData)}`:'';
+        let result=html`<tr><td colspan=${columns.length}>
+            <div style='margin:10px auto; width:80%;display:grid;grid-template-columns: repeat(2,1fr);'>
+            ${columns.map(item=>{
+                return html`<span>${rowData[item.field]?rowData[item.field]:''}</span>`;
+            })}
+            </div>
+            <span style='gri-column:span 2'>${layResult}</span>
+        </td></tr>`;
+        return result;
+    };
+```
+
+
 ### 自定义行样式
 ```javascript
     //获取table 对象

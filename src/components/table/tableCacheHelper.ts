@@ -83,7 +83,7 @@ export const restoreFormTableCache = (table: SlTable, cache: TableCacheType) => 
   cache.forEach(item => {
     const field = item.field;
     const value = item.value;
-    const column = table.querySelector(`sl-column[field=${field}]`) as SlColumn;
+    const column = table.querySelector(`sl-column[field="${field}"]`) as SlColumn;
     if (column) {
       if (value.width) {
         column.width = value.width;
@@ -96,7 +96,7 @@ export const restoreFormTableCache = (table: SlTable, cache: TableCacheType) => 
   });
 };
 
-export const restoreFormLocalCache = (table: SlTable) => {
+export const restoreFromLocalCache = (table: SlTable) => {
   if (!table.cacheKey) {
     return;
   }
@@ -106,14 +106,6 @@ export const restoreFormLocalCache = (table: SlTable) => {
     restoreFormTableCache(table, cache);
   }
 };
-declare global {
-  interface Window {
-    restoreFormLocalCache: typeof restoreFormLocalCache;
-    restoreTableDefault: typeof restoreTableDefault;
-  }
-}
-(globalThis as any).restoreTableDefault = restoreTableDefault;
-(globalThis as any).restoreFormLocalCache = restoreFormLocalCache;
 export const saveAsDefaultTableCache = (table: SlTable) => {
   if (!table.cacheKey) {
     return;

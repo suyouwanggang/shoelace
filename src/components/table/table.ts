@@ -13,70 +13,11 @@ import '../icon/icon';
 import '../spinner/spinner';
 import { iteratorNodeData, TreeNodeData } from '../tree-node/tree-node-util';
 import styles from './table.styles';
-import { removeTableCacheByKey, restoreFormLocalCache } from './tableCacheHelper';
-import caculateColumnData, { RowHeader, SortingEnum } from './tableHelper';
+import { removeTableCacheByKey, restoreFromLocalCache } from './tableCacheHelper';
+import { defaultSortConfig, defaultTreeConfig, SortConfig, SortValue, TreeConfig } from './tableConfit';
+import caculateColumnData, { RowHeader } from './tableHelper';
+import { renderTdCellTemplate, renderThColTemplate } from './tableRenderHelper';
 import { connectTableHanlder } from './tableTreeHelper';
-export enum SortTrigger {
-  self = 'self',
-  cell = 'cell'
-}
-
-/**
- * 定义表格的排序规则
- */
-type SortConfig = {
-  //触发排序区域,是th :cell, 还是排序区
-  trigger: SortTrigger;
-  //轮转顺序
-  orders: Array<SortingEnum>;
-  //是否支持多列排序
-  multi: boolean;
-  //当触发区域为cell,是否总是显示排序图标。
-  alwaysShowIcon: boolean;
-};
-
-export const defaultSortConfig = {
-  //排序区域控制，默认是th,也可以改为只点击排序图标，才能触发排序
-  trigger: SortTrigger.cell,
-  //order 轮训值,开始为ASC，后面DESC，最后去掉排序 （null,这个跟产品不一致，可以默认去掉)
-  // orders: [SortingEnum.ASC, SortingEnum.DESC, SortingEnum.NULL],
-  orders: [SortingEnum.ASC, SortingEnum.DESC],
-  multi: false,
-  //是否总是显示排序图标,如果总是
-  alwaysShowIcon: false
-};
-
-/**
- * 定义表格数据为树类型
- */
-type TreeConfig = {
-  //树子节点属性,必须为'chidren';
-  // childrenProp:'children';
-  //树节点ID属性
-  idProp?: string;
-  //树节点缩进
-  indent?: number;
-  //对于同一级的节点，每次只能展开一个,待实现
-  accordion?: boolean;
-  //是否显示根节点
-  includeRoot: boolean;
-  //是否默认懒加载
-  lazy?: boolean;
-  //指定treeNodeColumn 所在列 field
-  treeNodeColumn: string;
-  //懒加载时，哪个属性标识有子节点
-  hasChildProp?: string;
-};
-export const defaultTreeConfig: TreeConfig = {
-  idProp: 'id',
-  //childrenProp:'children',
-  indent: 14,
-  accordion: false,
-  lazy: false,
-  includeRoot: true,
-  treeNodeColumn: 'name',
-  hasChildProp: 'hasChild'
-};
 
 /**
  * @since 2.0
@@ -134,7 +75,7 @@ export const defaultTreeConfig: TreeConfig = {
  *
  *
  * @slot no-data - no-data slot.
- * @slot example - An example slot.
+ *
  *
  * @csspart base - The component's base wrapper.
  * @csspart scroll-div - The component's scroll-div .
@@ -148,11 +89,14 @@ export const defaultTreeConfig: TreeConfig = {
  * @cssproperty --sl-table-td-bottom-width -1px，定义表格单元格底侧的线条宽度
  *
  */
+let componentID = 0;
 @customStyle()
 @customElement('sl-table')
 export default class SlTable extends LitElement {
   static styles = styles;
 
+  @state()
+  componentID = `${'tableID_' + componentID++}`;
   /** td size*/
   @property({ type: String, attribute: false, reflect: true }) size: 'small' | 'larger' | 'default' = 'small';
 
@@ -170,15 +114,7 @@ export default class SlTable extends LitElement {
 
   @property({ type: Object, attribute: false }) sortConfig: SortConfig = { ...defaultSortConfig };
   /**表格当前排序值 */
-  @property({ type: Object, attribute: false }) sortValue?:
-    | {
-        orderBy: string;
-        orderType: SortingEnum;
-      }
-    | Array<{
-        orderBy: string;
-        orderType: SortingEnum;
-      }>;
+  @property({ type: Object, attribute: false }) sortValue?: SortValue | Array<SortValue>;
 
   @property({ type: Object, attribute: false }) treeConfig?: TreeConfig;
 
@@ -197,7 +133,7 @@ export default class SlTable extends LitElement {
       removeTableCacheByKey(oldKey);
     }
     if (this.cacheKey) {
-      restoreFormLocalCache(this);
+      restoreFromLocalCache(this);
     }
   }
 
@@ -244,6 +180,9 @@ export default class SlTable extends LitElement {
   </svg>`;
   public static openNodeSvg = svg`<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" id="caret-down-fill"><path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 01.753 1.659l-4.796 5.48a1 1 0 01-1.506 0z"></path></svg>`;
 
+  public static expendCloseSvg = svg`<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"  viewBox="0 0 16 16" id="chevron-right"><path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 01.708 0l6 6a.5.5 0 010 .708l-6 6a.5.5 0 01-.708-.708L10.293 8 4.646 2.354a.5.5 0 010-.708z"></path></svg>`;
+
+  public static expendOpendSvg = svg`<svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 16 16" id="chevron-down"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 01.708 0L8 10.293l5.646-5.647a.5.5 0 01.708.708l-6 6a.5.5 0 01-.708 0l-6-6a.5.5 0 010-.708z"></path></svg>`;
   /**  当启用TreeConfig ,此时树节点自定义渲染*/
   @property({ type: Object })
   customRenderTreeNode: (rowData: TreeNodeData, parentData: TreeNodeData, level: number) => TemplateResult<1>;
@@ -255,14 +194,87 @@ export default class SlTable extends LitElement {
       return rowData.children ? rowData.children.length > 0 : false;
     }
   }
-  /**  当启用TreeConfig ,存储当前正在加载中的数据*/
-  @state()
+  /** 当为Tree的时候，存储哪些 正在加载中的TreeNodeData */
+  @property({ type: Array, attribute: false })
   currentLoadingNode: TreeNodeData[] = [];
 
+  /** 加载TreeNode 子数据，接收参数nodeData,parentData */
   @property({ type: Object })
   loadingNodeMethod: (nodeData: TreeNodeData, parentData: TreeNodeData) => Promise<Array<TreeNodeData>>;
 
-  public wrapTreeNodeColumnField = (column: SlColumn, rowData: TreeNodeData, wrap: TemplateResult<1>) => {
+  /** 存储哪些行数据是展开的 */
+  @property({ type: Array, attribute: false })
+  expandRowData: unknown[] = [];
+
+  /** 指定哪一列触发行扩展数据加载*/
+  @property({ type: String, attribute: false })
+  expandColumn: string;
+
+  /** 是否懒加载扩展行 */
+  @property({ type: Boolean, attribute: false })
+  expandLazy: boolean = false;
+
+  /** 指定懒加载扩展的方法 */
+  @property({ type: Object, attribute: false })
+  expandLazyLoadMethod: (rowData: unknown) => Promise<any>;
+
+  /** 是否只能展开一个扩展行 */
+  @property({ type: Boolean, attribute: false })
+  expandAccordion: boolean = false;
+
+  /** 存储正在展开的行数据 */
+  @state()
+  currentExpandingRowData: Array<unknown> = [];
+
+  /**方法：指定如何渲染扩展行，接收行数据和叶子columns， 返回的应该是<tr>Template Result */
+  @property({ type: Object, attribute: false })
+  expandRowRender: (rowData: unknown, columns: SlColumn[], layLoadData?: any) => TemplateResult<1>;
+
+  public cacheExpandLazyLoadDataMap = new Map<any, any>();
+  /**
+   * 展开行数据的扩展 数据
+   * @param rowData table 行绑定的数据
+   */
+  public async doExpandRowData(rowData: unknown) {
+    const table = this;
+    const index = table.expandRowData.indexOf(rowData);
+    const isExpend = index >= 0;
+    const expandEvent = emit(table, `sl-table-expand-before`, {
+      cancelable: true,
+      detail: {
+        expended: isExpend,
+        rowData: rowData
+      }
+    });
+    if (!expandEvent.defaultPrevented) {
+      if (!isExpend) {
+        //当前不是打开状态
+        if (table.expandAccordion) {
+          table.expandRowData.splice(0, table.expandRowData.length);
+        }
+        table.expandRowData.push(rowData);
+      } else {
+        table.expandRowData.splice(index, 1);
+      }
+      table.expandRowData = [...table.expandRowData];
+      table.updateComplete.then(() => {
+        emit(table, 'sl-table-expand', {
+          detail: {
+            expended: !isExpend,
+            rowData: rowData
+          }
+        });
+      });
+    }
+  }
+  /**
+   * 内部使用封装td 渲染的数据，实现特殊功能
+   * @param column
+   * @param rowData
+   * @param wrap
+   * @returns
+   */
+  public wrapColumnFieldTemplate(column: SlColumn, rowData: TreeNodeData, wrap: TemplateResult<1>) {
     if (column.field && this.treeConfig && column.field == this.treeConfig.treeNodeColumn) {
       let parentData = this.cacheParentMap.get(rowData);
       let level = this.cacheLevelMap.get(rowData) as number;
@@ -270,7 +282,7 @@ export default class SlTable extends LitElement {
         rowData.close = true;
       }
       let closed = rowData.close;
-      let span = html`<span class="tree-node-icon" part="tree-node-toogle"
+      let span = html`<span class="tree-node-icon" componentID=${this.componentID} part="tree-node-toogle"
         >${this.currentLoadingNode.includes(rowData)
           ? html`<sl-spinner part="tree-node-loading"></sl-spinner>`
           : closed
@@ -287,9 +299,22 @@ export default class SlTable extends LitElement {
           ${this.customRenderTreeNode ? this.customRenderTreeNode(rowData, parentData, level) : ''} ${wrap}
         </div>
       </div>`;
+    } else if (column.field && this.expandColumn && column.field == this.expandColumn) {
+      const opened = this.expandRowData.includes(rowData);
+      return html`<div class="expand-toogle" part="expand-wrap">
+        <span class="expand-toogle-icon" componentID=${column.table.componentID} part="expand-toogle-icon">
+          ${this.currentExpandingRowData.includes(rowData)
+            ? html`<sl-spinner part="expand-loading"></sl-spinner>`
+            : opened
+            ? SlTable.expendOpendSvg
+            : SlTable.expendCloseSvg}
+        </span>
+        ${wrap}
+      </div>`;
     }
     return wrap;
-  };
+  }
+
   /**Tree 列表的时候启用，缓存节点渲染层次 */
   private cacheParentMap: WeakMap<any, any>;
   /**Tree 列表的时候启用，缓存节点渲染层次 */
@@ -329,6 +354,7 @@ export default class SlTable extends LitElement {
     } else {
       this.innerDataSource = this.dataSource;
     }
+    this.cacheExpandLazyLoadDataMap.clear();
   }
 
   /**
@@ -354,19 +380,6 @@ export default class SlTable extends LitElement {
       this.isAsyncTableWidth = true;
       Promise.resolve().then(() => {
         //改造，多次请求，只执行一次重新计算
-        // const tablecurrentWidth = parseInt(getCssValue(this.table, 'width'));
-        // this.tableHeadDiv.style.width = Math.min(this.scrollDiv.clientWidth, this.table.offsetWidth) + 'px';
-        // //注意此处必须是 scroll_div.clientWidth，tableWidth 最小值！
-        // const thArray = this.thead.querySelectorAll('td,th');
-        // const thFixedArray = this.theadFixed.querySelectorAll('td,th');
-        // for (let i = 0, j = thArray.length; i < j; i++) {
-        //   const d = thArray[i] as HTMLTableHeaderCellElement;
-        //   const width = getCssValue(d, 'width');
-        //   (thFixedArray[i] as HTMLTableHeaderCellElement).style.width = width;
-        //   (thFixedArray[i] as HTMLTableHeaderCellElement).style.minWidth = width;
-        //   (thFixedArray[i] as HTMLTableHeaderCellElement).style.maxWidth = width;
-        // }
-        // this.tableHeadDiv.style.height = this.fixedTable.offsetHeight + 'px';
         this.watchFixedColumnsChange();
         this.isAsyncTableWidth = false;
       });
@@ -451,18 +464,23 @@ export default class SlTable extends LitElement {
   @query('#styleID', true)
   private fixedStyleElement: HTMLStyleElement;
   render() {
-    let tableStyle = {
-      height: this.tableHeight
-        ? `calc( ${isNaN(Number(this.tableHeight)) ? this.tableHeight : this.tableHeight + 'px'} )`
-        : '',
-      minHeight: this.tableMinHeight
-        ? `calc( ${isNaN(Number(this.tableMinHeight)) ? this.tableMinHeight : this.tableMinHeight + 'px'} )`
-        : '',
-      maxHeight: this.tableMaxHeight
-        ? `calc( ${isNaN(Number(this.tableMaxHeight)) ? this.tableMaxHeight : this.tableMaxHeight + 'px'} )`
-        : '',
-      tableLayout: this.tableLayoutFixed ? 'fixed' : 'auto'
-    };
+    let tableStyle: any = {};
+    this.tableHeight
+      ? (tableStyle['height'] = `calc( ${
+          isNaN(Number(this.tableHeight)) ? this.tableHeight : this.tableHeight + 'px'
+        } )`)
+      : '';
+    this.tableMaxHeight
+      ? (tableStyle['maxHeight'] = `calc( ${
+          isNaN(Number(this.tableMaxHeight)) ? this.tableMaxHeight : this.tableMaxHeight + 'px'
+        } )`)
+      : '';
+    this.tableMinHeight
+      ? (tableStyle['minHeight'] = `calc( ${
+          isNaN(Number(this.tableMinHeight)) ? this.tableMinHeight : this.tableMinHeight + 'px'
+        } )`)
+      : '';
+
     return html` <style id="styleID"></style>
       <div class="sl-table-base" part="base" size=${this.size}>
         <div
@@ -474,11 +492,11 @@ export default class SlTable extends LitElement {
           ?border=${this.border}
         >
           <!--渲染table 区 -->
-          <table part="table" id="tableID">
-            <thead part="thead">
-              ${this._renderTheadRows(false)}
+          <table part="table" id="tableID" componentID=${this.componentID}>
+            <thead part="thead" componentID=${this.componentID}>
+              ${this._renderTheadRows()}
             </thead>
-            <tbody>
+            <tbody componentID=${this.componentID}>
               ${this._renderDataSourceRows()}
             </tbody>
             <tfoot part="tfoot" class=${this.fixedFoot ? 'fixedFoot' : ''}>
@@ -491,11 +509,11 @@ export default class SlTable extends LitElement {
       </div>`;
   }
   /**渲染表头行 theader tr th */
-  private _renderTheadRows(fixed: boolean) {
+  private _renderTheadRows() {
     const table = this;
     const trTemplates = (rowColumn: SlColumn[]) => {
       return html`<tr .columns=${rowColumn}>
-        ${rowColumn.map(col => SlColumn.renderThColTemplate(col, fixed, table))}
+        ${rowColumn.map((col, index) => renderThColTemplate(col, index, table))}
       </tr>`;
     };
     return this.theadRows.map(items => trTemplates(items));
@@ -545,7 +563,7 @@ export default class SlTable extends LitElement {
         for (let x = 0, y = cellTdArray.length; x < y; x++) {
           //TD循环
           let col = cellTdArray[x];
-          let tdResult = SlColumn.renderTdCellTemplate(col, rowData, index, table);
+          let tdResult = renderTdCellTemplate(col, rowData, index, x, table);
           if (tdResult != nothing && tdResult != null && tdResult != undefined) {
             rowHtml.push(tdResult);
           }
@@ -568,6 +586,9 @@ export default class SlTable extends LitElement {
               ${rowHtml}
             </tr>`
           );
+          if (this.expandRowRender && this.expandRowData.includes(rowData)) {
+            rowList.push(this.expandRowRender(rowData, cellTdArray, this.cacheExpandLazyLoadDataMap.get(rowData)));
+          }
         }
         if (table.treeConfig && rowData.close) {
           index += this.getTreeNodeAllChildrenSize(rowData);

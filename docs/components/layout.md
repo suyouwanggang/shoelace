@@ -40,7 +40,7 @@ Flex 布局组件简单实现
 
 ```html preview
 <sl-layout column style='height:400px'>
-    <sl-layout expand class='a' >expand扩展，占满煮轴高度</sl-layout>
+    <sl-layout expand class='a' >expand扩展，占满主轴高度</sl-layout>
     <sl-layout class='b' main='end' >
         <span class='item'>B</span>
         <span class='item' >XX</span>

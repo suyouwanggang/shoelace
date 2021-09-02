@@ -203,3 +203,18 @@ th[align=right]{
         height: 1em;
     }
 }
+
+.expand-toogle {
+    display: flex;
+    align-items: center;
+    .expand-toogle-icon{
+        position: relative;
+        cursor: pointer;
+        font-size: var(--sl-tree-trriger-icon,14px);
+        padding: var(--sl-tree-trriger-padding,0 4px 0 2px);
+    }
+    svg{
+        width: 1em;
+        height: 1em;
+    }
+}

@@ -37,6 +37,9 @@ export default {
               });
             });
             const parsed = commentParser.parse(customComments + '\n */');
+            if (!parsed || !parsed[0] || !parsed[0].tags) {
+              return;
+            }
             parsed[0].tags?.map(t => {
               switch (t.tag) {
                 // Animations

@@ -105,7 +105,7 @@ export default class SlOrgNode extends LitElement {
   }
 
   protected _emitEvent(eventName: string, options?: CustomEventInit) {
-    emit(this, eventName, { detail: { nodeData: this.nodeData, ...options } });
+    return emit(this, eventName, { detail: { nodeData: this.nodeData, ...options } });
   }
   private onToogleNode(event: Event) {
     event.stopPropagation();

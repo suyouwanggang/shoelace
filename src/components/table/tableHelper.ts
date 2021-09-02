@@ -1,4 +1,3 @@
-import { svg } from 'lit-html';
 import SlColumn from '../column/column';
 /**
  * 定义排序，升序，降序,不显示
@@ -9,10 +8,7 @@ export enum SortingEnum {
   NULL = 'null'
 }
 const columnCacheData = new WeakMap<SlColumn, ColumnCacheData>();
-/**
- * table 单元格对齐方式 'left','cener','right'
- */
-export type TdAgile = 'left' | 'center' | 'right';
+
 /**
  * 定义需要table 表头 行
  */
@@ -40,6 +36,7 @@ type ColumnCacheData = {
 
   _isAuto?: boolean;
 };
+
 /**
  * 获取数据的字段值
  * @param data 数据
