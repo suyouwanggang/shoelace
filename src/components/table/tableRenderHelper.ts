@@ -4,7 +4,7 @@ import { styleMap } from 'lit-html/directives/style-map';
 import SlColumn from '../column/column';
 import { renderSortHeaderTemplate, sortRenderHanlder } from './sort';
 import SlTable from './table';
-import { SortTrigger } from './tableConfit';
+import { SortTrigger } from './tableConfig';
 import { getColumnCacheData, getFieldValue, isNumberWidth } from './tableHelper';
 
 export const renderThColTemplate = (column: SlColumn, columnIndex: number, table: SlTable) => {
@@ -68,9 +68,7 @@ export const renderThColTemplate = (column: SlColumn, columnIndex: number, table
     .colSpan=${cacheData.colspan as number}
   >
     <div class="thWrap">
-      <span class="column-title ${column.sortAble ? 'sort-able' : ''}"
-        >${column.renderCol ? html`${column.renderCol(column, columnIndex)}` : column.label}</span
-      >
+      <span class="column-title ${column.sortAble ? 'sort-able' : ''}">${column.renderCol?html`${column.renderCol(column, columnIndex)}`: column.label}</span>
       ${renderSortHeaderTemplate(table, column, handerSort)}
       ${column.resizeAble
         ? html`<div part="resize-hanler" @click=${stopHanderClick} class="th-resize-helper"></div>`
