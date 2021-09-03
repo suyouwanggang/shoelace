@@ -77,13 +77,13 @@ export function shimKeyframesHeightAuto(keyframes: Keyframe[], calculatedHeight:
  * });
  */
 export const animate_show = [
-  { opacity: '0', height: 0 ,overflow:'hidden'},
-  { opacity: '1', height: 'auto', overflow:'hidden'}
+  { opacity: '0', height: 0, overflow: 'hidden' },
+  { opacity: '1', height: 'auto', overflow: 'hidden' }
 ];
 /**
  * 隐藏动画
  */
 export const animate_hide = [
-  { opacity: '1', height: 'auto',overflow:'hidden' },
-  { opacity: '0', height: 0, overflow:'hidden' }
+  { opacity: '1', height: 'auto', overflow: 'hidden' },
+  { opacity: '0', height: 0, overflow: 'hidden' }
 ];

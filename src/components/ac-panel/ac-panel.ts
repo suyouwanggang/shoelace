@@ -60,47 +60,47 @@ export default class SlAcPanel extends LitElement {
     const tab = this;
     const panel = this.collapsePane;
     if (!panel) {
-      return ;
+      return;
     }
-      const event = emit(panel, 'sl-before-tab-change', {
-        cancelable: true
-      });
-      if (!event.defaultPrevented) {
-        // const oldActive=panel.activeTab;
-        panel.setTabToActive(tab, !tab.active);
-        await panel.updateComplete;
-        this.contentElement.style.display = 'block';
-        const currentHeight = parseInt(getCssValue(this.contentElement, 'height'));
-        let thisAnimate= animateTo(
-          this.contentElement,
-          shimKeyframesHeightAuto(this.active ? animate_show : animate_hide, currentHeight),
-          {
-            duration: duration,
-            easing: 'ease'
+    const event = emit(panel, 'sl-before-tab-change', {
+      cancelable: true
+    });
+    if (!event.defaultPrevented) {
+      // const oldActive=panel.activeTab;
+      panel.setTabToActive(tab, !tab.active);
+      await panel.updateComplete;
+      this.contentElement.style.display = 'block';
+      const currentHeight = parseInt(getCssValue(this.contentElement, 'height'));
+      let thisAnimate = animateTo(
+        this.contentElement,
+        shimKeyframesHeightAuto(this.active ? animate_show : animate_hide, currentHeight),
+        {
+          duration: duration,
+          easing: 'ease'
+        }
+      );
+      let allPromise = [thisAnimate];
+      // if(!panel.multi&&!tab.active){
+      //   const oldAnimate=oldActive.map(item=>{
+      //     return animateTo(
+      //       item.contentElement,
+      //       shimKeyframesHeightAuto(animate_hide,parseInt(getCssValue(item.contentElement, 'height'))),
+      //       {
+      //         duration: duration,
+      //         easing: 'ease'
+      //       }
+      //     );
+      //   }); 上次打开的关闭动画， 所有动画一起， 效果不好
+      //   allPromise=[...allPromise,...oldAnimate];
+      // }
+      Promise.all(allPromise).then(() => {
+        this.contentElement.style.removeProperty('display');
+        emit(panel, 'tab-change', {
+          detail: {
+            tab: tab
           }
-        );
-        let allPromise=[thisAnimate];
-        // if(!panel.multi&&!tab.active){
-        //   const oldAnimate=oldActive.map(item=>{
-        //     return animateTo(
-        //       item.contentElement,
-        //       shimKeyframesHeightAuto(animate_hide,parseInt(getCssValue(item.contentElement, 'height'))),
-        //       {
-        //         duration: duration,
-        //         easing: 'ease'
-        //       }
-        //     );
-        //   }); 上次打开的关闭动画， 所有动画一起， 效果不好
-        //   allPromise=[...allPromise,...oldAnimate];
-        // }
-        Promise.all(allPromise).then(()=>{
-          this.contentElement.style.removeProperty('display');
-          emit(panel, 'tab-change', {
-            detail: {
-              tab: tab
-            }
-          });
-        })
+        });
+      });
     }
   }
   get contentElement(): HTMLElement {

@@ -78,7 +78,7 @@ export * from './utilities/icon-library';
 declare global {
   interface Window {
     html: typeof html;
-    onEvent:typeof onEvent;
+    onEvent: typeof onEvent;
     LitRender: typeof render;
     restoreFromLocalCache: typeof restoreFromLocalCache;
     restoreTableDefault: typeof restoreTableDefault;
