@@ -19,7 +19,7 @@ export default class SlColumn extends LitElement {
     rowData: any,
     rowDataIndex: number,
     columnIndex: number,
-    ...others :unknown[]
+    ...others: unknown[]
   ) => TemplateResult<1> | { template: TemplateResult<1>; colspan: number; rowspan: number };
 
   /**是否隐藏此列 */

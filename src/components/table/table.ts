@@ -91,11 +91,11 @@ import { vituralScrollCal } from './virtualScroll';
  *
  */
 
-export type TreeNodeCacheType={
-     node:TreeNodeData,
-     parent:TreeNodeData,
-     level:number,
-     seqno:number,
+export type TreeNodeCacheType = {
+  node: TreeNodeData;
+  parent: TreeNodeData;
+  level: number;
+  seqno: number;
 };
 let componentID = 0;
 @customStyle()
@@ -105,7 +105,6 @@ export default class SlTable extends LitElement {
 
   @state()
   componentID = `${'tableID_' + componentID++}`;
-
 
   /** td size*/
   @property({ type: String, attribute: false, reflect: true }) size: 'small' | 'larger' | 'default' = 'small';
@@ -241,9 +240,8 @@ export default class SlTable extends LitElement {
   expandRowRender: (rowData: unknown, columns: SlColumn[], layLoadData?: any) => TemplateResult<1>;
 
   private _cacheExpandLazyLoadDataMap = new Map<any, any>();
-  
 
-  public get cacheExpandLazyLoadDataMap(){
+  public get cacheExpandLazyLoadDataMap() {
     return this._cacheExpandLazyLoadDataMap;
   }
   /**
@@ -330,7 +328,6 @@ export default class SlTable extends LitElement {
     return wrap;
   }
 
-  
   /**Tree 列表的时候启用，缓存节点渲染层次 */
   private cacheTreeNodeMap: Map<any, TreeNodeCacheType>;
   /**获取渲染后的 rowData 对应的Tree level */
@@ -339,14 +336,14 @@ export default class SlTable extends LitElement {
   }
   /**获取渲染后的 rowData 对应的父对象 */
   public getRowDataParentData(rowData: TreeNodeData) {
-    return this.cacheTreeNodeMap.get(rowData)?.parent as TreeNodeData
+    return this.cacheTreeNodeMap.get(rowData)?.parent as TreeNodeData;
   }
 
   /**获取渲染后的 rowData 对应的父对象 */
   public getRowDataRowDataIndex(rowData: TreeNodeData) {
     return this.cacheTreeNodeMap.get(rowData)?.seqno as number;
   }
- 
+
   /**
    * table  heading
    */
@@ -383,7 +380,7 @@ export default class SlTable extends LitElement {
     this._resizeResult = addResizeHander([this, this.table], () => {
       this.asynTableHeaderWidth();
       emit(this, 'sl-table-resize');
-      if(this.enableVirtualScroll){
+      if (this.enableVirtualScroll) {
         this.requestUpdate();
       }
     });
@@ -538,38 +535,37 @@ export default class SlTable extends LitElement {
   customRenderRowClassMap?: (rowData: any, rowIndex: number) => ClassInfo | string | string[];
 
   /** 虚拟滚动行高 */
-  @property({type:Number,attribute:false})
-  virtualItemHeight:number;
+  @property({ type: Number, attribute: false })
+  virtualItemHeight: number;
 
   /** 虚拟滚动启用 */
-  @property({type:Number,attribute:false})
-  enableVirtualScroll:number;
-
+  @property({ type: Number, attribute: false })
+  enableVirtualScroll: number;
 
   @watchProps(['dataSource', 'treeConfig'])
   watchDataSourceChange() {
     if (this.treeConfig && this.dataSource) {
       this.treeConfig = { ...defaultTreeConfig, ...this.treeConfig };
-      this.cacheTreeNodeMap=new Map();
+      this.cacheTreeNodeMap = new Map();
       let allTreeNode: unknown[] = [];
-      let result:unknown[]=[];
-      let seqNo=0;
+      let result: unknown[] = [];
+      let seqNo = 0;
       for (let rowData of this.dataSource) {
         iteratorNodeData(rowData as TreeNodeData, (node: TreeNodeData, parentNode: TreeNodeData) => {
           if (typeof node.close == 'undefined') {
             node.close = true; //默认全部关闭
           }
           allTreeNode.push(node);
-          let cache={
-            seqno:seqNo,
-            level:(this.cacheTreeNodeMap.has(parentNode) ? this.getRowDataTreeLevel(parentNode):0) + 1,
-            parent:parentNode
+          let cache = {
+            seqno: seqNo,
+            level: (this.cacheTreeNodeMap.has(parentNode) ? this.getRowDataTreeLevel(parentNode) : 0) + 1,
+            parent: parentNode
           } as TreeNodeCacheType;
-          this.cacheTreeNodeMap.set(node,cache);
+          this.cacheTreeNodeMap.set(node, cache);
           seqNo++;
         });
       }
-      for(let index=0,j=allTreeNode.length;index<j;index++){
+      for (let index = 0, j = allTreeNode.length; index < j; index++) {
         let rowData = allTreeNode[index] as TreeNodeData;
         result.push(rowData);
         if (this.treeConfig && rowData.close) {
@@ -583,69 +579,90 @@ export default class SlTable extends LitElement {
     this._cacheExpandLazyLoadDataMap.clear();
   }
 
-  private _renderRowDataBetween(start:number,end:number){
-    const table=this;
+  private _renderRowDataBetween(start: number, end: number) {
+    const table = this;
     const rowList = [];
     const dataSource = this.innerDataSource;
     const cellTdArray = this.tdRenderColumns;
-    for(let i=start,j=end;i<j;i++){
-        let index=i;
-        //行循环
-        let rowData = dataSource[index] as TreeNodeData;
-        let seqNo=table.treeConfig?this.getRowDataRowDataIndex(rowData) :index;
-        const rowHtml = [];
-        for (let x = 0, y = cellTdArray.length; x < y; x++) {
-          //TD循环
-          let col = cellTdArray[x];
-          let tdResult = renderTdCellTemplate(col, rowData, seqNo, x, table);
-          if (tdResult != nothing && tdResult != null && tdResult != undefined) {
-            rowHtml.push(tdResult);
+    for (let i = start, j = end; i < j; i++) {
+      let index = i;
+      //行循环
+      let rowData = dataSource[index] as TreeNodeData;
+      let seqNo = table.treeConfig ? this.getRowDataRowDataIndex(rowData) : index;
+      const rowHtml = [];
+      for (let x = 0, y = cellTdArray.length; x < y; x++) {
+        //TD循环
+        let col = cellTdArray[x];
+        let tdResult = renderTdCellTemplate(col, rowData, seqNo, x, table);
+        if (tdResult != nothing && tdResult != null && tdResult != undefined) {
+          rowHtml.push(tdResult);
+        }
+      }
+      if (rowHtml.length > 0) {
+        let trStyle = this.customRenderRowStyle ? this.customRenderRowStyle(rowData, seqNo) : {};
+        let trClassInfo = this.customRenderRowClassMap ? this.customRenderRowClassMap(rowData, seqNo) : null;
+        let trClassObject: any = {};
+        if (trClassInfo) {
+          if (Array.isArray(trClassInfo)) {
+            trClassInfo.forEach(item => (item.trim() != '' ? (trClassObject[item.trim()] = true) : ''));
+          } else if (typeof trClassInfo == 'string') {
+            trClassInfo.split(' ').forEach(item => (item.trim() != '' ? (trClassObject[item.trim()] = true) : ''));
+          } else {
+            trClassObject = { ...trClassInfo };
           }
         }
-        if (rowHtml.length > 0) {
-          let trStyle = this.customRenderRowStyle ? this.customRenderRowStyle(rowData, seqNo) : {};
-          let trClassInfo = this.customRenderRowClassMap ? this.customRenderRowClassMap(rowData, seqNo) : null;
-          let trClassObject: any = {};
-          if (trClassInfo) {
-            if (Array.isArray(trClassInfo)) {
-              trClassInfo.forEach(item => (item.trim() != '' ? (trClassObject[item.trim()] = true) : ''));
-            } else if (typeof trClassInfo == 'string') {
-              trClassInfo.split(' ').forEach(item => (item.trim() != '' ? (trClassObject[item.trim()] = true) : ''));
-            } else {
-              trClassObject = { ...trClassInfo };
-            }
-          }
-          rowList.push(
-            html`<tr .rowData=${rowData} style=${styleMap(trStyle)} class=${classMap(trClassObject)}>
-              ${rowHtml}
-            </tr>`
-          );
-          if (this.expandRowRender && this.expandRowData.includes(rowData)) {
-            rowList.push(this.expandRowRender(rowData, cellTdArray, this._cacheExpandLazyLoadDataMap.get(rowData)));
-          }
+        rowList.push(
+          html`<tr .rowData=${rowData} style=${styleMap(trStyle)} class=${classMap(trClassObject)}>
+            ${rowHtml}
+          </tr>`
+        );
+        if (this.expandRowRender && this.expandRowData.includes(rowData)) {
+          rowList.push(this.expandRowRender(rowData, cellTdArray, this._cacheExpandLazyLoadDataMap.get(rowData)));
         }
+      }
     }
     return rowList;
   }
-  private _virtualRenderTbodyRows(){
-    if(this.enableVirtualScroll&&this.scrollDiv){
-      if(!this.virtualItemHeight){
+  private _virtualRenderTbodyRows() {
+    if (this.enableVirtualScroll && this.scrollDiv) {
+      if (!this.virtualItemHeight) {
         console.error('virtualItem height should be set ');
       }
-      let tdRenderColumns=this.tdRenderColumns;
-      let scrollTop=this.scrollDiv.scrollTop;
-      let height= this.thead.offsetHeight+(this.table.tFoot? this.table.tFoot.offsetHeight:0);
-      const result=vituralScrollCal(this.scrollDiv.clientHeight-height,this.innerDataSource.length,this.virtualItemHeight,scrollTop);
-      const trTop= html`<tr><td style=${result.paddingTop>0?`height:${result.paddingTop}px;`:'display:none'} colspan=${tdRenderColumns.length}>&nbsp;</td></tr>`;
-      const trBottom= html`<tr><td style=${result.paddingBottom>0?`height:${result.paddingBottom}px;`:'display:none'} colspan=${tdRenderColumns.length}>&nbsp;</td></tr>`;
-      const trs=this._renderRowDataBetween(result.offsetStart,result.offsetEnd);
+      let tdRenderColumns = this.tdRenderColumns;
+      let scrollTop = this.scrollDiv.scrollTop;
+      let height = this.thead.offsetHeight + (this.table.tFoot ? this.table.tFoot.offsetHeight : 0);
+      const result = vituralScrollCal(
+        this.scrollDiv.clientHeight - height,
+        this.innerDataSource.length,
+        this.virtualItemHeight,
+        scrollTop
+      );
+      const trTop = html`<tr>
+        <td
+          style=${result.paddingTop > 0 ? `height:${result.paddingTop}px;` : 'display:none'}
+          colspan=${tdRenderColumns.length}
+        >
+          &nbsp;
+        </td>
+      </tr>`;
+      const trBottom = html`<tr>
+        <td
+          style=${result.paddingBottom > 0 ? `height:${result.paddingBottom}px;` : 'display:none'}
+          colspan=${tdRenderColumns.length}
+        >
+          &nbsp;
+        </td>
+      </tr>`;
+      const trs = this._renderRowDataBetween(result.offsetStart, result.offsetEnd);
       return html`${trTop}${trs}${trBottom}`;
     }
     return '';
   }
   private _renderDataSourceRows() {
     if (this.innerDataSource) {
-      return  this.enableVirtualScroll?this._virtualRenderTbodyRows(): this._renderRowDataBetween(0,this.innerDataSource.length);
+      return this.enableVirtualScroll
+        ? this._virtualRenderTbodyRows()
+        : this._renderRowDataBetween(0, this.innerDataSource.length);
     }
     return nothing;
   }
@@ -672,7 +689,7 @@ export default class SlTable extends LitElement {
   private isColumnHanlderFlag = true;
   /** 如果column 发生了变化，需要重新计算 表头布局 */
   public columnChangeHanlder() {
-    if (this.hasUpdated&&this.scrollDiv && this.isColumnHanlderFlag) {
+    if (this.hasUpdated && this.scrollDiv && this.isColumnHanlderFlag) {
       this.isColumnHanlderFlag = false;
       Promise.resolve().then(() => {
         const { rows, tdRenderColumnData } = caculateColumnData(this.canShowColumns);

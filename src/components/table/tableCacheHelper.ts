@@ -49,7 +49,7 @@ export const readTableAsCacheValue = (table: SlTable) => {
   return result;
 };
 const getTableCacheKey = (key: string | undefined, isDefault = false) => {
-  return key ? 'sl_table_cache_' +key+(isDefault ? '_default':''):null;
+  return key ? 'sl_table_cache_' + key + (isDefault ? '_default' : '') : null;
 };
 export const removeTableCacheByKey = (key: string) => {
   let keyValue = getTableCacheKey(key, false) as string;

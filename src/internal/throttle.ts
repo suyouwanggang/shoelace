@@ -52,18 +52,18 @@ export function throttle(method: (...arg: unknown[]) => void, delay: number, sco
   };
 }
 
-export function throttleTimeout(method: (...arg: unknown[]) => void, wait: number, mustRun:number) {
+export function throttleTimeout(method: (...arg: unknown[]) => void, wait: number, mustRun: number) {
   let startTime = new Date().getTime();
-  let timeout:number;
+  let timeout: number;
   return function (this: unknown, ...args: unknown[]) {
     const context = this,
       current = new Date().getTime();
-      clearTimeout(timeout);
+    clearTimeout(timeout);
     if (current - startTime >= mustRun) {
       method.apply(context, args);
       startTime = current;
-    }else{
-      timeout=window.setTimeout(method,wait);
+    } else {
+      timeout = window.setTimeout(method, wait);
     }
   };
 

@@ -68,7 +68,9 @@ export const renderThColTemplate = (column: SlColumn, columnIndex: number, table
     .colSpan=${cacheData.colspan as number}
   >
     <div class="thWrap">
-      <span class="column-title ${column.sortAble ? 'sort-able' : ''}">${column.renderCol?html`${column.renderCol(column, columnIndex)}`: column.label}</span>
+      <span class="column-title ${column.sortAble ? 'sort-able' : ''}"
+        >${column.renderCol ? html`${column.renderCol(column, columnIndex)}` : column.label}</span
+      >
       ${renderSortHeaderTemplate(table, column, handerSort)}
       ${column.resizeAble
         ? html`<div part="resize-hanler" @click=${stopHanderClick} class="th-resize-helper"></div>`
