@@ -50,7 +50,6 @@ export function stopAnimations(el: HTMLElement) {
     el.getAnimations().map((animation: any) => {
       return new Promise(resolve => {
         const handleAnimationEvent = requestAnimationFrame(resolve);
-
         animation.addEventListener('cancel', () => handleAnimationEvent, { once: true });
         animation.addEventListener('finish', () => handleAnimationEvent, { once: true });
         animation.cancel();
@@ -78,13 +77,13 @@ export function shimKeyframesHeightAuto(keyframes: Keyframe[], calculatedHeight:
  * });
  */
 export const animate_show = [
-  { opacity: '0', height: 0 },
-  { opacity: '1', height: 'auto' }
+  { opacity: '0', height: 0 ,overflow:'hidden'},
+  { opacity: '1', height: 'auto', overflow:'hidden'}
 ];
 /**
  * 隐藏动画
  */
 export const animate_hide = [
-  { opacity: '1', height: 'auto' },
-  { opacity: '0', height: 0, padding: 0 }
+  { opacity: '1', height: 'auto',overflow:'hidden' },
+  { opacity: '0', height: 0, overflow:'hidden' }
 ];

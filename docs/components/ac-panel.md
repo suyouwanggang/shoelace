@@ -22,7 +22,14 @@ A description of the component goes here.
 √  ++ E:\github\shoelace\src\components\ac-panel\ac-panel.test.ts
 √  ++ E:\github\shoelace\docs\components\ac-panel.md
 √  +- E:\github\shoelace\docs\_sidebar.md
-√  +- E:\github\shoelace\src\shoelace.ts </div>
+√  +- E:\github\shoelace\src\shoelace.ts 
+√  ++ E:\github\shoelace\src\components\ac-panel\ac-panel.styles.ts
+√  ++ E:\github\shoelace\src\components\ac-panel\ac-panel.test.ts
+√  ++ E:\github\shoelace\docs\components\ac-panel.md
+√  +- E:\github\shoelace\docs\_sidebar.md
+√  +- E:\github\shoelace\src\shoelace.ts 
+
+</div>
     </sl-ac-panel>
 
 

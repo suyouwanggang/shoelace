@@ -17,6 +17,7 @@ import styles from './collapse.styles';
 @customElement('sl-collapse')
 export default class SlCollapse extends LitElement {
   static styles = styles;
+  /**是否允许打开多个  */
   @property({ type: Boolean, reflect: true }) multi = false;
   render() {
     return html`<div part="base"><slot id="slot"></slot></div> `;

@@ -5,8 +5,14 @@
 Table 组件
 
 ```html preview
-<sl-button size='small' style='margin:10px 0' id='queSheng'>恢复列配置</sl-button>
-
+<div id='checkBox' style='margin:10px 0'>
+    <sl-button size='small'  id='queSheng'>恢复列配置</sl-button>
+    选择列配置
+    <sl-checkbox checked >name</sl-checkbox>
+    <sl-checkbox checked>role</sl-checkbox>
+    <sl-checkbox checked>sex</sl-checkbox>
+    <sl-checkbox checked >address</sl-checkbox>
+</div>
 <sl-table id='tableDIV' cache-key='one'>
     <sl-column field='expaned' label='#'   align='left' min-width='40' ></sl-column>
     <sl-column field='name' sort-able resize-able label='Name'   align='left' min-width='200' ></sl-column>
@@ -34,17 +40,21 @@ Table 组件
     
     
     table.addEventListener('sl-table-before-sort',(event)=>{
-        console.log(event.detail.column.label +' sortValue'+JSON.stringify(event.detail.sortValue));
+        console.log(event.detail.column.label +' sortValue '+JSON.stringify(event.detail.sortValue));
     });
      table.addEventListener('sl-table-sort',(event)=>{
-        console.log(event.detail.column.label +' sortValue'+JSON.stringify(event.detail.sortValue));
+        console.log(event.detail.column.label +' sortValue '+JSON.stringify(event.detail.sortValue));
     });
     const queSheng=document.querySelector('#queSheng');
     queSheng.addEventListener('click',(event)=>{
        restoreTableDefault(table);
        restoreTableDefault(table2);
     });
-
+    onEvent(document.querySelector('#checkBox'),'sl-checkbox','sl-change', (event)=>{
+        const el=event.delegateTarget;
+        const field=el.textContent;
+        table.querySelector(`sl-column[field=${field}]`).hidden=!el.checked;
+    })
      //指定行扩展的图标在哪一列
    table.expandColumn='expaned';
    //指定每次只能扩展一行数据，其他扩展的行会关闭

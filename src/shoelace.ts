@@ -67,6 +67,7 @@ export { default as SlLayout } from './components/layout/layout';
 export { default as SlColumn } from './components/column/column';
 export { default as SlTable } from './components/table/table';
 import { restoreFromLocalCache, restoreTableDefault } from './components/table/tableCacheHelper';
+import { onEvent } from './utilities/common';
 /* plop:component */
 
 // Utilities
@@ -77,12 +78,14 @@ export * from './utilities/icon-library';
 declare global {
   interface Window {
     html: typeof html;
+    onEvent:typeof onEvent;
     LitRender: typeof render;
     restoreFromLocalCache: typeof restoreFromLocalCache;
     restoreTableDefault: typeof restoreTableDefault;
   }
 }
 (globalThis as any).html = html;
+(globalThis as any).onEvent = onEvent;
 (globalThis as any).LitRender = render;
 (globalThis as any).restoreTableDefault = restoreTableDefault;
 (globalThis as any).restoreFromLocalCache = restoreFromLocalCache;
