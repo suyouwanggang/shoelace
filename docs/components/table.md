@@ -14,6 +14,7 @@ Table 组件
     <sl-checkbox checked >address</sl-checkbox>
 </div>
 <sl-table id='tableDIV' cache-key='one'>
+     <sl-column id='index' field='index' label='index'   align='left' min-width='70' ></sl-column>
     <sl-column field='expaned' label='#'   align='left' min-width='40' ></sl-column>
     <sl-column field='name' sort-able resize-able label='Name'   align='left' min-width='200' ></sl-column>
     <sl-column field='role'  label='Role' resize-able min-width='100' order=2 ></sl-column>
@@ -34,9 +35,25 @@ Table 组件
                 { id: 10006, name: 'Test6', role: 'Designer', sex: 'Women', age: 21, address: 'Javascript 从入门到放弃' },
                 { id: 10007, name: 'Test7', role: 'Test', sex: 'Man', age: 29, address: 'Javascript 从入门到放弃' },
                 { id: 10008, name: 'Test8', role: 'Develop', sex: 'Man', age: 35, address: 'Javascript 从入门到放弃' }];
+      document.querySelector('sl-column#index[field=index]').renderCell=(column,rowData,index)=>{
+          return index;
+    }
+    
+    for(let i=0,j=20000-11;i<j;i++){
+        dateList.push( { id: i, name: 'Test add'+i, role: 'Test1', sex: 'Man', age: 28, address: 'Javascript 从入门到放弃'+i });
+    }
+    table.tableHeight='400px';
+
+    //启用虚拟滚动
+    table.enableVirtualScroll=true;
+    //虚拟滚动行高
+    table.virtualItemHeight=45;
+    table.customStyle=`div.tdWrap{height:28px;overflow:hidden;}`;
+    //控制单元高度
+
     table.dataSource=dateList;
     window.table=table;
-    table.tableHeight='400px';
+    
     
     
     table.addEventListener('sl-table-before-sort',(event)=>{
@@ -125,8 +142,21 @@ Table 组件
                 { id: 10007, name: 'Test11', role: 'Test', sex: 'Man', age: 29, address: 'C 从入门到放弃' },
                 { id: 10007, name: 'Test12', role: 'Test', sex: 'Man', age: 29, address: 'C 从入门到放弃' },
                 { id: 10008, name: 'Test8', role: 'Develop', sex: 'Man', age: 35, address: 'Javascript 从入门到放弃' }];
+
+        for(let i=0;i<100000;i++){
+            dateList2.push({ id: 10008, name: i+'Test8', role: i+'Develop', sex: 'Man', age: 35, address: 'Javascript 从入门到放弃' });
+        }
     table2.dataSource=dateList2;
     table2.fixedFoot=true;
+
+   
+    //启用虚拟滚动
+    table2.enableVirtualScroll=true;
+    //虚拟滚动行高
+    table2.virtualItemHeight=45;
+    table2.customStyle=`div.tdWrap{height:28px;overflow:hidden;}`;//控制单元高度
+   
+
     table2.customRenderFooter=(columns)=>{
         let result= html`
             ${columns.map(c=>{
@@ -166,7 +196,7 @@ Table 组件
     
     window.table2=table2;
     table2.fixedColumns=3;
-    table2.tableHeight=400;
+    table2.tableHeight=600;
     table2.sortValue={orderBy:'name',orderType:'ASC'};
 </script>
 ```
@@ -231,7 +261,20 @@ Table 组件
         return result;
     };
 ```
-
+### 虚拟滚动
+```javascript
+    let dateList=[];
+    for(let i=0,j=20000;i<j;i++){
+        dateList.push( { id: i, name: 'Test add'+i, role: 'Test1', sex: 'Man', age: 28, address: 'Javascript 从入门到放弃'+i });
+    }
+    table.tableHeight='400px';
+    //启用虚拟滚动
+    table.enableVirtualScroll=true;
+    //虚拟滚动行高
+    table.virtualItemHeight=45;
+    table.customStyle=`div.tdWrap{height:28px;overflow:hidden;}`;//控制单元高度
+    table.dataSource=dateList;
+```
 
 ### 自定义行样式
 ```javascript

@@ -50,7 +50,7 @@ export type TreeConfig = {
   //对于同一级的节点，每次只能展开一个,待实现
   accordion?: boolean;
   //是否显示根节点
-  includeRoot: boolean;
+  //includeRoot: boolean;
   //是否默认懒加载
   lazy?: boolean;
   //指定treeNodeColumn 所在列 field
@@ -64,7 +64,6 @@ export const defaultTreeConfig: TreeConfig = {
   indent: 14,
   accordion: false,
   lazy: false,
-  includeRoot: true,
   treeNodeColumn: 'name',
   hasChildProp: 'hasChild'
 };

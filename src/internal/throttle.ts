@@ -41,13 +41,33 @@ export function debounceWait(fn: (...arg: unknown[]) => void, wait: number) {
  * @param scope 函数执行上下文
  */
 export function throttle(method: (...arg: unknown[]) => void, delay: number, scope?: unknown) {
-  let begin = new Date().getTime();
+  let startTime = new Date().getTime();
   return function (this: unknown, ...args: unknown[]) {
     const context = scope != null ? scope : this,
       current = new Date().getTime();
-    if (current - begin >= delay) {
+    if (current - startTime >= delay) {
       method.apply(context, args);
-      begin = current;
+      startTime = current;
     }
   };
+}
+
+export function throttleTimeout(method: (...arg: unknown[]) => void, wait: number, mustRun:number) {
+  let startTime = new Date().getTime();
+  let timeout:number;
+  return function (this: unknown, ...args: unknown[]) {
+    const context = this,
+      current = new Date().getTime();
+      clearTimeout(timeout);
+    if (current - startTime >= mustRun) {
+      method.apply(context, args);
+      startTime = current;
+    }else{
+      timeout=window.setTimeout(method,wait);
+    }
+  };
+
+  // 采用了节流函数
+  //window.addEventListener('scroll',throttle(realFunc,500,1000));
+  //大概功能就是如果在一段时间内 scroll 触发的间隔一直短于 500ms ，那么能保证事件我们希望调用的 handler 至少在 1000ms 内会触发一次
 }

@@ -13,12 +13,13 @@ export default class SlColumn extends LitElement {
   /**表头自定义渲染(this:SlColumn,table:SlTable):TemplateResult<1>*/
   @property({ attribute: false, type: Object }) renderCol: (column: SlColumn, index: number) => TemplateResult<1>;
 
-  /**对应TD渲染 ,接收表格rowData,index来渲染 此对应的TD*/
+  /**对应TD渲染 ,接收表格column:lie, rowData:行数据,rowDataIndex,columnIndex:列顺序 此对应的TD*/
   @property({ attribute: false, type: Object }) renderCell: (
     column: SlColumn,
     rowData: any,
-    index: number,
-    columnIndex: number
+    rowDataIndex: number,
+    columnIndex: number,
+    ...others :unknown[]
   ) => TemplateResult<1> | { template: TemplateResult<1>; colspan: number; rowspan: number };
 
   /**是否隐藏此列 */

@@ -58,7 +58,7 @@ Table 组件启用TreeTable 需要设置treeConfig属性
 </script>
 ```
 
-Table 组件启用TreeTable 懒加载
+Table 组件启用TreeTable 懒加载 ,和虚拟滚动加载
 ```html preview
 <sl-table id='tableDIV2' border>
     <sl-column field='index'  label='#'  align='center' min-width='40' ></sl-column>
@@ -69,8 +69,8 @@ Table 组件启用TreeTable 懒加载
 </sl-table>
 <script >
     const table2=document.querySelector('#tableDIV2');
-    table2.treeConfig={treeNodeColumn:'name',lazy:true};
-    //指定TreeNode 渲染在 column field=type 列
+    table2.treeConfig={treeNodeColumn:'name',lazy:true ,hasChildProp:'hasChild'};
+    //指定TreeNode 渲染在 column field=type 列，同时支持懒加载
     table2.children[0].renderCell=(column,rowData,index)=>{
         return html`${index+1}`;
     };
@@ -78,13 +78,13 @@ Table 组件启用TreeTable 懒加载
     table2.loadingNodeMethod=(nodeData,parentData)=>{
         let name=nodeData.name;
         let result=[];
-        for(let i=0;i<20;i++){
-            result.push({name:name+' chapter'+(i+1),type:'mp3',size:nodeData.size+(i*1000),date:'2028-08-11',hasChild:Math.random()>0.6});
+        for(let i=0;i<200;i++){
+            result.push({name:' ajax chapter'+(i+1),type:'mp3',size:nodeData.size+(i*1000),date:'2028-08-11',hasChild:Math.random()>0.6});
         }   
         return new Promise((resolve)=>{
             window.setTimeout(()=>{
                 resolve(result);
-            },600)
+            },120)
         } );
     };
     const dateList=[
@@ -117,10 +117,16 @@ Table 组件启用TreeTable 懒加载
             { id: 23666, name: 'Test8', type: 'xlsx', size: 2048, date: '2020-11-01' , hasChild:true},
             { id: 24555, name: 'Lit Element', type: 'avi', size: 224, date: '2020-10-01', hasChild:true }
         ];
+   
+    //启用虚拟滚动
+    table2.enableVirtualScroll=true;
+    //虚拟滚动行高
+    table2.virtualItemHeight=45;
+    table2.customStyle=`div.tdWrap{height:28px;overflow:hidden;}`;//控制单元高度
     table2.dataSource=dateList;
     table2.fixedColumns=2;
     window.table2=table2;
-    table2.treeNodeNoWrap=true;
+    table2.treeNodeNoWrap=false;
     table2.tableLayoutFixed=true;
     table2.tableMaxHeight=600;
 </script>
@@ -132,32 +138,31 @@ Table 组件启用TreeTable 懒加载
 /**
  * 定义表格数据为树类型
  */
- type TreeConfig={
+export type TreeConfig = {
   //树子节点属性,必须为'chidren';
- // childrenProp:'children';
+  // childrenProp:'children';
   //树节点ID属性
-  idProp?:string;
+  idProp?: string;
   //树节点缩进
-  indent?:number;
-  //对于同一级的节点，每次只能展开一个
-  accordion?:boolean;
+  indent?: number;
+  //对于同一级的节点，每次只能展开一个,待实现
+  accordion?: boolean;
   //是否显示根节点
-  includeRoot:boolean;
+  //includeRoot: boolean;
   //是否默认懒加载
-  lazy?:boolean;
+  lazy?: boolean;
   //指定treeNodeColumn 所在列 field
-  treeNodeColumn:string,
+  treeNodeColumn: string;
   //懒加载时，哪个属性标识有子节点
-  hasChildProp?:string;
-}
-export const defaultTreeConfig:TreeConfig={
-  idProp:'id',
+  hasChildProp?: string;
+};
+export const defaultTreeConfig: TreeConfig = {
+  idProp: 'id',
   //childrenProp:'children',
-  indent:18,
-  accordion:false,
-  lazy:false,
-  includeRoot:true,
-  treeNodeColumn:'name',
-  hasChildProp:'hasChild'
-} ; 
+  indent: 14,
+  accordion: false,
+  lazy: false,
+  treeNodeColumn: 'name',
+  hasChildProp: 'hasChild'
+};
 ```

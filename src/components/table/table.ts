@@ -14,10 +14,11 @@ import '../spinner/spinner';
 import { iteratorNodeData, TreeNodeData } from '../tree-node/tree-node-util';
 import styles from './table.styles';
 import { removeTableCacheByKey, restoreFromLocalCache } from './tableCacheHelper';
-import { defaultSortConfig, defaultTreeConfig, SortConfig, SortValue, TreeConfig } from './tableConfit';
+import { defaultSortConfig, defaultTreeConfig, SortConfig, SortValue, TreeConfig } from './tableConfig';
 import caculateColumnData, { RowHeader } from './tableHelper';
 import { renderTdCellTemplate, renderThColTemplate } from './tableRenderHelper';
-import { connectTableHanlder } from './tableTreeHelper';
+import { connectTableHanlder, getTreeNodeAllChildrenSize } from './tableTreeHelper';
+import { vituralScrollCal } from './virtualScroll';
 
 /**
  * @since 2.0
@@ -89,6 +90,13 @@ import { connectTableHanlder } from './tableTreeHelper';
  * @cssproperty --sl-table-td-bottom-width -1px，定义表格单元格底侧的线条宽度
  *
  */
+
+export type TreeNodeCacheType={
+     node:TreeNodeData,
+     parent:TreeNodeData,
+     level:number,
+     seqno:number,
+};
 let componentID = 0;
 @customStyle()
 @customElement('sl-table')
@@ -97,6 +105,8 @@ export default class SlTable extends LitElement {
 
   @state()
   componentID = `${'tableID_' + componentID++}`;
+
+
   /** td size*/
   @property({ type: String, attribute: false, reflect: true }) size: 'small' | 'larger' | 'default' = 'small';
 
@@ -230,7 +240,12 @@ export default class SlTable extends LitElement {
   @property({ type: Object, attribute: false })
   expandRowRender: (rowData: unknown, columns: SlColumn[], layLoadData?: any) => TemplateResult<1>;
 
-  public cacheExpandLazyLoadDataMap = new Map<any, any>();
+  private _cacheExpandLazyLoadDataMap = new Map<any, any>();
+  
+
+  public get cacheExpandLazyLoadDataMap(){
+    return this._cacheExpandLazyLoadDataMap;
+  }
   /**
    * 展开行数据的扩展 数据
    * @param rowData table 行绑定的数据
@@ -276,8 +291,8 @@ export default class SlTable extends LitElement {
    */
   public wrapColumnFieldTemplate(column: SlColumn, rowData: TreeNodeData, wrap: TemplateResult<1>) {
     if (column.field && this.treeConfig && column.field == this.treeConfig.treeNodeColumn) {
-      let parentData = this.cacheParentMap.get(rowData);
-      let level = this.cacheLevelMap.get(rowData) as number;
+      let parentData = this.getRowDataParentData(rowData);
+      let level = this.getRowDataTreeLevel(rowData) as number;
       if (typeof rowData.close == 'undefined') {
         rowData.close = true;
       }
@@ -315,48 +330,23 @@ export default class SlTable extends LitElement {
     return wrap;
   }
 
+  
   /**Tree 列表的时候启用，缓存节点渲染层次 */
-  private cacheParentMap: WeakMap<any, any>;
-  /**Tree 列表的时候启用，缓存节点渲染层次 */
-  private cacheLevelMap: WeakMap<any, number>;
-
+  private cacheTreeNodeMap: Map<any, TreeNodeCacheType>;
   /**获取渲染后的 rowData 对应的Tree level */
   public getRowDataTreeLevel(rowData: TreeNodeData) {
-    return this.cacheLevelMap.get(rowData);
+    return this.cacheTreeNodeMap.get(rowData)?.level as number;
   }
   /**获取渲染后的 rowData 对应的父对象 */
   public getRowDataParentData(rowData: TreeNodeData) {
-    return this.cacheParentMap.get(rowData);
+    return this.cacheTreeNodeMap.get(rowData)?.parent as TreeNodeData
   }
 
-  @watchProps(['dataSource', 'treeConfig'])
-  watchDataSourceChange() {
-    if (this.treeConfig && this.dataSource) {
-      this.treeConfig = { ...defaultTreeConfig, ...this.treeConfig };
-      this.cacheParentMap = new WeakMap();
-      this.cacheLevelMap = new WeakMap();
-      let allTreeNode: unknown[] = [];
-      for (let rowData of this.dataSource) {
-        iteratorNodeData(rowData as TreeNodeData, (node: TreeNodeData, parentNode: TreeNodeData) => {
-          if (typeof node.close == 'undefined') {
-            node.close = true; //默认全部关闭
-          }
-          allTreeNode.push(node);
-          this.cacheParentMap.set(node, parentNode);
-          let level = 0;
-          if (parentNode) {
-            level = (this.cacheLevelMap.has(parentNode) ? (this.cacheLevelMap.get(parentNode) as number) : 0) + 1;
-          }
-          this.cacheLevelMap.set(node, level);
-        });
-      }
-      this.innerDataSource = allTreeNode;
-    } else {
-      this.innerDataSource = this.dataSource;
-    }
-    this.cacheExpandLazyLoadDataMap.clear();
+  /**获取渲染后的 rowData 对应的父对象 */
+  public getRowDataRowDataIndex(rowData: TreeNodeData) {
+    return this.cacheTreeNodeMap.get(rowData)?.seqno as number;
   }
-
+ 
   /**
    * table  heading
    */
@@ -366,7 +356,7 @@ export default class SlTable extends LitElement {
   @query('div[part=base]', true)
   baseDiv: HTMLDivElement;
   /** scroll DIV */
-  @query('div[part=scroll-div]', true)
+  @query('div[part=scroll-div]', false)
   scrollDiv: HTMLDivElement;
 
   updated(map: PropertyValues) {
@@ -393,6 +383,9 @@ export default class SlTable extends LitElement {
     this._resizeResult = addResizeHander([this, this.table], () => {
       this.asynTableHeaderWidth();
       emit(this, 'sl-table-resize');
+      if(this.enableVirtualScroll){
+        this.requestUpdate();
+      }
     });
     connectTableHanlder(this);
   }
@@ -401,12 +394,13 @@ export default class SlTable extends LitElement {
     this._resizeResult?.dispose();
   }
   private _renderNoDataTemplate() {
+    //只有当数据为空白数组，才显示没有数据
     if (this.innerDataSource && this.innerDataSource.length == 0) {
       return html`<slot @slotchange=${this.columnChangeHanlder} name="no-data">${getResouceValue('noData')}</slot>`;
     }
     return ``;
   }
-  /** 设置表格 列固定，例如：fixedColumns="2",则为前两列固定，"2,2" 则为前两列，后两列固定，"0,2" 则为最后两列固定 */
+  /** 设置表格 列固定，例如：fixedColumns="2",则为前两列固定，"2,2" 则为前两列，后两列固定，"0,2" ，[0,2]则为最后两列固定 */
   @property({ attribute: false })
   fixedColumns: string | Array<Number>;
   private caculateFixedColumnStyle(col: SlColumn, tableRect: DOMRect, fixedLeft: boolean) {
@@ -543,34 +537,74 @@ export default class SlTable extends LitElement {
   /**自定义 渲染tHeader tr的样式 */
   customRenderRowClassMap?: (rowData: any, rowIndex: number) => ClassInfo | string | string[];
 
-  private getTreeNodeAllChildrenSize(rowData: TreeNodeData) {
-    let size = 0;
-    iteratorNodeData(rowData, (_node, _parent) => {
-      size++;
-    });
-    return size - 1;
+  /** 虚拟滚动行高 */
+  @property({type:Number,attribute:false})
+  virtualItemHeight:number;
+
+  /** 虚拟滚动启用 */
+  @property({type:Number,attribute:false})
+  enableVirtualScroll:number;
+
+
+  @watchProps(['dataSource', 'treeConfig'])
+  watchDataSourceChange() {
+    if (this.treeConfig && this.dataSource) {
+      this.treeConfig = { ...defaultTreeConfig, ...this.treeConfig };
+      this.cacheTreeNodeMap=new Map();
+      let allTreeNode: unknown[] = [];
+      let result:unknown[]=[];
+      let seqNo=0;
+      for (let rowData of this.dataSource) {
+        iteratorNodeData(rowData as TreeNodeData, (node: TreeNodeData, parentNode: TreeNodeData) => {
+          if (typeof node.close == 'undefined') {
+            node.close = true; //默认全部关闭
+          }
+          allTreeNode.push(node);
+          let cache={
+            seqno:seqNo,
+            level:(this.cacheTreeNodeMap.has(parentNode) ? this.getRowDataTreeLevel(parentNode):0) + 1,
+            parent:parentNode
+          } as TreeNodeCacheType;
+          this.cacheTreeNodeMap.set(node,cache);
+          seqNo++;
+        });
+      }
+      for(let index=0,j=allTreeNode.length;index<j;index++){
+        let rowData = allTreeNode[index] as TreeNodeData;
+        result.push(rowData);
+        if (this.treeConfig && rowData.close) {
+          index += getTreeNodeAllChildrenSize(rowData);
+        }
+      }
+      this.innerDataSource = result;
+    } else {
+      this.innerDataSource = this.dataSource;
+    }
+    this._cacheExpandLazyLoadDataMap.clear();
   }
-  private _renderDataSourceRows() {
-    const table = this;
+
+  private _renderRowDataBetween(start:number,end:number){
+    const table=this;
     const rowList = [];
     const dataSource = this.innerDataSource;
     const cellTdArray = this.tdRenderColumns;
-    if (dataSource) {
-      for (let index = 0, j = dataSource.length; index < j; index++) {
+    for(let i=start,j=end;i<j;i++){
+        let index=i;
         //行循环
         let rowData = dataSource[index] as TreeNodeData;
+        let seqNo=table.treeConfig?this.getRowDataRowDataIndex(rowData) :index;
         const rowHtml = [];
         for (let x = 0, y = cellTdArray.length; x < y; x++) {
           //TD循环
           let col = cellTdArray[x];
-          let tdResult = renderTdCellTemplate(col, rowData, index, x, table);
+          let tdResult = renderTdCellTemplate(col, rowData, seqNo, x, table);
           if (tdResult != nothing && tdResult != null && tdResult != undefined) {
             rowHtml.push(tdResult);
           }
         }
         if (rowHtml.length > 0) {
-          let trStyle = this.customRenderRowStyle ? this.customRenderRowStyle(rowData, index) : {};
-          let trClassInfo = this.customRenderRowClassMap ? this.customRenderRowClassMap(rowData, index) : null;
+          let trStyle = this.customRenderRowStyle ? this.customRenderRowStyle(rowData, seqNo) : {};
+          let trClassInfo = this.customRenderRowClassMap ? this.customRenderRowClassMap(rowData, seqNo) : null;
           let trClassObject: any = {};
           if (trClassInfo) {
             if (Array.isArray(trClassInfo)) {
@@ -587,15 +621,33 @@ export default class SlTable extends LitElement {
             </tr>`
           );
           if (this.expandRowRender && this.expandRowData.includes(rowData)) {
-            rowList.push(this.expandRowRender(rowData, cellTdArray, this.cacheExpandLazyLoadDataMap.get(rowData)));
+            rowList.push(this.expandRowRender(rowData, cellTdArray, this._cacheExpandLazyLoadDataMap.get(rowData)));
           }
         }
-        if (table.treeConfig && rowData.close) {
-          index += this.getTreeNodeAllChildrenSize(rowData);
-        }
-      }
     }
     return rowList;
+  }
+  private _virtualRenderTbodyRows(){
+    if(this.enableVirtualScroll&&this.scrollDiv){
+      if(!this.virtualItemHeight){
+        console.error('virtualItem height should be set ');
+      }
+      let tdRenderColumns=this.tdRenderColumns;
+      let scrollTop=this.scrollDiv.scrollTop;
+      let height= this.thead.offsetHeight+(this.table.tFoot? this.table.tFoot.offsetHeight:0);
+      const result=vituralScrollCal(this.scrollDiv.clientHeight-height,this.innerDataSource.length,this.virtualItemHeight,scrollTop);
+      const trTop= html`<tr><td style=${result.paddingTop>0?`height:${result.paddingTop}px;`:'display:none'} colspan=${tdRenderColumns.length}>&nbsp;</td></tr>`;
+      const trBottom= html`<tr><td style=${result.paddingBottom>0?`height:${result.paddingBottom}px;`:'display:none'} colspan=${tdRenderColumns.length}>&nbsp;</td></tr>`;
+      const trs=this._renderRowDataBetween(result.offsetStart,result.offsetEnd);
+      return html`${trTop}${trs}${trBottom}`;
+    }
+    return '';
+  }
+  private _renderDataSourceRows() {
+    if (this.innerDataSource) {
+      return  this.enableVirtualScroll?this._virtualRenderTbodyRows(): this._renderRowDataBetween(0,this.innerDataSource.length);
+    }
+    return nothing;
   }
   get allSubColumns(): SlColumn[] {
     let columns = Array.from(this.children).filter((item: Element) => {
@@ -620,7 +672,7 @@ export default class SlTable extends LitElement {
   private isColumnHanlderFlag = true;
   /** 如果column 发生了变化，需要重新计算 表头布局 */
   public columnChangeHanlder() {
-    if (this.hasUpdated && this.isColumnHanlderFlag) {
+    if (this.hasUpdated&&this.scrollDiv && this.isColumnHanlderFlag) {
       this.isColumnHanlderFlag = false;
       Promise.resolve().then(() => {
         const { rows, tdRenderColumnData } = caculateColumnData(this.canShowColumns);

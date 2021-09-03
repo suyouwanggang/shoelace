@@ -1,10 +1,20 @@
 import { emit } from '../../internal/event';
-import { debounce } from '../../internal/throttle';
+import { debounce, throttleTimeout } from '../../internal/throttle';
 import { addEvent, getCssValue, onEvent, onEventArray } from '../../utilities/common';
 import { dragOnHandler } from '../../utilities/dragHelper';
 import SlColumn from '../column/column';
+import { iteratorNodeData, TreeNodeData } from '../tree-node/tree-node-util';
 import SlTable from './table';
 import { saveAsDefaultTableCache, updateTableCache } from './tableCacheHelper';
+
+export const getTreeNodeAllChildrenSize=(rowData: TreeNodeData)=> {
+  let size = 0;
+  iteratorNodeData(rowData, (_node, _parent) => {
+    size++;
+  });
+  return size - 1;
+}
+
 /**Table 树 TreeNode Toogle,open close事件 */
 const handlerNodeToogleListener = (table: SlTable) => {
   let tableEl = table.table;
@@ -102,7 +112,10 @@ const handlerNodeToogleListener = (table: SlTable) => {
             parentData: parentData
           }
         });
-        table.requestUpdate();
+        table.watchDataSourceChange();
+        table.updateComplete.then(()=>{
+          table.asynTableHeaderWidth();
+        })
       }
     }
   );
@@ -204,13 +217,22 @@ const handerTableResizeEvent = (slTable: SlTable) => {
 };
 const handlerTableScroll = (slTable: SlTable) => {
   let scrollDiv = slTable.scrollDiv;
-  return addEvent(scrollDiv, 'scroll', (_event: Event) => {
+  let debouceScroll=throttleTimeout(()=>{
+      if(slTable.enableVirtualScroll&&slTable.virtualItemHeight){
+         slTable.requestUpdate();
+      }
+  },60,120);
+  addEvent(scrollDiv,'mousewheel',(_event:Event)=>{
+    debouceScroll();
+  })
+  return addEvent(scrollDiv,'scroll',()=>{
     emit(slTable, 'sl-table-scroll', {
       detail: {
         div: scrollDiv
       }
     });
-  });
+    debouceScroll();
+  })
 };
 /** table 扩展行逻辑处理 */
 const handlerRowExpandListener = (table: SlTable) => {
