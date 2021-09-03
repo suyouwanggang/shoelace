@@ -50,4 +50,3 @@ export const vituralScrollCal = (
   result.paddingBottom = bottomHeight > 0 ? bottomHeight : 0;
   return result;
 };
-
