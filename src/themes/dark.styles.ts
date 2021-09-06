@@ -383,11 +383,11 @@ export default css`
      * Elevation tokens
      */
 
-    --sl-shadow-x-small: 0 1px 0 rgb(0 0 0 / 12%);
-    --sl-shadow-small: 0 1px 2px rgb(0 0 0 / 18%);
-    --sl-shadow-medium: 0 2px 4px rgb(0 0 0 / 18%);
-    --sl-shadow-large: 0 2px 8px rgb(0 0 0 / 18%);
-    --sl-shadow-x-large: 0 4px 16px rgb(0 0 0 / 18%);
+    --sl-shadow-x-small: 0 1px 2px rgb(0 0 0 / 18%);
+    --sl-shadow-small: 0 1px 2px rgb(0 0 0 / 24%);
+    --sl-shadow-medium: 0 2px 4px rgb(0 0 0 / 24%);
+    --sl-shadow-large: 0 2px 8px rgb(0 0 0 / 24%);
+    --sl-shadow-x-large: 0 4px 16px rgb(0 0 0 / 24%);
 
     /*
      * Spacing tokens
@@ -442,22 +442,28 @@ export default css`
     --sl-font-weight-bold: 700;
 
     /* Letter spacings */
+    --sl-letter-spacing-denser: -0.03em;
     --sl-letter-spacing-dense: -0.015em;
     --sl-letter-spacing-normal: normal;
     --sl-letter-spacing-loose: 0.075em;
+    --sl-letter-spacing-looser: 0.15em;
 
     /* Line heights */
+    --sl-line-height-denser: 1;
     --sl-line-height-dense: 1.4;
     --sl-line-height-normal: 1.8;
     --sl-line-height-loose: 2.2;
+    --sl-line-height-looser: 2.6;
 
     /*
      * Form tokens
      */
 
     /* Focus ring */
+    --sl-focus-ring-color: var(--sl-color-primary-500);
     --sl-focus-ring-width: 3px;
-    --sl-focus-ring-alpha: 33%;
+    --sl-focus-ring-alpha: 40%;
+    --sl-focus-ring: 0 0 0 var(--sl-focus-ring-width) rgb(var(--sl-focus-ring-color) / var(--sl-focus-ring-alpha));
 
     /* Buttons */
     --sl-button-font-size-small: var(--sl-font-size-x-small);
@@ -525,7 +531,7 @@ export default css`
      */
 
     --sl-overlay-background-color: 0 0 0;
-    --sl-overlay-opacity: 33%;
+    --sl-overlay-opacity: 42%;
 
     /*
      * Panels

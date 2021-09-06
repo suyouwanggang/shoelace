@@ -72,7 +72,7 @@ function addEvent(
   node: Element | Window | Document | DocumentFragment,
   eventType: string,
   hanlder: EventListenerObject | EventListener,
-  useCapture: boolean = false
+  useCapture: boolean | AddEventListenerOptions = false
 ) {
   node.addEventListener(eventType, hanlder, useCapture);
   return {
@@ -163,11 +163,13 @@ function onEvent(
       callBack.call(context || delegateTarget, e);
     }
   };
-  //UI事件    load unload  scroll  resize
-  //焦点事件   blur   focus
-  //鼠标事件  mouseleave  mouseenter
-  if (type == 'mouseenter' || type == 'mouseleave' || type == 'blur' || type == 'focus') {
-    userCapture = true;
+  if (typeof userCapture == 'undefined') {
+    //UI事件    load unload  scroll  resize
+    //焦点事件   blur   focus
+    //鼠标事件  mouseleave  mouseenter
+    if (type == 'mouseenter' || type == 'mouseleave' || type == 'blur' || type == 'focus') {
+      userCapture = true;
+    }
   }
   return addEvent(node, type, listener, userCapture);
 }

@@ -6,11 +6,12 @@ export default css`
   ${componentStyles}
 
   :host {
-    --grid-width: 260px;
+    --grid-width: 280px;
     --grid-height: 200px;
     --grid-handle-size: 16px;
     --slider-height: 15px;
     --slider-handle-size: 17px;
+    --swatch-size: 25px;
 
     display: inline-block;
   }
@@ -28,7 +29,6 @@ export default css`
 
   .color-picker--inline {
     border: solid 1px rgb(var(--sl-panel-border-color));
-    box-shadow: var(--sl-shadow-small);
   }
 
   .color-picker__grid {
@@ -113,15 +113,13 @@ export default css`
     );
   }
 
-  .color-picker__alpha {
-    .color-picker__alpha-gradient {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border-radius: inherit;
-    }
+  .color-picker__alpha .color-picker__alpha-gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
   }
 
   .color-picker__preview {
@@ -130,10 +128,10 @@ export default css`
     align-items: center;
     justify-content: center;
     position: relative;
-    width: 3.125rem;
-    height: var(--sl-input-height-small);
+    width: 3.25rem;
+    height: 2.25rem;
     border: none;
-    border-radius: var(--sl-input-border-radius-small);
+    border-radius: var(--sl-input-border-radius-medium);
     background: none;
     margin-left: var(--sl-spacing-small);
     cursor: copy;
@@ -167,38 +165,19 @@ export default css`
     border: solid 1px rgba(0, 0, 0, 0.125);
   }
 
-  .color-picker__copy-feedback {
-    width: calc(var(--sl-input-height-small) / 2);
-    height: calc(var(--sl-input-height-small) / 2);
-    color: white;
-    background-color: rgb(var(--sl-color-neutral-900));
-    border-radius: var(--sl-border-radius-circle);
-    opacity: 0;
+  .color-picker__preview-color--copied {
+    animation: pulse 0.75s;
   }
 
-  .color-picker__copy-feedback.color-picker__copy-feedback--visible {
-    animation: copied 1s;
-  }
-
-  @keyframes copied {
+  @keyframes pulse {
     0% {
-      transform: scale(0.8);
-      opacity: 0;
+      box-shadow: 0 0 0 0 rgb(var(--sl-focus-ring-color));
     }
-
-    30% {
-      transform: scale(1.2);
-      opacity: 1;
-    }
-
     70% {
-      transform: scale(1.2);
-      opacity: 1;
+      box-shadow: 0 0 0 0.5rem transparent;
     }
-
     100% {
-      transform: scale(1.4);
-      opacity: 0;
+      box-shadow: 0 0 0 0 transparent;
     }
   }
 
@@ -213,8 +192,8 @@ export default css`
   }
 
   .color-picker__user-input sl-button {
-    min-width: 3.125rem;
-    max-width: 3.125rem;
+    min-width: 3.25rem;
+    max-width: 3.25rem;
     font-size: 1rem;
     margin-left: var(--sl-spacing-small);
   }
@@ -222,7 +201,7 @@ export default css`
   .color-picker__swatches {
     display: grid;
     grid-template-columns: repeat(8, 1fr);
-    grid-gap: 6px;
+    grid-gap: 0.5rem;
     justify-items: center;
     border-top: solid 1px rgb(var(--sl-color-neutral-200));
     padding: var(--sl-spacing-small);
@@ -230,9 +209,9 @@ export default css`
 
   .color-picker__swatch {
     position: relative;
-    width: 20px;
-    height: 20px;
-    border-radius: 2px;
+    width: var(--swatch-size);
+    height: var(--swatch-size);
+    border-radius: var(--sl-border-radius-small);
   }
 
   .color-picker__swatch .color-picker__swatch-color {

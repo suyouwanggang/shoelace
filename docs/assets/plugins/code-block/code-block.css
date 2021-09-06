@@ -167,6 +167,7 @@
   font-size: var(--sl-font-size-small);
   font-weight: var(--sl-font-weight-semibold);
   user-select: none;
+  transition: 0.1s all;
 }
 
 .markdown-section .docsify-copy-code-button.copied {
@@ -201,4 +202,5 @@
 
 .markdown-section .docsify-copy-code-button:active {
   background-color: rgb(var(--sl-color-neutral-600));
+  transform: scale(0.92);
 }

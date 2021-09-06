@@ -79,7 +79,7 @@ export default css`
   .button.button--default {
     background-color: rgb(var(--sl-color-neutral-0));
     border-color: rgb(var(--sl-color-neutral-300));
-    color: rgb(var(--sl-color-neutral-600));
+    box-shadow: var(--sl-shadow-x-small);
   }
 
   .button.button--default:hover:not(.button--disabled) {
