@@ -12,7 +12,7 @@ import styles from './splitter.styles';
  *
  *
  *
- * @event {{oldType:string,newType:string}} sl-split-type-change - Emitted when splitType change.
+ * @event {{size:number}} sl-splitter-change - Emitted when split value .
  *
  * @slot - The default slot.
  * @slot  exta - 需要被拖动的小部分容器.
@@ -50,12 +50,6 @@ export default class SlSplitter extends LitElement {
         exta.style.flexBasis = 'auto';
       }
     }
-    emit(this, 'sl-split-type-change', {
-      detail: {
-        oldType: old,
-        newType: newType
-      }
-    });
   }
 
   firstUpdated(map: PropertyValues) {
