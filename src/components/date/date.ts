@@ -46,8 +46,8 @@ export default class SlDate extends LitElement {
 
   /** Makes the input readonly. */
   @property({ type: Boolean, reflect: true }) readonly = false;
-  @property({ type: Boolean, reflect: true }) clearable  = false;
-  @property({ type: String, reflect: true,attribute:'placeholder' }) placeholder:string;
+  @property({ type: Boolean, reflect: true }) clearable = false;
+  @property({ type: String, reflect: true, attribute: 'placeholder' }) placeholder: string;
   /** Makes  dropDown hoist. */
   @property({ type: Boolean, attribute: false }) hoist = true;
   /** set  dropDown distance for trigger. */

@@ -14,7 +14,7 @@ import styles from './date-panel.styles';
  *
  *
  *
- * @event sl-date-select - Emitted when a date select.
+ * @event  sl-date-select - Emitted when a date select.
  *
  *
  *
@@ -31,6 +31,7 @@ import styles from './date-panel.styles';
  *
  * @cssproperty --example - An example CSS custom property.
  */
+
 @resourceLocal()
 @customElement('sl-date-panel')
 export default class SlDatePanel extends LitElement {

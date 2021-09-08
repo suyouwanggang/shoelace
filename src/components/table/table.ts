@@ -18,7 +18,7 @@ import { defaultSortConfig, defaultTreeConfig, SortConfig, SortValue, TreeConfig
 import caculateColumnData, { RowHeader } from './tableHelper';
 import { renderTdCellTemplate, renderThColTemplate } from './tableRenderHelper';
 import { connectTableHanlder, getTreeNodeAllChildrenSize } from './tableTreeHelper';
-import { vituralScrollCal } from './virtualScroll';
+import { vituralScrollCalc } from './virtualScroll';
 
 /**
  * @since 2.0
@@ -581,9 +581,10 @@ export default class SlTable extends LitElement {
 
   private _renderRowDataBetween(start: number, end: number) {
     const table = this;
-    const rowList = [];
+    const rowList: unknown[] = [];
     const dataSource = this.innerDataSource;
     const cellTdArray = this.tdRenderColumns;
+    // const items=dataSource.slice(start,end);
     for (let i = start, j = end; i < j; i++) {
       let index = i;
       //行循环
@@ -598,30 +599,29 @@ export default class SlTable extends LitElement {
           rowHtml.push(tdResult);
         }
       }
-      if (rowHtml.length > 0) {
-        let trStyle = this.customRenderRowStyle ? this.customRenderRowStyle(rowData, seqNo) : {};
-        let trClassInfo = this.customRenderRowClassMap ? this.customRenderRowClassMap(rowData, seqNo) : null;
-        let trClassObject: any = {};
-        if (trClassInfo) {
-          if (Array.isArray(trClassInfo)) {
-            trClassInfo.forEach(item => (item.trim() != '' ? (trClassObject[item.trim()] = true) : ''));
-          } else if (typeof trClassInfo == 'string') {
-            trClassInfo.split(' ').forEach(item => (item.trim() != '' ? (trClassObject[item.trim()] = true) : ''));
-          } else {
-            trClassObject = { ...trClassInfo };
-          }
+      let trStyle = this.customRenderRowStyle ? this.customRenderRowStyle(rowData, seqNo) : {};
+      let trClassInfo = this.customRenderRowClassMap ? this.customRenderRowClassMap(rowData, seqNo) : null;
+      let trClassObject: any = {};
+      if (trClassInfo) {
+        if (Array.isArray(trClassInfo)) {
+          trClassInfo.forEach(item => (item.trim() != '' ? (trClassObject[item.trim()] = true) : ''));
+        } else if (typeof trClassInfo == 'string') {
+          trClassInfo.split(' ').forEach(item => (item.trim() != '' ? (trClassObject[item.trim()] = true) : ''));
+        } else {
+          trClassObject = { ...trClassInfo };
         }
-        rowList.push(
-          html`<tr .rowData=${rowData} style=${styleMap(trStyle)} class=${classMap(trClassObject)}>
-            ${rowHtml}
-          </tr>`
-        );
-        if (this.expandRowRender && this.expandRowData.includes(rowData)) {
-          rowList.push(this.expandRowRender(rowData, cellTdArray, this._cacheExpandLazyLoadDataMap.get(rowData)));
-        }
+      }
+      rowList.push(
+        html`<tr .rowData=${rowData} style=${styleMap(trStyle)} class=${classMap(trClassObject)}>
+          ${rowHtml}
+        </tr>`
+      );
+      if (this.expandRowRender && this.expandRowData.includes(rowData)) {
+        rowList.push(this.expandRowRender(rowData, cellTdArray, this._cacheExpandLazyLoadDataMap.get(rowData)));
       }
     }
     return rowList;
+    // return html`${repeat(items,(item)=>item,(_item,index)=>rowList[index])}`;
   }
   private _virtualRenderTbodyRows() {
     if (this.enableVirtualScroll && this.scrollDiv) {
@@ -631,7 +631,7 @@ export default class SlTable extends LitElement {
       let tdRenderColumns = this.tdRenderColumns;
       let scrollTop = this.scrollDiv.scrollTop;
       let height = this.thead.offsetHeight + (this.table.tFoot ? this.table.tFoot.offsetHeight : 0);
-      const result = vituralScrollCal(
+      const result = vituralScrollCalc(
         this.scrollDiv.clientHeight - height,
         this.innerDataSource.length,
         this.virtualItemHeight,

@@ -42,7 +42,7 @@ Table 组件
     for(let i=0,j=20000-11;i<j;i++){
         dateList.push( { id: i, name: 'Test add'+i, role: 'Test1', sex: 'Man', age: 28, address: 'Javascript 从入门到放弃'+i });
     }
-    table.tableHeight='400px';
+    table.tableHeight=500;
 
     //启用虚拟滚动
     table.enableVirtualScroll=true;

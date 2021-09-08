@@ -1,4 +1,3 @@
-import { html, render } from 'lit';
 // Components
 export { default as SlAlert } from './components/alert/alert';
 export { default as SlAnimation } from './components/animation/animation';
@@ -68,26 +67,11 @@ export { default as SlRow } from './components/row/row';
 export { default as SlLayout } from './components/layout/layout';
 export { default as SlColumn } from './components/column/column';
 export { default as SlTable } from './components/table/table';
-import { restoreFromLocalCache, restoreTableDefault } from './components/table/tableCacheHelper';
-import { onEvent } from './utilities/common';
 /* plop:component */
 
 // Utilities
 export * from './utilities/animation';
 export * from './utilities/base-path';
 export * from './utilities/icon-library';
+import './globExport.ts';
 
-declare global {
-  interface Window {
-    html: typeof html;
-    onEvent: typeof onEvent;
-    LitRender: typeof render;
-    restoreFromLocalCache: typeof restoreFromLocalCache;
-    restoreTableDefault: typeof restoreTableDefault;
-  }
-}
-(globalThis as any).html = html;
-(globalThis as any).onEvent = onEvent;
-(globalThis as any).LitRender = render;
-(globalThis as any).restoreTableDefault = restoreTableDefault;
-(globalThis as any).restoreFromLocalCache = restoreFromLocalCache;
