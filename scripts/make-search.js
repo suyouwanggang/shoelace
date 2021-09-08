@@ -40,7 +40,7 @@ console.log('Generating search index for documentation');
       const url = relativePath.replace(/\.md$/, '');
       const filename = path.basename(file);
       // Ignore certain directories and files
-      if (relativePath.startsWith('assets') ||  relativePath.startsWith('dist')  || filename === '_sidebar.md') {
+      if (relativePath.startsWith('assets') || relativePath.startsWith('dist') || filename === '_sidebar.md') {
         return false;
       }
 
