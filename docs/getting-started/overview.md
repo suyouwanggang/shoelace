@@ -2,12 +2,12 @@
 <div class="splash-start">
 <img class="splash-logo" src="/assets/images/wordmark.svg" alt="Shoelace">
 
-**A forward-thinking library of web components.**
+# A forward-thinking library of web components.
 
 - Works with all frameworks 🧩
 - Works with CDNs 🚛
 - Fully customizable with CSS 🎨
-- Includes an official dark theme 🌛
+- Includes a dark theme 🌛
 - Built with accessibility in mind ♿️
 - First-party [React wrappers](/getting-started/usage#react)
 - Open source 😸
@@ -93,9 +93,7 @@ If you need to support IE11 or pre-Chromium Edge, this library isn't for you. Al
 
 Shoelace is designed in New Hampshire by [Cory LaViska](https://twitter.com/claviska). It's available under the terms of the MIT license.
 
-Designing, developing, and supporting this library requires a lot of time, effort, and skill. I'd like to keep it open source so everyone can use it, but that doesn't provide me with any income. 
-
-**Therefore, if you're using my software to make a profit,** I respectfully ask that you help [fund its development](https://github.com/sponsors/claviska) by becoming a sponsor. There are multiple tiers to choose from with benefits at every level, including prioritized support, bug fixes, feature requests, and advertising.
+Designing, developing, and supporting this library requires a lot of time, effort, and skill. If you're using this software to make a profit, I respectfully ask that you help [fund its development](https://github.com/sponsors/claviska) by becoming a sponsor.
 
 👇 Your support is very much appreciated! 👇
 
@@ -125,4 +123,5 @@ Special thanks to the following projects and individuals that help make Shoelace
 - Positioning of menus, tooltips, et al is handled by [Popper.js](https://popper.js.org/)
 - Animations are courtesy of [animate.css](https://animate.style/)
 - QR codes are generated with [qr-creator](https://github.com/nimiq/qr-creator)
+- Search is powered by [Lunr](https://lunrjs.com/)
 - The Shoelace logo was designed with a single shoelace by [Adam K Olson](https://twitter.com/adamkolson)

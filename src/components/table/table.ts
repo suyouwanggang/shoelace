@@ -90,7 +90,6 @@ import { vituralScrollCalc } from './virtualScroll';
  * @cssproperty --sl-table-td-bottom-width -1px，定义表格单元格底侧的线条宽度
  *
  */
-
 export type TreeNodeCacheType = {
   node: TreeNodeData;
   parent: TreeNodeData;
@@ -122,7 +121,7 @@ export default class SlTable extends LitElement {
   @property({ type: Array, attribute: false }) dataSource: unknown[];
 
   @property({ type: Object, attribute: false }) sortConfig: SortConfig = { ...defaultSortConfig };
-  /**表格当前排序值 */
+  /** 表格当前排序值 */
   @property({ type: Object, attribute: false }) sortValue?: SortValue | Array<SortValue>;
 
   @property({ type: Object, attribute: false }) treeConfig?: TreeConfig;
@@ -130,7 +129,7 @@ export default class SlTable extends LitElement {
   /** table 是否固定footer 到底部 */
   @property({ type: Boolean, attribute: false, reflect: true }) fixedFoot: boolean = false;
 
-  /**渲染tfooter 此方法接收所有的列，返回footer 组成的tr template list */
+  /** 渲染tfooter 此方法接收所有的列，返回footer 组成的tr template list */
   @property({ type: Object })
   customRenderFooter: (columns: SlColumn[]) => TemplateResult<1>;
 
@@ -192,7 +191,7 @@ export default class SlTable extends LitElement {
   public static expendCloseSvg = svg`<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"  viewBox="0 0 16 16" id="chevron-right"><path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 01.708 0l6 6a.5.5 0 010 .708l-6 6a.5.5 0 01-.708-.708L10.293 8 4.646 2.354a.5.5 0 010-.708z"></path></svg>`;
 
   public static expendOpendSvg = svg`<svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 16 16" id="chevron-down"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 01.708 0L8 10.293l5.646-5.647a.5.5 0 01.708.708l-6 6a.5.5 0 01-.708 0l-6-6a.5.5 0 010-.708z"></path></svg>`;
-  /**  当启用TreeConfig ,此时树节点自定义渲染*/
+  /**  当启用TreeConfig ,此时树节点自定义渲染 */
   @property({ type: Object })
   customRenderTreeNode: (rowData: TreeNodeData, parentData: TreeNodeData, level: number) => TemplateResult<1>;
 

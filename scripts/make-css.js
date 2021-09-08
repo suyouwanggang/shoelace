@@ -2,7 +2,6 @@
 // This script generates stylesheets from all *.styles.ts files in src/themes
 //
 import chalk from 'chalk';
-import esbuild from 'esbuild';
 import fs from 'fs/promises';
 import glob from 'globby';
 import mkdirp from 'mkdirp';
@@ -14,6 +13,8 @@ const files = glob.sync('./src/themes/**/*.styles.ts');
 const cssFiles = glob.sync('./src/themes/**/*.css');
 const outdir = './dist/themes';
 let cssArray = '';
+console.log('Generating stylesheets');
+
 mkdirp.sync(outdir);
 try {
   cssFiles.map(file => {
@@ -23,7 +24,7 @@ try {
     cssArray += '' + source.css.toString();
   });
 } catch (ex) {
-  console.error(chalk.red('Error generating styleseheets!'));
+  console.error(chalk.red('Error generating theme css styleseheets!'));
   console.error(err);
 }
 
@@ -45,8 +46,6 @@ try {
     const outfile = path.join(outdir, filename);
     await fs.writeFile(outfile, formattedStyles, 'utf8');
   });
-
-  console.log(chalk.cyan(`Successfully generated stylesheets 🎨\n`));
 } catch (err) {
   console.error(chalk.red('Error generating styleseheets!'));
   console.error(err);

@@ -22,6 +22,7 @@ del.sync('./dist');
 try {
   if (!dev) execSync('tsc', { stdio: 'inherit' }); // for type declarations
   execSync('node scripts/make-metadata.js', { stdio: 'inherit' });
+  execSync('node scripts/make-search.js', { stdio: 'inherit' });
   execSync('node scripts/make-vscode-data.js', { stdio: 'inherit' });
   execSync('node scripts/make-css.js', { stdio: 'inherit' });
   execSync('node scripts/make-icons.js', { stdio: 'inherit' });
@@ -150,8 +151,9 @@ try {
     });
 
     // Reload without rebuilding when the docs change
-    bs.watch(['docs/**/*']).on('change', filename => {
+    bs.watch(['docs/**/*.md']).on('change', filename => {
       console.log(`Docs file changed - ${filename}`);
+      execSync('node scripts/make-search.js', { stdio: 'inherit' });
       bs.reload();
     });
 

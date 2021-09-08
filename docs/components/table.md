@@ -116,7 +116,7 @@ Table 组件
 ```html preview
 <sl-table id='tableDIV2' border cache-key='two'>
     <sl-column label='基本信息'  resize-able >
-         <sl-column field='name' resize-able label='Name'  sort-able  width='80%' align='left'  ></sl-column>
+         <sl-column field='name' resize-able label='Name' min-width='300' sort-able  width='100%' align='left'  ></sl-column>
          <sl-column field='sex' label='Sex'  resize-able  sort-able min-width=60  align='right' order=2></sl-column>
          <sl-column field='age' label='Age'  resize-able  sort-able min-width=90 align='left' col-align='left' order=1></sl-column>
     </sl-column>

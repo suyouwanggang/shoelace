@@ -220,22 +220,22 @@ const handlerTableScroll = (slTable: SlTable) => {
   let debouceScroll = throttleTimeout(
     () => {
       if (slTable.enableVirtualScroll && slTable.virtualItemHeight) {
-          slTable.requestUpdate();
+        slTable.requestUpdate();
       }
     },
     60,
     120
   );
   addEvent(scrollDiv, 'mousewheel', (_event: WheelEvent) => {
-    let y=_event.deltaY;
-    let x=_event.deltaX;
-    let deltaMode=_event.deltaMode;
-    if(deltaMode==WheelEvent.DOM_DELTA_PIXEL){
-      scrollDiv.scrollTop+=y;
-      scrollDiv.scrollLeft+=x;
-    }else {
-      scrollDiv.scrollTop+=y*scrollDiv.offsetHeight;
-      scrollDiv.scrollLeft+=x*scrollDiv.offsetWidth;
+    let y = _event.deltaY;
+    let x = _event.deltaX;
+    let deltaMode = _event.deltaMode;
+    if (deltaMode == WheelEvent.DOM_DELTA_PIXEL) {
+      scrollDiv.scrollTop += y;
+      scrollDiv.scrollLeft += x;
+    } else {
+      scrollDiv.scrollTop += y * scrollDiv.offsetHeight;
+      scrollDiv.scrollLeft += x * scrollDiv.offsetWidth;
     }
     _event.preventDefault();
     debouceScroll();
