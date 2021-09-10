@@ -23,20 +23,7 @@ const resouce = {
         return year.toString().padStart(4, '0') + ' - ' + (year + 19).toString().padStart(4, '0') + '';
       }
     },
-    months: [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October ',
-      'November',
-      'December'
-    ],
+    months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October ', 'November', 'December'],
     weekDays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sta']
   }
 };

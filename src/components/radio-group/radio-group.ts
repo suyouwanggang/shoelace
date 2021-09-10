@@ -29,9 +29,7 @@ export default class SlRadioGroup extends LitElement {
   handleFocusIn() {
     // When tabbing into the fieldset, make sure it lands on the checked radio
     requestAnimationFrame(() => {
-      const checkedRadio = [...this.defaultSlot.assignedElements({ flatten: true })].find(
-        el => el.tagName.toLowerCase() === 'sl-radio' && (el as SlRadio).checked
-      ) as SlRadio;
+      const checkedRadio = [...this.defaultSlot.assignedElements({ flatten: true })].find(el => el.tagName.toLowerCase() === 'sl-radio' && (el as SlRadio).checked) as SlRadio;
 
       if (checkedRadio) {
         checkedRadio.focus();

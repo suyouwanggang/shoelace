@@ -51,8 +51,7 @@ export default class SlRating extends LitElement {
 
   /** The name of the icon to display as the symbol. */
   // @ts-ignore
-  @property() getSymbol: (value: number) => string = (value: number) =>
-    '<sl-icon name="star-fill" library="system"></sl-icon>';
+  @property() getSymbol: (value: number) => string = (value: number) => '<sl-icon name="star-fill" library="system"></sl-icon>';
 
   /** Sets focus on the rating. */
   focus(options?: FocusOptions) {
@@ -75,11 +74,7 @@ export default class SlRating extends LitElement {
   getValueFromXCoordinate(coordinate: number) {
     const containerLeft = this.rating.getBoundingClientRect().left;
     const containerWidth = this.rating.getBoundingClientRect().width;
-    return clamp(
-      this.roundToPrecision(((coordinate - containerLeft) / containerWidth) * this.max, this.precision),
-      0,
-      this.max
-    );
+    return clamp(this.roundToPrecision(((coordinate - containerLeft) / containerWidth) * this.max, this.precision), 0, this.max);
   }
 
   handleClick(event: MouseEvent) {
@@ -227,8 +222,7 @@ export default class SlRating extends LitElement {
                   'rating__symbol--hover': this.isHovering && Math.ceil(displayValue) === index + 1
                 })}
                 style=${styleMap({
-                  clipPath:
-                    displayValue > index + 1 ? 'none' : `inset(0 ${100 - ((displayValue - index) / 1) * 100}% 0 0)`
+                  clipPath: displayValue > index + 1 ? 'none' : `inset(0 ${100 - ((displayValue - index) / 1) * 100}% 0 0)`
                 })}
                 role="presentation"
               >

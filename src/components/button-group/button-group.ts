@@ -57,16 +57,7 @@ export default class SlButtonGroup extends LitElement {
 
   render() {
     return html`
-      <div
-        part="base"
-        class="button-group"
-        role="group"
-        aria-label=${this.label}
-        @focusout=${this.handleBlur}
-        @focusin=${this.handleFocus}
-        @mouseover=${this.handleMouseOver}
-        @mouseout=${this.handleMouseOut}
-      >
+      <div part="base" class="button-group" role="group" aria-label=${this.label} @focusout=${this.handleBlur} @focusin=${this.handleFocus} @mouseover=${this.handleMouseOver} @mouseout=${this.handleMouseOut}>
         <slot @slotchange=${this.handleSlotChange}></slot>
       </div>
     `;

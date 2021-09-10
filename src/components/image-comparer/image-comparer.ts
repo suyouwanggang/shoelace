@@ -107,31 +107,13 @@ export default class SlImageComparer extends LitElement {
             <slot name="before"></slot>
           </div>
 
-          <div
-            part="after"
-            class="image-comparer__after"
-            style=${styleMap({ clipPath: `inset(0 ${100 - this.position}% 0 0)` })}
-          >
+          <div part="after" class="image-comparer__after" style=${styleMap({ clipPath: `inset(0 ${100 - this.position}% 0 0)` })}>
             <slot name="after"></slot>
           </div>
         </div>
 
-        <div
-          part="divider"
-          class="image-comparer__divider"
-          style=${styleMap({ left: this.position + '%' })}
-          @mousedown=${this.handleDrag}
-          @touchstart=${this.handleDrag}
-        >
-          <div
-            part="handle"
-            class="image-comparer__handle"
-            role="scrollbar"
-            aria-valuenow=${this.position}
-            aria-valuemin="0"
-            aria-valuemax="100"
-            tabindex="0"
-          >
+        <div part="divider" class="image-comparer__divider" style=${styleMap({ left: this.position + '%' })} @mousedown=${this.handleDrag} @touchstart=${this.handleDrag}>
+          <div part="handle" class="image-comparer__handle" role="scrollbar" aria-valuenow=${this.position} aria-valuemin="0" aria-valuemax="100" tabindex="0">
             <slot name="handle-icon">
               <sl-icon class="image-comparer__handle-icon" name="grip-vertical" library="system"></sl-icon>
             </slot>

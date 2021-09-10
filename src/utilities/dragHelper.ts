@@ -75,11 +75,7 @@ export const dragHandler = (dragDiv: HTMLElement, callBack: (changePos: Poniter,
  * @param selector  子选择器
  * @param callBack 回调 (changePos:Poniter,event:MouseEvent)
  */
-export const dragOnHandler = (
-  dragDiv: HTMLElement,
-  selector: string,
-  callBack: (changePos: Poniter, event: MouseEvent) => void
-) => {
+export const dragOnHandler = (dragDiv: HTMLElement, selector: string, callBack: (changePos: Poniter, event: MouseEvent) => void) => {
   let oldPointer: Poniter;
   let newPointer: Poniter;
   let documentMouseMove: {

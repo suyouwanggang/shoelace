@@ -68,12 +68,7 @@ function animateToogleCss(node: Element, cssClass: string) {
  * @param useCapture 是否捕获
  * @returns  返回一个object ,能够删除node监听
  */
-function addEvent(
-  node: Element | Window | Document | DocumentFragment,
-  eventType: string,
-  hanlder: EventListenerObject | EventListener,
-  useCapture: boolean | AddEventListenerOptions = false
-) {
+function addEvent(node: Element | Window | Document | DocumentFragment, eventType: string, hanlder: EventListenerObject | EventListener, useCapture: boolean | AddEventListenerOptions = false) {
   node.addEventListener(eventType, hanlder, useCapture);
   return {
     dispose: function () {
@@ -147,14 +142,7 @@ const closest = (el: Node, selector: string): Element | null => {
  * @param context 回调上下文，如果为空，则this 为事件监听的实际节点
  * @returns
  */
-function onEvent(
-  node: Element,
-  selector: string,
-  type: string,
-  callBack: EventListener,
-  userCapture = false,
-  context?: unknown
-) {
+function onEvent(node: Element, selector: string, type: string, callBack: EventListener, userCapture = false, context?: unknown) {
   const listener = function (e: Event) {
     const target = e.target as Node;
     const delegateTarget = closest(target, selector);
@@ -183,14 +171,7 @@ function onEvent(
  * @param context 回调上下文，如果为空，则this 为事件监听的实际节点
  * @returns
  */
-function onEventArray(
-  node: Element,
-  selector: string,
-  eventTypes: string[],
-  callBack: EventListener,
-  userCapture = false,
-  context?: unknown
-) {
+function onEventArray(node: Element, selector: string, eventTypes: string[], callBack: EventListener, userCapture = false, context?: unknown) {
   let result = [];
   for (let type of eventTypes) {
     result.push(onEvent(node, selector, type, callBack, userCapture, context));
@@ -225,30 +206,13 @@ function fullscreen(el: HTMLElement | Window | Document): Promise<any> {
     return ele.msRequestFullscreen();
   }
 }
-const isObject=(obj:any):obj is object=>{
-  return typeof obj=='object'&& obj!=null;
-}
-const isArray=(obj:any):obj is Array<any>=>{
-  return obj!=null&&Object.prototype.toString.call(obj)== '[object Array]';
-}
- const  isFunction=(fun:any):fun is Function=> {
-  return typeof fun === 'function';
-}
-export {
-  isObject,
-  isArray,
-  isFunction,
-  getOffset,
-  getCssValue,
-  animateCss,
-  animateToogleCss,
-  addEvent,
-  cloneUtils,
-  getChildrenElement,
-  closest,
-  onEvent,
-  onEventArray,
-  isFullscreen,
-  exitFullscreen,
-  fullscreen
+const isObject = (obj: any): obj is object => {
+  return typeof obj == 'object' && obj != null;
 };
+const isArray = (obj: any): obj is Array<any> => {
+  return obj != null && Object.prototype.toString.call(obj) == '[object Array]';
+};
+const isFunction = (fun: any): fun is Function => {
+  return typeof fun === 'function';
+};
+export { isObject, isArray, isFunction, getOffset, getCssValue, animateCss, animateToogleCss, addEvent, cloneUtils, getChildrenElement, closest, onEvent, onEventArray, isFullscreen, exitFullscreen, fullscreen };

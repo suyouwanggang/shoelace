@@ -52,25 +52,12 @@ export default class SlTooltip extends LitElement {
    * The preferred placement of the tooltip. Note that the actual placement may vary as needed to keep the tooltip
    * inside of the viewport.
    */
-  @property() placement:
-    | 'top'
-    | 'top-start'
-    | 'top-end'
-    | 'right'
-    | 'right-start'
-    | 'right-end'
-    | 'bottom'
-    | 'bottom-start'
-    | 'bottom-end'
-    | 'left'
-    | 'left-start'
-    | 'left-end' = 'top';
+  @property() placement: 'top' | 'top-start' | 'top-end' | 'right' | 'right-start' | 'right-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'left' | 'left-start' | 'left-end' = 'top';
 
   /**
    *  tooltip theme type .
    */
-  @property({ attribute: true, reflect: true }) type: 'default' | 'primary' | 'success' | 'warning' | 'danger' =
-    'default';
+  @property({ attribute: true, reflect: true }) type: 'default' | 'primary' | 'success' | 'warning' | 'danger' = 'default';
 
   /** Disables the tooltip so it won't show when triggered. */
   @property({ type: Boolean, reflect: true }) disabled = false;
@@ -153,9 +140,7 @@ export default class SlTooltip extends LitElement {
 
   getTarget() {
     // Get the first child that isn't a <style> or content slot
-    const target = [...this.children].find(
-      el => el.tagName.toLowerCase() !== 'style' && el.getAttribute('slot') !== 'content'
-    ) as HTMLElement;
+    const target = [...this.children].find(el => el.tagName.toLowerCase() !== 'style' && el.getAttribute('slot') !== 'content') as HTMLElement;
 
     if (!target) {
       throw new Error('Invalid tooltip target: no child element was found.');

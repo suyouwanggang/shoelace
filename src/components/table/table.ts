@@ -22,16 +22,16 @@ import caculateColumnData, { getColumnCacheData, RowHeader } from './tableHelper
 import { getCellContext, getHeadCellContext, renderTdCellTemplate, renderThColTemplate } from './tableRenderHelper';
 import { vituralScrollCalc } from './virtualScroll';
 
-const rowContextMap=new WeakMap<HTMLTableRowElement,RowContext>();
-const setRowContext=(tr:HTMLTableRowElement,context:RowContext)=>{
-  if(tr){
-    rowContextMap.set(tr,context);
-  } 
-}
+const rowContextMap = new WeakMap<HTMLTableRowElement, RowContext>();
+const setRowContext = (tr: HTMLTableRowElement, context: RowContext) => {
+  if (tr) {
+    rowContextMap.set(tr, context);
+  }
+};
 /** 获取 table tbody tr 上下文 */
-export const getRowContext=(tr:HTMLTableRowElement)=>{
+export const getRowContext = (tr: HTMLTableRowElement) => {
   return rowContextMap.get(tr) as RowContext;
-}
+};
 
 export type TreeNodeCacheType = {
   node: TreeNodeData;
@@ -198,7 +198,6 @@ export default class SlTable extends LitElement {
 
   @state()
   private innerDataSource: unknown[];
- 
 
   public treeNodeHasChildren(rowData: TreeNodeData) {
     if (typeof rowData.children == 'undefined' && this.treeConfig && this.treeConfig.lazy) {
@@ -207,15 +206,14 @@ export default class SlTable extends LitElement {
       return rowData.children ? rowData.children.length > 0 : false;
     }
   }
-  
+
   /** 当为Tree的时候，存储哪些 正在加载中的TreeNodeData */
   @property({ type: Array, attribute: false })
   treeLoadingNode: TreeNodeData[] = [];
 
   /** 加载TreeNode 子数据，接收参数nodeData,parentData */
   @property({ type: Object })
-  treeLoadingNodeMethod: (context:RowContext,column:SlColumn) => Promise<Array<TreeNodeData>>;
-
+  treeLoadingNodeMethod: (context: RowContext, column: SlColumn) => Promise<Array<TreeNodeData>>;
 
   /** 存储哪些行数据是展开的 */
   @property({ type: Array, attribute: false })
@@ -245,10 +243,9 @@ export default class SlTable extends LitElement {
   @property({ type: Object, attribute: false })
   expandRowRender: (rowContext: RowContext, columns: SlColumn[], layLoadData?: any) => TemplateResult<1>;
   /** 存储已经加载过的扩展数据  */
-  @property({type:Object})
+  @property({ type: Object })
   cacheExpandLazyLoadDataMap = new Map<any, any>();
 
- 
   /**
    * 展开行数据的扩展 数据
    * @param rowData table 行绑定的数据
@@ -285,7 +282,7 @@ export default class SlTable extends LitElement {
       });
     }
   }
- 
+
   /**Tree 列表的时候启用，缓存节点渲染层次 */
   private cacheTreeNodeMap: Map<any, TreeNodeCacheType>;
   /**获取渲染后的 rowData 对应的Tree level */
@@ -415,32 +412,13 @@ export default class SlTable extends LitElement {
   private fixedStyleElement: HTMLStyleElement;
   render() {
     let tableStyle: any = {};
-    this.tableHeight
-      ? (tableStyle['height'] = `calc( ${
-          isNaN(Number(this.tableHeight)) ? this.tableHeight : this.tableHeight + 'px'
-        } )`)
-      : '';
-    this.tableMaxHeight
-      ? (tableStyle['maxHeight'] = `calc( ${
-          isNaN(Number(this.tableMaxHeight)) ? this.tableMaxHeight : this.tableMaxHeight + 'px'
-        } )`)
-      : '';
-    this.tableMinHeight
-      ? (tableStyle['minHeight'] = `calc( ${
-          isNaN(Number(this.tableMinHeight)) ? this.tableMinHeight : this.tableMinHeight + 'px'
-        } )`)
-      : '';
+    this.tableHeight ? (tableStyle['height'] = `calc( ${isNaN(Number(this.tableHeight)) ? this.tableHeight : this.tableHeight + 'px'} )`) : '';
+    this.tableMaxHeight ? (tableStyle['maxHeight'] = `calc( ${isNaN(Number(this.tableMaxHeight)) ? this.tableMaxHeight : this.tableMaxHeight + 'px'} )`) : '';
+    this.tableMinHeight ? (tableStyle['minHeight'] = `calc( ${isNaN(Number(this.tableMinHeight)) ? this.tableMinHeight : this.tableMinHeight + 'px'} )`) : '';
 
     return html` <style id="styleID"></style>
       <div class="sl-table-base" part="base" size=${this.size}>
-        <div
-          class="sl-table-base-scroll-div"
-          style=${styleMap(tableStyle)}
-          part="scroll-div"
-          ?hover-able=${this.hoverAble}
-          ?stripe=${this.stripe}
-          ?border=${this.border}
-        >
+        <div class="sl-table-base-scroll-div" style=${styleMap(tableStyle)} part="scroll-div" ?hover-able=${this.hoverAble} ?stripe=${this.stripe} ?border=${this.border}>
           <!--渲染table 区 -->
           <table part="table" id="tableID" componentID=${this.componentID}>
             <thead part="thead" componentID=${this.componentID}>
@@ -461,64 +439,59 @@ export default class SlTable extends LitElement {
   /**渲染表头行 theader tr th */
   private _renderTheadRows() {
     const table = this;
-    const trTemplates = (rowColumn: SlColumn[],rowIndex:number) => {
+    const trTemplates = (rowColumn: SlColumn[], rowIndex: number) => {
       return html`<tr .columns=${rowColumn}>
-        ${rowColumn.map( (column,index)=>{
-            const cache=getColumnCacheData(column) ;
-            const context:CellHeadContext={
-              column:column,
-              colIndex:index,
-              rowspan:cache.rowspan as number,
-              colspan:cache.colspan as number,
-              colRowIndex:rowIndex,
-            }
-            return renderThColTemplate(context,table);
+        ${rowColumn.map((column, index) => {
+          const cache = getColumnCacheData(column);
+          const context: CellHeadContext = {
+            column: column,
+            colIndex: index,
+            rowspan: cache.rowspan as number,
+            colspan: cache.colspan as number,
+            colRowIndex: rowIndex
+          };
+          return renderThColTemplate(context, table);
         })}
       </tr>`;
     };
-    return this.theadRows.map((items,index) => trTemplates(items,index));
+    return this.theadRows.map((items, index) => trTemplates(items, index));
   }
 
-   /**自定义 渲染tbody td的样式 */
+  /**自定义 渲染tbody td的样式 */
   @property({ type: Object })
-  customRenderCellStyle: (context:CellContext) => StyleInfo;
+  customRenderCellStyle: (context: CellContext) => StyleInfo;
 
-  
   /**自定义 渲染tbody td的class  */
   @property({ type: Object })
-  customRenderCellClassMap: (cellContext:CellContext) => ClassInfo | string | string[];
-
+  customRenderCellClassMap: (cellContext: CellContext) => ClassInfo | string | string[];
 
   /**自定义 渲染tbody td的 SpreadResult */
   @property({ type: Object })
-  customRenderCellSpread: (cellContext:CellContext) => SpreadResult;
+  customRenderCellSpread: (cellContext: CellContext) => SpreadResult;
 
   /**自定义 渲染tHeader th的样式 */
   @property({ type: Object })
-  customRenderCellHeadStyle: (context:CellHeadContext) => StyleInfo;
+  customRenderCellHeadStyle: (context: CellHeadContext) => StyleInfo;
 
-   /**自定义 渲染thead th的class  */
+  /**自定义 渲染thead th的class  */
   @property({ type: Object })
-  customRenderCellHeadClassMap: (context:CellHeadContext) => ClassInfo | string | string[];
+  customRenderCellHeadClassMap: (context: CellHeadContext) => ClassInfo | string | string[];
 
   /**自定义 渲染thead  th SpreadResult  */
   @property({ type: Object })
-  customRenderCellHeadSpread: (context:CellHeadContext) => SpreadResult;
+  customRenderCellHeadSpread: (context: CellHeadContext) => SpreadResult;
 
   /**自定义 渲染tbody tr的样式 */
   @property({ type: Object })
-  customRenderRowStyle: (rowContext:RowContext) => StyleInfo;
+  customRenderRowStyle: (rowContext: RowContext) => StyleInfo;
 
-   /**自定义 渲染tHeader tr的样式 */
+  /**自定义 渲染tHeader tr的样式 */
   @property({ type: Object })
-  customRenderRowClassMap: (rowContext:RowContext) => ClassInfo | string | string[];
+  customRenderRowClassMap: (rowContext: RowContext) => ClassInfo | string | string[];
 
-
- /**自定义 渲染tbody td的Spread */
+  /**自定义 渲染tbody td的Spread */
   @property({ type: Object })
-  customRenderRowSpread: (rowContext:RowContext) => SpreadResult;
-
-  
+  customRenderRowSpread: (rowContext: RowContext) => SpreadResult;
 
   /** 虚拟滚动行高 */
   @property({ type: Number, attribute: false })
@@ -564,7 +537,7 @@ export default class SlTable extends LitElement {
     }
     this.cacheExpandLazyLoadDataMap.clear();
   }
-  
+
   private _renderRowDataBetween(start: number, end: number) {
     const table = this;
     const rowList: unknown[] = [];
@@ -575,25 +548,25 @@ export default class SlTable extends LitElement {
       let index = i;
       //行循环
       let rowData = dataSource[index] as TreeNodeData;
-      const rowContext:RowContext={
+      const rowContext: RowContext = {
         rowData,
-        rowIndex:index
+        rowIndex: index
       };
-      if(table.treeConfig){
-        rowContext.level=this.getRowDataTreeLevel(rowData);
-        rowContext.parentData=this.getRowDataParentData(rowData);
-        rowContext.rowIndex=this.getRowDataDataIndex(rowData);
+      if (table.treeConfig) {
+        rowContext.level = this.getRowDataTreeLevel(rowData);
+        rowContext.parentData = this.getRowDataParentData(rowData);
+        rowContext.rowIndex = this.getRowDataDataIndex(rowData);
       }
-     
+
       const rowHtml = [];
       for (let x = 0, y = cellTdArray.length; x < y; x++) {
         //TD循环
         const column = cellTdArray[x];
-        const cellContext:CellContext={
+        const cellContext: CellContext = {
           ...rowContext,
-          column:column,
-          colIndex:x,
-        }
+          column: column,
+          colIndex: x
+        };
         const tdResult = renderTdCellTemplate(cellContext, table);
         if (tdResult != nothing && tdResult != null && tdResult != undefined) {
           rowHtml.push(tdResult);
@@ -611,30 +584,36 @@ export default class SlTable extends LitElement {
           trClassObject = { ...trClassInfo };
         }
       }
-      const rowSpreadResult=this.customRenderRowSpread? this.customRenderRowSpread(rowContext):undefined;
+      const rowSpreadResult = this.customRenderRowSpread ? this.customRenderRowSpread(rowContext) : undefined;
       rowList.push(
-        html`<tr ${ref((el=>{
-          setRowContext(el as HTMLTableRowElement,rowContext);
-        }))} .rowData=${rowData} style=${styleMap(trStyle)} class=${classMap(trClassObject)}  ${spread(rowSpreadResult)} >
-              ${rowHtml}
+        html`<tr
+          ${ref(el => {
+            setRowContext(el as HTMLTableRowElement, rowContext);
+          })}
+          .rowData=${rowData}
+          style=${styleMap(trStyle)}
+          class=${classMap(trClassObject)}
+          ${spread(rowSpreadResult)}
+        >
+          ${rowHtml}
         </tr>`
       );
       if (this.expandRowRender && this.expandRowData.includes(rowData)) {
-         rowList.push(this.expandRowRender(rowContext, cellTdArray, this.cacheExpandLazyLoadDataMap.get(rowData)));
+        rowList.push(this.expandRowRender(rowContext, cellTdArray, this.cacheExpandLazyLoadDataMap.get(rowData)));
       }
     }
     return rowList;
   }
   /** 获取 行上下文  */
-  public getRowContext(row:HTMLTableRowElement){
+  public getRowContext(row: HTMLTableRowElement) {
     return getRowContext(row);
   }
   /** 获取 td 上下文  */
-  public getCellContext(td:HTMLTableCellElement){
+  public getCellContext(td: HTMLTableCellElement) {
     return getCellContext(td);
   }
   /** 获取 thead th 上下文  */
-  public getHeadCellContext(th:HTMLTableCellElement){
+  public getHeadCellContext(th: HTMLTableCellElement) {
     return getHeadCellContext(th);
   }
   private _virtualRenderTbodyRows() {
@@ -645,27 +624,12 @@ export default class SlTable extends LitElement {
       let tdRenderColumns = this.tdRenderColumns;
       let scrollTop = this.scrollDiv.scrollTop;
       let height = this.thead.offsetHeight + (this.table.tFoot ? this.table.tFoot.offsetHeight : 0);
-      const result = vituralScrollCalc(
-        this.scrollDiv.clientHeight - height,
-        this.innerDataSource.length,
-        this.virtualItemHeight,
-        scrollTop
-      );
+      const result = vituralScrollCalc(this.scrollDiv.clientHeight - height, this.innerDataSource.length, this.virtualItemHeight, scrollTop);
       const trTop = html`<tr>
-        <td 
-          style=${result.paddingTop > 0 ? `height:${result.paddingTop}px;` : 'display:none'}
-          colspan=${tdRenderColumns.length}
-        >
-          &nbsp;
-        </td>
+        <td style=${result.paddingTop > 0 ? `height:${result.paddingTop}px;` : 'display:none'} colspan=${tdRenderColumns.length}>&nbsp;</td>
       </tr>`;
       const trBottom = html`<tr>
-        <td
-          style=${result.paddingBottom > 0 ? `height:${result.paddingBottom}px;` : 'display:none'}
-          colspan=${tdRenderColumns.length}
-        >
-          &nbsp;
-        </td>
+        <td style=${result.paddingBottom > 0 ? `height:${result.paddingBottom}px;` : 'display:none'} colspan=${tdRenderColumns.length}>&nbsp;</td>
       </tr>`;
       const trs = this._renderRowDataBetween(result.offsetStart, result.offsetEnd);
       return html`${trTop}${trs}${trBottom}`;
@@ -674,9 +638,7 @@ export default class SlTable extends LitElement {
   }
   private _renderDataSourceRows() {
     if (this.innerDataSource) {
-      return this.enableVirtualScroll
-        ? this._virtualRenderTbodyRows()
-        : this._renderRowDataBetween(0, this.innerDataSource.length);
+      return this.enableVirtualScroll ? this._virtualRenderTbodyRows() : this._renderRowDataBetween(0, this.innerDataSource.length);
     }
     return nothing;
   }

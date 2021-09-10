@@ -25,10 +25,7 @@ export function getIconLibrary(name?: string) {
   return registry.filter(lib => lib.name === name)[0];
 }
 
-export function registerIconLibrary(
-  name: string,
-  options: { resolver: IconLibraryResolver; mutator?: IconLibraryMutator }
-) {
+export function registerIconLibrary(name: string, options: { resolver: IconLibraryResolver; mutator?: IconLibraryMutator }) {
   unregisterIconLibrary(name);
   registry.push({
     name,

@@ -35,14 +35,11 @@ try {
 
     // We're currently scraping for CSS with a regex, so we can't use interpolation at the moment
     if (css.includes('${')) {
-      console.error(
-        chalk.red(`Template literal expressions are not currently supported in theme stylesheets: ${file}`)
-      );
+      console.error(chalk.red(`Template literal expressions are not currently supported in theme stylesheets: ${file}`));
       process.exit(1);
     }
     const filename = path.basename(file).replace('.styles.ts', '.css');
-    const formattedStyles =
-      prettier.format(stripComments(css), { parser: 'css' }) + (filename == 'light.css' ? cssArray : '');
+    const formattedStyles = prettier.format(stripComments(css), { parser: 'css' }) + (filename == 'light.css' ? cssArray : '');
     const outfile = path.join(outdir, filename);
     await fs.writeFile(outfile, formattedStyles, 'utf8');
   });

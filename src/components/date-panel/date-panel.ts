@@ -96,17 +96,13 @@ export default class SlDatePanel extends LitElement {
   private renderHeader() {
     return html`<button class="button" part="prevButton" id="prevButton">
         <svg class="icon" viewBox="0 0 1024 1024">
-          <path
-            d="M724 218.3V141c0-6.7-7.7-10.4-12.9-6.3L260.3 486.8c-16.4 12.8-16.4 37.5 0 50.3l450.8 352.1c5.3 4.1 12.9 0.4 12.9-6.3v-77.3c0-4.9-2.3-9.6-6.1-12.6l-360-281 360-281.1c3.8-3 6.1-7.7 6.1-12.6z"
-          ></path>
+          <path d="M724 218.3V141c0-6.7-7.7-10.4-12.9-6.3L260.3 486.8c-16.4 12.8-16.4 37.5 0 50.3l450.8 352.1c5.3 4.1 12.9 0.4 12.9-6.3v-77.3c0-4.9-2.3-9.6-6.1-12.6l-360-281 360-281.1c3.8-3 6.1-7.7 6.1-12.6z"></path>
         </svg>
       </button>
       <span class=" date-switch" part="date-switch">${this.innerDisplayDateStr}</span>
       <button class="button" id="nextButton" part="nextButton">
         <svg class="icon" viewBox="0 0 1024 1024">
-          <path
-            d="M765.7 486.8L314.9 134.7c-5.3-4.1-12.9-0.4-12.9 6.3v77.3c0 4.9 2.3 9.6 6.1 12.6l360 281.1-360 281.1c-3.9 3-6.1 7.7-6.1 12.6V883c0 6.7 7.7 10.4 12.9 6.3l450.8-352.1c16.4-12.8 16.4-37.6 0-50.4z"
-          ></path>
+          <path d="M765.7 486.8L314.9 134.7c-5.3-4.1-12.9-0.4-12.9 6.3v77.3c0 4.9 2.3 9.6 6.1 12.6l360 281.1-360 281.1c-3.9 3-6.1 7.7-6.1 12.6V883c0 6.7 7.7 10.4 12.9 6.3l450.8-352.1c16.4-12.8 16.4-37.6 0-50.4z"></path>
         </svg>
       </button> `;
   }
@@ -123,16 +119,7 @@ export default class SlDatePanel extends LitElement {
       let other = this._innerYear !== tempDate.getFullYear() || this._innerMonth !== tempDate.getMonth();
       const disabled = (minDate != null && tempDate < minDate) || (maxDate != null && tempDate > maxDate);
       const isCurent = this.innerDate && isEqualsDate(tempDate, this.valueDate, 'date');
-      dateResult.push(
-        html`<button
-          part="item-date"
-          class="date-button date-day-item ${other ? 'other' : ''} ${isCurent ? 'current' : ''} "
-          .date=${tempDate}
-          .disabled=${disabled}
-        >
-          ${tempDate.getDate()}
-        </button>`
-      );
+      dateResult.push(html`<button part="item-date" class="date-button date-day-item ${other ? 'other' : ''} ${isCurent ? 'current' : ''} " .date=${tempDate} .disabled=${disabled}>${tempDate.getDate()}</button>`);
     }
     return html`<div class="date-body">${weeks}${dateResult}</div>`;
   }
@@ -146,22 +133,11 @@ export default class SlDatePanel extends LitElement {
       const month = getResouceValue('date.months') as Array<string>;
       return month.map((value: string, index: number) => {
         const date = new Date(year, index);
-        let disabled =
-          minDate != null &&
-          (year < minDate.getFullYear() || (minDate.getFullYear() === year && index < minDate.getMonth()));
+        let disabled = minDate != null && (year < minDate.getFullYear() || (minDate.getFullYear() === year && index < minDate.getMonth()));
         if (!disabled) {
-          disabled =
-            maxDate != null &&
-            (year > maxDate.getFullYear() || (maxDate.getFullYear() === year && index > maxDate.getMonth()));
+          disabled = maxDate != null && (year > maxDate.getFullYear() || (maxDate.getFullYear() === year && index > maxDate.getMonth()));
         }
-        return html`<button
-          part="item-month"
-          .date=${date}
-          class="date-button date-day-item ${isEqualsDate(date, this.valueDate, 'month') ? 'current' : ''}"
-          ?disabled=${disabled}
-        >
-          ${value}
-        </button>`;
+        return html`<button part="item-month" .date=${date} class="date-button date-day-item ${isEqualsDate(date, this.valueDate, 'month') ? 'current' : ''}" ?disabled=${disabled}>${value}</button>`;
       });
     }
     return nothing;
@@ -193,16 +169,7 @@ export default class SlDatePanel extends LitElement {
         if (!disabled) {
           disabled = maxDate != null && i > maxDate.getFullYear();
         }
-        result.push(
-          html`<button
-            part="item-year"
-            .date=${date}
-            class="date-button date-day-item ${isEqualsDate(date, this.valueDate, 'year') ? 'current' : ''}"
-            ?disabled=${disabled}
-          >
-            ${i}
-          </button>`
-        );
+        result.push(html`<button part="item-year" .date=${date} class="date-button date-day-item ${isEqualsDate(date, this.valueDate, 'year') ? 'current' : ''}" ?disabled=${disabled}>${i}</button>`);
       }
     }
     return result;
@@ -323,15 +290,9 @@ export default class SlDatePanel extends LitElement {
     return html`<div class="date-base" part="base">
       <div class="date-head">${this.renderHeader()}</div>
       <div part="panel-base">
-        ${this.innerMode == 'date'
-          ? html`<div part="date-date" class="date-panel date-date ">${this.renderDatePanel()}</div>`
-          : nothing}
-        ${this.innerMode == 'month'
-          ? html`<div part="date-month" class="date-panel date-month">${this.renderMonthBody()}</div>`
-          : nothing}
-        ${this.innerMode == 'year'
-          ? html`<div part="date-year" class="date-panel date-year ">${this.renderYearBody()}</div>`
-          : nothing}
+        ${this.innerMode == 'date' ? html`<div part="date-date" class="date-panel date-date ">${this.renderDatePanel()}</div>` : nothing}
+        ${this.innerMode == 'month' ? html`<div part="date-month" class="date-panel date-month">${this.renderMonthBody()}</div>` : nothing}
+        ${this.innerMode == 'year' ? html`<div part="date-year" class="date-panel date-year ">${this.renderYearBody()}</div>` : nothing}
       </div>
     </div>`;
   }

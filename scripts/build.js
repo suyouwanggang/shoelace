@@ -21,8 +21,8 @@ del.sync('./dist');
 
 try {
   if (!dev) execSync('tsc', { stdio: 'inherit' }); // for type declarations
-  if(dev){
-    execSync('tsc', { declaration:true });
+  if (dev) {
+    execSync('tsc', { declaration: true });
   }
   execSync('node scripts/make-metadata.js', { stdio: 'inherit' });
   execSync('node scripts/make-search.js', { stdio: 'inherit' });

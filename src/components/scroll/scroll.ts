@@ -98,19 +98,8 @@ export default class SlScroll extends LitElement {
   }
 
   render() {
-    return html`<div
-      part="base"
-      id="container"
-      style="--scroll-bar-width:${this.scrollBarWidth}px ; --scroll-bar-out-width:${this.scrollBarOutWidth}px"
-    >
-      <div
-        part="content"
-        id="content"
-        @DOMMouseScroll="${this._wheelHander}"
-        @mousewheel=${this._wheelHander}
-        @touchmove=${this._touchMoveHanlder}
-        @touchstart=${this._touchStartHanlder}
-      >
+    return html`<div part="base" id="container" style="--scroll-bar-width:${this.scrollBarWidth}px ; --scroll-bar-out-width:${this.scrollBarOutWidth}px">
+      <div part="content" id="content" @DOMMouseScroll="${this._wheelHander}" @mousewheel=${this._wheelHander} @touchmove=${this._touchMoveHanlder} @touchstart=${this._touchStartHanlder}>
         <div id="content-wrap" part="content-wrap">
           <slot id="contentSlot"></slot>
         </div>
@@ -596,12 +585,7 @@ export default class SlScroll extends LitElement {
   }
   updated(_changedProperties: PropertyValues) {
     super.updated(_changedProperties);
-    if (
-      _changedProperties.has('overflowX') ||
-      _changedProperties.has('overflowY') ||
-      _changedProperties.has('scrollBarWidth') ||
-      _changedProperties.has('scrollBarOutWidth')
-    ) {
+    if (_changedProperties.has('overflowX') || _changedProperties.has('overflowY') || _changedProperties.has('scrollBarWidth') || _changedProperties.has('scrollBarOutWidth')) {
       this.resize();
     }
   }

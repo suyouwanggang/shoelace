@@ -61,12 +61,7 @@ export const renderFormControl = (
 
       <div class="form-control__input">${html`${input}`}</div>
 
-      <div
-        part="help-text"
-        id=${ifDefined(props.helpTextId)}
-        class="form-control__help-text"
-        aria-hidden=${hasHelpText ? 'false' : 'true'}
-      >
+      <div part="help-text" id=${ifDefined(props.helpTextId)} class="form-control__help-text" aria-hidden=${hasHelpText ? 'false' : 'true'}>
         <slot name="help-text">${props.helpText}</slot>
       </div>
     </div>
@@ -92,10 +87,7 @@ export function getLabelledBy(props: {
   /** Whether or not a help text slot has been provided. */
   hasHelpTextSlot: boolean;
 }) {
-  const labelledBy = [
-    props.label || props.hasLabelSlot ? props.labelId : '',
-    props.helpText || props.hasHelpTextSlot ? props.helpTextId : ''
-  ].filter(val => val);
+  const labelledBy = [props.label || props.hasLabelSlot ? props.labelId : '', props.helpText || props.hasHelpTextSlot ? props.helpTextId : ''].filter(val => val);
 
   return labelledBy.join(' ') || undefined;
 }

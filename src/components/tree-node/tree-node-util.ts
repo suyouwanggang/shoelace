@@ -64,12 +64,7 @@ export interface NodeVistor {
  * @param callback  节点遍历器 (node: TreeNodeData, parentNode?: TreeNodeData,parentChildrenIndex?:number):unkown
  * @param parentNode:上级节点(根节点不用设置)
  */
-export const iteratorNodeData = (
-  data: TreeNodeData,
-  callback: NodeVistor,
-  parentData?: TreeNodeData,
-  parentChildrenIndex: number = 0
-) => {
+export const iteratorNodeData = (data: TreeNodeData, callback: NodeVistor, parentData?: TreeNodeData, parentChildrenIndex: number = 0) => {
   let result = callback(data, parentData, parentChildrenIndex);
   if (result == NODE_VISTOR_RESULT.EXIST) {
     return;

@@ -69,17 +69,7 @@ export default class SlTag extends LitElement {
           <slot></slot>
         </span>
 
-        ${this.clearable
-          ? html`
-              <sl-icon-button
-                exportparts="base:clear-button"
-                name="x"
-                library="system"
-                class="tag__clear"
-                @click=${this.handleClearClick}
-              ></sl-icon-button>
-            `
-          : ''}
+        ${this.clearable ? html` <sl-icon-button exportparts="base:clear-button" name="x" library="system" class="tag__clear" @click=${this.handleClearClick}></sl-icon-button> ` : ''}
       </span>
     `;
   }

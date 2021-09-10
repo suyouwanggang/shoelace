@@ -164,13 +164,7 @@ export default class SlDetails extends LitElement {
         </header>
 
         <div class="details__body">
-          <div
-            part="content"
-            id=${`${this.componentId}-content`}
-            class="details__content"
-            role="region"
-            aria-labelledby=${`${this.componentId}-header`}
-          >
+          <div part="content" id=${`${this.componentId}-content`} class="details__content" role="region" aria-labelledby=${`${this.componentId}-header`}>
             <slot></slot>
           </div>
         </div>

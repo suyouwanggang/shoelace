@@ -88,13 +88,7 @@ export default class SlOrgNode extends LitElement {
     return html`
       <div class="org-tree-node-label " part="org-tree-node-label">
         <div class="org-tree-node-label-inner ${this.styleClass ? this.styleClass : ''}" @click=${this.onNodeClick}>
-          ${this.nodeRender(this.nodeData)}
-          ${!isLeaf && this.collapsable
-            ? html`<span
-                class="org-tree-node-btn ${this.expanded ? 'expanded' : ''}"
-                @click=${this.onToogleNode}
-              ></span>`
-            : ''}
+          ${this.nodeRender(this.nodeData)} ${!isLeaf && this.collapsable ? html`<span class="org-tree-node-btn ${this.expanded ? 'expanded' : ''}" @click=${this.onToogleNode}></span>` : ''}
         </div>
       </div>
       ${!isLeaf && this.expanded ? html`<div class="org-tree-node-children">${this._renderChildNode()}</div>` : ''}
@@ -130,13 +124,7 @@ export default class SlOrgNode extends LitElement {
           'only-one': child.length == 1,
           'org-tree-node': true
         };
-        result.push(html`<sl-org-node
-          class=${classMap(classObj)}
-          .nodeRender=${this.nodeRender}
-          .nodeData=${subNode}
-          .expanded=${expanded}
-          .collapsible=${collapsible}
-        ></sl-org-node>`);
+        result.push(html`<sl-org-node class=${classMap(classObj)} .nodeRender=${this.nodeRender} .nodeData=${subNode} .expanded=${expanded} .collapsible=${collapsible}></sl-org-node>`);
       }
     }
     return result;

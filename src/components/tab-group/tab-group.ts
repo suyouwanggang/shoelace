@@ -118,17 +118,13 @@ export default class SlTabGroup extends LitElement {
     const slot = this.shadowRoot!.querySelector('slot[name="nav"]') as HTMLSlotElement;
 
     return [...slot.assignedElements()].filter((el: any) => {
-      return includeDisabled
-        ? el.tagName.toLowerCase() === 'sl-tab'
-        : el.tagName.toLowerCase() === 'sl-tab' && !el.disabled;
+      return includeDisabled ? el.tagName.toLowerCase() === 'sl-tab' : el.tagName.toLowerCase() === 'sl-tab' && !el.disabled;
     }) as SlTab[];
   }
 
   getAllPanels() {
     const slot = this.body.querySelector('slot')!;
-    return [...slot.assignedElements()].filter((el: any) => el.tagName.toLowerCase() === 'sl-tab-panel') as [
-      SlTabPanel
-    ];
+    return [...slot.assignedElements()].filter((el: any) => el.tagName.toLowerCase() === 'sl-tab-panel') as [SlTabPanel];
   }
 
   getActiveTab() {
@@ -179,15 +175,9 @@ export default class SlTabGroup extends LitElement {
           index = 0;
         } else if (event.key === 'End') {
           index = this.tabs.length - 1;
-        } else if (
-          (['top', 'bottom'].includes(this.placement) && event.key === 'ArrowLeft') ||
-          (['start', 'end'].includes(this.placement) && event.key === 'ArrowUp')
-        ) {
+        } else if ((['top', 'bottom'].includes(this.placement) && event.key === 'ArrowLeft') || (['start', 'end'].includes(this.placement) && event.key === 'ArrowUp')) {
           index = Math.max(0, index - 1);
-        } else if (
-          (['top', 'bottom'].includes(this.placement) && event.key === 'ArrowRight') ||
-          (['start', 'end'].includes(this.placement) && event.key === 'ArrowDown')
-        ) {
+        } else if ((['top', 'bottom'].includes(this.placement) && event.key === 'ArrowRight') || (['start', 'end'].includes(this.placement) && event.key === 'ArrowDown')) {
           index = Math.min(this.tabs.length - 1, index + 1);
         }
 
@@ -226,8 +216,7 @@ export default class SlTabGroup extends LitElement {
       if (this.noScrollControls) {
         this.hasScrollControls = false;
       } else {
-        this.hasScrollControls =
-          ['top', 'bottom'].includes(this.placement) && this.nav.scrollWidth > this.nav.clientWidth;
+        this.hasScrollControls = ['top', 'bottom'].includes(this.placement) && this.nav.scrollWidth > this.nav.clientWidth;
       }
     }
   }
@@ -357,13 +346,7 @@ export default class SlTabGroup extends LitElement {
         <div class="tab-group__nav-container">
           ${this.hasScrollControls
             ? html`
-                <sl-icon-button
-                  class="tab-group__scroll-button tab-group__scroll-button--start"
-                  exportparts="base:scroll-button"
-                  name="chevron-left"
-                  library="system"
-                  @click=${this.handleScrollToStart}
-                ></sl-icon-button>
+                <sl-icon-button class="tab-group__scroll-button tab-group__scroll-button--start" exportparts="base:scroll-button" name="chevron-left" library="system" @click=${this.handleScrollToStart}></sl-icon-button>
               `
             : ''}
 
@@ -376,13 +359,7 @@ export default class SlTabGroup extends LitElement {
 
           ${this.hasScrollControls
             ? html`
-                <sl-icon-button
-                  class="tab-group__scroll-button tab-group__scroll-button--end"
-                  exportparts="base:scroll-button"
-                  name="chevron-right"
-                  library="system"
-                  @click=${this.handleScrollToEnd}
-                ></sl-icon-button>
+                <sl-icon-button class="tab-group__scroll-button tab-group__scroll-button--end" exportparts="base:scroll-button" name="chevron-right" library="system" @click=${this.handleScrollToEnd}></sl-icon-button>
               `
             : ''}
         </div>

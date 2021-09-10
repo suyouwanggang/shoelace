@@ -70,53 +70,52 @@ export const defaultTreeConfig: TreeConfig = {
   hasChildProp: 'hasChild'
 };
 /** Table 行上下文 */
-export type RowContext={
+export type RowContext = {
   /** 行数据 */
-  rowData:any,
+  rowData: any;
   /** 行数据顺序号 */
-  rowIndex:number,
+  rowIndex: number;
 
   /** TreeTable： rowData对应的上级数据 */
-  parentData?:TreeNodeData,
+  parentData?: TreeNodeData;
   /** TreeTable： 对应树的层次深度 */
-  level?:number,
+  level?: number;
   /***TreeTable 如果过滤 rowData 对应的原始数据  */
-  originalData?:TreeNodeData,
+  originalData?: TreeNodeData;
   /***TreeTable 过滤，为orginalData 的上级原始数据 */
-  originalParentData?:TreeNodeData,
-}
+  originalParentData?: TreeNodeData;
+};
 /** Table TD 上下文 */
-export type CellContext={
+export type CellContext = {
   /**列column */
-  column:SlColumn,
+  column: SlColumn;
   /** 行数据 */
-  rowData:any,
+  rowData: any;
   /** 行数据顺序号 */
-  rowIndex:number,
+  rowIndex: number;
   /**column 渲染顺序，从0 开始  */
-  colIndex:number,
-
+  colIndex: number;
 
   /** TreeTable 的时候，上级数据 */
-  parentData?:TreeNodeData,
+  parentData?: TreeNodeData;
   /** TreeTable 的时候，对应树的层次深度 */
-  level?:number,
+  level?: number;
   /***TreeTable 如果过滤 rowData 对应的原始数据  */
-  originalData?:TreeNodeData,
+  originalData?: TreeNodeData;
   /***TreeTable 过滤，为orginalData 的上级原始数据  */
-  originalParentData?:TreeNodeData,
-}
+  originalParentData?: TreeNodeData;
+};
 
 /** Table TH 上下文 */
-export type CellHeadContext={
+export type CellHeadContext = {
   /**列 column */
-  column:SlColumn,
+  column: SlColumn;
   /**column index，从0 开始  */
-  colIndex:number,
+  colIndex: number;
   /** 列column 所在表头行号 */
-  colRowIndex:number,
+  colRowIndex: number;
   /** 列跨多少行 */
-  rowspan:number,
+  rowspan: number;
   /** 跨多少列 */
-  colspan:number,
-}
+  colspan: number;
+};

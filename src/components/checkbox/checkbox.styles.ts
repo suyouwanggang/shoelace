@@ -32,8 +32,7 @@ export default css`
     border-radius: 2px;
     background-color: rgb(var(--sl-input-background-color));
     color: rgb(var(--sl-color-neutral-0));
-    transition: var(--sl-transition-fast) border-color, var(--sl-transition-fast) background-color,
-      var(--sl-transition-fast) color, var(--sl-transition-fast) box-shadow;
+    transition: var(--sl-transition-fast) border-color, var(--sl-transition-fast) background-color, var(--sl-transition-fast) color, var(--sl-transition-fast) box-shadow;
   }
 
   .checkbox__input {
@@ -62,9 +61,7 @@ export default css`
   }
 
   /* Focus */
-  .checkbox:not(.checkbox--checked):not(.checkbox--disabled)
-    .checkbox__input${focusVisibleSelector}
-    ~ .checkbox__control {
+  .checkbox:not(.checkbox--checked):not(.checkbox--disabled) .checkbox__input${focusVisibleSelector} ~ .checkbox__control {
     border-color: rgb(var(--sl-input-border-color-focus));
     background-color: rgb(var(--sl-input-background-color-focus));
     box-shadow: var(--sl-focus-ring);
@@ -86,9 +83,7 @@ export default css`
 
   /* Checked/indeterminate + focus */
   .checkbox.checkbox--checked:not(.checkbox--disabled) .checkbox__input${focusVisibleSelector} ~ .checkbox__control,
-  .checkbox.checkbox--indeterminate:not(.checkbox--disabled)
-    .checkbox__input${focusVisibleSelector}
-    ~ .checkbox__control {
+  .checkbox.checkbox--indeterminate:not(.checkbox--disabled) .checkbox__input${focusVisibleSelector} ~ .checkbox__control {
     border-color: rgb(var(--sl-color-primary-500));
     background-color: rgb(var(--sl-color-primary-500));
     box-shadow: var(--sl-focus-ring);

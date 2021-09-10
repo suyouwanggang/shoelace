@@ -56,12 +56,7 @@ export default class SlRipple extends LitElement {
       // const translate =
       //           `translate3d(${-center.x + width / 2}px,` +
       //         `${-center.y + height / 2}px, 0) scale(1)`;
-      ripple.setAttribute(
-        'style',
-        `width:${diameter}px;height:${diameter}px;` +
-          `margin-top:-${diameter / 2}px;margin-left:-${diameter / 2}px;` +
-          `left:${center.x}px;top:${center.y}px;`
-      );
+      ripple.setAttribute('style', `width:${diameter}px;height:${diameter}px;` + `margin-top:-${diameter / 2}px;margin-left:-${diameter / 2}px;` + `left:${center.x}px;top:${center.y}px;`);
       animateCss(ripple, 'show').then(() => {
         // ripple.setAttribute('style','');
         ripple.classList.remove('show');

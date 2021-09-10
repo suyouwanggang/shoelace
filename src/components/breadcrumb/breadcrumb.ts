@@ -42,9 +42,7 @@ export default class SlBreadcrumb extends LitElement {
   }
 
   handleSlotChange() {
-    const items = [...this.defaultSlot.assignedElements({ flatten: true })].filter(
-      item => item.tagName.toLowerCase() === 'sl-breadcrumb-item'
-    ) as SlBreadcrumbItem[];
+    const items = [...this.defaultSlot.assignedElements({ flatten: true })].filter(item => item.tagName.toLowerCase() === 'sl-breadcrumb-item') as SlBreadcrumbItem[];
 
     items.map((item, index) => {
       // Append separators to each item if they don't already have one

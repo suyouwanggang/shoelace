@@ -6,27 +6,21 @@ import type SlDrawer from './drawer';
 
 describe('<sl-drawer>', () => {
   it('should be visible with the open attribute', async () => {
-    const el = await fixture<SlDrawer>(html`
-      <sl-drawer open>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</sl-drawer>
-    `);
+    const el = await fixture<SlDrawer>(html` <sl-drawer open>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</sl-drawer> `);
     const base = el.shadowRoot?.querySelector('[part="base"]') as HTMLElement;
 
     expect(base.hidden).to.be.false;
   });
 
   it('should not be visible without the open attribute', async () => {
-    const el = await fixture<SlDrawer>(
-      html` <sl-drawer>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</sl-drawer> `
-    );
+    const el = await fixture<SlDrawer>(html` <sl-drawer>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</sl-drawer> `);
     const base = el.shadowRoot?.querySelector('[part="base"]') as HTMLElement;
 
     expect(base.hidden).to.be.true;
   });
 
   it('should emit sl-show and sl-after-show when calling show()', async () => {
-    const el = await fixture<SlDrawer>(html`
-      <sl-drawer>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</sl-drawer>
-    `);
+    const el = await fixture<SlDrawer>(html` <sl-drawer>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</sl-drawer> `);
     const base = el.shadowRoot?.querySelector('[part="base"]') as HTMLElement;
     const showHandler = sinon.spy();
     const afterShowHandler = sinon.spy();
@@ -44,9 +38,7 @@ describe('<sl-drawer>', () => {
   });
 
   it('should emit sl-hide and sl-after-hide when calling hide()', async () => {
-    const el = await fixture<SlDrawer>(html`
-      <sl-drawer open>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</sl-drawer>
-    `);
+    const el = await fixture<SlDrawer>(html` <sl-drawer open>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</sl-drawer> `);
     const base = el.shadowRoot?.querySelector('[part="base"]') as HTMLElement;
     const hideHandler = sinon.spy();
     const afterHideHandler = sinon.spy();
@@ -64,9 +56,7 @@ describe('<sl-drawer>', () => {
   });
 
   it('should emit sl-show and sl-after-show when setting open = true', async () => {
-    const el = await fixture<SlDrawer>(html`
-      <sl-drawer>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</sl-drawer>
-    `);
+    const el = await fixture<SlDrawer>(html` <sl-drawer>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</sl-drawer> `);
     const base = el.shadowRoot?.querySelector('[part="base"]') as HTMLElement;
     const showHandler = sinon.spy();
     const afterShowHandler = sinon.spy();
@@ -84,9 +74,7 @@ describe('<sl-drawer>', () => {
   });
 
   it('should emit sl-hide and sl-after-hide when setting open = false', async () => {
-    const el = await fixture<SlDrawer>(html`
-      <sl-drawer open>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</sl-drawer>
-    `);
+    const el = await fixture<SlDrawer>(html` <sl-drawer open>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</sl-drawer> `);
     const base = el.shadowRoot?.querySelector('[part="base"]') as HTMLElement;
     const hideHandler = sinon.spy();
     const afterHideHandler = sinon.spy();
@@ -104,9 +92,7 @@ describe('<sl-drawer>', () => {
   });
 
   it('should not close when sl-request-close is prevented', async () => {
-    const el = await fixture<SlDrawer>(html`
-      <sl-drawer open>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</sl-drawer>
-    `);
+    const el = await fixture<SlDrawer>(html` <sl-drawer open>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</sl-drawer> `);
     const overlay = el.shadowRoot?.querySelector('[part="overlay"]') as HTMLElement;
 
     el.addEventListener('sl-request-close', event => event.preventDefault());

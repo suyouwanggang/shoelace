@@ -59,8 +59,7 @@ export default class SlInput extends LitElement {
   @state() private isPasswordVisible = false;
 
   /** The input's type. */
-  @property({ reflect: true }) type: 'date' | 'email' | 'number' | 'password' | 'search' | 'tel' | 'text' | 'url' =
-    'text';
+  @property({ reflect: true }) type: 'date' | 'email' | 'number' | 'password' | 'search' | 'tel' | 'text' | 'url' = 'text';
 
   /** The input's size. */
   @property({ reflect: true }) size: 'small' | 'medium' | 'large' = 'medium';
@@ -171,21 +170,12 @@ export default class SlInput extends LitElement {
   }
 
   /** Sets the start and end positions of the text selection (0-based). */
-  setSelectionRange(
-    selectionStart: number,
-    selectionEnd: number,
-    selectionDirection: 'forward' | 'backward' | 'none' = 'none'
-  ) {
+  setSelectionRange(selectionStart: number, selectionEnd: number, selectionDirection: 'forward' | 'backward' | 'none' = 'none') {
     return this.input.setSelectionRange(selectionStart, selectionEnd, selectionDirection);
   }
 
   /** Replaces a range of text with a new string. */
-  setRangeText(
-    replacement: string,
-    start: number,
-    end: number,
-    selectMode: 'select' | 'start' | 'end' | 'preserve' = 'preserve'
-  ) {
+  setRangeText(replacement: string, start: number, end: number, selectMode: 'select' | 'start' | 'end' | 'preserve' = 'preserve') {
     this.input.setRangeText(replacement, start, end, selectMode);
 
     if (this.value !== this.input.value) {
@@ -346,13 +336,7 @@ export default class SlInput extends LitElement {
 
           ${this.clearable && this.value?.length > 0
             ? html`
-                <button
-                  part="clear-button"
-                  class="input__clear"
-                  type="button"
-                  @click=${this.handleClearClick}
-                  tabindex="-1"
-                >
+                <button part="clear-button" class="input__clear" type="button" @click=${this.handleClearClick} tabindex="-1">
                   <slot name="clear-icon">
                     <sl-icon name="x-circle" library="system"></sl-icon>
                   </slot>
@@ -361,13 +345,7 @@ export default class SlInput extends LitElement {
             : ''}
           ${this.togglePassword
             ? html`
-                <button
-                  part="password-toggle-button"
-                  class="input__password-toggle"
-                  type="button"
-                  @click=${this.handlePasswordToggle}
-                  tabindex="-1"
-                >
+                <button part="password-toggle-button" class="input__password-toggle" type="button" @click=${this.handlePasswordToggle} tabindex="-1">
                   ${this.isPasswordVisible
                     ? html`
                         <slot name="show-password-icon">

@@ -12,11 +12,10 @@ let columnUniqueID = 0;
 @customElement('sl-column')
 export default class SlColumn extends LitElement {
   /**表头自定义渲染(this:SlColumn,table:SlTable):TemplateResult<1>*/
-  @property({ attribute: false, type: Object }) renderCol: (context:CellHeadContext) => TemplateResult<1>;
+  @property({ attribute: false, type: Object }) renderCol: (context: CellHeadContext) => TemplateResult<1>;
 
   /**对应TD渲染 ,接收表格column:lie, rowData:行数据,rowDataIndex,columnIndex:列顺序 此对应的TD*/
-  @property({ attribute: false, type: Object }) renderCell: (context:CellContext)=> TemplateResult<1> | { template: TemplateResult<1>; colspan?: number; rowspan?: number;editor:TemplateResult<1> };
- 
+  @property({ attribute: false, type: Object }) renderCell: (context: CellContext) => TemplateResult<1> | { template: TemplateResult<1>; colspan?: number; rowspan?: number; editor: TemplateResult<1> };
 
   /**是否隐藏此列 */
   @property({ type: Boolean, reflect: true, attribute: true })

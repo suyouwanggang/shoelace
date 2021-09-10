@@ -30,19 +30,7 @@ export default class SlDate extends LitElement {
    * The preferred placement of the dropdown panel. Note that the actual placement may vary as needed to keep the panel
    * inside of the viewport.
    */
-  @property() placement:
-    | 'top'
-    | 'top-start'
-    | 'top-end'
-    | 'bottom'
-    | 'bottom-start'
-    | 'bottom-end'
-    | 'right'
-    | 'right-start'
-    | 'right-end'
-    | 'left'
-    | 'left-start'
-    | 'left-end' = 'bottom-start';
+  @property() placement: 'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'right' | 'right-start' | 'right-end' | 'left' | 'left-start' | 'left-end' = 'bottom-start';
 
   /** Makes the input readonly. */
   @property({ type: Boolean, reflect: true }) readonly = false;
@@ -140,14 +128,7 @@ export default class SlDate extends LitElement {
     }
   }
   render() {
-    return html`<sl-dropdown
-      .distance=${this.distance}
-      id="dropDown"
-      part="dropDown"
-      .placement=${this.placement}
-      .hoist=${this.hoist}
-      .disabled=${this.readonly || this.disabled}
-    >
+    return html`<sl-dropdown .distance=${this.distance} id="dropDown" part="dropDown" .placement=${this.placement} .hoist=${this.hoist} .disabled=${this.readonly || this.disabled}>
       <sl-input
         part="sl-date-input"
         exportparts="base:input"
@@ -165,14 +146,7 @@ export default class SlDate extends LitElement {
         <sl-icon slot="suffix" name="calendar3"></sl-icon>
       </sl-input>
       <div part="date-panel-div">
-        <sl-date-panel
-          id="sl-date-panel"
-          .value=${this.value}
-          .mode=${this.mode}
-          .min=${this.min}
-          .max=${this.max}
-          @sl-date-select=${this.handlerDateSelect}
-        ></sl-date-panel>
+        <sl-date-panel id="sl-date-panel" .value=${this.value} .mode=${this.mode} .min=${this.min} .max=${this.max} @sl-date-select=${this.handlerDateSelect}></sl-date-panel>
       </div>
     </sl-dropdown>`;
   }

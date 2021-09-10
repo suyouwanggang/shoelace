@@ -93,19 +93,7 @@ export default class SlTextarea extends LitElement {
   @property({ type: Boolean, reflect: true }) invalid = false;
 
   /** The textarea's autocaptialize attribute. */
-  @property() autocapitalize:
-    | 'off'
-    | 'none'
-    | 'on'
-    | 'sentences'
-    | 'words'
-    | 'characters'
-    | 'off'
-    | 'none'
-    | 'on'
-    | 'sentences'
-    | 'words'
-    | 'characters';
+  @property() autocapitalize: 'off' | 'none' | 'on' | 'sentences' | 'words' | 'characters' | 'off' | 'none' | 'on' | 'sentences' | 'words' | 'characters';
 
   /** The textarea's autocorrect attribute. */
   @property() autocorrect: string;
@@ -175,21 +163,12 @@ export default class SlTextarea extends LitElement {
   }
 
   /** Sets the start and end positions of the text selection (0-based). */
-  setSelectionRange(
-    selectionStart: number,
-    selectionEnd: number,
-    selectionDirection: 'forward' | 'backward' | 'none' = 'none'
-  ) {
+  setSelectionRange(selectionStart: number, selectionEnd: number, selectionDirection: 'forward' | 'backward' | 'none' = 'none') {
     return this.input.setSelectionRange(selectionStart, selectionEnd, selectionDirection);
   }
 
   /** Replaces a range of text with a new string. */
-  setRangeText(
-    replacement: string,
-    start: number,
-    end: number,
-    selectMode: 'select' | 'start' | 'end' | 'preserve' = 'preserve'
-  ) {
+  setRangeText(replacement: string, start: number, end: number, selectMode: 'select' | 'start' | 'end' | 'preserve' = 'preserve') {
     this.input.setRangeText(replacement, start, end, selectMode);
 
     if (this.value !== this.input.value) {

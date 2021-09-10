@@ -46,34 +46,11 @@ export default class SlProgressRing extends LitElement {
 
   render() {
     return html`
-      <div
-        part="base"
-        class="progress-ring"
-        role="progressbar"
-        aria-valuemin="0"
-        aria-valuemax="100"
-        aria-valuenow="${this.percentage}"
-      >
+      <div part="base" class="progress-ring" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${this.percentage}">
         <svg class="progress-ring__image" width=${this.size} height=${this.size}>
-          <circle
-            class="progress-ring__track"
-            stroke-width="${this.strokeWidth}"
-            stroke-linecap="round"
-            fill="transparent"
-            r=${this.size / 2 - this.strokeWidth * 2}
-            cx=${this.size / 2}
-            cy=${this.size / 2}
-          ></circle>
+          <circle class="progress-ring__track" stroke-width="${this.strokeWidth}" stroke-linecap="round" fill="transparent" r=${this.size / 2 - this.strokeWidth * 2} cx=${this.size / 2} cy=${this.size / 2}></circle>
 
-          <circle
-            class="progress-ring__indicator"
-            stroke-width="${this.strokeWidth}"
-            stroke-linecap="round"
-            fill="transparent"
-            r=${this.size / 2 - this.strokeWidth * 2}
-            cx=${this.size / 2}
-            cy=${this.size / 2}
-          ></circle>
+          <circle class="progress-ring__indicator" stroke-width="${this.strokeWidth}" stroke-linecap="round" fill="transparent" r=${this.size / 2 - this.strokeWidth * 2} cx=${this.size / 2} cy=${this.size / 2}></circle>
         </svg>
 
         <span part="label" class="progress-ring__label">

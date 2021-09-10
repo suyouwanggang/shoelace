@@ -34,14 +34,7 @@ export default css`
   .color-picker__grid {
     position: relative;
     height: var(--grid-height);
-    background-image: linear-gradient(
-        to bottom,
-        hsl(0, 0%, 100%) 0%,
-        hsla(0, 0%, 100%, 0) 50%,
-        hsla(0, 0%, 0%, 0) 50%,
-        hsl(0, 0%, 0%) 100%
-      ),
-      linear-gradient(to right, hsl(0, 0%, 50%) 0%, hsla(0, 0%, 50%, 0) 100%);
+    background-image: linear-gradient(to bottom, hsl(0, 0%, 100%) 0%, hsla(0, 0%, 100%, 0) 50%, hsla(0, 0%, 0%, 0) 50%, hsl(0, 0%, 0%) 100%), linear-gradient(to right, hsl(0, 0%, 50%) 0%, hsla(0, 0%, 50%, 0) 100%);
     border-top-left-radius: var(--sl-border-radius-medium);
     border-top-right-radius: var(--sl-border-radius-medium);
     cursor: crosshair;
@@ -101,16 +94,7 @@ export default css`
   }
 
   .color-picker__hue {
-    background-image: linear-gradient(
-      to right,
-      rgb(255, 0, 0) 0%,
-      rgb(255, 255, 0) 17%,
-      rgb(0, 255, 0) 33%,
-      rgb(0, 255, 255) 50%,
-      rgb(0, 0, 255) 67%,
-      rgb(255, 0, 255) 83%,
-      rgb(255, 0, 0) 100%
-    );
+    background-image: linear-gradient(to right, rgb(255, 0, 0) 0%, rgb(255, 255, 0) 17%, rgb(0, 255, 0) 33%, rgb(0, 255, 255) 50%, rgb(0, 0, 255) 67%, rgb(255, 0, 255) 83%, rgb(255, 0, 0) 100%);
   }
 
   .color-picker__alpha .color-picker__alpha-gradient {
@@ -231,10 +215,8 @@ export default css`
   }
 
   .color-picker__transparent-bg {
-    background-image: linear-gradient(45deg, rgb(var(--sl-color-neutral-300)) 25%, transparent 25%),
-      linear-gradient(45deg, transparent 75%, rgb(var(--sl-color-neutral-300)) 75%),
-      linear-gradient(45deg, transparent 75%, rgb(var(--sl-color-neutral-300)) 75%),
-      linear-gradient(45deg, rgb(var(--sl-color-neutral-300)) 25%, transparent 25%);
+    background-image: linear-gradient(45deg, rgb(var(--sl-color-neutral-300)) 25%, transparent 25%), linear-gradient(45deg, transparent 75%, rgb(var(--sl-color-neutral-300)) 75%),
+      linear-gradient(45deg, transparent 75%, rgb(var(--sl-color-neutral-300)) 75%), linear-gradient(45deg, rgb(var(--sl-color-neutral-300)) 25%, transparent 25%);
     background-size: 10px 10px;
     background-position: 0 0, 0 0, -5px -5px, 5px 5px;
   }

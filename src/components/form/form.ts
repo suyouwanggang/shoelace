@@ -49,8 +49,7 @@ export default class SlForm extends LitElement {
     this.formControls = [
       {
         tag: 'button',
-        serialize: (el: HTMLButtonElement, formData) =>
-          el.name && !el.disabled ? formData.append(el.name, el.value) : null,
+        serialize: (el: HTMLButtonElement, formData) => (el.name && !el.disabled ? formData.append(el.name, el.value) : null),
         click: event => {
           const target = event.target as HTMLButtonElement;
           if (target.type === 'submit') {
@@ -84,11 +83,7 @@ export default class SlForm extends LitElement {
         },
         keyDown: event => {
           const target = event.target as HTMLInputElement;
-          if (
-            event.key === 'Enter' &&
-            !event.defaultPrevented &&
-            !['checkbox', 'file', 'radio'].includes(target.type)
-          ) {
+          if (event.key === 'Enter' && !event.defaultPrevented && !['checkbox', 'file', 'radio'].includes(target.type)) {
             this.submit();
           }
         }
@@ -122,13 +117,11 @@ export default class SlForm extends LitElement {
       },
       {
         tag: 'sl-checkbox',
-        serialize: (el: SlCheckbox, formData) =>
-          el.name && el.checked && !el.disabled ? formData.append(el.name, el.value) : null
+        serialize: (el: SlCheckbox, formData) => (el.name && el.checked && !el.disabled ? formData.append(el.name, el.value) : null)
       },
       {
         tag: 'sl-color-picker',
-        serialize: (el: SlColorPicker, formData) =>
-          el.name && !el.disabled ? formData.append(el.name, el.value) : null
+        serialize: (el: SlColorPicker, formData) => (el.name && !el.disabled ? formData.append(el.name, el.value) : null)
       },
       {
         tag: 'sl-input',
@@ -141,8 +134,7 @@ export default class SlForm extends LitElement {
       },
       {
         tag: 'sl-radio',
-        serialize: (el: SlRadio, formData) =>
-          el.name && el.checked && !el.disabled ? formData.append(el.name, el.value) : null
+        serialize: (el: SlRadio, formData) => (el.name && el.checked && !el.disabled ? formData.append(el.name, el.value) : null)
       },
       {
         tag: 'sl-range',
@@ -171,8 +163,7 @@ export default class SlForm extends LitElement {
       },
       {
         tag: 'sl-switch',
-        serialize: (el: SlSwitch, formData) =>
-          el.name && el.checked && !el.disabled ? formData.append(el.name, el.value) : null
+        serialize: (el: SlSwitch, formData) => (el.name && el.checked && !el.disabled ? formData.append(el.name, el.value) : null)
       },
       {
         tag: 'sl-textarea',
@@ -180,8 +171,7 @@ export default class SlForm extends LitElement {
       },
       {
         tag: 'textarea',
-        serialize: (el: HTMLTextAreaElement, formData) =>
-          el.name && !el.disabled ? formData.append(el.name, el.value) : null
+        serialize: (el: HTMLTextAreaElement, formData) => (el.name && !el.disabled ? formData.append(el.name, el.value) : null)
       }
     ];
   }
@@ -202,10 +192,7 @@ export default class SlForm extends LitElement {
     const tags = this.formControls.map(control => control.tag);
     return slot
       .assignedElements({ flatten: true })
-      .reduce(
-        (all: HTMLElement[], el: HTMLElement) => all.concat(el, [...el.querySelectorAll('*')] as HTMLElement[]),
-        []
-      )
+      .reduce((all: HTMLElement[], el: HTMLElement) => all.concat(el, [...el.querySelectorAll('*')] as HTMLElement[]), [])
       .filter((el: HTMLElement) => tags.includes(el.tagName.toLowerCase())) as HTMLElement[];
   }
 

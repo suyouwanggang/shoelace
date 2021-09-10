@@ -190,10 +190,7 @@ export default class SlDrawer extends LitElement {
 
       const panelAnimation = getAnimation(this, `drawer.show${uppercaseFirstLetter(this.placement)}`);
       const overlayAnimation = getAnimation(this, 'drawer.overlay.show');
-      await Promise.all([
-        animateTo(this.panel, panelAnimation.keyframes, panelAnimation.options),
-        animateTo(this.overlay, overlayAnimation.keyframes, overlayAnimation.options)
-      ]);
+      await Promise.all([animateTo(this.panel, panelAnimation.keyframes, panelAnimation.options), animateTo(this.overlay, overlayAnimation.keyframes, overlayAnimation.options)]);
 
       // Browsers that don't support el.focus({ preventScroll }) have to wait for the animation to finish before initial
       // focus to prevent scrolling issues. See: https://caniuse.com/mdn-api_htmlelement_focus_preventscroll_option
@@ -214,10 +211,7 @@ export default class SlDrawer extends LitElement {
       await Promise.all([stopAnimations(this.drawer), stopAnimations(this.overlay)]);
       const panelAnimation = getAnimation(this, `drawer.hide${uppercaseFirstLetter(this.placement)}`);
       const overlayAnimation = getAnimation(this, 'drawer.overlay.hide');
-      await Promise.all([
-        animateTo(this.panel, panelAnimation.keyframes, panelAnimation.options),
-        animateTo(this.overlay, overlayAnimation.keyframes, overlayAnimation.options)
-      ]);
+      await Promise.all([animateTo(this.panel, panelAnimation.keyframes, panelAnimation.options), animateTo(this.overlay, overlayAnimation.keyframes, overlayAnimation.options)]);
 
       this.drawer.hidden = true;
 
@@ -271,13 +265,7 @@ export default class SlDrawer extends LitElement {
                     <!-- If there's no label, use an invisible character to prevent the heading from collapsing -->
                     <slot name="label"> ${this.label || String.fromCharCode(65279)} </slot>
                   </span>
-                  <sl-icon-button
-                    exportparts="base:close-button"
-                    class="drawer__close"
-                    name="x"
-                    library="system"
-                    @click=${this.requestClose}
-                  ></sl-icon-button>
+                  <sl-icon-button exportparts="base:close-button" class="drawer__close" name="x" library="system" @click=${this.requestClose}></sl-icon-button>
                 </header>
               `
             : ''}

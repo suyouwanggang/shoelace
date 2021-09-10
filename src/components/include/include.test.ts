@@ -6,9 +6,7 @@ import type SlInclude from './include';
 
 describe('<sl-include>', () => {
   it('should load content and emit sl-load', async () => {
-    const el = await fixture<SlInclude>(
-      html` <sl-include src="https://jsonplaceholder.typicode.com/posts/1"></sl-include> `
-    );
+    const el = await fixture<SlInclude>(html` <sl-include src="https://jsonplaceholder.typicode.com/posts/1"></sl-include> `);
     const loadHandler = sinon.spy();
 
     el.addEventListener('sl-load', loadHandler);

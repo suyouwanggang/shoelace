@@ -170,10 +170,7 @@ export default class SlDialog extends LitElement {
 
       const panelAnimation = getAnimation(this, 'dialog.show');
       const overlayAnimation = getAnimation(this, 'dialog.overlay.show');
-      await Promise.all([
-        animateTo(this.panel, panelAnimation.keyframes, panelAnimation.options),
-        animateTo(this.overlay, overlayAnimation.keyframes, overlayAnimation.options)
-      ]);
+      await Promise.all([animateTo(this.panel, panelAnimation.keyframes, panelAnimation.options), animateTo(this.overlay, overlayAnimation.keyframes, overlayAnimation.options)]);
 
       // Browsers that don't support el.focus({ preventScroll }) have to wait for the animation to finish before initial
       // focus to prevent scrolling issues. See: https://caniuse.com/mdn-api_htmlelement_focus_preventscroll_option
@@ -193,10 +190,7 @@ export default class SlDialog extends LitElement {
       await Promise.all([stopAnimations(this.dialog), stopAnimations(this.overlay)]);
       const panelAnimation = getAnimation(this, 'dialog.hide');
       const overlayAnimation = getAnimation(this, 'dialog.overlay.hide');
-      await Promise.all([
-        animateTo(this.panel, panelAnimation.keyframes, panelAnimation.options),
-        animateTo(this.overlay, overlayAnimation.keyframes, overlayAnimation.options)
-      ]);
+      await Promise.all([animateTo(this.panel, panelAnimation.keyframes, panelAnimation.options), animateTo(this.overlay, overlayAnimation.keyframes, overlayAnimation.options)]);
       this.dialog.hidden = true;
 
       unlockBodyScrolling(this);
@@ -244,13 +238,7 @@ export default class SlDialog extends LitElement {
                   <span part="title" class="dialog__title" id=${`${this.componentId}-title`}>
                     <slot name="label"> ${this.label || String.fromCharCode(65279)} </slot>
                   </span>
-                  <sl-icon-button
-                    exportparts="base:close-button"
-                    class="dialog__close"
-                    name="x"
-                    library="system"
-                    @click="${this.requestClose}"
-                  ></sl-icon-button>
+                  <sl-icon-button exportparts="base:close-button" class="dialog__close" name="x" library="system" @click="${this.requestClose}"></sl-icon-button>
                 </header>
               `
             : ''}

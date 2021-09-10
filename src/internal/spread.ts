@@ -3,106 +3,106 @@ import { directive, Directive, ElementPart } from 'lit/directive.js';
 import { isArray, isObject } from '../utilities/common';
 
 export type SpreadResult = {
-  [key in string]: string |number |Array<string> | {[k:string]:string|boolean;} | EventListenerObject | EventListener;
+  [key in string]: string | number | Array<string> | { [k: string]: string | boolean } | EventListenerObject | EventListener;
 };
 const getKey = (k: string) => {
   return k.substr(1);
 };
 /**
  * 给el 添加样式
- * @param el 
- * @param styleObj 
+ * @param el
+ * @param styleObj
  */
-export const setStyle=(el:Element, styleObj:string|Array<string>|{[k:string]:string;})=>{
-    //style ,内置样式
-    let style = el.getAttribute('style') ;
-    let styleArray=style?style.split(";"):[];
-    if(isArray(styleObj)){
-        for(let tempStyle of styleObj){
-            styleArray.push(tempStyle.trim());
-        }
-    }else if(isObject(styleObj)){
-        for(let key in styleObj){
-            styleArray.push(`${key}:${styleObj[key]}`);
-        }
-    }else if(styleObj){
-        let array=styleObj.split(';');
-        for(let tempStyle of array){
-            styleArray.push(tempStyle.trim());
-        }
+export const setStyle = (el: Element, styleObj: string | Array<string> | { [k: string]: string }) => {
+  //style ,内置样式
+  let style = el.getAttribute('style');
+  let styleArray = style ? style.split(';') : [];
+  if (isArray(styleObj)) {
+    for (let tempStyle of styleObj) {
+      styleArray.push(tempStyle.trim());
     }
-    el.setAttribute('style', styleArray.join(";") );
-}
-export const removeStyle=(el:Element, styleObj:string|Array<string>|{[k:string]:string;})=>{
-    //style ,内置样式
-    let style = el.getAttribute('style') || '';
-    let styleArray=style?style.split(";"):[];
-    const removeFun=(k:string)=>{
-        const index=styleArray.lastIndexOf(k);
-        if(index>=0){
-            styleArray.splice(index,1);
-        }
+  } else if (isObject(styleObj)) {
+    for (let key in styleObj) {
+      styleArray.push(`${key}:${styleObj[key]}`);
     }
-    if(isArray(styleObj)){
-        for(let tempStyle of styleObj){
-            removeFun(tempStyle);
-        }
-    }else if(isObject(styleObj)){
-        for(let key in styleObj){
-            removeFun(`${key}:${styleObj[key]}`);
-        }
-    }else if(styleObj){
-        let array=styleObj.split(';');
-        for(let tempStyle of array){
-            removeFun(tempStyle.trim());
-        }
+  } else if (styleObj) {
+    let array = styleObj.split(';');
+    for (let tempStyle of array) {
+      styleArray.push(tempStyle.trim());
     }
-    el.setAttribute('style', styleArray.join(";") );
-}
-export const setClass=(el:Element, classObj:string|Array<string>|{[k:string]:boolean;})=>{
-    //style ,内置样式
-    let classList =Array.from(el.classList);
-    if(isArray(classObj)){
-        for(let tempClass of classObj){
-            classList.push(tempClass.trim());
-        }
-    }else if(isObject(classObj)){
-        for(let key in classObj){
-            if(classObj[key]){
-                classList.push(key);
-            }
-        }
-    }else if(classObj as string){
-        let array=classObj.split(' ');
-        for(let tempClass of array){
-            classList.push(tempClass.trim());
-        }
+  }
+  el.setAttribute('style', styleArray.join(';'));
+};
+export const removeStyle = (el: Element, styleObj: string | Array<string> | { [k: string]: string }) => {
+  //style ,内置样式
+  let style = el.getAttribute('style') || '';
+  let styleArray = style ? style.split(';') : [];
+  const removeFun = (k: string) => {
+    const index = styleArray.lastIndexOf(k);
+    if (index >= 0) {
+      styleArray.splice(index, 1);
     }
-    el.classList.add(...classList);
-}
-export const removeClass=(el:Element, classObj:string|Array<string>|{[k:string]:boolean;})=>{
-    let classList:Array<string> =[];
-    const removeFun=(k:string)=>{
-        classList.push(k);
+  };
+  if (isArray(styleObj)) {
+    for (let tempStyle of styleObj) {
+      removeFun(tempStyle);
     }
-    if(isArray(classObj)){
-        for(let tempClass of classObj){
-           removeFun(tempClass.trim());
-        }
-    }else if(isObject(classObj)){
-        for(let key in classObj){
-            if(classObj[key]){
-                removeFun(key);
-            }
-        }
-    }else if(classObj as string){
-        let array=classObj.split(' ');
-        for(let tempClass of array){
-            removeFun(tempClass.trim());
-        }
+  } else if (isObject(styleObj)) {
+    for (let key in styleObj) {
+      removeFun(`${key}:${styleObj[key]}`);
     }
-    el.classList.remove(...classList);
-}
+  } else if (styleObj) {
+    let array = styleObj.split(';');
+    for (let tempStyle of array) {
+      removeFun(tempStyle.trim());
+    }
+  }
+  el.setAttribute('style', styleArray.join(';'));
+};
+export const setClass = (el: Element, classObj: string | Array<string> | { [k: string]: boolean }) => {
+  //style ,内置样式
+  let classList = Array.from(el.classList);
+  if (isArray(classObj)) {
+    for (let tempClass of classObj) {
+      classList.push(tempClass.trim());
+    }
+  } else if (isObject(classObj)) {
+    for (let key in classObj) {
+      if (classObj[key]) {
+        classList.push(key);
+      }
+    }
+  } else if (classObj as string) {
+    let array = classObj.split(' ');
+    for (let tempClass of array) {
+      classList.push(tempClass.trim());
+    }
+  }
+  el.classList.add(...classList);
+};
+export const removeClass = (el: Element, classObj: string | Array<string> | { [k: string]: boolean }) => {
+  let classList: Array<string> = [];
+  const removeFun = (k: string) => {
+    classList.push(k);
+  };
+  if (isArray(classObj)) {
+    for (let tempClass of classObj) {
+      removeFun(tempClass.trim());
+    }
+  } else if (isObject(classObj)) {
+    for (let key in classObj) {
+      if (classObj[key]) {
+        removeFun(key);
+      }
+    }
+  } else if (classObj as string) {
+    let array = classObj.split(' ');
+    for (let tempClass of array) {
+      removeFun(tempClass.trim());
+    }
+  }
+  el.classList.remove(...classList);
+};
 /**
  * 给 el 添加 属性，attribute, style, class ,event
  *
@@ -128,8 +128,8 @@ export const removeClass=(el:Element, classObj:string|Array<string>|{[k:string]:
  *  'class':'class1,class2',
  *  'attr01':'A'
  * })}></sl-tag>`
- * 
- * 
+ *
+ *
  * html`<sl-tag ${spread({
  *  '.prop01':{},
  *  '.prop02':{},
@@ -177,9 +177,9 @@ class SpreadDirective extends Directive {
         //事件
         (this.el as any)[key] = obj[k];
       } else if ('style' == k) {
-         setStyle(this.el, obj[k] as string|Array<string>|{[k:string]:string;});
+        setStyle(this.el, obj[k] as string | Array<string> | { [k: string]: string });
       } else if ('class' == k) {
-        setClass(this.el,obj[k] as string|Array<string>|{[k:string]:boolean;});
+        setClass(this.el, obj[k] as string | Array<string> | { [k: string]: boolean });
       } else {
         this.el.setAttribute(k, String(obj[k]));
       }
@@ -200,9 +200,9 @@ class SpreadDirective extends Directive {
         const key = getKey(k);
         (this.el as any)[key] = undefined;
       } else if ('style' == k) {
-         removeStyle(this.el, obj[k] as string|Array<string>|{[k:string]:string;});
+        removeStyle(this.el, obj[k] as string | Array<string> | { [k: string]: string });
       } else if ('class' == k) {
-         removeClass(this.el,obj[k] as string|Array<string>|{[k:string]:boolean;});
+        removeClass(this.el, obj[k] as string | Array<string> | { [k: string]: boolean });
       } else {
         this.el.setAttribute(k, String(obj[k]));
       }

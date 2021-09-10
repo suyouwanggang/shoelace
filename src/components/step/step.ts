@@ -72,11 +72,7 @@ export default class SlStep extends LitElement {
         <div class="tail"></div>
         <div part="step-icon">
           <span class="step-icon-span" part="step-icon-span">
-            <slot name="step-icon">
-              ${this.icon
-                ? html`<sl-icon library="system" name="${this.icon}"></sl-icon>`
-                : html`<span>${this.index}</span>`}</slot
-            >
+            <slot name="step-icon"> ${this.icon ? html`<sl-icon library="system" name="${this.icon}"></sl-icon>` : html`<span>${this.index}</span>`}</slot>
           </span>
         </div>
         <div part="step-content">

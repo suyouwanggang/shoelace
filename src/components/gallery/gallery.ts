@@ -50,8 +50,7 @@ export default class SlGallery extends LitElement {
   @property({ type: Number }) currentIndex = 0;
 
   /**缩略图显示位置 */
-  @property({ type: String, attribute: 'thumb-position' }) thumbPosition: 'bottom' | 'left' | 'top' | 'right' =
-    'bottom';
+  @property({ type: String, attribute: 'thumb-position' }) thumbPosition: 'bottom' | 'left' | 'top' | 'right' = 'bottom';
 
   /** 图片对于其他其他数据 */
   @property({ type: Array }) image_datas: Array<unknown> = [];
@@ -166,12 +165,8 @@ export default class SlGallery extends LitElement {
   private renderNavLefAndRight() {
     return this._loadedOneImage && this.showNavButtons
       ? html`
-          <button class="nav-button left-nav" part="left-nav" @click=${() => this.goImageByChange(-1)}>
-            ${svgLeft}
-          </button>
-          <button class="nav-button right-nav" part="right-nav" @click=${() => this.goImageByChange(1)}>
-            ${svgRight}
-          </button>
+          <button class="nav-button left-nav" part="left-nav" @click=${() => this.goImageByChange(-1)}>${svgLeft}</button>
+          <button class="nav-button right-nav" part="right-nav" @click=${() => this.goImageByChange(1)}>${svgRight}</button>
         `
       : nothing;
   }
@@ -179,18 +174,11 @@ export default class SlGallery extends LitElement {
   /** 渲染 thumbimages */
   private renderThumbimages() {
     const to = this.thumb_images?.map((item, index) => {
-      return html`<button
-        part="thumb-button"
-        @click=${() => this.goImageByChange(index - this.currentIndex)}
-        class="thumb-button "
-        ?current-image=${this.currentIndex == index}
-      >
+      return html`<button part="thumb-button" @click=${() => this.goImageByChange(index - this.currentIndex)} class="thumb-button " ?current-image=${this.currentIndex == index}>
         <img part="thumb-image" class="thumb-image" .src=${item} />
       </button>`;
     });
-    return html`<div class="thumb-image-conatainer" id="thumb-image-conatainer">
-      ${this._loadedOneImage ? to : nothing}
-    </div>`;
+    return html`<div class="thumb-image-conatainer" id="thumb-image-conatainer">${this._loadedOneImage ? to : nothing}</div>`;
   }
 
   /** 渲染 images*/
@@ -218,17 +206,14 @@ export default class SlGallery extends LitElement {
               title=""
             />`
           : nothing}
-        ${index == this.currentIndex && this.imageRender && this.image_datas
-          ? html`<div part="image-exta">${this.imageRender?.call(this, this.image_datas[index], index)}</div>`
-          : nothing}
+        ${index == this.currentIndex && this.imageRender && this.image_datas ? html`<div part="image-exta">${this.imageRender?.call(this, this.image_datas[index], index)}</div>` : nothing}
       </div>`;
     };
     const to = this.images?.map((item, index) => {
       return html`<div
         aria-label="Go to Slide ${index}"
         tabindex="-1"
-        style="transform: translate3d(${100 *
-        (index - this.currentIndex)}%, 0px, 0px);transition: all var(--sl-image-transition-time) ease-out 0s;"
+        style="transform: translate3d(${100 * (index - this.currentIndex)}%, 0px, 0px);transition: all var(--sl-image-transition-time) ease-out 0s;"
         class="image-gallery-slide"
         ?current-image=${this.currentIndex == index}
       >
@@ -244,11 +229,7 @@ export default class SlGallery extends LitElement {
     return html`<div class="imgage-navigation" part="image-naviagation">
       <div class="imgage-navigation-wrap" part="image-naviagation-wrap">
         ${this.images?.map((_item, index) => {
-          return html`<button
-            ?current-image=${index == this.currentIndex}
-            part="nav-button"
-            @click=${() => this.goImageByChange(index - this.currentIndex)}
-          ></button>`;
+          return html`<button ?current-image=${index == this.currentIndex} part="nav-button" @click=${() => this.goImageByChange(index - this.currentIndex)}></button>`;
         })}
       </div>
     </div>`;
@@ -274,11 +255,7 @@ export default class SlGallery extends LitElement {
     if (!this._loadedOneImage) {
       return nothing;
     }
-    return this.show_fullscreen
-      ? html`<button class="nav-button button-fullscreen" @click=${this.changeFullScreenState} part="full-screen">
-          ${this.isFullScreened ? svgFullscreened : svgFullscreen}
-        </button>`
-      : '';
+    return this.show_fullscreen ? html`<button class="nav-button button-fullscreen" @click=${this.changeFullScreenState} part="full-screen">${this.isFullScreened ? svgFullscreened : svgFullscreen}</button>` : '';
   }
   /**
    * 改变组件全屏状态
@@ -307,11 +284,7 @@ export default class SlGallery extends LitElement {
         thumbContainer.style.transform = `translate3d(-${scrollWidth}px,0px, 0px) `;
       } else if (this.thumbPosition == 'left' || this.thumbPosition == 'right') {
         const silders = this.renderRoot.querySelector('div.image-sliders') as HTMLElement;
-        thumbContainer.style.height =
-          Math.min(
-            parseInt(getCssValue(silders, 'height')),
-            parseInt(getCssValue(silders.parentElement as HTMLElement, 'height'))
-          ) + 'px';
+        thumbContainer.style.height = Math.min(parseInt(getCssValue(silders, 'height')), parseInt(getCssValue(silders.parentElement as HTMLElement, 'height'))) + 'px';
         let scroll = thumbContainer.scrollHeight - thumbContainer.offsetHeight;
         let scrollHeight = 0;
         if (scroll > 0 && this.thumb_images && this.thumb_images.length > 0) {
@@ -329,12 +302,9 @@ export default class SlGallery extends LitElement {
     this.caculateThumbPotion();
     this.keyEnableChange();
     const thumbs = this.renderRoot.querySelector('div[part=thumbs]') as HTMLElement;
-    this._resizeRemoveAbleObj = addResizeHander(
-      [this, thumbs.querySelector('#thumb-image-conatainer') as HTMLElement],
-      (_el: Element) => {
-        this.caculateThumbPotion();
-      }
-    );
+    this._resizeRemoveAbleObj = addResizeHander([this, thumbs.querySelector('#thumb-image-conatainer') as HTMLElement], (_el: Element) => {
+      this.caculateThumbPotion();
+    });
   }
   updated(map: PropertyValues) {
     super.updated(map);
@@ -347,8 +317,7 @@ export default class SlGallery extends LitElement {
     return html`
       <div part="base" class=" base ${this.thumbPosition} ${this.isFullScreened ? 'full-screen' : ''}">
         <div part="images" class="images">
-          ${this.renderImages()} ${this.renderNavLefAndRight()} ${this.renderImgeNavigations()}
-          ${this.renderPauseButton()} ${this.renderFullScreenButton()}
+          ${this.renderImages()} ${this.renderNavLefAndRight()} ${this.renderImgeNavigations()} ${this.renderPauseButton()} ${this.renderFullScreenButton()}
           <slot></slot>
         </div>
         <div part="thumbs" class="thumbs">${this.renderThumbimages()}</div>

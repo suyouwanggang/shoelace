@@ -53,19 +53,7 @@ export default class SlDropdown extends LitElement {
    * The preferred placement of the dropdown panel. Note that the actual placement may vary as needed to keep the panel
    * inside of the viewport.
    */
-  @property() placement:
-    | 'top'
-    | 'top-start'
-    | 'top-end'
-    | 'bottom'
-    | 'bottom-start'
-    | 'bottom-end'
-    | 'right'
-    | 'right-start'
-    | 'right-end'
-    | 'left'
-    | 'left-start'
-    | 'left-end' = 'bottom-start';
+  @property() placement: 'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'right' | 'right-start' | 'right-end' | 'left' | 'left-start' | 'left-end' = 'bottom-start';
 
   /** Disables the dropdown so the panel will not open. */
   @property({ type: Boolean }) disabled = false;
@@ -171,10 +159,7 @@ export default class SlDropdown extends LitElement {
       // If the dropdown is used within a shadow DOM, we need to obtain the activeElement within that shadowRoot,
       // otherwise `document.activeElement` will only return the name of the parent shadow DOM element.
       setTimeout(() => {
-        const activeElement =
-          this.containingElement.getRootNode() instanceof ShadowRoot
-            ? document.activeElement?.shadowRoot?.activeElement
-            : document.activeElement;
+        const activeElement = this.containingElement.getRootNode() instanceof ShadowRoot ? document.activeElement?.shadowRoot?.activeElement : document.activeElement;
 
         if (activeElement?.closest(this.containingElement.tagName.toLowerCase()) !== this.containingElement) {
           this.hide();
@@ -407,26 +392,14 @@ export default class SlDropdown extends LitElement {
           'dropdown--open': this.open
         })}
       >
-        <span
-          part="trigger"
-          class="dropdown__trigger"
-          @click=${this.handleTriggerClick}
-          @keydown=${this.handleTriggerKeyDown}
-          @keyup=${this.handleTriggerKeyUp}
-        >
+        <span part="trigger" class="dropdown__trigger" @click=${this.handleTriggerClick} @keydown=${this.handleTriggerKeyDown} @keyup=${this.handleTriggerKeyUp}>
           <slot name="trigger" @slotchange=${this.handleTriggerSlotChange}></slot>
         </span>
 
         <!-- Position the panel with a wrapper since the popover makes use of translate. This let's us add animations
         on the panel without interfering with the position. -->
         <div class="dropdown__positioner">
-          <div
-            part="panel"
-            class="dropdown__panel"
-            role="menu"
-            aria-hidden=${this.open ? 'false' : 'true'}
-            aria-labelledby=${this.componentId}
-          >
+          <div part="panel" class="dropdown__panel" role="menu" aria-hidden=${this.open ? 'false' : 'true'} aria-labelledby=${this.componentId}>
             <slot></slot>
           </div>
         </div>

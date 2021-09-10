@@ -274,9 +274,7 @@ export default class SlSelect extends LitElement {
     const item = event.detail.item;
 
     if (this.multiple) {
-      this.value = this.value?.includes(item.value)
-        ? (this.value as []).filter(v => v !== item.value)
-        : [...this.value, item.value];
+      this.value = this.value?.includes(item.value) ? (this.value as []).filter(v => v !== item.value) : [...this.value, item.value];
     } else {
       this.value = item.value;
     }
@@ -398,9 +396,7 @@ export default class SlSelect extends LitElement {
         const total = this.displayTags.length;
         this.displayLabel = '';
         this.displayTags = this.displayTags.slice(0, this.maxTagsVisible);
-        this.displayTags.push(html`
-          <sl-tag exportparts="base:tag" type="neutral" size=${this.size}> +${total - this.maxTagsVisible} </sl-tag>
-        `);
+        this.displayTags.push(html` <sl-tag exportparts="base:tag" type="neutral" size=${this.size}> +${total - this.maxTagsVisible} </sl-tag> `);
       }
     } else {
       const checkedItem = items.filter(item => item.value === value[0])[0];
@@ -489,23 +485,10 @@ export default class SlSelect extends LitElement {
               <slot name="prefix"></slot>
             </span>
 
-            <div class="select__label">
-              ${this.displayTags.length
-                ? html` <span part="tags" class="select__tags"> ${this.displayTags} </span> `
-                : this.displayLabel || this.placeholder}
-            </div>
+            <div class="select__label">${this.displayTags.length ? html` <span part="tags" class="select__tags"> ${this.displayTags} </span> ` : this.displayLabel || this.placeholder}</div>
 
             ${this.clearable && hasSelection
-              ? html`
-                  <sl-icon-button
-                    exportparts="base:clear-button"
-                    class="select__clear"
-                    name="x-circle"
-                    library="system"
-                    @click=${this.handleClearClick}
-                    tabindex="-1"
-                  ></sl-icon-button>
-                `
+              ? html` <sl-icon-button exportparts="base:clear-button" class="select__clear" name="x-circle" library="system" @click=${this.handleClearClick} tabindex="-1"></sl-icon-button> `
               : ''}
 
             <span part="suffix" class="select__suffix">
@@ -518,13 +501,7 @@ export default class SlSelect extends LitElement {
 
             <!-- The hidden input tricks the browser's built-in validation so it works as expected. We use an input
             instead of a select because, otherwise, iOS will show a list of options during validation. -->
-            <input
-              class="select__hidden-select"
-              aria-hidden="true"
-              ?required=${this.required}
-              .value=${hasSelection ? '1' : ''}
-              tabindex="-1"
-            />
+            <input class="select__hidden-select" aria-hidden="true" ?required=${this.required} .value=${hasSelection ? '1' : ''} tabindex="-1" />
           </div>
 
           <sl-menu part="menu" class="select__menu" @sl-select=${this.handleMenuSelect}>

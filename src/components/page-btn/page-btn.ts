@@ -51,10 +51,7 @@ export default class SlPageBtn extends LitElement {
   /** 总数大小 */
   @property({ type: Number, attribute: 'total', reflect: true }) total: number;
   /** 支持调整的分页大小 */
-  @property({ type: Array, attribute: false }) pageSizeOptions: Array<Number> = Array.from(
-    { length: 10 },
-    (_item, value) => 10 + value * 10
-  );
+  @property({ type: Array, attribute: false }) pageSizeOptions: Array<Number> = Array.from({ length: 10 }, (_item, value) => 10 + value * 10);
   /** 是否显示 直接跳转到第一页 */
   @property({ type: Boolean, attribute: false }) showFirst = false;
   /** 是否显示 直接跳转到最后一页 */
@@ -76,15 +73,7 @@ export default class SlPageBtn extends LitElement {
     }
   }
   _renderSimple() {
-    return html`<sl-input
-        size="small"
-        type="number"
-        step="1"
-        min="1"
-        max=${this.pageCount}
-        .value=${this.value + ''}
-      ></sl-input
-      ><span class="pageCountSpan">共${this.pageCount}页</span>`;
+    return html`<sl-input size="small" type="number" step="1" min="1" max=${this.pageCount} .value=${this.value + ''}></sl-input><span class="pageCountSpan">共${this.pageCount}页</span>`;
   }
   _renderPageButton() {
     const pageCount = this.pageCount;
@@ -109,13 +98,7 @@ export default class SlPageBtn extends LitElement {
     for (let i = prev; i <= next; i++) {
       array.push(i);
     }
-    return html`${repeat(
-      array,
-      item =>
-        html`<sl-button size="small" data-page-no=${item} .type=${this.value == item ? 'primary' : 'default'}
-          >${item}</sl-button
-        > `
-    )}`;
+    return html`${repeat(array, item => html`<sl-button size="small" data-page-no=${item} .type=${this.value == item ? 'primary' : 'default'}>${item}</sl-button> `)}`;
   }
 
   _renderPage() {
@@ -126,10 +109,7 @@ export default class SlPageBtn extends LitElement {
     }
     if (this.showSizeChange) {
       result.push(html`<sl-select size="small" .hoist=${true} part="show-size-change" .value=${this.pageSize + ''}>
-        ${repeat(
-          this.pageSizeOptions,
-          (value, _index) => html`<sl-menu-item .value=${value + ''}>${value}条</sl-menu-item>`
-        )}
+        ${repeat(this.pageSizeOptions, (value, _index) => html`<sl-menu-item .value=${value + ''}>${value}条</sl-menu-item>`)}
       </sl-select>`);
     }
     return result;
@@ -151,35 +131,30 @@ export default class SlPageBtn extends LitElement {
       } else {
         this.goToPage(tempNo);
       }
-      this._eventDispose2 = onEvent(
-        baseDiv,
-        'sl-input,sl-select[part=show-size-change]',
-        'sl-change',
-        (event: Event) => {
-          let el = (event as any).delegateTarget as HTMLElement;
-          const beforeEvent = emit(this, 'sl-page-before-change');
-          if (!beforeEvent.defaultPrevented) {
-            if (el.matches('sl-select[part=show-size-change]')) {
-              this.pageSize = Number((el as any).value);
-            } else {
-              this.watchPageChange();
-              let value = (el as any).value;
-              if (isNaN(value)) {
-                value = 1;
-              }
-              value = Number(value);
-              if (value > this.pageCount) {
-                value = this.pageCount;
-              }
-              (el as any).value = value;
-              this.value = value;
+      this._eventDispose2 = onEvent(baseDiv, 'sl-input,sl-select[part=show-size-change]', 'sl-change', (event: Event) => {
+        let el = (event as any).delegateTarget as HTMLElement;
+        const beforeEvent = emit(this, 'sl-page-before-change');
+        if (!beforeEvent.defaultPrevented) {
+          if (el.matches('sl-select[part=show-size-change]')) {
+            this.pageSize = Number((el as any).value);
+          } else {
+            this.watchPageChange();
+            let value = (el as any).value;
+            if (isNaN(value)) {
+              value = 1;
             }
-            emit(this, 'sl-page-change', {
-              detail: { value: this.value }
-            });
+            value = Number(value);
+            if (value > this.pageCount) {
+              value = this.pageCount;
+            }
+            (el as any).value = value;
+            this.value = value;
           }
+          emit(this, 'sl-page-change', {
+            detail: { value: this.value }
+          });
         }
-      );
+      });
     });
   }
   disconnectedCallback() {
@@ -234,28 +209,19 @@ export default class SlPageBtn extends LitElement {
         : html`
             ${this.showFirst
               ? html`<sl-tooltip content="${getResouceValue('pageBtn.first')}"
-                  ><sl-button size="small" ?disabled=${this.value == 1} data-page-no="first" type="text"
-                    ><sl-icon part="first" name="chevron-bar-left"></sl-icon></sl-button
+                  ><sl-button size="small" ?disabled=${this.value == 1} data-page-no="first" type="text"><sl-icon part="first" name="chevron-bar-left"></sl-icon></sl-button
                 ></sl-tooltip>`
               : nothing}
             <sl-tooltip content="${getResouceValue('pageBtn.prev')}">
-              <sl-button ?disabled=${this.value == 1} data-page-no="prev" size="small" left type="text"
-                ><sl-icon part="prev" name="chevron-left" ?disabled=${this.value <= 1}></sl-icon></sl-button
+              <sl-button ?disabled=${this.value == 1} data-page-no="prev" size="small" left type="text"><sl-icon part="prev" name="chevron-left" ?disabled=${this.value <= 1}></sl-icon></sl-button
             ></sl-tooltip>
             <div part="pageWrap">${this.simple ? this._renderSimple() : this._renderPage()}</div>
             <sl-tooltip content="${getResouceValue('pageBtn.next')}"
-              ><sl-button
-                size="small"
-                ?disabled=${this.value + 1 > this.pageCount}
-                data-page-no="next"
-                right
-                type="text"
-                ><sl-icon part="next" name="chevron-right" ?disabled=${this.value <= 1}></sl-icon></sl-button
+              ><sl-button size="small" ?disabled=${this.value + 1 > this.pageCount} data-page-no="next" right type="text"><sl-icon part="next" name="chevron-right" ?disabled=${this.value <= 1}></sl-icon></sl-button
             ></sl-tooltip>
             ${this.showLast
               ? html`<sl-tooltip content="${getResouceValue('pageBtn.last')}"
-                  ><sl-button size="small" ?disabled=${this.value == this.pageCount} data-page-no="last" type="text"
-                    ><sl-icon part="part" name="chevron-bar-right"></sl-icon></sl-button
+                  ><sl-button size="small" ?disabled=${this.value == this.pageCount} data-page-no="last" type="text"><sl-icon part="part" name="chevron-bar-right"></sl-icon></sl-button
                 ></sl-tooltip>`
               : nothing}
           `}

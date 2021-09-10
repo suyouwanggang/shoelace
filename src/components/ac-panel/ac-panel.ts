@@ -36,13 +36,7 @@ export default class SlAcPanel extends LitElement {
   @property({ type: String, reflect: true }) header: string;
   renderHeader() {
     return html`<header class="ac-tab-header" part="header" @click=${this._clickHeader}>
-      <slot name="trigger-icon"
-        ><sl-icon
-          library="system"
-          exportparts="base:trigger-icon"
-          name="${this.active ? 'chevron-down' : 'chevron-right'}"
-        ></sl-icon
-      ></slot>
+      <slot name="trigger-icon"><sl-icon library="system" exportparts="base:trigger-icon" name="${this.active ? 'chevron-down' : 'chevron-right'}"></sl-icon></slot>
       <slot name="header"> <span part="header-span">${this.header}&nbsp;</span></slot>
       <slot name="header-extra"></slot>
     </header>`;
@@ -71,14 +65,10 @@ export default class SlAcPanel extends LitElement {
       await panel.updateComplete;
       this.contentElement.style.display = 'block';
       const currentHeight = parseInt(getCssValue(this.contentElement, 'height'));
-      let thisAnimate = animateTo(
-        this.contentElement,
-        shimKeyframesHeightAuto(this.active ? animate_show : animate_hide, currentHeight),
-        {
-          duration: duration,
-          easing: 'ease'
-        }
-      );
+      let thisAnimate = animateTo(this.contentElement, shimKeyframesHeightAuto(this.active ? animate_show : animate_hide, currentHeight), {
+        duration: duration,
+        easing: 'ease'
+      });
       let allPromise = [thisAnimate];
       // if(!panel.multi&&!tab.active){
       //   const oldAnimate=oldActive.map(item=>{

@@ -36,11 +36,7 @@ let numIcons = 0;
     console.log(`Copying icons and license`);
     await del([iconDir]);
     await mkdirp(iconDir);
-    await Promise.all([
-      copy(`${srcPath}/icons`, iconDir),
-      copy(`${srcPath}/LICENSE.md`, path.join(iconDir, 'LICENSE.md')),
-      copy(`${srcPath}/bootstrap-icons.svg`, './docs/assets/icons/sprite.svg', { overwrite: true })
-    ]);
+    await Promise.all([copy(`${srcPath}/icons`, iconDir), copy(`${srcPath}/LICENSE.md`, path.join(iconDir, 'LICENSE.md')), copy(`${srcPath}/bootstrap-icons.svg`, './docs/assets/icons/sprite.svg', { overwrite: true })]);
 
     // Generate metadata
     console.log(`Generating icon metadata`);

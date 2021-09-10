@@ -17,12 +17,7 @@ type VitrurlResult = {
  * （ 上面空白多渲染2份内容可视高度的数据，底部多渲染几份内容可视高度的数据。
  *  适当多渲染，保证滚动的时候，不会变成空白
  */
-export const vituralScrollCalc = (
-  contentHeight: number,
-  size: number,
-  rowHeight: number,
-  scrollTop: number
-): VitrurlResult => {
+export const vituralScrollCalc = (contentHeight: number, size: number, rowHeight: number, scrollTop: number): VitrurlResult => {
   const result: VitrurlResult = {
     paddingTop: 0,
     paddingBottom: 0,

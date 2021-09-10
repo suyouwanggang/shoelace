@@ -11,13 +11,7 @@ import { onEvent } from '../../utilities/common';
 import SlCheckbox from '../checkbox/checkbox';
 import SlRadio from '../radio/radio';
 import SlTreeNode from '../tree-node/tree-node';
-import {
-  cloneTreeNodeData,
-  DEFAULT_TREE_FILTER,
-  DEFAULT_TREE_NODE_RENDER,
-  iteratorNodeData,
-  TreeNodeData
-} from '../tree-node/tree-node-util';
+import { cloneTreeNodeData, DEFAULT_TREE_FILTER, DEFAULT_TREE_NODE_RENDER, iteratorNodeData, TreeNodeData } from '../tree-node/tree-node-util';
 import styles from './tree.styles';
 
 /**
@@ -212,25 +206,14 @@ export default class SlTree extends LitElement {
         return this.renderNodeDataTemplate(this.renderRootNodeData, 0);
       } else {
         const children = this.renderRootNodeData.children;
-        return children
-          ? children.map((item: TreeNodeData, index: number) =>
-              this.renderNodeDataTemplate(item, index, this.renderRootNodeData)
-            )
-          : nothing;
+        return children ? children.map((item: TreeNodeData, index: number) => this.renderNodeDataTemplate(item, index, this.renderRootNodeData)) : nothing;
       }
     }
   }
 
   private renderNodeDataTemplate(data: TreeNodeData, index: number, parentData?: TreeNodeData) {
     const tree = this as SlTree;
-    return html`<sl-tree-node
-      .customStyle=${(this as any).customStyle}
-      .tree=${tree}
-      .nodeData=${data}
-      index=${index}
-      .parentNodeData=${parentData}
-      .nodeRender=${this.real_treeNodeRender}
-    ></sl-tree-node>`;
+    return html`<sl-tree-node .customStyle=${(this as any).customStyle} .tree=${tree} .nodeData=${data} index=${index} .parentNodeData=${parentData} .nodeRender=${this.real_treeNodeRender}></sl-tree-node>`;
   }
   private _emitTreeEvent(event: CustomEvent) {
     if (!event.defaultPrevented) {
@@ -255,15 +238,7 @@ export default class SlTree extends LitElement {
     let handerTreeNode = (event: CustomEvent) => {
       this._emitTreeEvent(event);
     };
-    let eventArray = [
-      'sl-node-click',
-      'sl-node-before-open',
-      'sl-node-before-close',
-      'sl-node-before-toogle',
-      'sl-node-close',
-      'sl-node-open',
-      'sl-node-toogle'
-    ];
+    let eventArray = ['sl-node-click', 'sl-node-before-open', 'sl-node-before-close', 'sl-node-before-toogle', 'sl-node-close', 'sl-node-open', 'sl-node-toogle'];
 
     let div = this.renderRoot.querySelector('div[part]') as HTMLElement;
     for (let eventType of eventArray) {
@@ -289,14 +264,7 @@ export default class SlTree extends LitElement {
     return html`<div part="base" class=${classMap(baseClass)}>
       ${this.enableFilter
         ? html`<div part="filter">
-            <slot name="filter">
-              <sl-input
-                part="filter-input"
-                .placeholder=${this.filterInputPlaceholder}
-                @sl-input=${this.inputFilterHanlder}
-                .value=${String(this.filterString)}
-              ></sl-input
-            ></slot>
+            <slot name="filter"> <sl-input part="filter-input" .placeholder=${this.filterInputPlaceholder} @sl-input=${this.inputFilterHanlder} .value=${String(this.filterString)}></sl-input></slot>
           </div>`
         : ''}
       <div part="tree-body">${this.renderAllTreeNode()}</div>
@@ -423,8 +391,7 @@ export default class SlTree extends LitElement {
             .nodeData=${node}
             @sl-change=${this.handerCheckEvent}
             class="selectCheckbox"
-            .checked=${typeof node[this.nodeIDProperty] != 'undefined' &&
-            (this.checkedKeys as Array<unknown>).includes(node[this.nodeIDProperty])}
+            .checked=${typeof node[this.nodeIDProperty] != 'undefined' && (this.checkedKeys as Array<unknown>).includes(node[this.nodeIDProperty])}
             >${result}</sl-checkbox
           >`
         );

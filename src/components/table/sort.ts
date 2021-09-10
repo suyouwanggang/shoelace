@@ -22,18 +22,12 @@ export const renderSortHeaderTemplate = (table: SlTable, column: SlColumn, hande
     if (table.sortConfig.alwaysShowIcon) {
       result = html`<div class="sort-wrap" @click=${hander}>
         <div class="sort-ASC  ${sortResult && sortResult.orderType == SortingEnum.ASC ? 'current' : ''}">${sortUp}</div>
-        <div class="sort-DESC ${sortResult && sortResult.orderType == SortingEnum.DESC ? 'current' : ''}">
-          ${sortDown}
-        </div>
+        <div class="sort-DESC ${sortResult && sortResult.orderType == SortingEnum.DESC ? 'current' : ''}">${sortDown}</div>
       </div>`;
     } else {
       result = html`<div class="sort-wrap" @click=${hander}>
         <div class="sort-${sortResult ? sortResult.orderType : 'null'} current">
-          ${sortResult && sortResult.orderType == SortingEnum.ASC
-            ? sortUp
-            : sortResult && sortResult.orderType == SortingEnum.DESC
-            ? sortDown
-            : ''}
+          ${sortResult && sortResult.orderType == SortingEnum.ASC ? sortUp : sortResult && sortResult.orderType == SortingEnum.DESC ? sortDown : ''}
         </div>
       </div>`;
     }

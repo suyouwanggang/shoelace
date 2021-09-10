@@ -123,9 +123,7 @@ export default class SlTreeNode extends LitElement {
       return nothing;
     }
     return html`<div part="base">
-      <div part="node" ?disabled=${Boolean(this.nodeData.disable)} ?selected=${this.isTreeNodeSelected()}>
-        ${this.renderNodeData()}
-      </div>
+      <div part="node" ?disabled=${Boolean(this.nodeData.disable)} ?selected=${this.isTreeNodeSelected()}>${this.renderNodeData()}</div>
       <div part="children" class="${this.isClose ? 'close' : 'open'}">${this.renderChildren()}</div>
     </div>`;
   }
@@ -167,20 +165,14 @@ export default class SlTreeNode extends LitElement {
         </sl-icon>`);
       }
       if (this.nodeData.icon) {
-        result.push(
-          html`<sl-icon class="node-icon" part="node-icon" name=${this.nodeData.icon} library="system"> </sl-icon>`
-        );
+        result.push(html`<sl-icon class="node-icon" part="node-icon" name=${this.nodeData.icon} library="system"> </sl-icon>`);
       }
       let indexStr = this.getAttribute('index');
       let index = 0;
       if (indexStr) {
         index = parseInt(indexStr, 10);
       }
-      result.push(
-        html`<div part="node-span" @click=${this._clickNodeHandler}>
-          ${this.nodeRender.call(this, this.nodeData, index, this.parentNodeData)}
-        </div>`
-      );
+      result.push(html`<div part="node-span" @click=${this._clickNodeHandler}>${this.nodeRender.call(this, this.nodeData, index, this.parentNodeData)}</div>`);
     }
     return result;
   }
