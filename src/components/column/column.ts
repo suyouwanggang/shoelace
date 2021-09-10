@@ -1,6 +1,7 @@
 import { LitElement, PropertyValues, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import SlTable from '../table/table';
+import { CellContext, CellHeadContext } from '../table/tableConfig';
 let columnUniqueID = 0;
 /**
  * @since 2.0
@@ -11,16 +12,11 @@ let columnUniqueID = 0;
 @customElement('sl-column')
 export default class SlColumn extends LitElement {
   /**表头自定义渲染(this:SlColumn,table:SlTable):TemplateResult<1>*/
-  @property({ attribute: false, type: Object }) renderCol: (column: SlColumn, index: number) => TemplateResult<1>;
+  @property({ attribute: false, type: Object }) renderCol: (context:CellHeadContext) => TemplateResult<1>;
 
   /**对应TD渲染 ,接收表格column:lie, rowData:行数据,rowDataIndex,columnIndex:列顺序 此对应的TD*/
-  @property({ attribute: false, type: Object }) renderCell: (
-    column: SlColumn,
-    rowData: any,
-    rowDataIndex: number,
-    columnIndex: number,
-    ...others: unknown[]
-  ) => TemplateResult<1> | { template: TemplateResult<1>; colspan: number; rowspan: number };
+  @property({ attribute: false, type: Object }) renderCell: (context:CellContext)=> TemplateResult<1> | { template: TemplateResult<1>; colspan?: number; rowspan?: number;editor:TemplateResult<1> };
+ 
 
   /**是否隐藏此列 */
   @property({ type: Boolean, reflect: true, attribute: true })

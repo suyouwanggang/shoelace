@@ -35,14 +35,15 @@ Table 组件
                 { id: 10006, name: 'Test6', role: 'Designer', sex: 'Women', age: 21, address: 'Javascript 从入门到放弃' },
                 { id: 10007, name: 'Test7', role: 'Test', sex: 'Man', age: 29, address: 'Javascript 从入门到放弃' },
                 { id: 10008, name: 'Test8', role: 'Develop', sex: 'Man', age: 35, address: 'Javascript 从入门到放弃' }];
-      document.querySelector('sl-column#index[field=index]').renderCell=(column,rowData,index)=>{
-          return index;
+      document.querySelector('sl-column#index[field=index]').renderCell=({column,rowData,rowIndex})=>{
+          return rowIndex;
     }
     
     for(let i=0,j=20000-11;i<j;i++){
-        dateList.push( { id: i, name: 'Test add'+i, role: 'Test1', sex: 'Man', age: 28, address: 'Javascript 从入门到放弃'+i });
+        dateList.push( { id: i, name: 'Test add'+i, role: 'Test1', sex: Math.random()>0.5?'Man':'Women', age: 28, address: 'Javascript 从入门到放弃'+i });
     }
     table.tableHeight=500;
+    
 
     //启用虚拟滚动
     table.enableVirtualScroll=true;
@@ -92,9 +93,9 @@ Table 组件
     }
 
     //必须配置的行扩展渲染函数，
-    //第一个参数，是行数据，第二个参数是所有列
-    //如果是lazy模式，则第三个参数是lazyLoadData
-    table.expandRowRender=(rowData,columns,layLoadData)=>{
+    //第一个参数，是RowContext，第二个参数是所有的列
+    //如果是lazy模式，则第三个参数是加载方法的返回结果：lazyLoadData
+    table.expandRowRender=({rowData},columns,layLoadData)=>{
         let lazyResult=layLoadData?html`懒加载数据：${JSON.stringify(layLoadData)}`:'';
         let result=html`<tr><td colspan=${columns.length} >
             <div style=' width:80%;display:grid;grid-template-columns: repeat(2,1fr);'>
@@ -245,9 +246,9 @@ Table 组件
     }
 
     //必须配置的行扩展渲染函数，
-    //第一个参数，是行数据，第二个参数是所有列
+    //第一个参数，是rowContext数据，第二个参数是所有列
     //如果是lazy模式，则第三个参数是lazyLoadData
-    table.expandRowRender=(rowData,columns,layLoadData)=>{
+    table.expandRowRender=({rowData},columns,layLoadData)=>{
         let layResult=layLoadData?html`  
             懒加载数据${JSON.stringify(layLoadData)}`:'';
         let result=html`<tr><td colspan=${columns.length}>
@@ -297,10 +298,10 @@ Table 组件
     `;
      //自定义tbody tr class
      //rowData 行数据源对象，index 为rowData 在数据源中的序号
-    table.customRenderRowClassMap=(rowData,index)=>{
+    table.customRenderRowClassMap=({rowData,rowIndex})=>{
         return {
-                red:index%2==0,
-                green:index%2==1
+                red:rowIndex%2==0,
+                green:rowIndex%2==1
         };
     };
 ```
@@ -309,9 +310,9 @@ Table 组件
     //获取table 对象
     let table=document.querySelector('#tableDIV');
      //自定义tbody tr class
-     //column 为列，rowData 行数据源对象，index 为rowData 在数据源中的序号
+     // 参数为obj:CellContext
      //给name 列， rowData['name']=='Test4',设置特殊背景色
-    table.customRenderCellStyle=(column,rowData,index)=>{
+    table.customRenderCellStyle=({column,rowData})=>{
         return {
             'font-size':column.field=='name'&&rowData['name']=='Test1'?'20px':'14px'
         };
@@ -326,18 +327,31 @@ Table 组件
     `;
     //自定义tbody tr td class
     //给name列添加class: name, 给sex 列且sex='Women' 添加class :sexWomen,
-    table.customRenderCellClassMap=(column,rowData,index)=>{
+    table.customRenderCellClassMap=({column,rowData})=>{
         return {
             name:column.field=='name',
             sexWomen:column.field=='sex'&&rowData['sex']=='Women'  
         };
     };
+
+
+    //同时给Td设置 属性，style,class
+    table.customRenderRowSpread=({rowData,rowIndex})=>{
+        return {
+            '.Value':rowData,
+            '.Index':rowIndex,
+            style:{'font-weight':'bold',color:rowIndex%2==0?'red':''},
+            class:['class01','class02'],
+            '@click':(event)=>{console.log(rowData);console.log(rowIndex);}
+        }
+    }
 ```
 ### 自定义单元格渲染
 ```javascript
     //获取table 对象
     let table=document.querySelector('#tableDIV');
-    document.querySelector('sl-column[field=sex]').renderCell=(column,rowData,index)=>{
+    //renderCell 接收CellContext 
+    document.querySelector('sl-column[field=sex]').renderCell=({rowData})=>{
         let sex=rowData['sex'].toLowerCase();
         return window.html`${sex=='man'?'男人':'女人'}`;
     }
@@ -346,9 +360,37 @@ Table 组件
 ```javascript
     //获取table 对象
     let table=document.querySelector('#tableDIV');
-    document.querySelector('sl-column[field=sex]').renderCol=(column)=>{
+    //renderCell 接收 CellHeadContext 作为参数
+    document.querySelector('sl-column[field=sex]').renderCol=({column})=>{
         return window.html`<span>${column.label} <font color='red'>*</font>`;
     }
+    //给th 自定义style
+    table.customRenderCellHeadStyle=({column})=>{
+        return {
+            'font-weight':column.field=='name'?'bold':''
+        }
+    }
+    table.customStyle=`.class01{color:red}`;
+     //给th 自定义class
+    table.customRenderCellHeadClassMap=({column})=>{
+        return {
+            'class01':column.field=='name'
+        }
+    }
+
+     //给th  同时自定义属性，style,class, 事件
+    table.customRenderCellHeadSpread=({column,colIndex,colRowIndex})=>{
+        return {
+            field:column.field,
+            '@click':(event)=>{
+                console.log(column.field);
+            },
+            '.Index':colIndex,
+            '.colRowIndex':colRowIndex
+        }
+    }
+
+
 ```
 
 ### 单元格合并
@@ -357,13 +399,12 @@ Table 组件
     let table=document.querySelector('#tableDIV');
     let dateList=table.dataSource;
     //自定义TD 的渲染函数 ：//性别列，向下相等的合并
-    table.querySelector('sl-column[field=sex]').renderCell=(column,rowData,rowIndex)=>{
+    table.querySelector('sl-column[field=sex]').renderCell=({column,rowData,rowIndex})=>{
         if(rowIndex==0)  {
            lastSex=null;
         }
         let value=rowData[column.field];
         if(value==lastSex){//如果性别等于上一次的性别，则此单元格被合并，不渲染
-            lastSex=value;
             return null; 
         }
         let _rowSpan_=1;
@@ -383,7 +424,7 @@ Table 组件
     };
 
     //第一行 name 列 和后面列合并
-    table.querySelector('sl-column[field=name]').renderCell=(column,rowData,rowIndex)=>{
+    table.querySelector('sl-column[field=name]').renderCell=({column,rowData,rowIndex})=>{
         if(rowIndex==0){
             return {
                 template:html`${rowData[column.field]}`,
@@ -394,7 +435,7 @@ Table 组件
         }
     };
 
-   table.querySelector('sl-column[field=name]').nextElementSibling.renderCell=(column,rowData,rowIndex)=>{
+   table.querySelector('sl-column[field=name]').nextElementSibling.renderCell=({column,rowData,rowIndex})=>{
         if(rowIndex==0){
             return null;
         }else{

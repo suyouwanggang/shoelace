@@ -225,8 +225,19 @@ function fullscreen(el: HTMLElement | Window | Document): Promise<any> {
     return ele.msRequestFullscreen();
   }
 }
-
+const isObject=(obj:any):obj is object=>{
+  return typeof obj=='object'&& obj!=null;
+}
+const isArray=(obj:any):obj is Array<any>=>{
+  return obj!=null&&Object.prototype.toString.call(obj)== '[object Array]';
+}
+ const  isFunction=(fun:any):fun is Function=> {
+  return typeof fun === 'function';
+}
 export {
+  isObject,
+  isArray,
+  isFunction,
   getOffset,
   getCssValue,
   animateCss,

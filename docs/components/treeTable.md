@@ -14,12 +14,12 @@ Table 组件启用TreeTable 需要设置treeConfig属性
 </sl-table>
 <script >
     const table=document.querySelector('#tableDIV');
-    table.children[1].renderCell=(column,rowData,index)=>{
+    table.children[1].renderCell=({rowData,rowIndex})=>{
         return html`<span>${rowData.name}<span>`;
     };
     table.cacheKey='tableDIV';
-    table.children[0].renderCell=(column,rowData,index)=>{
-        return html`${index+1}`;
+    table.children[0].renderCell=({rowIndex})=>{
+        return html`${rowIndex+1}`;
     }
     table.treeConfig={};
     const dateList=[
@@ -71,15 +71,15 @@ Table 组件启用TreeTable 懒加载 ,和虚拟滚动加载
     const table2=document.querySelector('#tableDIV2');
     table2.treeConfig={treeNodeColumn:'name',lazy:true ,hasChildProp:'hasChild'};
     //指定TreeNode 渲染在 column field=type 列，同时支持懒加载
-    table2.children[0].renderCell=(column,rowData,index)=>{
-        return html`${index+1}`;
+    table2.children[0].renderCell=({rowIndex})=>{
+        return html`${rowIndex+1}`;
     };
     table2.cacheKey='treeTable';
-    table2.loadingNodeMethod=(nodeData,parentData)=>{
-        let name=nodeData.name;
+    table2.treeLoadingNodeMethod=({rowData,parentData})=>{
+        let name=rowData.name;
         let result=[];
         for(let i=0;i<200;i++){
-            result.push({name:' ajax chapter'+(i+1),type:'mp3',size:nodeData.size+(i*1000),date:'2028-08-11',hasChild:Math.random()>0.6});
+            result.push({name:' ajax chapter'+(i+1),type:'mp3',size:rowData.size+(i*1000),date:'2028-08-11',hasChild:Math.random()>0.6});
         }   
         return new Promise((resolve)=>{
             window.setTimeout(()=>{

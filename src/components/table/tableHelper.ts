@@ -203,11 +203,11 @@ export const findLastCanChangeWidth = (column: SlColumn): SlColumn => {
  * @param column
  *
  */
-export const getThCellByColumn = (column: SlColumn): HTMLTableHeaderCellElement => {
+export const getThCellByColumn = (column: SlColumn): HTMLTableCellElement => {
   const table = column.table;
   const array = table.thead.querySelectorAll('th,td');
   const result = Array.from(array).find((item: Element) => (item as any).columnData == column);
-  return result as HTMLTableHeaderCellElement;
+  return result as HTMLTableCellElement;
 };
 /**
  * 判断列 是否包含 子列

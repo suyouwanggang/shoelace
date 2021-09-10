@@ -1,3 +1,5 @@
+import SlColumn from '../column/column';
+import { TreeNodeData } from '../tree-node/tree-node-util';
 import { SortingEnum } from './tableHelper';
 
 /**
@@ -67,3 +69,54 @@ export const defaultTreeConfig: TreeConfig = {
   treeNodeColumn: 'name',
   hasChildProp: 'hasChild'
 };
+/** Table 行上下文 */
+export type RowContext={
+  /** 行数据 */
+  rowData:any,
+  /** 行数据顺序号 */
+  rowIndex:number,
+
+  /** TreeTable： rowData对应的上级数据 */
+  parentData?:TreeNodeData,
+  /** TreeTable： 对应树的层次深度 */
+  level?:number,
+  /***TreeTable 如果过滤 rowData 对应的原始数据  */
+  originalData?:TreeNodeData,
+  /***TreeTable 过滤，为orginalData 的上级原始数据 */
+  originalParentData?:TreeNodeData,
+}
+/** Table TD 上下文 */
+export type CellContext={
+  /**列column */
+  column:SlColumn,
+  /** 行数据 */
+  rowData:any,
+  /** 行数据顺序号 */
+  rowIndex:number,
+  /**column 渲染顺序，从0 开始  */
+  colIndex:number,
+
+
+  /** TreeTable 的时候，上级数据 */
+  parentData?:TreeNodeData,
+  /** TreeTable 的时候，对应树的层次深度 */
+  level?:number,
+  /***TreeTable 如果过滤 rowData 对应的原始数据  */
+  originalData?:TreeNodeData,
+  /***TreeTable 过滤，为orginalData 的上级原始数据  */
+  originalParentData?:TreeNodeData,
+}
+
+/** Table TH 上下文 */
+export type CellHeadContext={
+  /**列 column */
+  column:SlColumn,
+  /**column index，从0 开始  */
+  colIndex:number,
+  /** 列column 所在表头行号 */
+  colRowIndex:number,
+  /** 列跨多少行 */
+  rowspan:number,
+  /** 跨多少列 */
+  colspan:number,
+}

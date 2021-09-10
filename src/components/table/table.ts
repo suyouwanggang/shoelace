@@ -1,9 +1,11 @@
-import { html, LitElement, nothing, PropertyValues, svg, TemplateResult } from 'lit';
+import { html, LitElement, nothing, PropertyValues, TemplateResult } from 'lit';
 import { ClassInfo, classMap } from 'lit-html/directives/class-map';
 import { StyleInfo, styleMap } from 'lit-html/directives/style-map';
 import { customElement, property, query, state } from 'lit/decorators.js';
+import { ref } from 'lit/directives/ref.js';
 import { customStyle } from '../../internal/customStyle';
 import { emit } from '../../internal/event';
+import { spread, SpreadResult } from '../../internal/spread';
 import { watch } from '../../internal/watch';
 import { watchProps } from '../../internal/watchProps';
 import { getResouceValue } from '../../utilities/getResouce';
@@ -14,11 +16,31 @@ import '../spinner/spinner';
 import { iteratorNodeData, TreeNodeData } from '../tree-node/tree-node-util';
 import styles from './table.styles';
 import { removeTableCacheByKey, restoreFromLocalCache } from './tableCacheHelper';
-import { defaultSortConfig, defaultTreeConfig, SortConfig, SortValue, TreeConfig } from './tableConfig';
-import caculateColumnData, { RowHeader } from './tableHelper';
-import { renderTdCellTemplate, renderThColTemplate } from './tableRenderHelper';
-import { connectTableHanlder, getTreeNodeAllChildrenSize } from './tableTreeHelper';
+import { CellContext, CellHeadContext, defaultSortConfig, defaultTreeConfig, RowContext, SortConfig, SortValue, TreeConfig } from './tableConfig';
+import { connectTableHanlder, getTreeNodeAllChildrenSize } from './tableEventHelper';
+import caculateColumnData, { getColumnCacheData, RowHeader } from './tableHelper';
+import { getCellContext, getHeadCellContext, renderTdCellTemplate, renderThColTemplate } from './tableRenderHelper';
 import { vituralScrollCalc } from './virtualScroll';
+
+const rowContextMap=new WeakMap<HTMLTableRowElement,RowContext>();
+const setRowContext=(tr:HTMLTableRowElement,context:RowContext)=>{
+  if(tr){
+    rowContextMap.set(tr,context);
+  } 
+}
+/** 获取 table tbody tr 上下文 */
+export const getRowContext=(tr:HTMLTableRowElement)=>{
+  return rowContextMap.get(tr) as RowContext;
+}
+
+export type TreeNodeCacheType = {
+  node: TreeNodeData;
+  parent: TreeNodeData;
+  level: number;
+  seqno: number;
+};
+
+let componentID = 0;
 
 /**
  * @since 2.0
@@ -36,36 +58,36 @@ import { vituralScrollCalc } from './virtualScroll';
  * @event {{column:SLColumn,change:改变的宽度}}  sl-table-column-resize - Emitted table column width change by drag. 拖动列事件
  *
  *
- * @event {{dom:HTMLElement,column:SlColumn, node:nodeData,parentData:parentNodeData}}  sl-tree-node-before-open - Emitted before table tree node to open   . tree 事件
- * @event {{dom:HTMLElement,column:SlColumn, node:nodeData,parentData:parentNodeData}}  sl-tree-node-before-close - Emitted before table tree node to close  . tree 事件
- * @event {{dom:HTMLElement,column:SlColumn, node:nodeData,parentData:parentNodeData}}  sl-tree-node-before-toogle - Emitted before table tbody td node state toogle  . tree 事件
- * @event {{dom:HTMLElement,column:SlColumn, node:nodeData,parentData:parentNodeData}}  sl-tree-node-open - Emitted after table tbody td node state toogle  . tree 事件
- * @event {{dom:HTMLElement,column:SlColumn, node:nodeData,parentData:parentNodeData}}  sl-tree-node-toogle - Emitted after table tbody td node state toogle  .tree 事件
- * @event {{dom:HTMLElement,column:SlColumn, node:nodeData,parentData:parentNodeData}}  sl-tree-node-loaded - after table tree node lazy load children end  .tree load 事件
- * @event {{dom:HTMLElement,column:SlColumn, node:nodeData,parentData:parentNodeData}}  sl-tree-node-load-error - Emitted after table tbody td node state toogle  .tree 事件
+ * @event {{dom:HTMLElement,...cellContext}}  sl-tree-node-before-open - Emitted before table tree node to open   . tree 事件
+ * @event {{dom:HTMLElement,...cellContext}}  sl-tree-node-before-close - Emitted before table tree node to close  . tree 事件
+ * @event {{dom:HTMLElement,...cellContext}}  sl-tree-node-before-toogle - Emitted before table tbody td node state toogle  . tree 事件
+ * @event {{dom:HTMLElement,...cellContext}}  sl-tree-node-open - Emitted after table tbody td node state toogle  . tree 事件
+ * @event {{dom:HTMLElement,...cellContext}}  sl-tree-node-toogle - Emitted after table tbody td node state toogle  .tree 事件
+ * @event {{dom:HTMLElement,...cellContext}}  sl-tree-node-loaded - after table tree node lazy load children end  .tree load 事件
+ * @event {{dom:HTMLElement,...cellContext}}  sl-tree-node-load-error - Emitted after table tbody td node state toogle  .tree 事件
  *
  *  //tbody 行，tbody td 事件
- * @event {{row:TR,rowData:行数据}}  sl-table-tr-click - Emitted table tbody tr click  .
- * @event {{row:TR,rowData:行数据}}  sl-table-tr-dblclick - Emitted table tbody tr dblclick  .
- * @event {{row:TR,rowData:行数据}}  sl-table-tr-keydown - Emitted table tbody tr keydown  .
- * @event {{row:TR,rowData:行数据}}  sl-table-tr-keypress - Emitted table tbody tr keypress  .
- * @event {{row:TR,rowData:行数据}}  sl-table-tr-mousedown - Emitted table tbody tr mousedown  .
- * @event {{row:TR,rowData:行数据}}  sl-table-tr-mouseenter - Emitted table tbody tr mouseenter  .
- * @event {{row:TR,rowData:行数据}}  sl-table-tr-mouseleave - Emitted table tbody tr mouseleave  .
- * @event {{row:TR,rowData:行数据}}  sl-table-tr-mousemove - Emitted table tbody tr mousemove  .
- * @event {{row:TR,rowData:行数据}}  sl-table-tr-mouseout - Emitted table tbody tr mouseout  .
- * @event {{row:TR,rowData:行数据}}  sl-table-tr-mouseover - Emitted table tbody tr mouseover  .
- * @event {{row:TR,rowData:行数据}}  sl-table-tr-mouseup - Emitted table tbody tr mouseup  .
- * @event {{row:TR,td:cell,rowData:行数据,column:SlColumn}}  sl-table-td-click - Emitted table tbody td click  .
- * @event {{row:TR,td:cell,rowData:行数据,column:SlColumn}}  sl-table-td-dblclick - Emitted table tbody td dblclick  .
- * @event {{row:TR,td:cell,rowData:行数据,column:SlColumn}}  sl-table-td-keydown - Emitted table tbody td keydown  .
- * @event {{row:TR,td:cell,rowData:行数据,column:SlColumn}}  sl-table-td-keypress - Emitted table tbody td keypress  .
- * @event {{row:TR,td:cell,rowData:行数据,column:SlColumn}}  sl-table-td-mousedown - Emitted table tbody td mousedown  .
- * @event {{row:TR,td:cell,rowData:行数据,column:SlColumn}}  sl-table-td-mouseenter - Emitted table tbody td mouseenter  .
- * @event {{row:TR,td:cell,rowData:行数据,column:SlColumn}}  sl-table-td-mouseleave - Emitted table tbody td mouseleave  .
- * @event {{row:TR,td:cell,rowData:行数据,column:SlColumn}}  sl-table-td-mousemove - Emitted table tbody td mousemove  .
- * @event {{row:TR,td:cell,rowData:行数据,column:SlColumn}}  sl-table-td-mouseout - Emitted table tbody td mouseout  .
- * @event {{row:TR,td:cell,rowData:行数据,column:SlColumn}}  sl-table-td-mouseover - Emitted table tbody td mouseover  .
+ * @event {{row:TR,...rowContext}}  sl-table-tr-click - Emitted table tbody tr click  .
+ * @event {{row:TR,...rowContext}}  sl-table-tr-dblclick - Emitted table tbody tr dblclick  .
+ * @event {{row:TR,...rowContext}}  sl-table-tr-keydown - Emitted table tbody tr keydown  .
+ * @event {{row:TR,...rowContext}}  sl-table-tr-keypress - Emitted table tbody tr keypress  .
+ * @event {{row:TR,...rowContext}}  sl-table-tr-mousedown - Emitted table tbody tr mousedown  .
+ * @event {{row:TR,...rowContext}}  sl-table-tr-mouseenter - Emitted table tbody tr mouseenter  .
+ * @event {{row:TR,...rowContext}}  sl-table-tr-mouseleave - Emitted table tbody tr mouseleave  .
+ * @event {{row:TR,...rowContext}}  sl-table-tr-mousemove - Emitted table tbody tr mousemove  .
+ * @event {{row:TR,...rowContext}}  sl-table-tr-mouseout - Emitted table tbody tr mouseout  .
+ * @event {{row:TR,...rowContext}}  sl-table-tr-mouseover - Emitted table tbody tr mouseover  .
+ * @event {{row:TR,...rowContext}}  sl-table-tr-mouseup - Emitted table tbody tr mouseup  .
+ * @event {{row:TR,td:cell,...cellContext}}  sl-table-td-click - Emitted table tbody td click  .
+ * @event {{row:TR,td:cell,...cellContext}}  sl-table-td-dblclick - Emitted table tbody td dblclick  .
+ * @event {{row:TR,td:cell,...cellContext}}  sl-table-td-keydown - Emitted table tbody td keydown  .
+ * @event {{row:TR,td:cell,...cellContext}}  sl-table-td-keypress - Emitted table tbody td keypress  .
+ * @event {{row:TR,td:cell,...cellContext}}  sl-table-td-mousedown - Emitted table tbody td mousedown  .
+ * @event {{row:TR,td:cell,...cellContext}}  sl-table-td-mouseenter - Emitted table tbody td mouseenter  .
+ * @event {{row:TR,td:cell,...cellContext}}  sl-table-td-mouseleave - Emitted table tbody td mouseleave  .
+ * @event {{row:TR,td:cell,...cellContext}}  sl-table-td-mousemove - Emitted table tbody td mousemove  .
+ * @event {{row:TR,td:cell,...cellContext}}  sl-table-td-mouseout - Emitted table tbody td mouseout  .
+ * @event {{row:TR,td:cell,...cellContext}}  sl-table-td-mouseover - Emitted table tbody td mouseover  .
  *
  *
  *
@@ -90,13 +112,6 @@ import { vituralScrollCalc } from './virtualScroll';
  * @cssproperty --sl-table-td-bottom-width -1px，定义表格单元格底侧的线条宽度
  *
  */
-export type TreeNodeCacheType = {
-  node: TreeNodeData;
-  parent: TreeNodeData;
-  level: number;
-  seqno: number;
-};
-let componentID = 0;
 @customStyle()
 @customElement('sl-table')
 export default class SlTable extends LitElement {
@@ -183,32 +198,24 @@ export default class SlTable extends LitElement {
 
   @state()
   private innerDataSource: unknown[];
-  public static closeNodeSvg = svg`<svg xmlns="http://www.w3.org/2000/svg" id="caret-right-fill" fill="currentColor" viewBox="0 0 16 16" >
-                <use xlink:href="/assets/icons/sprite.svg#caret-right-fill"></use>
-  </svg>`;
-  public static openNodeSvg = svg`<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" id="caret-down-fill"><path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 01.753 1.659l-4.796 5.48a1 1 0 01-1.506 0z"></path></svg>`;
+ 
 
-  public static expendCloseSvg = svg`<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"  viewBox="0 0 16 16" id="chevron-right"><path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 01.708 0l6 6a.5.5 0 010 .708l-6 6a.5.5 0 01-.708-.708L10.293 8 4.646 2.354a.5.5 0 010-.708z"></path></svg>`;
-
-  public static expendOpendSvg = svg`<svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 16 16" id="chevron-down"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 01.708 0L8 10.293l5.646-5.647a.5.5 0 01.708.708l-6 6a.5.5 0 01-.708 0l-6-6a.5.5 0 010-.708z"></path></svg>`;
-  /**  当启用TreeConfig ,此时树节点自定义渲染 */
-  @property({ type: Object })
-  customRenderTreeNode: (rowData: TreeNodeData, parentData: TreeNodeData, level: number) => TemplateResult<1>;
-
-  protected treeNodeHasChildren(rowData: TreeNodeData) {
+  public treeNodeHasChildren(rowData: TreeNodeData) {
     if (typeof rowData.children == 'undefined' && this.treeConfig && this.treeConfig.lazy) {
       return rowData[this.treeConfig.hasChildProp as string];
     } else {
       return rowData.children ? rowData.children.length > 0 : false;
     }
   }
+  
   /** 当为Tree的时候，存储哪些 正在加载中的TreeNodeData */
   @property({ type: Array, attribute: false })
-  currentLoadingNode: TreeNodeData[] = [];
+  treeLoadingNode: TreeNodeData[] = [];
 
   /** 加载TreeNode 子数据，接收参数nodeData,parentData */
   @property({ type: Object })
-  loadingNodeMethod: (nodeData: TreeNodeData, parentData: TreeNodeData) => Promise<Array<TreeNodeData>>;
+  treeLoadingNodeMethod: (context:RowContext,column:SlColumn) => Promise<Array<TreeNodeData>>;
+
 
   /** 存储哪些行数据是展开的 */
   @property({ type: Array, attribute: false })
@@ -232,17 +239,16 @@ export default class SlTable extends LitElement {
 
   /** 存储正在展开的行数据 */
   @state()
-  currentExpandingRowData: Array<unknown> = [];
+  expandingRowData: Array<unknown> = [];
 
-  /**方法：指定如何渲染扩展行，接收行数据和叶子columns， 返回的应该是<tr>Template Result */
+  /** 方法：指定如何渲染扩展行，接收行数据和叶子columns， 返回的应该是<tr>Template Result */
   @property({ type: Object, attribute: false })
-  expandRowRender: (rowData: unknown, columns: SlColumn[], layLoadData?: any) => TemplateResult<1>;
+  expandRowRender: (rowContext: RowContext, columns: SlColumn[], layLoadData?: any) => TemplateResult<1>;
+  /** 存储已经加载过的扩展数据  */
+  @property({type:Object})
+  cacheExpandLazyLoadDataMap = new Map<any, any>();
 
-  private _cacheExpandLazyLoadDataMap = new Map<any, any>();
-
-  public get cacheExpandLazyLoadDataMap() {
-    return this._cacheExpandLazyLoadDataMap;
-  }
+ 
   /**
    * 展开行数据的扩展 数据
    * @param rowData table 行绑定的数据
@@ -279,54 +285,7 @@ export default class SlTable extends LitElement {
       });
     }
   }
-  /**
-   * 内部使用封装td 渲染的数据，实现特殊功能
-   * @param column
-   * @param rowData
-   * @param wrap
-   * @returns
-   */
-  public wrapColumnFieldTemplate(column: SlColumn, rowData: TreeNodeData, wrap: TemplateResult<1>) {
-    if (column.field && this.treeConfig && column.field == this.treeConfig.treeNodeColumn) {
-      let parentData = this.getRowDataParentData(rowData);
-      let level = this.getRowDataTreeLevel(rowData) as number;
-      if (typeof rowData.close == 'undefined') {
-        rowData.close = true;
-      }
-      let closed = rowData.close;
-      let span = html`<span class="tree-node-icon" componentID=${this.componentID} part="tree-node-toogle"
-        >${this.currentLoadingNode.includes(rowData)
-          ? html`<sl-spinner part="tree-node-loading"></sl-spinner>`
-          : closed
-          ? SlTable.closeNodeSvg
-          : SlTable.openNodeSvg}
-      </span>`;
-      return html`<div
-        part="tree-node"
-        class="tree-node ${this.treeNodeNoWrap ? 'nowrap-tree-node' : ''} ${closed ? 'closed' : ''}"
-      >
-        <div class="tree-node-inner" style="padding-left:${level * (this.treeConfig.indent as number)}px;">
-          ${this.treeNodeHasChildren(rowData) ? span : html`<span class="tree-node-empty-node"></span>`}
-          ${rowData.icon ? html`<sl-icon class="tree-node-icon" name=${rowData.icon}></sl-icon>` : ''}
-          ${this.customRenderTreeNode ? this.customRenderTreeNode(rowData, parentData, level) : ''} ${wrap}
-        </div>
-      </div>`;
-    } else if (column.field && this.expandColumn && column.field == this.expandColumn) {
-      const opened = this.expandRowData.includes(rowData);
-      return html`<div class="expand-toogle" part="expand-wrap">
-        <span class="expand-toogle-icon" componentID=${column.table.componentID} part="expand-toogle-icon">
-          ${this.currentExpandingRowData.includes(rowData)
-            ? html`<sl-spinner part="expand-loading"></sl-spinner>`
-            : opened
-            ? SlTable.expendOpendSvg
-            : SlTable.expendCloseSvg}
-        </span>
-        ${wrap}
-      </div>`;
-    }
-    return wrap;
-  }
-
+ 
   /**Tree 列表的时候启用，缓存节点渲染层次 */
   private cacheTreeNodeMap: Map<any, TreeNodeCacheType>;
   /**获取渲染后的 rowData 对应的Tree level */
@@ -338,8 +297,8 @@ export default class SlTable extends LitElement {
     return this.cacheTreeNodeMap.get(rowData)?.parent as TreeNodeData;
   }
 
-  /**获取渲染后的 rowData 对应的父对象 */
-  public getRowDataRowDataIndex(rowData: TreeNodeData) {
+  /**获取渲染后的 rowData 的顺序号 */
+  public getRowDataDataIndex(rowData: TreeNodeData) {
     return this.cacheTreeNodeMap.get(rowData)?.seqno as number;
   }
 
@@ -399,10 +358,11 @@ export default class SlTable extends LitElement {
   /** 设置表格 列固定，例如：fixedColumns="2",则为前两列固定，"2,2" 则为前两列，后两列固定，"0,2" ，[0,2]则为最后两列固定 */
   @property({ attribute: false })
   fixedColumns: string | Array<Number>;
+
   private caculateFixedColumnStyle(col: SlColumn, tableRect: DOMRect, fixedLeft: boolean) {
-    let td = this.table.querySelector(`td[uniqueid=${col.uniqueID}]`);
+    let td = this.table.querySelector(`td[uniqueid="${col.uniqueID}"]`);
     if (!td) {
-      td = this.table.querySelector(`th[uniqueid=${col.uniqueID}]`);
+      td = this.table.querySelector(`th[uniqueid="${col.uniqueID}"]`);
     }
     if (td) {
       return `
@@ -501,37 +461,64 @@ export default class SlTable extends LitElement {
   /**渲染表头行 theader tr th */
   private _renderTheadRows() {
     const table = this;
-    const trTemplates = (rowColumn: SlColumn[]) => {
+    const trTemplates = (rowColumn: SlColumn[],rowIndex:number) => {
       return html`<tr .columns=${rowColumn}>
-        ${rowColumn.map((col, index) => renderThColTemplate(col, index, table))}
+        ${rowColumn.map( (column,index)=>{
+            const cache=getColumnCacheData(column) ;
+            const context:CellHeadContext={
+              column:column,
+              colIndex:index,
+              rowspan:cache.rowspan as number,
+              colspan:cache.colspan as number,
+              colRowIndex:rowIndex,
+            }
+            return renderThColTemplate(context,table);
+        })}
       </tr>`;
     };
-    return this.theadRows.map(items => trTemplates(items));
+    return this.theadRows.map((items,index) => trTemplates(items,index));
   }
 
+   /**自定义 渲染tbody td的样式 */
   @property({ type: Object })
-  /**自定义 渲染tbody td的样式 */
-  customRenderCellStyle?: (col: SlColumn, rowData: any, rowIndex: number) => StyleInfo;
+  customRenderCellStyle: (context:CellContext) => StyleInfo;
 
-  @property({ type: Object })
+  
   /**自定义 渲染tbody td的class  */
-  customRenderCellClassMap?: (col: SlColumn, rowData: any, rowIndex: number) => ClassInfo | string | string[];
-
   @property({ type: Object })
+  customRenderCellClassMap: (cellContext:CellContext) => ClassInfo | string | string[];
+
+
+  /**自定义 渲染tbody td的 SpreadResult */
+  @property({ type: Object })
+  customRenderCellSpread: (cellContext:CellContext) => SpreadResult;
+
   /**自定义 渲染tHeader th的样式 */
-  customRenderCellHeadStyle?: (col: SlColumn) => StyleInfo;
-
   @property({ type: Object })
-  /**自定义 渲染tbody th的class  */
-  customRenderCellHeadClassMap?: (col: SlColumn) => ClassInfo | string | string[];
+  customRenderCellHeadStyle: (context:CellHeadContext) => StyleInfo;
 
+   /**自定义 渲染thead th的class  */
   @property({ type: Object })
+  customRenderCellHeadClassMap: (context:CellHeadContext) => ClassInfo | string | string[];
+
+  /**自定义 渲染thead  th SpreadResult  */
+  @property({ type: Object })
+  customRenderCellHeadSpread: (context:CellHeadContext) => SpreadResult;
+
   /**自定义 渲染tbody tr的样式 */
-  customRenderRowStyle?: (rowData: any, rowIndex: number) => StyleInfo;
-
   @property({ type: Object })
-  /**自定义 渲染tHeader tr的样式 */
-  customRenderRowClassMap?: (rowData: any, rowIndex: number) => ClassInfo | string | string[];
+  customRenderRowStyle: (rowContext:RowContext) => StyleInfo;
+
+   /**自定义 渲染tHeader tr的样式 */
+  @property({ type: Object })
+  customRenderRowClassMap: (rowContext:RowContext) => ClassInfo | string | string[];
+
+
+ /**自定义 渲染tbody td的Spread */
+  @property({ type: Object })
+  customRenderRowSpread: (rowContext:RowContext) => SpreadResult;
+
+  
 
   /** 虚拟滚动行高 */
   @property({ type: Number, attribute: false })
@@ -575,9 +562,9 @@ export default class SlTable extends LitElement {
     } else {
       this.innerDataSource = this.dataSource;
     }
-    this._cacheExpandLazyLoadDataMap.clear();
+    this.cacheExpandLazyLoadDataMap.clear();
   }
-
+  
   private _renderRowDataBetween(start: number, end: number) {
     const table = this;
     const rowList: unknown[] = [];
@@ -588,18 +575,32 @@ export default class SlTable extends LitElement {
       let index = i;
       //行循环
       let rowData = dataSource[index] as TreeNodeData;
-      let seqNo = table.treeConfig ? this.getRowDataRowDataIndex(rowData) : index;
+      const rowContext:RowContext={
+        rowData,
+        rowIndex:index
+      };
+      if(table.treeConfig){
+        rowContext.level=this.getRowDataTreeLevel(rowData);
+        rowContext.parentData=this.getRowDataParentData(rowData);
+        rowContext.rowIndex=this.getRowDataDataIndex(rowData);
+      }
+     
       const rowHtml = [];
       for (let x = 0, y = cellTdArray.length; x < y; x++) {
         //TD循环
-        let col = cellTdArray[x];
-        let tdResult = renderTdCellTemplate(col, rowData, seqNo, x, table);
+        const column = cellTdArray[x];
+        const cellContext:CellContext={
+          ...rowContext,
+          column:column,
+          colIndex:x,
+        }
+        const tdResult = renderTdCellTemplate(cellContext, table);
         if (tdResult != nothing && tdResult != null && tdResult != undefined) {
           rowHtml.push(tdResult);
         }
       }
-      let trStyle = this.customRenderRowStyle ? this.customRenderRowStyle(rowData, seqNo) : {};
-      let trClassInfo = this.customRenderRowClassMap ? this.customRenderRowClassMap(rowData, seqNo) : null;
+      const trStyle = this.customRenderRowStyle ? this.customRenderRowStyle(rowContext) : {};
+      const trClassInfo = this.customRenderRowClassMap ? this.customRenderRowClassMap(rowContext) : null;
       let trClassObject: any = {};
       if (trClassInfo) {
         if (Array.isArray(trClassInfo)) {
@@ -610,17 +611,31 @@ export default class SlTable extends LitElement {
           trClassObject = { ...trClassInfo };
         }
       }
+      const rowSpreadResult=this.customRenderRowSpread? this.customRenderRowSpread(rowContext):undefined;
       rowList.push(
-        html`<tr .rowData=${rowData} style=${styleMap(trStyle)} class=${classMap(trClassObject)}>
-          ${rowHtml}
+        html`<tr ${ref((el=>{
+          setRowContext(el as HTMLTableRowElement,rowContext);
+        }))} .rowData=${rowData} style=${styleMap(trStyle)} class=${classMap(trClassObject)}  ${spread(rowSpreadResult)} >
+              ${rowHtml}
         </tr>`
       );
       if (this.expandRowRender && this.expandRowData.includes(rowData)) {
-        rowList.push(this.expandRowRender(rowData, cellTdArray, this._cacheExpandLazyLoadDataMap.get(rowData)));
+         rowList.push(this.expandRowRender(rowContext, cellTdArray, this.cacheExpandLazyLoadDataMap.get(rowData)));
       }
     }
     return rowList;
-    // return html`${repeat(items,(item)=>item,(_item,index)=>rowList[index])}`;
+  }
+  /** 获取 行上下文  */
+  public getRowContext(row:HTMLTableRowElement){
+    return getRowContext(row);
+  }
+  /** 获取 td 上下文  */
+  public getCellContext(td:HTMLTableCellElement){
+    return getCellContext(td);
+  }
+  /** 获取 thead th 上下文  */
+  public getHeadCellContext(th:HTMLTableCellElement){
+    return getHeadCellContext(th);
   }
   private _virtualRenderTbodyRows() {
     if (this.enableVirtualScroll && this.scrollDiv) {
@@ -637,7 +652,7 @@ export default class SlTable extends LitElement {
         scrollTop
       );
       const trTop = html`<tr>
-        <td
+        <td 
           style=${result.paddingTop > 0 ? `height:${result.paddingTop}px;` : 'display:none'}
           colspan=${tdRenderColumns.length}
         >

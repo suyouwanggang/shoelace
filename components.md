@@ -208,6 +208,73 @@
 | `base` | The base wrapper |
 
 
+# sl-breadcrumb-item
+
+## Properties
+
+| Property    | Attribute | Type                                         | Default | Description                                      |
+|-------------|-----------|----------------------------------------------|---------|--------------------------------------------------|
+| `hasPrefix` |           | `boolean`                                    | false   |                                                  |
+| `hasSuffix` |           | `boolean`                                    | false   |                                                  |
+| `href`      | `href`    | `string`                                     |         | Optional link to direct the user to when the breadcrumb item is activated. |
+| `target`    | `target`  | `"_blank" \| "_parent" \| "_self" \| "_top"` |         | Tells the browser where to open the link. Only used when `href` is set. |
+
+## Methods
+
+| Method             | Type       |
+|--------------------|------------|
+| `handleSlotChange` | `(): void` |
+
+## Slots
+
+| Name        | Description                                      |
+|-------------|--------------------------------------------------|
+|             | The breadcrumb item's label.                     |
+| `prefix`    | An optional prefix, usually an icon or icon button. |
+| `separator` | The separator to use for the breadcrumb item. This will only change the separator for this item. If<br />you want to change it for all items in the group, set the separator on `<sl-breadcrumb>` instead. |
+| `suffix`    | An optional suffix, usually an icon or icon button. |
+
+## CSS Shadow Parts
+
+| Part        | Description                                  |
+|-------------|----------------------------------------------|
+| `base`      | The component's base wrapper.                |
+| `label`     | The breadcrumb item's label.                 |
+| `prefix`    | The container that wraps the prefix slot.    |
+| `separator` | The container that wraps the separator slot. |
+| `suffix`    | The container that wraps the suffix slot.    |
+
+
+# sl-breadcrumb
+
+## Properties
+
+| Property        | Attribute | Type              | Default      | Description                                      |
+|-----------------|-----------|-------------------|--------------|--------------------------------------------------|
+| `defaultSlot`   |           | `HTMLSlotElement` |              |                                                  |
+| `label`         | `label`   | `string`          | "Breadcrumb" | The label to use for the breadcrumb control. This will not be shown, but it will be announced by screen readers and<br />other assistive devices. |
+| `separatorSlot` |           | `HTMLSlotElement` |              |                                                  |
+
+## Methods
+
+| Method             | Type       |
+|--------------------|------------|
+| `handleSlotChange` | `(): void` |
+
+## Slots
+
+| Name        | Description                                    |
+|-------------|------------------------------------------------|
+|             | One or more breadcrumb items to display.       |
+| `separator` | The separator to use between breadcrumb items. |
+
+## CSS Shadow Parts
+
+| Part   | Description                   |
+|--------|-------------------------------|
+| `base` | The component's base wrapper. |
+
+
 # sl-button-group
 
 ## Properties
@@ -364,7 +431,6 @@
 | `handleClick`          | `(): void`                                    |                                                  |
 | `handleDisabledChange` | `(): void`                                    |                                                  |
 | `handleFocus`          | `(): void`                                    |                                                  |
-| `handleLabelMouseDown` | `(event: MouseEvent): void`                   |                                                  |
 | `handleStateChange`    | `(): void`                                    |                                                  |
 | `reportValidity`       | `(): boolean`                                 | Checks for validity and shows the browser's validation message if the control is invalid. |
 | `setCustomValidity`    | `(message: string): void`                     | Sets a custom validation message. If `message` is not empty, the field will be considered invalid. |
@@ -398,11 +464,11 @@
 
 ## Properties
 
-| Property        | Attribute | Modifiers | Type          | Default |
-|-----------------|-----------|-----------|---------------|---------|
-| `activeTab`     |           | readonly  | `SlAcPanel[]` |         |
-| `childTabPanel` |           | readonly  | `SlAcPanel[]` |         |
-| `multi`         | `multi`   |           | `boolean`     | false   |
+| Property        | Attribute | Modifiers | Type          | Default | Description |
+|-----------------|-----------|-----------|---------------|---------|-------------|
+| `activeTab`     |           | readonly  | `SlAcPanel[]` |         |             |
+| `childTabPanel` |           | readonly  | `SlAcPanel[]` |         |             |
+| `multi`         | `multi`   |           | `boolean`     | false   | 是否允许打开多个    |
 
 ## Methods
 
@@ -463,31 +529,31 @@
 
 ## Methods
 
-| Method                    | Type                                             | Description                                      |
-|---------------------------|--------------------------------------------------|--------------------------------------------------|
-| `getFormattedValue`       | `(format?: "hex" \| "rgb" \| "hsl" \| "hexa" \| "rgba" \| "hsla"): string` | Returns the current value as a string in the specified format. |
-| `handleAlphaDrag`         | `(event: any): void`                             |                                                  |
-| `handleAlphaKeyDown`      | `(event: KeyboardEvent): void`                   |                                                  |
-| `handleCopy`              | `(): void`                                       |                                                  |
-| `handleDrag`              | `(event: any, container: HTMLElement, onMove: (x: number, y: number): void) => void` |                                                  |
-| `handleDropdownAfterHide` | `(): void`                                       |                                                  |
-| `handleFormatChange`      | `(): void`                                       |                                                  |
-| `handleFormatToggle`      | `(): void`                                       |                                                  |
-| `handleGridDrag`          | `(event: any): void`                             |                                                  |
-| `handleGridKeyDown`       | `(event: KeyboardEvent): void`                   |                                                  |
-| `handleHueDrag`           | `(event: any): void`                             |                                                  |
-| `handleHueKeyDown`        | `(event: KeyboardEvent): void`                   |                                                  |
-| `handleInputChange`       | `(event: CustomEvent<any>): void`                |                                                  |
-| `handleInputKeyDown`      | `(event: KeyboardEvent): void`                   |                                                  |
-| `handleOpacityChange`     | `(): void`                                       |                                                  |
-| `handleValueChange`       | `(oldValue: string, newValue: string): void`     |                                                  |
-| `normalizeColorString`    | `(colorString: string): string`                  |                                                  |
-| `parseColor`              | `(colorString: string): false \| { hsl: { h: any; s: any; l: any; string: string; }; hsla: { h: any; s: any; l: any; a: any; string: string; }; rgb: { r: any; g: any; b: any; string: string; }; rgba: { r: any; g: any; b: any; a: any; string: string; }; hex: string; hexa: string; }` |                                                  |
-| `reportValidity`          | `(): boolean \| Promise<void>`                   | Checks for validity and shows the browser's validation message if the control is invalid. |
-| `setColor`                | `(colorString: string): boolean`                 |                                                  |
-| `setCustomValidity`       | `(message: string): void`                        | Sets a custom validation message. If `message` is not empty, the field will be considered invalid. |
-| `setLetterCase`           | `(string: string): string`                       |                                                  |
-| `syncValues`              | `(): Promise<void>`                              |                                                  |
+| Method                 | Type                                             | Description                                      |
+|------------------------|--------------------------------------------------|--------------------------------------------------|
+| `getFormattedValue`    | `(format?: "hex" \| "rgb" \| "hsl" \| "hexa" \| "rgba" \| "hsla"): string` | Returns the current value as a string in the specified format. |
+| `handleAfterHide`      | `(): void`                                       |                                                  |
+| `handleAlphaDrag`      | `(event: any): void`                             |                                                  |
+| `handleAlphaKeyDown`   | `(event: KeyboardEvent): void`                   |                                                  |
+| `handleCopy`           | `(): void`                                       |                                                  |
+| `handleDrag`           | `(event: any, container: HTMLElement, onMove: (x: number, y: number): void) => void` |                                                  |
+| `handleFormatChange`   | `(): void`                                       |                                                  |
+| `handleFormatToggle`   | `(): void`                                       |                                                  |
+| `handleGridDrag`       | `(event: any): void`                             |                                                  |
+| `handleGridKeyDown`    | `(event: KeyboardEvent): void`                   |                                                  |
+| `handleHueDrag`        | `(event: any): void`                             |                                                  |
+| `handleHueKeyDown`     | `(event: KeyboardEvent): void`                   |                                                  |
+| `handleInputChange`    | `(event: CustomEvent<any>): void`                |                                                  |
+| `handleInputKeyDown`   | `(event: KeyboardEvent): void`                   |                                                  |
+| `handleOpacityChange`  | `(): void`                                       |                                                  |
+| `handleValueChange`    | `(oldValue: string, newValue: string): void`     |                                                  |
+| `normalizeColorString` | `(colorString: string): string`                  |                                                  |
+| `parseColor`           | `(colorString: string): false \| { hsl: { h: any; s: any; l: any; string: string; }; hsla: { h: any; s: any; l: any; a: any; string: string; }; rgb: { r: any; g: any; b: any; string: string; }; rgba: { r: any; g: any; b: any; a: any; string: string; }; hex: string; hexa: string; }` |                                                  |
+| `reportValidity`       | `(): boolean \| Promise<void>`                   | Checks for validity and shows the browser's validation message if the control is invalid. |
+| `setColor`             | `(colorString: string): boolean`                 |                                                  |
+| `setCustomValidity`    | `(message: string): void`                        | Sets a custom validation message. If `message` is not empty, the field will be considered invalid. |
+| `setLetterCase`        | `(string: string): string`                       |                                                  |
+| `syncValues`           | `(): Promise<void>`                              |                                                  |
 
 ## Events
 
@@ -523,6 +589,40 @@
 | `--slider-handle-size` | The diameter of the slider's handle.      |
 | `--slider-height`      | The height of the hue and alpha sliders.  |
 | `--swatch-size`        | The size of each predefined color swatch. |
+
+
+# sl-column
+
+## Properties
+
+| Property             | Attribute     | Modifiers | Type                                             | Default                        | Description                                      |
+|----------------------|---------------|-----------|--------------------------------------------------|--------------------------------|--------------------------------------------------|
+| `align`              | `align`       |           | `"left" \| "center" \| "right"`                  | "left"                         | 列所对应的TD 的水平对齐方式                                  |
+| `childAllColumn`     |               | readonly  | `SlColumn[]`                                     |                                | 所有直接子column                                      |
+| `childCanShowColumn` |               | readonly  | `SlColumn[]`                                     |                                | 所有hidden!=false直接子column,并且按照order排序了            |
+| `colAlign`           | `col-align`   |           | `"left" \| "center" \| "right"`                  | "center"                       | 列所对应表头TH 的水平对齐方式                                 |
+| `colvAlign`          | `col-valign`  |           | `"top" \| "middle" \| "bottom"`                  | "middle"                       | 列所对应表头TH 的垂直对齐方式                                 |
+| `field`              | `field`       |           | `string`                                         |                                | 列所对应的字段，应该唯一                                     |
+| `hidden`             | `hidden`      |           | `boolean`                                        | false                          | 是否隐藏此列                                           |
+| `label`              | `label`       |           | `string`                                         |                                | 列所对应的label，默认th 就是显示此label                       |
+| `maxWidth`           | `max-width`   |           | `string`                                         |                                | 最大列宽                                             |
+| `minWidth`           | `min-width`   |           | `string`                                         |                                | 最小列宽                                             |
+| `order`              | `order`       |           | `number`                                         | 0                              | 顺序:越小越靠前                                         |
+| `renderCell`         |               |           | `(context: CellContext) => TemplateResult<1> \| { template: TemplateResult<1>; colspan?: number \| undefined; rowspan?: number \| undefined; editor: TemplateResult<...>; }` |                                | 对应TD渲染 ,接收表格column:lie, rowData:行数据,rowDataIndex,columnIndex:列顺序 此对应的TD |
+| `renderCol`          |               |           | `(context: CellHeadContext) => TemplateResult<1>` |                                | 表头自定义渲染(this:SlColumn,table:SlTable):TemplateResult<1> |
+| `resizeAble`         | `resize-able` |           | `boolean`                                        |                                | 是否支持拖动列的宽度                                       |
+| `sortAble`           | `sort-able`   |           | `boolean`                                        |                                | 列是否支持排序                                          |
+| `table`              |               | readonly  | `SlTable`                                        |                                |                                                  |
+| `type`               |               |           | `"index" \| "checkbox" \| "radio"`               |                                | 列的类型                                             |
+| `uniqueID`           | `uniqueID`    |           | `string`                                         | "'unique_' + columnUniqueID++" | 初始化自动生成唯一ID                                      |
+| `vAlign`             | `valign`      |           | `"top" \| "middle" \| "bottom"`                  | "middle"                       | 列所对应的TD 的垂直对齐方式                                  |
+| `width`              | `width`       |           | `string`                                         |                                | 列宽                                               |
+
+## Methods
+
+| Method             | Type       |
+|--------------------|------------|
+| `createRenderRoot` | `(): this` |
 
 
 # sl-date-panel
@@ -579,28 +679,30 @@
 
 ## Properties
 
-| Property          | Attribute   | Modifiers | Type                                             | Default        | Description                                      |
-|-------------------|-------------|-----------|--------------------------------------------------|----------------|--------------------------------------------------|
-| `block`           | `block`     |           | `boolean`                                        | false          | display  as  block div                           |
-| `datePanel`       |             |           | `SlDatePanel`                                    |                |                                                  |
-| `disabled`        | `disabled`  |           | `boolean`                                        | false          | Disables the input.                              |
-| `distance`        |             |           | `number`                                         | 5              | set  dropDown distance for trigger.              |
-| `dropDown`        |             |           | `SlDropdown`                                     |                |                                                  |
-| `hoist`           |             |           | `boolean`                                        | true           | Makes  dropDown hoist.                           |
-| `immediate`       | `immediate` |           | `boolean`                                        | true           | if true,  select a date ,close the dropDown      |
-| `invalid`         | `invalid`   |           | `boolean`                                        | false          |                                                  |
-| `max`             |             |           | `string \| number \| undefined`                  |                | 最大值                                              |
-| `maxDate`         |             | readonly  | `Date \| null \| undefined`                      |                |                                                  |
-| `min`             |             |           | `string \| number \| undefined`                  |                | 最小值                                              |
-| `minDate`         |             | readonly  | `Date \| null \| undefined`                      |                |                                                  |
-| `mode`            | `mode`      |           | `"year" \| "month" \| "date"`                    | "date"         | 选择模式，年，月，日                                       |
-| `pill`            | `pill`      |           | `boolean`                                        | false          | Draws a pill-style button with rounded edges.    |
-| `placement`       | `placement` |           | `"top" \| "top-start" \| "top-end" \| "bottom" \| "bottom-start" \| "bottom-end" \| "right" \| "right-start" \| "right-end" \| "left" \| "left-start" \| "left-end"` | "bottom-start" | The preferred placement of the dropdown panel. Note that the actual placement may vary as needed to keep the panel<br />inside of the viewport. |
-| `readonly`        | `readonly`  |           | `boolean`                                        | false          | Makes the input readonly.                        |
-| `size`            | `size`      |           | `"small" \| "medium" \| "large"`                 | "medium"       | set input size                                   |
-| `value`           | `value`     |           | `string \| undefined`                            |                | 选中日期 ,格式：2018，2018-02, 2018/01， 2018/02/02 ,2018-01-02 |
-| `valueDate`       |             |           | `Date \| undefined`                              |                | 内部 value 所对应的日期                                  |
-| `valueDateString` |             | readonly  | `string`                                         |                | 获取 日期显示值                                         |
+| Property          | Attribute     | Modifiers | Type                                             | Default        | Description                                      |
+|-------------------|---------------|-----------|--------------------------------------------------|----------------|--------------------------------------------------|
+| `block`           | `block`       |           | `boolean`                                        | false          | display  as  block div                           |
+| `clearable`       | `clearable`   |           | `boolean`                                        | false          |                                                  |
+| `datePanel`       |               |           | `SlDatePanel`                                    |                |                                                  |
+| `disabled`        | `disabled`    |           | `boolean`                                        | false          | Disables the input.                              |
+| `distance`        |               |           | `number`                                         | 5              | set  dropDown distance for trigger.              |
+| `dropDown`        |               |           | `SlDropdown`                                     |                |                                                  |
+| `hoist`           |               |           | `boolean`                                        | true           | Makes  dropDown hoist.                           |
+| `immediate`       | `immediate`   |           | `boolean`                                        | true           | if true,  select a date ,close the dropDown      |
+| `invalid`         | `invalid`     |           | `boolean`                                        | false          |                                                  |
+| `max`             |               |           | `string \| number \| undefined`                  |                | 最大值                                              |
+| `maxDate`         |               | readonly  | `Date \| null \| undefined`                      |                |                                                  |
+| `min`             |               |           | `string \| number \| undefined`                  |                | 最小值                                              |
+| `minDate`         |               | readonly  | `Date \| null \| undefined`                      |                |                                                  |
+| `mode`            | `mode`        |           | `"year" \| "month" \| "date"`                    | "date"         | 选择模式，年，月，日                                       |
+| `pill`            | `pill`        |           | `boolean`                                        | false          | Draws a pill-style button with rounded edges.    |
+| `placeholder`     | `placeholder` |           | `string`                                         |                |                                                  |
+| `placement`       | `placement`   |           | `"left" \| "right" \| "top" \| "bottom" \| "top-start" \| "top-end" \| "bottom-start" \| "bottom-end" \| "right-start" \| "right-end" \| "left-start" \| "left-end"` | "bottom-start" | The preferred placement of the dropdown panel. Note that the actual placement may vary as needed to keep the panel<br />inside of the viewport. |
+| `readonly`        | `readonly`    |           | `boolean`                                        | false          | Makes the input readonly.                        |
+| `size`            | `size`        |           | `"small" \| "medium" \| "large"`                 | "medium"       | set input size                                   |
+| `value`           | `value`       |           | `string \| undefined`                            |                | 选中日期 ,格式：2018，2018-02, 2018/01， 2018/02/02 ,2018-01-02 |
+| `valueDate`       |               |           | `Date \| undefined`                              |                | 内部 value 所对应的日期                                  |
+| `valueDateString` |               | readonly  | `string`                                         |                | 获取 日期显示值                                         |
 
 ## Methods
 
@@ -817,7 +919,7 @@
 | `hoist`             | `hoist`               | `boolean`                                        | false          | Enable this option to prevent the panel from being clipped when the component is placed inside a container with<br />`overflow: auto\|scroll`. |
 | `open`              | `open`                | `boolean`                                        | false          | Indicates whether or not the dropdown is open. You can use this in lieu of the show/hide methods. |
 | `panel`             |                       | `HTMLElement`                                    |                |                                                  |
-| `placement`         | `placement`           | `"top" \| "top-start" \| "top-end" \| "bottom" \| "bottom-start" \| "bottom-end" \| "right" \| "right-start" \| "right-end" \| "left" \| "left-start" \| "left-end"` | "bottom-start" | The preferred placement of the dropdown panel. Note that the actual placement may vary as needed to keep the panel<br />inside of the viewport. |
+| `placement`         | `placement`           | `"left" \| "right" \| "top" \| "bottom" \| "top-start" \| "top-end" \| "bottom-start" \| "bottom-end" \| "right-start" \| "right-end" \| "left-start" \| "left-end"` | "bottom-start" | The preferred placement of the dropdown panel. Note that the actual placement may vary as needed to keep the panel<br />inside of the viewport. |
 | `positioner`        |                       | `HTMLElement`                                    |                |                                                  |
 | `skidding`          | `skidding`            | `number`                                         | 0              | The distance in pixels from which to offset the panel along its trigger. |
 | `stayOpenOnSelect`  | `stay-open-on-select` | `boolean`                                        | false          | By default, the dropdown is closed when an item is selected. This attribute will keep it open instead. Useful for<br />controls that allow multiple selections. |
@@ -976,7 +1078,7 @@
 | `showNavButtons`  |                  | `boolean`                                        | true     | 是否显示 左右切换按钮                 |
 | `show_fullscreen` |                  | `boolean`                                        | true     | 是否显示 全屏按钮                   |
 | `show_pause`      |                  | `boolean`                                        | true     | 是否显示暂停按钮                    |
-| `thumbPosition`   | `thumb-position` | `"top" \| "bottom" \| "right" \| "left"`         | "bottom" | 缩略图显示位置                     |
+| `thumbPosition`   | `thumb-position` | `"left" \| "right" \| "top" \| "bottom"`         | "bottom" | 缩略图显示位置                     |
 | `thumb_images`    | `thumb_images`   | `string[] \| undefined`                          |          | 缩略图图片路径，如果不设置，默认为images     |
 | `windowKeyEnable` |                  | `boolean`                                        | false    | 可以通过 全局 left,right 键来调整当前图片 |
 
@@ -1187,7 +1289,7 @@
 | `spellcheck`     | `spellcheck`      | `boolean`                                        |          | Enables spell checking on the input.             |
 | `step`           | `step`            | `number`                                         |          | The input's step attribute.                      |
 | `togglePassword` | `toggle-password` | `boolean`                                        | false    | Adds a password toggle button to password inputs. |
-| `type`           | `type`            | `"number" \| "text" \| "tel" \| "search" \| "email" \| "url" \| "password"` | "text"   | The input's type.                                |
+| `type`           | `type`            | `"number" \| "text" \| "date" \| "tel" \| "search" \| "email" \| "url" \| "password"` | "text"   | The input's type.                                |
 | `value`          | `value`           | `string`                                         | ""       | The input's value attribute.                     |
 
 ## Methods
@@ -1248,12 +1350,6 @@
 | `prefix`                 | The input prefix container.                      |
 | `suffix`                 | The input suffix container.                      |
 
-## CSS Custom Properties
-
-| Property       | Description                                      |
-|----------------|--------------------------------------------------|
-| `--focus-ring` | The focus ring style to use when the control receives focus, a `box-shadow` property. |
-
 
 # sl-layout
 
@@ -1263,9 +1359,9 @@
 |----------|-----------|--------------------------------------------------|---------|----------------------|
 | `center` | `center`  | `boolean`                                        | false   | 是否 主轴，次轴都居中          |
 | `column` | `column`  | `boolean`                                        | false   | 是否按照列进行Flex column布局 |
-| `cross`  | `cross`   | `"end" \| "start" \| "center" \| "baseline" \| "stretch"` |         | 次轴子项对齐方式             |
+| `cross`  | `cross`   | `"center" \| "end" \| "start" \| "baseline" \| "stretch"` |         | 次轴子项对齐方式             |
 | `expand` | `expand`  | `boolean`                                        | false   | 是否扩展剩余空间             |
-| `main`   | `main`    | `"end" \| "start" \| "center" \| "space-between" \| "space-around"` |         | 主轴子项对齐方式             |
+| `main`   | `main`    | `"center" \| "end" \| "start" \| "space-between" \| "space-around" \| "space-evenly"` |         | 主轴子项对齐方式             |
 | `row`    | `row`     | `boolean`                                        | true    | 是否按照行进行Flex row布局    |
 
 ## Methods
@@ -1319,12 +1415,13 @@
 
 ## Properties
 
-| Property   | Attribute  | Type          | Default | Description                                      |
-|------------|------------|---------------|---------|--------------------------------------------------|
-| `checked`  | `checked`  | `boolean`     | false   | Draws the item in a checked state.               |
-| `disabled` | `disabled` | `boolean`     | false   | Draws the menu item in a disabled state.         |
-| `menuItem` |            | `HTMLElement` |         |                                                  |
-| `value`    | `value`    | `string`      | ""      | A unique value to store in the menu item. This can be used as a way to identify menu items when selected. |
+| Property    | Attribute   | Type          | Default | Description                                      |
+|-------------|-------------|---------------|---------|--------------------------------------------------|
+| `checked`   | `checked`   | `boolean`     | false   | Draws the item in a checked state.               |
+| `disabled`  | `disabled`  | `boolean`     | false   | Draws the menu item in a disabled state.         |
+| `highlight` | `highlight` | `boolean`     | false   | hightlight 这个菜单项                                 |
+| `menuItem`  |             | `HTMLElement` |         |                                                  |
+| `value`     | `value`     | `string`      | ""      | A unique value to store in the menu item. This can be used as a way to identify menu items when selected. |
 
 ## Methods
 
@@ -1383,6 +1480,7 @@
 | `getCurrentItem`   | `(): SlMenuItem \| undefined`                    |                                                  |
 | `handleClick`      | `(event: MouseEvent): void`                      |                                                  |
 | `handleKeyDown`    | `(event: KeyboardEvent): void`                   |                                                  |
+| `handleKeyUp`      | `(): void`                                       |                                                  |
 | `handleMouseDown`  | `(event: MouseEvent): void`                      |                                                  |
 | `handleSlotChange` | `(): void`                                       |                                                  |
 | `setCurrentItem`   | `(item: SlMenuItem): void`                       |                                                  |
@@ -1430,9 +1528,10 @@
 
 ## Events
 
-| Event  | Description                                  |
-|--------|----------------------------------------------|
-| `node` | click {data:any} - click node Data Element . |
+| Event            | Description                                     |
+|------------------|-------------------------------------------------|
+| `sl-node`        | click {data:any} - click node Data Element .    |
+| `sl-node-before` | toogle {data:any} -before toogle node Element . |
 
 ## CSS Custom Properties
 
@@ -1480,7 +1579,7 @@
 
 | Property          | Attribute          | Modifiers | Type                            | Default                                          | Description    |
 |-------------------|--------------------|-----------|---------------------------------|--------------------------------------------------|----------------|
-| `align`           | `align`            |           | `"right" \| "left" \| "center"` | "right"                                          | 布局对齐方式         |
+| `align`           | `align`            |           | `"left" \| "center" \| "right"` | "right"                                          | 布局对齐方式         |
 | `pageCount`       |                    | readonly  | `number`                        |                                                  |                |
 | `pageSize`        | `page-size`        |           | `number`                        | 20                                               | 分页大小           |
 | `pageSizeOptions` |                    |           | `Number[]`                      | "Array.from(\n    { length: 10 },\n    (_item, value) => 10 + value * 10\n  )" | 支持调整的分页大小      |
@@ -1625,11 +1724,11 @@
 
 ## Properties
 
-| Property      | Attribute     | Type              | Default | Description                                      |
-|---------------|---------------|-------------------|---------|--------------------------------------------------|
-| `defaultSlot` |               | `HTMLSlotElement` |         |                                                  |
-| `label`       | `label`       | `string`          | ""      | The radio group label. Required for proper accessibility. Alternatively, you can use the label slot. |
-| `noFieldset`  | `no-fieldset` | `boolean`         | false   | Hides the fieldset and legend that surrounds the radio group. The label will still be read by screen readers. |
+| Property      | Attribute  | Type              | Default | Description                                      |
+|---------------|------------|-------------------|---------|--------------------------------------------------|
+| `defaultSlot` |            | `HTMLSlotElement` |         |                                                  |
+| `fieldset`    | `fieldset` | `boolean`         | false   | Shows the fieldset and legend that surrounds the radio group. |
+| `label`       | `label`    | `string`          | ""      | The radio group label. Required for proper accessibility. Alternatively, you can use the label slot. |
 
 ## Methods
 
@@ -1680,7 +1779,6 @@
 | `handleDisabledChange` | `(): void`                                    |                                                  |
 | `handleFocus`          | `(): void`                                    |                                                  |
 | `handleKeyDown`        | `(event: KeyboardEvent): void`                |                                                  |
-| `handleMouseDown`      | `(event: MouseEvent): void`                   |                                                  |
 | `reportValidity`       | `(): boolean`                                 | Checks for validity and shows the browser's validation message if the control is invalid. |
 | `setCustomValidity`    | `(message: string): void`                     | Sets a custom validation message. If `message` is not empty, the field will be considered invalid. |
 
@@ -1750,7 +1848,7 @@
 |-------------|-------------------------------------------|
 | `sl-blur`   | Emitted when the control loses focus.     |
 | `sl-change` | Emitted when the control's value changes. |
-| `sl-focus`  | Emitted when the control gains focus. *   |
+| `sl-focus`  | Emitted when the control gains focus.     |
 
 ## Slots
 
@@ -2099,12 +2197,6 @@
 | `tag`          | The multiselect option, a <sl-tag> element.      |
 | `tags`         | The container in which multiselect options are rendered. |
 
-## CSS Custom Properties
-
-| Property       | Description                                      |
-|----------------|--------------------------------------------------|
-| `--focus-ring` | The focus ring style to use when the control receives focus, a `box-shadow` property. |
-
 
 # sl-skeleton
 
@@ -2157,7 +2249,7 @@
 | `maxSize`   | `max-size`   | `number \| undefined`                    |         |             |
 | `minSize`   | `min-size`   | `number \| undefined`                    |         | 分隔允许的最小位置   |
 | `splitAble` | `split-able` | `boolean`                                | true    | 是否允许拖动改变位置  |
-| `splitType` | `splitType`  | `"top" \| "bottom" \| "right" \| "left"` | "left"  | Split 切割位置. |
+| `splitType` | `splitType`  | `"left" \| "right" \| "top" \| "bottom"` | "left"  | Split 切割位置. |
 
 ## Methods
 
@@ -2167,9 +2259,9 @@
 
 ## Events
 
-| Event                  | Type                              | Description                    |
-|------------------------|-----------------------------------|--------------------------------|
-| `sl-split-type-change` | `{oldType:string,newType:string}` | Emitted when splitType change. |
+| Event                | Type            | Description                |
+|----------------------|-----------------|----------------------------|
+| `sl-splitter-change` | `{size:number}` | Emitted when split value . |
 
 ## Slots
 
@@ -2310,7 +2402,6 @@
 | `handleDisabledChange` | `(): void`                                    |                                                  |
 | `handleFocus`          | `(): void`                                    |                                                  |
 | `handleKeyDown`        | `(event: KeyboardEvent): void`                |                                                  |
-| `handleMouseDown`      | `(event: MouseEvent): void`                   |                                                  |
 | `reportValidity`       | `(): boolean`                                 | Checks for validity and shows the browser's validation message if the control is invalid. |
 | `setCustomValidity`    | `(message: string): void`                     | Sets a custom validation message. If `message` is not empty, the field will be considered invalid. |
 
@@ -2474,11 +2565,138 @@
 | `base`         | The component's base wrapper.                    |
 | `close-button` | The close button, which is the icon button's base wrapper. |
 
+
+# sl-table
+
+## Properties
+
+| Property                       | Attribute                      | Modifiers | Type                                             | Default                           | Description                                      |
+|--------------------------------|--------------------------------|-----------|--------------------------------------------------|-----------------------------------|--------------------------------------------------|
+| `allSubColumns`                |                                | readonly  | `SlColumn[]`                                     |                                   |                                                  |
+| `baseDiv`                      |                                |           | `HTMLDivElement`                                 |                                   |                                                  |
+| `border`                       | `border`                       |           | `boolean`                                        | false                             | table 是否显示border                                 |
+| `cacheExpandLazyLoadDataMap`   | `cacheExpandLazyLoadDataMap`   |           | `Map<any, any>`                                  | "new Map<any, any>()"             | 存储已经加载过的扩展数据                                     |
+| `cacheKey`                     | `cache-key`                    |           | `string`                                         |                                   | table 前端缓存ID                                     |
+| `canShowColumns`               |                                | readonly  | `SlColumn[]`                                     |                                   |                                                  |
+| `componentID`                  |                                |           | `string`                                         | "`${'tableID_' + componentID++}`" |                                                  |
+| `customRenderCellClassMap`     | `customRenderCellClassMap`     |           | `(cellContext: CellContext) => string \| string[] \| ClassInfo` |                                   | 自定义 渲染tbody td的class                             |
+| `customRenderCellHeadClassMap` | `customRenderCellHeadClassMap` |           | `(context: CellHeadContext) => string \| string[] \| ClassInfo` |                                   | 自定义 渲染thead th的class                             |
+| `customRenderCellHeadSpread`   | `customRenderCellHeadSpread`   |           | `(context: CellHeadContext) => SpreadResult`     |                                   | 自定义 渲染thead  th SpreadResult                     |
+| `customRenderCellHeadStyle`    | `customRenderCellHeadStyle`    |           | `(context: CellHeadContext) => StyleInfo`        |                                   | 自定义 渲染tHeader th的样式                              |
+| `customRenderCellSpread`       | `customRenderCellSpread`       |           | `(cellContext: CellContext) => SpreadResult`     |                                   | 自定义 渲染tbody td的 SpreadResult                     |
+| `customRenderCellStyle`        | `customRenderCellStyle`        |           | `(context: CellContext) => StyleInfo`            |                                   | 自定义 渲染tbody td的样式                                |
+| `customRenderFooter`           | `customRenderFooter`           |           | `(columns: SlColumn[]) => TemplateResult<1>`     |                                   | 渲染tfooter 此方法接收所有的列，返回footer 组成的tr template list |
+| `customRenderRowClassMap`      | `customRenderRowClassMap`      |           | `(rowContext: RowContext) => string \| string[] \| ClassInfo` |                                   | 自定义 渲染tHeader tr的样式                              |
+| `customRenderRowSpread`        | `customRenderRowSpread`        |           | `(rowContext: RowContext) => SpreadResult`       |                                   | 自定义 渲染tbody td的Spread                            |
+| `customRenderRowStyle`         | `customRenderRowStyle`         |           | `(rowContext: RowContext) => StyleInfo`          |                                   | 自定义 渲染tbody tr的样式                                |
+| `dataSource`                   |                                |           | `unknown[]`                                      |                                   | 表格需要渲染的数据 必须是数组                                  |
+| `enableVirtualScroll`          |                                |           | `number`                                         |                                   | 虚拟滚动启用                                           |
+| `expandAccordion`              |                                |           | `boolean`                                        | false                             | 是否只能展开一个扩展行                                      |
+| `expandColumn`                 |                                |           | `string`                                         |                                   | 指定哪一列触发行扩展数据加载                                   |
+| `expandLazy`                   |                                |           | `boolean`                                        | false                             | 是否懒加载扩展行                                         |
+| `expandLazyLoadMethod`         |                                |           | `(rowData: unknown) => Promise<any>`             |                                   | 指定懒加载扩展的方法                                       |
+| `expandRowData`                |                                |           | `unknown[]`                                      | []                                | 存储哪些行数据是展开的                                      |
+| `expandRowRender`              |                                |           | `(rowContext: RowContext, columns: SlColumn[], layLoadData?: any) => TemplateResult<1>` |                                   | 方法：指定如何渲染扩展行，接收行数据和叶子columns， 返回的应该是<tr>Template Result |
+| `expandingRowData`             |                                |           | `unknown[]`                                      | []                                | 存储正在展开的行数据                                       |
+| `fixedColumns`                 |                                |           | `string \| Number[]`                             |                                   | 设置表格 列固定，例如：fixedColumns="2",则为前两列固定，"2,2" 则为前两列，后两列固定，"0,2" ，[0,2]则为最后两列固定 |
+| `fixedFoot`                    |                                |           | `boolean`                                        | false                             | table 是否固定footer 到底部                             |
+| `hoverAble`                    |                                |           | `boolean`                                        | true                              | table 是否支持鼠标活动行变色                                |
+| `scrollDiv`                    |                                |           | `HTMLDivElement`                                 |                                   | scroll DIV                                       |
+| `size`                         |                                |           | `"small" \| "default" \| "larger"`               | "small"                           | td size                                          |
+| `sortConfig`                   |                                |           | `SortConfig`                                     | {}                                |                                                  |
+| `sortValue`                    |                                |           | `SortValue \| SortValue[] \| undefined`          |                                   | 表格当前排序值                                          |
+| `stripe`                       |                                |           | `boolean`                                        | false                             | table 支持斑马线                                      |
+| `table`                        |                                |           | `HTMLTableElement`                               |                                   |                                                  |
+| `tableHeight`                  | `tableHeight`                  |           | `string`                                         |                                   | table 容器高度，支持类似 css  "100% - 40px" 或者“ 100vh - 30px ” |
+| `tableLayoutFixed`             | `tableLayoutFixed`             |           | `boolean`                                        |                                   | 是否表格 是 table-layout ：fixed                       |
+| `tableMaxHeight`               | `tableMaxHeight`               |           | `string`                                         |                                   | table 容器最大高度                                     |
+| `tableMinHeight`               | `tableMinHeight`               |           | `string`                                         |                                   | table 容器最小高度                                     |
+| `thead`                        |                                |           | `HTMLTableSectionElement`                        |                                   | table  heading                                   |
+| `treeConfig`                   |                                |           | `TreeConfig \| undefined`                        |                                   |                                                  |
+| `treeLoadingNode`              |                                |           | `TreeNodeData[]`                                 | []                                | 当为Tree的时候，存储哪些 正在加载中的TreeNodeData                |
+| `treeLoadingNodeMethod`        | `treeLoadingNodeMethod`        |           | `(context: RowContext, column: SlColumn) => Promise<TreeNodeData[]>` |                                   | 加载TreeNode 子数据，接收参数nodeData,parentData           |
+| `treeNodeNoWrap`               | `treeNodeNoWrap`               |           | `boolean`                                        |                                   | true, 则TreeNode 列，不会换行                           |
+| `virtualItemHeight`            |                                |           | `number`                                         |                                   | 虚拟滚动行高                                           |
+
+## Methods
+
+| Method                    | Type                                     | Description                                      |
+|---------------------------|------------------------------------------|--------------------------------------------------|
+| `asynTableHeaderWidth`    | `(): void`                               |                                                  |
+| `columnChangeHanlder`     | `(): void`                               | 如果column 发生了变化，需要重新计算 表头布局                       |
+| `doExpandRowData`         | `(rowData: unknown): Promise<void>`      | 展开行数据的扩展 数据<br /><br />**rowData**: table 行绑定的数据 |
+| `getRowContext`           | `(row: HTMLTableRowElement): RowContext` |                                                  |
+| `getRowDataDataIndex`     | `(rowData: TreeNodeData): number`        | 获取渲染后的 rowData 的顺序号                              |
+| `getRowDataParentData`    | `(rowData: TreeNodeData): TreeNodeData`  | 获取渲染后的 rowData 对应的父对象                            |
+| `getRowDataTreeLevel`     | `(rowData: TreeNodeData): number`        | 获取渲染后的 rowData 对应的Tree level                     |
+| `locacheIDChange`         | `(oldKey: string): void`                 |                                                  |
+| `sortConfigChange`        | `(): void`                               |                                                  |
+| `treeNodeHasChildren`     | `(rowData: TreeNodeData): unknown`       |                                                  |
+| `watchDataSourceChange`   | `(): void`                               |                                                  |
+| `watchFixedColumnsChange` | `(): void`                               |                                                  |
+
+## Events
+
+| Event                        | Type                                | Description                                      |
+|------------------------------|-------------------------------------|--------------------------------------------------|
+| `sl-table-before-sort`       | `{column:SLColumn,sortValue:排序前值}`  | Emitted before table column sort. 排序事件           |
+| `sl-table-column-resize`     | `{column:SLColumn,change:改变的宽度}`    | Emitted table column width change by drag. 拖动列事件 |
+| `sl-table-resize`            |                                     | Emitted table resize.                            |
+| `sl-table-scroll`            | `{div:HTMLDIVElement}`              | Emitted scroll table.滚动事件                        |
+| `sl-table-sort`              | `{column:SLColumn,sortValue:当前排序值}` | Emitted table column sort. 排序事件                  |
+| `sl-table-td-click`          | `{row:TR,td:cell,...cellContext}`   | Emitted table tbody td click  .                  |
+| `sl-table-td-dblclick`       | `{row:TR,td:cell,...cellContext}`   | Emitted table tbody td dblclick  .               |
+| `sl-table-td-keydown`        | `{row:TR,td:cell,...cellContext}`   | Emitted table tbody td keydown  .                |
+| `sl-table-td-keypress`       | `{row:TR,td:cell,...cellContext}`   | Emitted table tbody td keypress  .               |
+| `sl-table-td-mousedown`      | `{row:TR,td:cell,...cellContext}`   | Emitted table tbody td mousedown  .              |
+| `sl-table-td-mouseenter`     | `{row:TR,td:cell,...cellContext}`   | Emitted table tbody td mouseenter  .             |
+| `sl-table-td-mouseleave`     | `{row:TR,td:cell,...cellContext}`   | Emitted table tbody td mouseleave  .             |
+| `sl-table-td-mousemove`      | `{row:TR,td:cell,...cellContext}`   | Emitted table tbody td mousemove  .              |
+| `sl-table-td-mouseout`       | `{row:TR,td:cell,...cellContext}`   | Emitted table tbody td mouseout  .               |
+| `sl-table-td-mouseover`      | `{row:TR,td:cell,...cellContext}`   | Emitted table tbody td mouseover  .              |
+| `sl-table-tr-click`          | `{row:TR,...rowContext}`            | Emitted table tbody tr click  .                  |
+| `sl-table-tr-dblclick`       | `{row:TR,...rowContext}`            | Emitted table tbody tr dblclick  .               |
+| `sl-table-tr-keydown`        | `{row:TR,...rowContext}`            | Emitted table tbody tr keydown  .                |
+| `sl-table-tr-keypress`       | `{row:TR,...rowContext}`            | Emitted table tbody tr keypress  .               |
+| `sl-table-tr-mousedown`      | `{row:TR,...rowContext}`            | Emitted table tbody tr mousedown  .              |
+| `sl-table-tr-mouseenter`     | `{row:TR,...rowContext}`            | Emitted table tbody tr mouseenter  .             |
+| `sl-table-tr-mouseleave`     | `{row:TR,...rowContext}`            | Emitted table tbody tr mouseleave  .             |
+| `sl-table-tr-mousemove`      | `{row:TR,...rowContext}`            | Emitted table tbody tr mousemove  .              |
+| `sl-table-tr-mouseout`       | `{row:TR,...rowContext}`            | Emitted table tbody tr mouseout  .               |
+| `sl-table-tr-mouseover`      | `{row:TR,...rowContext}`            | Emitted table tbody tr mouseover  .              |
+| `sl-table-tr-mouseup`        | `{row:TR,...rowContext}`            | Emitted table tbody tr mouseup  .                |
+| `sl-tree-node-before-close`  | `{dom:HTMLElement,...cellContext}`  | Emitted before table tree node to close  . tree 事件 |
+| `sl-tree-node-before-open`   | `{dom:HTMLElement,...cellContext}`  | Emitted before table tree node to open   . tree 事件 |
+| `sl-tree-node-before-toogle` | `{dom:HTMLElement,...cellContext}`  | Emitted before table tbody td node state toogle  . tree 事件 |
+| `sl-tree-node-load-error`    | `{dom:HTMLElement,...cellContext}`  | Emitted after table tbody td node state toogle  .tree 事件<br /><br />//tbody 行，tbody td 事件 |
+| `sl-tree-node-loaded`        | `{dom:HTMLElement,...cellContext}`  | after table tree node lazy load children end  .tree load 事件 |
+| `sl-tree-node-open`          | `{dom:HTMLElement,...cellContext}`  | Emitted after table tbody td node state toogle  . tree 事件 |
+| `sl-tree-node-toogle`        | `{dom:HTMLElement,...cellContext}`  | Emitted after table tbody td node state toogle  .tree 事件 |
+
+## Slots
+
+| Name      | Description   |
+|-----------|---------------|
+| `no-data` | no-data slot. |
+
+## CSS Shadow Parts
+
+| Part            | Description                   |
+|-----------------|-------------------------------|
+| `base`          | The component's base wrapper. |
+| `part`          | The component's table .       |
+| `resize-hanler` | The th's resize-hanlder .     |
+| `scroll-div`    | The component's scroll-div .  |
+
 ## CSS Custom Properties
 
-| Property       | Description                  |
-|----------------|------------------------------|
-| `--focus-ring` | The focus ring's box shadow. |
+| Property                      | Description                        |
+|-------------------------------|------------------------------------|
+| `--sl-table-background-color` | table背景颜色 ，例如 220,180,19 这种数字格式的颜色 |
+| `--sl-table-border-color`     | 边框颜色 ，例如 220,180,19 这种数字格式的颜色      |
+| `--sl-table-td-bottom-width`  | 1px，定义表格单元格底侧的线条宽度                 |
+| `--sl-table-td-right-width`   | 1px，定义表格单元格右侧的线条宽度                 |
+| `--sl-th-padding-size`        | td,th padding                      |
 
 
 # sl-tag
@@ -2607,7 +2825,7 @@
 | `disabled`   | `disabled`  | `boolean`                                        | false         | Disables the tooltip so it won't show when triggered. |
 | `distance`   | `distance`  | `number`                                         | 10            | The distance in pixels from which to offset the tooltip away from its target. |
 | `open`       | `open`      | `boolean`                                        | false         | Indicates whether or not the tooltip is open. You can use this in lieu of the show/hide methods. |
-| `placement`  | `placement` | `"top" \| "top-start" \| "top-end" \| "bottom" \| "bottom-start" \| "bottom-end" \| "right" \| "right-start" \| "right-end" \| "left" \| "left-start" \| "left-end"` | "top"         | The preferred placement of the tooltip. Note that the actual placement may vary as needed to keep the tooltip<br />inside of the viewport. |
+| `placement`  | `placement` | `"left" \| "right" \| "top" \| "bottom" \| "top-start" \| "top-end" \| "bottom-start" \| "bottom-end" \| "right-start" \| "right-end" \| "left-start" \| "left-end"` | "top"         | The preferred placement of the tooltip. Note that the actual placement may vary as needed to keep the tooltip<br />inside of the viewport. |
 | `positioner` |             | `HTMLElement`                                    |               |                                                  |
 | `skidding`   | `skidding`  | `number`                                         | 0             | The distance in pixels from which to offset the tooltip along its target. |
 | `tooltip`    |             | `HTMLElement`                                    |               |                                                  |
@@ -2741,10 +2959,9 @@
 | `nodeFilterCacheMap`     |                            | `WeakMap<TreeNodeData, TreeNodeData> \| undefined` |                            | 存储过滤后的 节点数据的映射关系 ，key:原始数据，value:过滤后产生的数据        |
 | `nodeIDProperty`         |                            | `string`                                         | "id"                       | 数据ID属性，用于内置选中节点 ,默认=id                           |
 | `nodeRender`             |                            | `NodeRenderInterface`                            | "DEFAULT_TREE_NODE_RENDER" | 节点渲染函数                                           |
-| `real_treeNodeRender`    |                            | `NodeRenderInterface`                            | "nodeRender"               |                                                  |
 | `renderRootNodeData`     |                            | `TreeNodeData \| undefined`                      |                            | 实际渲染的根节点数据                                       |
 | `rootNodeData`           |                            | `TreeNodeData \| undefined`                      |                            | 根节点数据源                                           |
-| `selectMode`             | `selectMode`               | `"none" \| "check" \| "radio" \| "single"`       | "single"                   | tree 选中方式 selectMode：支持的值为：check, radio,single,none （none,表示不支持选中,single) |
+| `selectMode`             | `selectMode`               | `"none" \| "radio" \| "check" \| "single"`       | "single"                   | tree 选中方式 selectMode：支持的值为：check, radio,single,none （none,表示不支持选中,single) |
 | `select_highlight`       |                            | `boolean`                                        | false                      | 选中的节点，是否高亮显示                                     |
 
 ## Methods
@@ -2755,14 +2972,12 @@
 | `getClosetTreeNode`     | `(el: HTMLElement): SlTreeNode \| null`     | 获取 DOM 最近的TreeNode:<br /><br />**el**: tree shadowRoot 内部元素 |
 | `getParentNodeData`     | `(data: TreeNodeData): TreeNodeData`        | 获取上级数据源                                          |
 | `watchNodeRenderChange` | `(): void`                                  |                                                  |
-| `watchSelectKeyChange`  | `(): Promise<void>`                         |                                                  |
 | `watchSelectModeChange` | `(_oldMode: string, newMode: string): void` |                                                  |
 
 ## Events
 
 | Event                        | Type                                             | Description                                    |
 |------------------------------|--------------------------------------------------|------------------------------------------------|
-| `sl-tree-checkKeys-change`   | `{checkKeyKeys:checkKeyKeys }`                   | Emitted when tree checkeys has changed .       |
 | `sl-tree-node-before-close`  | `{node: SlTreeNode,nodeData: TreeNodeData, parentData:TreeNodeData}` | Emitted before tree-node-state to close.       |
 | `sl-tree-node-before-open`   | `{node: SlTreeNode,nodeData: TreeNodeData, parentData:TreeNodeData}` | Emitted before tree-node-state to open.        |
 | `sl-tree-node-before-toogle` | `{node: SlTreeNode,nodeData: TreeNodeData, parentData:TreeNodeData}` | Emitted before tree-node-state change.         |

@@ -6,6 +6,7 @@ import SlColumn from '../column/column';
 import { iteratorNodeData, TreeNodeData } from '../tree-node/tree-node-util';
 import SlTable from './table';
 import { saveAsDefaultTableCache, updateTableCache } from './tableCacheHelper';
+import { getCellContext } from './tableRenderHelper';
 
 export const getTreeNodeAllChildrenSize = (rowData: TreeNodeData) => {
   let size = 0;
@@ -23,75 +24,69 @@ const handlerNodeToogleListener = (table: SlTable) => {
     `tbody[componentID=${table.componentID}]>tr>td>div[part=tree-node] span.tree-node-icon[part=tree-node-toogle][componentID=${table.componentID}]`,
     'click',
     (event: Event) => {
+      debugger;
       const el = event.delegateTarget;
       const td = el.closest('td') as HTMLTableCellElement;
       const column = (td as any).column as SlColumn;
       let tr = td.closest('tr') as HTMLTableRowElement;
-      if (tr && tr.parentNode && tr.parentNode?.parentNode != tableEl) {
-        return;
+      if (tr &&tr.closest('table')!=tableEl) {
+         return;
       }
-      const rowData = (tr as any).rowData;
-      const parentData = table.getRowDataParentData(rowData);
-      const level = table.getRowDataTreeLevel(rowData);
+      const cellContext=getCellContext(td);
+      const rowData=cellContext.rowData;
 
       if (typeof rowData.children == 'undefined' && table.treeConfig && table.treeConfig.lazy) {
-        if (!table.loadingNodeMethod) {
+        if (!table.treeLoadingNodeMethod) {
           console.warn('lazy 模式下应该设置 加载方法：loadingNodeMethod');
           return;
         }
-        table.currentLoadingNode.push(rowData);
-        table.currentLoadingNode = [...table.currentLoadingNode];
+        table.treeLoadingNode.push(rowData);
+        table.treeLoadingNode = [...table.treeLoadingNode];
         Promise.resolve().then(async () => {
           try {
-            let result = await table.loadingNodeMethod(rowData, parentData);
+            let result = await table.treeLoadingNodeMethod(cellContext,column);
             if (result) {
-              rowData.children = result;
+                rowData.children = result;
             }
             rowData.close = false;
-            table.currentLoadingNode.splice(table.currentLoadingNode.indexOf(rowData), 1);
+            let index=table.treeLoadingNode.indexOf(rowData)
+            if(index>=0){
+               table.treeLoadingNode.splice(index, 1);
+            }
             table.watchDataSourceChange();
             emit(table, 'sl-tree-node-loaded', {
               detail: {
                 dom: event.target,
-                level,
-                column,
-                nodeData: rowData,
-                parentData: parentData
+                ...cellContext
+                ,result:result
               }
             });
           } catch (ex) {
-            table.currentLoadingNode.splice(table.currentLoadingNode.indexOf(rowData), 1);
-            table.currentLoadingNode = [...table.currentLoadingNode];
+            table.treeLoadingNode.splice(table.treeLoadingNode.indexOf(rowData), 1);
+            table.treeLoadingNode = [...table.treeLoadingNode];
             emit(table, 'sl-tree-node-load-error', {
               detail: {
-                level,
                 dom: event.target,
                 error: ex,
-                column,
-                nodeData: rowData,
-                parentData: parentData
+                ...cellContext,
               }
             });
           }
         });
         return;
       }
-      let nodeEvent = emit(table, `sl-tree-node-before-${rowData.close ? 'open' : 'close'}`, {
+      const nodeEvent = emit(table, `sl-tree-node-before-${rowData.close ? 'open' : 'close'}`, {
         cancelable: true,
         detail: {
           dom: event.target,
-          column,
-          nodeData: rowData,
-          parentData: parentData
+          ...cellContext
         }
       });
-      let nodeToogleEvent = emit(table, `sl-tree-node-toogle`, {
+      const nodeToogleEvent = emit(table, `sl-tree-node-toogle`, {
         cancelable: true,
         detail: {
           dom: event.target,
-          column,
-          nodeData: rowData,
-          parentData: parentData
+          ...cellContext,
         }
       });
       if (!nodeEvent.defaultPrevented && !nodeToogleEvent.defaultPrevented) {
@@ -99,17 +94,13 @@ const handlerNodeToogleListener = (table: SlTable) => {
         emit(table, `sl-tree-node-${rowData.close ? 'close' : 'open'}`, {
           detail: {
             dom: event.target,
-            column: column,
-            nodeData: rowData,
-            parentData: parentData
+            ...cellContext,
           }
         });
         emit(table, `sl-tree-node-toogle`, {
           detail: {
             dom: event.target,
-            column,
-            nodeData: rowData,
-            parentData: parentData
+            ...cellContext,
           }
         });
         table.watchDataSourceChange();
@@ -137,23 +128,29 @@ const hanlderTRTDEvent = (table: SlTable) => {
   let one1 = onEventArray(table.table, `tbody[componentID=${table.componentID}]>tr>td`, TDEVENTS, (event: Event) => {
     let td = event.delegateTarget as HTMLTableCellElement;
     let tr = td.parentElement;
+    while(td&& td.closest('table')!=table.table){
+      td=(td.parentElement as HTMLElement).closest('td') as HTMLTableCellElement
+      tr=td.parentElement;
+    }
     emit(table, `sl-table-td-${event.type}`, {
       cancelable: true,
       detail: {
         td: td,
         row: tr,
-        rowData: (tr as any).rowData,
-        column: (td as any).column
+        ...getCellContext(td)
       }
     });
   });
   let one2 = onEventArray(table.table, `tbody[componentID=${table.componentID}]>tr`, TDEVENTS, (event: Event) => {
     let tr = event.delegateTarget as HTMLTableRowElement;
+    while(tr&& tr.closest('table')!=table.table){
+       tr=(tr.parentElement as HTMLElement).closest('tr') as HTMLTableRowElement;
+    }
     emit(table, `sl-table-tr-${event.type}`, {
       cancelable: true,
       detail: {
         row: tr,
-        rowData: (tr as any).rowData
+        ...table.getRowContext(tr)
       }
     });
   });
@@ -180,6 +177,9 @@ const handerTableResizeEvent = (slTable: SlTable) => {
     (changePos, event) => {
       let div = (event as any).delegateTarget as HTMLElement;
       let th = div.closest('th') as HTMLElement;
+      while(th&& th.closest('table')!=slTable.table){
+         th=(th.parentElement as Element) .closest('th') as HTMLElement;
+      }
       let column = (th as any).column as SlColumn;
       if (!column || column.table != slTable) {
         return;
@@ -270,10 +270,10 @@ const handlerRowExpandListener = (table: SlTable) => {
             console.error('expand lazy mode 必须设置加载方法:currentExpandingRowData');
             return;
           }
-          if (!table.currentExpandingRowData.includes(rowData)) {
-            table.currentExpandingRowData.push(rowData);
+          if (!table.expandingRowData.includes(rowData)) {
+            table.expandingRowData.push(rowData);
           }
-          table.currentExpandingRowData = [...table.currentExpandingRowData];
+          table.expandingRowData = [...table.expandingRowData];
           Promise.resolve().then(async () => {
             try {
               let result = await table.expandLazyLoadMethod(rowData);
@@ -292,11 +292,11 @@ const handlerRowExpandListener = (table: SlTable) => {
                 }
               });
             }
-            let indexOf = table.currentExpandingRowData.indexOf(rowData);
+            let indexOf = table.expandingRowData.indexOf(rowData);
             if (indexOf >= 0) {
-              table.currentExpandingRowData.splice(indexOf, 1);
+              table.expandingRowData.splice(indexOf, 1);
             }
-            table.currentExpandingRowData = [...table.currentExpandingRowData];
+            table.expandingRowData = [...table.expandingRowData];
           });
         } else {
           table.doExpandRowData(rowData);

@@ -1,16 +1,28 @@
-import { html, nothing } from 'lit';
+import { html, nothing, svg, TemplateResult } from 'lit';
 import { classMap } from 'lit-html/directives/class-map';
+import { ifDefined } from 'lit-html/directives/if-defined';
 import { styleMap } from 'lit-html/directives/style-map';
-import SlColumn from '../column/column';
+import { ref } from 'lit/directives/ref.js';
+import { spread } from '../../internal/spread';
+import { isFunction } from '../../utilities/common';
 import { renderSortHeaderTemplate, sortRenderHanlder } from './sort';
 import SlTable from './table';
-import { SortTrigger } from './tableConfig';
-import { getColumnCacheData, getFieldValue, isNumberWidth } from './tableHelper';
-
-export const renderThColTemplate = (column: SlColumn, columnIndex: number, table: SlTable) => {
+import { CellContext, CellHeadContext,  SortTrigger } from './tableConfig';
+import {  getFieldValue, isNumberWidth } from './tableHelper';
+const cellHeadContextMap=new WeakMap<HTMLTableCellElement,CellHeadContext>();
+const setHeadCellContext=(el:HTMLTableCellElement,context:CellHeadContext)=>{
+  if(el){
+    cellHeadContextMap.set(el,context);
+  } 
+}
+/** 获取 td 上下文 */
+export const getHeadCellContext=(el:HTMLTableCellElement)=>{
+  return cellHeadContextMap.get(el) as CellHeadContext;
+}
+export const renderThColTemplate = (context:CellHeadContext, table: SlTable) => {
   let styleObject: any = {};
-  const cacheData = getColumnCacheData(column);
-  if (cacheData.colspan == 1) {
+  const column=context.column;
+  if (context.colspan == 1) {
     if (column.minWidth) {
       const isNumber = isNumberWidth(column.minWidth);
       styleObject['min-width'] = column.minWidth + (isNumber ? 'px' : '');
@@ -24,13 +36,13 @@ export const renderThColTemplate = (column: SlColumn, columnIndex: number, table
       styleObject['max-width'] = column.maxWidth + (isNumber ? 'px' : '');
     }
   }
-  const styleInfo = table.customRenderCellHeadStyle ? table.customRenderCellHeadStyle(column) : null;
+  const styleInfo = table.customRenderCellHeadStyle ? table.customRenderCellHeadStyle(context) : null;
   if (styleInfo) {
     if (typeof styleInfo == 'object') {
-      styleObject = { ...styleObject, styleInfo };
+      styleObject = { ...styleObject, ...styleInfo };
     }
   }
-  let classInfo = table.customRenderCellHeadClassMap ? table.customRenderCellHeadClassMap(column) : null;
+  let classInfo = table.customRenderCellHeadClassMap ? table.customRenderCellHeadClassMap(context) : null;
   let classObj: any = {};
   if (classInfo != null) {
     if (Array.isArray(classInfo)) {
@@ -45,12 +57,24 @@ export const renderThColTemplate = (column: SlColumn, columnIndex: number, table
     classObj['cursor'] = true;
   }
   const trigger = table.sortConfig.trigger;
+  const headResult=table.customRenderCellHeadSpread? table.customRenderCellHeadSpread(context):undefined;
   const handerSort = (_event: Event) => {
     if (trigger == SortTrigger.self) {
       sortRenderHanlder(column, table);
     }
   };
   const handerTHSort = (_event: Event) => {
+    if(headResult&&headResult['@click']){
+      try{
+        if(isFunction(headResult['@click'])){
+          headResult['@click'](_event);
+        }else{
+          (headResult['@click'] as EventListenerObject).handleEvent(_event);
+        }
+      }catch(ex){
+
+      }
+    }
     if (trigger == SortTrigger.cell) {
       sortRenderHanlder(column, table);
     }
@@ -58,18 +82,21 @@ export const renderThColTemplate = (column: SlColumn, columnIndex: number, table
   return html`<th
     uniqueID=${column.uniqueID}
     .column=${column}
+    field=${ifDefined(column.field)}
     .vAlign=${column.colvAlign}
     .align=${column.colAlign}
     @click=${handerTHSort}
     class=${classMap(classObj)}
     style=${styleMap(styleObject)}
-    colIndex=${(cacheData.colIndex as number) + ''}
-    .rowSpan=${cacheData.rowspan as number}
-    .colSpan=${cacheData.colspan as number}
+    colIndex=${(context.colIndex as number) + ''}
+    .rowSpan=${context.rowspan as number}
+    .colSpan=${context.colspan as number}
+    ${ref((el)=>setHeadCellContext(el as HTMLTableCellElement,context))}
+    ${spread(headResult)}
   >
     <div class="thWrap">
       <span class="column-title ${column.sortAble ? 'sort-able' : ''}"
-        >${column.renderCol ? html`${column.renderCol(column, columnIndex)}` : column.label}</span
+        >${column.renderCol ? html`${column.renderCol(context)}` : column.label}</span
       >
       ${renderSortHeaderTemplate(table, column, handerSort)}
       ${column.resizeAble
@@ -81,31 +108,38 @@ export const renderThColTemplate = (column: SlColumn, columnIndex: number, table
 const stopHanderClick = (event: Event) => {
   event.stopPropagation();
 };
-const renderCellData = (rowData: any, rowDataIndex: number, col: SlColumn, colIndex: number) => {
+const renderCellData = (context:CellContext) => {
+  const col=context.column;
   let colResult: any;
   if (col.renderCell) {
-    return col.renderCell(col, rowData, rowDataIndex, colIndex);
+    return col.renderCell(context);
   } else {
-    let fieldValue = getFieldValue(rowData, col.field);
+    let fieldValue = getFieldValue(context.rowData, col.field);
     colResult = html`<div class="tdWrap">${fieldValue}</div>`;
   }
   return colResult;
 };
-export const renderTdCellTemplate = (
-  column: SlColumn,
-  rowData: any,
-  rowDataIndex: number,
-  columnIndex: number,
-  table: SlTable
-) => {
-  const colData = getColumnCacheData(column);
-  let tdResult = renderCellData(rowData, rowDataIndex, column, columnIndex);
+const cellContextMap=new WeakMap<HTMLTableCellElement,CellContext>();
+const setCellContext=(el:HTMLTableCellElement,context:CellContext)=>{
+  if(el){
+    cellContextMap.set(el,context);
+  } 
+}
+/** 获取 td 上下文 */
+export const getCellContext=(el:HTMLTableCellElement)=>{
+  return cellContextMap.get(el) as CellContext;
+}
+
+
+export const renderTdCellTemplate = (context:CellContext,table: SlTable) => {
+  const column=context.column;
+  let tdResult = renderCellData(context);
   if (tdResult == undefined || tdResult == nothing || tdResult.rowspan == 0 || tdResult.colspan == 0) {
     return nothing; //标识此td 不进行渲染
   } else {
-    const styleInfo = table.customRenderCellStyle ? table.customRenderCellStyle(column, rowData, rowDataIndex) : {};
+    const styleInfo = table.customRenderCellStyle ? table.customRenderCellStyle(context) : {};
     let classInfo = table.customRenderCellClassMap
-      ? table.customRenderCellClassMap(column, rowData, rowDataIndex)
+      ? table.customRenderCellClassMap(context)
       : null;
     let classObj: any = {};
     if (classInfo != null) {
@@ -117,23 +151,91 @@ export const renderTdCellTemplate = (
         classObj = { ...classInfo };
       }
     }
+    const tdSpreadResult=table.customRenderCellSpread? table.customRenderCellSpread(context):undefined;
     return html`<td
-      colindex=${colData.colIndex + ''}
+      ${ref((el)=>
+        setCellContext(el as HTMLTableCellElement,context)
+      )}
       uniqueID=${column.uniqueID}
       field=${column.field}
-      .column=${column}
       .align=${column.align}
       .vAlign=${column.vAlign}
       style=${styleMap(styleInfo)}
       class=${classMap(classObj)}
       colspan=${tdResult.colspan ? tdResult.colspan : 1}
       rowspan=${tdResult.rowspan ? tdResult.rowspan : 1}
+
+      ${spread(tdSpreadResult)}
     >
-      ${table.wrapColumnFieldTemplate(
-        column,
-        rowData,
-        tdResult.template ? html`${tdResult.template}` : html`${tdResult}`
+      ${wrapColumnFieldTemplate(
+        context,
+        tdResult.template ? html`${tdResult.template}` : html`${tdResult}`,
+        table
       )}
     </td>`;
   }
 };
+ const closeNodeSvg = svg`<svg xmlns="http://www.w3.org/2000/svg" id="caret-right-fill" fill="currentColor" viewBox="0 0 16 16" >
+<use xlink:href="/assets/icons/sprite.svg#caret-right-fill"></use>
+</svg>`;
+const openNodeSvg = svg`<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" id="caret-down-fill"><path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 01.753 1.659l-4.796 5.48a1 1 0 01-1.506 0z"></path></svg>`;
+
+const  expendCloseSvg = svg`<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"  viewBox="0 0 16 16" id="chevron-right"><path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 01.708 0l6 6a.5.5 0 010 .708l-6 6a.5.5 0 01-.708-.708L10.293 8 4.646 2.354a.5.5 0 010-.708z"></path></svg>`;
+
+const expendOpendSvg = svg`<svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 16 16" id="chevron-down"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 01.708 0L8 10.293l5.646-5.647a.5.5 0 01.708.708l-6 6a.5.5 0 01-.708 0l-6-6a.5.5 0 010-.708z"></path></svg>`;
+
+export const  TABLESVG={
+  closeNodeSvg,
+  openNodeSvg,
+  expendCloseSvg,
+  expendOpendSvg,
+}
+ /**
+   * 内部使用封装td 渲染的数据，实现特殊功能
+   * @param column
+   * @param rowData
+   * @param wrap
+   * @returns
+   */
+  const wrapColumnFieldTemplate=( context:CellContext, wrap: TemplateResult<1>,table:SlTable)=> {
+    const column=context.column;
+    const rowData=context.rowData;
+    if (column.field && table.treeConfig && column.field == table.treeConfig.treeNodeColumn) {
+      let level = context.level ||0;
+      if (typeof rowData.close == 'undefined') {
+          rowData.close = true;
+      }
+      let closed = rowData.close;
+      let span = html`<span class="tree-node-icon" componentID=${table.componentID} part="tree-node-toogle"
+        >${table.treeLoadingNode.includes(rowData)
+          ? html`<sl-spinner part="tree-node-loading"></sl-spinner>`
+          : closed
+          ? TABLESVG.closeNodeSvg
+          : TABLESVG.openNodeSvg}
+      </span>`;
+      return html`<div
+        part="tree-node"
+        class="tree-node ${table.treeNodeNoWrap ? 'nowrap-tree-node' : ''} ${closed ? 'closed' : ''}"
+      >
+        <div class="tree-node-inner" style="padding-left:${level * (table.treeConfig.indent as number)}px;">
+          ${table.treeNodeHasChildren(rowData) ? span : html`<span class="tree-node-empty-node"></span>`}
+          ${rowData.icon ? html`<sl-icon class="tree-node-icon" name=${rowData.icon}></sl-icon>` : ''}
+          ${wrap}
+        </div>
+      </div>`;
+    } else if (column.field && table.expandColumn && column.field == table.expandColumn) {
+      const opened = table.expandRowData.includes(rowData);
+      return html`<div class="expand-toogle" part="expand-wrap">
+        <span class="expand-toogle-icon" componentID=${column.table.componentID} part="expand-toogle-icon">
+          ${table.expandingRowData.includes(rowData)
+            ? html`<sl-spinner part="expand-loading"></sl-spinner>`
+            : opened
+            ? TABLESVG.expendOpendSvg
+            : TABLESVG.expendCloseSvg}
+        </span>
+        ${wrap}
+      </div>`;
+    }
+    return wrap;
+  }
+
