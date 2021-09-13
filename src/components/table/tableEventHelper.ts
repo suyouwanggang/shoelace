@@ -20,14 +20,14 @@ export const getTreeNodeAllChildrenSize = (rowData: TreeNodeData) => {
 const handlerNodeToogleListener = (table: SlTable) => {
   let tableEl = table.table;
   return onEvent(tableEl, `tbody[componentID=${table.componentID}]>tr>td>div[part=tree-node] span.tree-node-icon[part=tree-node-toogle][componentID=${table.componentID}]`, 'click', (event: Event) => {
-    debugger;
     const el = event.delegateTarget;
-    const td = el.closest('td') as HTMLTableCellElement;
-    const column = (td as any).column as SlColumn;
+    let td = el.closest('td') as HTMLTableCellElement;
     let tr = td.closest('tr') as HTMLTableRowElement;
-    if (tr && tr.closest('table') != tableEl) {
-      return;
+    while (td && td.closest('table') != table.table) {
+      td = (td.parentElement as HTMLElement).closest('td') as HTMLTableCellElement;
+      tr = td.parentElement as HTMLTableRowElement;
     }
+    let column = (td as any).column as SlColumn;
     const cellContext = getCellContext(td);
     const rowData = cellContext.rowData;
 
@@ -284,7 +284,7 @@ const handlerRowExpandListener = (table: SlTable) => {
 };
 
 export const connectTableHanlder = (table: SlTable) => {
-  let array = [hanlderTRTDEvent(table), handerTableResizeEvent(table), handlerNodeToogleListener(table), handlerTableScroll(table), handlerRowExpandListener(table)];
+  const array = [hanlderTRTDEvent(table), handerTableResizeEvent(table), handlerNodeToogleListener(table), handlerTableScroll(table), handlerRowExpandListener(table)];
 
   table.addController({
     hostDisconnected() {

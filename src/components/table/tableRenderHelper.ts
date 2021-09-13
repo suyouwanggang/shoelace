@@ -158,13 +158,9 @@ export const renderTdCellTemplate = (context: CellContext, table: SlTable) => {
     </td>`;
   }
 };
-const closeNodeSvg = svg`<svg xmlns="http://www.w3.org/2000/svg" id="caret-right-fill" fill="currentColor" viewBox="0 0 16 16" >
-<use xlink:href="/assets/icons/sprite.svg#caret-right-fill"></use>
-</svg>`;
+const closeNodeSvg = svg`<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" id="caret-right-fill"><path d="M12.14 8.753l-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 011.659-.753l5.48 4.796a1 1 0 010 1.506z"></path></svg>`;
 const openNodeSvg = svg`<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" id="caret-down-fill"><path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 01.753 1.659l-4.796 5.48a1 1 0 01-1.506 0z"></path></svg>`;
-
 const expendCloseSvg = svg`<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"  viewBox="0 0 16 16" id="chevron-right"><path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 01.708 0l6 6a.5.5 0 010 .708l-6 6a.5.5 0 01-.708-.708L10.293 8 4.646 2.354a.5.5 0 010-.708z"></path></svg>`;
-
 const expendOpendSvg = svg`<svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 16 16" id="chevron-down"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 01.708 0L8 10.293l5.646-5.647a.5.5 0 01.708.708l-6 6a.5.5 0 01-.708 0l-6-6a.5.5 0 010-.708z"></path></svg>`;
 
 export const TABLESVG = {

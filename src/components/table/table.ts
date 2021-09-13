@@ -67,27 +67,9 @@ let componentID = 0;
  * @event {{dom:HTMLElement,...cellContext}}  sl-tree-node-load-error - Emitted after table tbody td node state toogle  .tree 事件
  *
  *  //tbody 行，tbody td 事件
- * @event {{row:TR,...rowContext}}  sl-table-tr-click - Emitted table tbody tr click  .
- * @event {{row:TR,...rowContext}}  sl-table-tr-dblclick - Emitted table tbody tr dblclick  .
- * @event {{row:TR,...rowContext}}  sl-table-tr-keydown - Emitted table tbody tr keydown  .
- * @event {{row:TR,...rowContext}}  sl-table-tr-keypress - Emitted table tbody tr keypress  .
- * @event {{row:TR,...rowContext}}  sl-table-tr-mousedown - Emitted table tbody tr mousedown  .
- * @event {{row:TR,...rowContext}}  sl-table-tr-mouseenter - Emitted table tbody tr mouseenter  .
- * @event {{row:TR,...rowContext}}  sl-table-tr-mouseleave - Emitted table tbody tr mouseleave  .
- * @event {{row:TR,...rowContext}}  sl-table-tr-mousemove - Emitted table tbody tr mousemove  .
- * @event {{row:TR,...rowContext}}  sl-table-tr-mouseout - Emitted table tbody tr mouseout  .
- * @event {{row:TR,...rowContext}}  sl-table-tr-mouseover - Emitted table tbody tr mouseover  .
- * @event {{row:TR,...rowContext}}  sl-table-tr-mouseup - Emitted table tbody tr mouseup  .
- * @event {{row:TR,td:cell,...cellContext}}  sl-table-td-click - Emitted table tbody td click  .
- * @event {{row:TR,td:cell,...cellContext}}  sl-table-td-dblclick - Emitted table tbody td dblclick  .
- * @event {{row:TR,td:cell,...cellContext}}  sl-table-td-keydown - Emitted table tbody td keydown  .
- * @event {{row:TR,td:cell,...cellContext}}  sl-table-td-keypress - Emitted table tbody td keypress  .
- * @event {{row:TR,td:cell,...cellContext}}  sl-table-td-mousedown - Emitted table tbody td mousedown  .
- * @event {{row:TR,td:cell,...cellContext}}  sl-table-td-mouseenter - Emitted table tbody td mouseenter  .
- * @event {{row:TR,td:cell,...cellContext}}  sl-table-td-mouseleave - Emitted table tbody td mouseleave  .
- * @event {{row:TR,td:cell,...cellContext}}  sl-table-td-mousemove - Emitted table tbody td mousemove  .
- * @event {{row:TR,td:cell,...cellContext}}  sl-table-td-mouseout - Emitted table tbody td mouseout  .
- * @event {{row:TR,td:cell,...cellContext}}  sl-table-td-mouseover - Emitted table tbody td mouseover  .
+ * @event {{row:TR,...RowContext}}  sl-table-tr-${normalEvent} - Emitted table tbody tr trigger normalEvent .support normalEvent event [click,dblclick,keydown,keypress,mousedown,mouseenter,mouseleave,mousemove,mouseout,mouseover,mouseup]  .
+ *
+ * @event {{row:TR,td:TD,...RellContext}}  sl-table-td-${normalEvent} - Emitted table tbody td trigger normalEvent.  support normalEvent  event [click,dblclick,keydown,keypress,mousedown,mouseenter,mouseleave,mousemove,mouseout,mouseover,mouseup].
  *
  *
  *
@@ -458,39 +440,39 @@ export default class SlTable extends LitElement {
   }
 
   /**自定义 渲染tbody td的样式 */
-  @property({ type: Object })
+  @property({ type: Object ,attribute:false})
   customRenderCellStyle: (context: CellContext) => StyleInfo;
 
   /**自定义 渲染tbody td的class  */
-  @property({ type: Object })
+  @property({ type: Object ,attribute:false})
   customRenderCellClassMap: (cellContext: CellContext) => ClassInfo | string | string[];
 
   /**自定义 渲染tbody td的 SpreadResult */
-  @property({ type: Object })
+  @property({ type: Object,attribute:false })
   customRenderCellSpread: (cellContext: CellContext) => SpreadResult;
 
   /**自定义 渲染tHeader th的样式 */
-  @property({ type: Object })
+  @property({ type: Object,attribute:false })
   customRenderCellHeadStyle: (context: CellHeadContext) => StyleInfo;
 
   /**自定义 渲染thead th的class  */
-  @property({ type: Object })
+  @property({ type: Object,attribute:false  })
   customRenderCellHeadClassMap: (context: CellHeadContext) => ClassInfo | string | string[];
 
   /**自定义 渲染thead  th SpreadResult  */
-  @property({ type: Object })
+  @property({ type: Object,attribute:false  })
   customRenderCellHeadSpread: (context: CellHeadContext) => SpreadResult;
 
   /**自定义 渲染tbody tr的样式 */
-  @property({ type: Object })
+  @property({ type: Object,attribute:false  })
   customRenderRowStyle: (rowContext: RowContext) => StyleInfo;
 
   /**自定义 渲染tHeader tr的样式 */
-  @property({ type: Object })
+  @property({ type: Object,attribute:false  })
   customRenderRowClassMap: (rowContext: RowContext) => ClassInfo | string | string[];
 
-  /**自定义 渲染tbody td的Spread */
-  @property({ type: Object })
+  /**自定义 渲染tbody tr的Spread */
+  @property({ type: Object,attribute:false  })
   customRenderRowSpread: (rowContext: RowContext) => SpreadResult;
 
   /** 虚拟滚动行高 */

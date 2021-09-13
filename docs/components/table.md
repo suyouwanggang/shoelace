@@ -201,6 +201,66 @@ Table 组件
     table2.sortValue={orderBy:'name',orderType:'ASC'};
 </script>
 ```
+### 表格自定义熏染和事件 要理解几个上下文
+ #### TBody TR 上下文
+  ```javascript
+  /** Table 行上下文 */
+export type RowContext = {
+  /** 行数据 */
+  rowData: any;
+  /** 行数据顺序号 */
+  rowIndex: number;
+
+  /** TreeTable： rowData对应的上级数据 */
+  parentData?: TreeNodeData;
+  /** TreeTable： 对应树的层次深度 */
+  level?: number;
+  /***TreeTable 如果过滤 rowData 对应的原始数据  */
+  originalData?: TreeNodeData;
+  /***TreeTable 过滤，为orginalData 的上级原始数据 */
+  originalParentData?: TreeNodeData;
+};
+  ```
+ #### TBody TR TD 上下文
+  ```javascript
+ /** Table TBody TD 上下文 */
+export type CellContext = {
+  /**列column */
+  column: SlColumn;
+  /** 行数据 */
+  rowData: any;
+  /** 行数据顺序号 */
+  rowIndex: number;
+  /**column 渲染顺序，从0 开始  */
+  colIndex: number;
+
+  /** TreeTable 的时候，上级数据 */
+  parentData?: TreeNodeData;
+  /** TreeTable 的时候，对应树的层次深度 */
+  level?: number;
+  /***TreeTable 如果过滤 rowData 对应的原始数据  */
+  originalData?: TreeNodeData;
+  /***TreeTable 过滤，为orginalData 的上级原始数据  */
+  originalParentData?: TreeNodeData;
+};
+  ```
+ #### THead  TD/TH 上下文
+  ```javascript
+ /** Table TH 上下文 */
+export type CellHeadContext = {
+  /**列 column */
+  column: SlColumn;
+  /**column index，从0 开始  */
+  colIndex: number;
+  /** 列column 所在表头行号 */
+  colRowIndex: number;
+  /** 列跨多少行 */
+  rowspan: number;
+  /** 跨多少列 */
+  colspan: number;
+};
+ ```
+
 ### 调整列顺序
  ```javascript
             //改变sl-table 下面的column 的order
@@ -335,14 +395,15 @@ Table 组件
     };
 
 
-    //同时给Td设置 属性，style,class
+    //同时给Tr 设置 属性 attribute，style,class,事件
     table.customRenderRowSpread=({rowData,rowIndex})=>{
         return {
-            '.Value':rowData,
-            '.Index':rowIndex,
-            style:{'font-weight':'bold',color:rowIndex%2==0?'red':''},
-            class:['class01','class02'],
-            '@click':(event)=>{console.log(rowData);console.log(rowIndex);}
+            '.Value':rowData, //tr.Value=rowData
+            '.Index':rowIndex, //tr.Index=rowIndex
+            'name':rowData['name'],// tr.getAttribute('name')=rowData['name']
+            style:{'font-weight':'bold',color:rowIndex%2==0?'red':''}, //'font-weight:bold;cor:red'
+            class:['class01','class02'], //{class01:true, class02:true} //'class01 class02 class03'
+            '@click':(event)=>{console.log(rowData);console.log(rowIndex);} //tr.addEventListener('click')
         }
     }
 ```

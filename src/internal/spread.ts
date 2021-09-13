@@ -19,7 +19,7 @@ export const setStyle = (el: Element, styleObj: string | Array<string> | { [k: s
   let styleArray = style ? style.split(';') : [];
   if (isArray(styleObj)) {
     for (let tempStyle of styleObj) {
-      styleArray.push(tempStyle.trim());
+      tempStyle.trim()!=''?styleArray.push(tempStyle.trim()):'';
     }
   } else if (isObject(styleObj)) {
     for (let key in styleObj) {
@@ -28,7 +28,7 @@ export const setStyle = (el: Element, styleObj: string | Array<string> | { [k: s
   } else if (styleObj) {
     let array = styleObj.split(';');
     for (let tempStyle of array) {
-      styleArray.push(tempStyle.trim());
+      tempStyle.trim()!=''? styleArray.push(tempStyle.trim()):'';
     }
   }
   el.setAttribute('style', styleArray.join(';'));
@@ -45,7 +45,7 @@ export const removeStyle = (el: Element, styleObj: string | Array<string> | { [k
   };
   if (isArray(styleObj)) {
     for (let tempStyle of styleObj) {
-      removeFun(tempStyle);
+      tempStyle.trim()!=''?removeFun(tempStyle):'';
     }
   } else if (isObject(styleObj)) {
     for (let key in styleObj) {
@@ -54,40 +54,41 @@ export const removeStyle = (el: Element, styleObj: string | Array<string> | { [k
   } else if (styleObj) {
     let array = styleObj.split(';');
     for (let tempStyle of array) {
-      removeFun(tempStyle.trim());
+      tempStyle.trim()!=''?removeFun(tempStyle.trim()):'';
     }
   }
   el.setAttribute('style', styleArray.join(';'));
 };
+const classSplitReg=/[\s,]/;
 export const setClass = (el: Element, classObj: string | Array<string> | { [k: string]: boolean }) => {
   //style ,内置样式
-  let classList = Array.from(el.classList);
+  const classList = Array.from(el.classList);
   if (isArray(classObj)) {
     for (let tempClass of classObj) {
-      classList.push(tempClass.trim());
+      tempClass.trim()!=''? classList.push(tempClass.trim()):'';
     }
   } else if (isObject(classObj)) {
     for (let key in classObj) {
       if (classObj[key]) {
-        classList.push(key);
+         classList.push(key);
       }
     }
   } else if (classObj as string) {
-    let array = classObj.split(' ');
+    let array = classObj.split(classSplitReg);
     for (let tempClass of array) {
-      classList.push(tempClass.trim());
+      tempClass.trim()!=''?classList.push(tempClass.trim()):'';
     }
   }
   el.classList.add(...classList);
 };
 export const removeClass = (el: Element, classObj: string | Array<string> | { [k: string]: boolean }) => {
-  let classList: Array<string> = [];
+  const classList: Array<string> = [];
   const removeFun = (k: string) => {
     classList.push(k);
   };
   if (isArray(classObj)) {
     for (let tempClass of classObj) {
-      removeFun(tempClass.trim());
+      tempClass.trim()!=''?removeFun(tempClass.trim()):'';
     }
   } else if (isObject(classObj)) {
     for (let key in classObj) {
@@ -96,9 +97,9 @@ export const removeClass = (el: Element, classObj: string | Array<string> | { [k
       }
     }
   } else if (classObj as string) {
-    let array = classObj.split(' ');
+    let array = classObj.split(classSplitReg);
     for (let tempClass of array) {
-      removeFun(tempClass.trim());
+      tempClass.trim()!=''?removeFun(tempClass.trim()):'';
     }
   }
   el.classList.remove(...classList);
@@ -209,6 +210,35 @@ class SpreadDirective extends Directive {
     }
   }
 }
-
+/**
+ * 
+ * 给Element Tag 添加属性(.开头），attribute,class,style,事件（@开头的属性)
+ *  ```js
+ *
+ * html`<sl-tag ${spread({
+ *  '.prop01':{},
+ *  '.prop02':{},
+ *  'id':'001',
+ *  '@click':(event:Event)=>{},
+ *  '@special-event':(event:Event)=>{},
+ *  'style':'font-weight:bold;color:red',
+ *  'class':'class1,class2',
+ *  'attr01':'A'
+ * })}></sl-tag>`
+ *
+ *
+ * html`<sl-tag ${spread({
+ *  '.prop01':{},
+ *  '.prop02':{},
+ *  'id':'001',
+ *  '@click':(event:Event)=>{},
+ *  '@special-event':(event:Event)=>{},
+ *  'style':{'font-weight':'bold';'color':'red'},
+ *  'class':['class1','class2'],
+ *  'attr01':'A'
+ * })}></sl-tag>`
+ *
+ *```
+ */
 export const spread = directive(SpreadDirective);
 export type { SpreadDirective };

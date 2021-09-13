@@ -85,7 +85,7 @@ export type RowContext = {
   /***TreeTable 过滤，为orginalData 的上级原始数据 */
   originalParentData?: TreeNodeData;
 };
-/** Table TD 上下文 */
+/** Table TBODY TD 上下文 */
 export type CellContext = {
   /**列column */
   column: SlColumn;
