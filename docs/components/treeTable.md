@@ -75,7 +75,8 @@ Table 组件启用TreeTable 懒加载 ,和虚拟滚动加载
         return html`${rowIndex+1}`;
     };
     table2.cacheKey='treeTable';
-    table2.treeLoadingNodeMethod=({rowData,parentData})=>{
+    table2.treeLoadingNodeMethod=(cellContext)=>{
+        let rowData=cellContext.rowData;
         let name=rowData.name;
         let result=[];
         for(let i=0;i<200;i++){

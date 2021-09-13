@@ -195,7 +195,7 @@ export default class SlTable extends LitElement {
 
   /** 加载TreeNode 子数据，接收参数nodeData,parentData */
   @property({ type: Object })
-  treeLoadingNodeMethod: (context: RowContext, column: SlColumn) => Promise<Array<TreeNodeData>>;
+  treeLoadingNodeMethod: (context: CellContext) => Promise<Array<TreeNodeData>>;
 
   /** 存储哪些行数据是展开的 */
   @property({ type: Array, attribute: false })
@@ -440,39 +440,39 @@ export default class SlTable extends LitElement {
   }
 
   /**自定义 渲染tbody td的样式 */
-  @property({ type: Object ,attribute:false})
+  @property({ type: Object, attribute: false })
   customRenderCellStyle: (context: CellContext) => StyleInfo;
 
   /**自定义 渲染tbody td的class  */
-  @property({ type: Object ,attribute:false})
+  @property({ type: Object, attribute: false })
   customRenderCellClassMap: (cellContext: CellContext) => ClassInfo | string | string[];
 
   /**自定义 渲染tbody td的 SpreadResult */
-  @property({ type: Object,attribute:false })
+  @property({ type: Object, attribute: false })
   customRenderCellSpread: (cellContext: CellContext) => SpreadResult;
 
   /**自定义 渲染tHeader th的样式 */
-  @property({ type: Object,attribute:false })
+  @property({ type: Object, attribute: false })
   customRenderCellHeadStyle: (context: CellHeadContext) => StyleInfo;
 
   /**自定义 渲染thead th的class  */
-  @property({ type: Object,attribute:false  })
+  @property({ type: Object, attribute: false })
   customRenderCellHeadClassMap: (context: CellHeadContext) => ClassInfo | string | string[];
 
   /**自定义 渲染thead  th SpreadResult  */
-  @property({ type: Object,attribute:false  })
+  @property({ type: Object, attribute: false })
   customRenderCellHeadSpread: (context: CellHeadContext) => SpreadResult;
 
   /**自定义 渲染tbody tr的样式 */
-  @property({ type: Object,attribute:false  })
+  @property({ type: Object, attribute: false })
   customRenderRowStyle: (rowContext: RowContext) => StyleInfo;
 
   /**自定义 渲染tHeader tr的样式 */
-  @property({ type: Object,attribute:false  })
+  @property({ type: Object, attribute: false })
   customRenderRowClassMap: (rowContext: RowContext) => ClassInfo | string | string[];
 
   /**自定义 渲染tbody tr的Spread */
-  @property({ type: Object,attribute:false  })
+  @property({ type: Object, attribute: false })
   customRenderRowSpread: (rowContext: RowContext) => SpreadResult;
 
   /** 虚拟滚动行高 */

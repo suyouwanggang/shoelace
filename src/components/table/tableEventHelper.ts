@@ -22,15 +22,11 @@ const handlerNodeToogleListener = (table: SlTable) => {
   return onEvent(tableEl, `tbody[componentID=${table.componentID}]>tr>td>div[part=tree-node] span.tree-node-icon[part=tree-node-toogle][componentID=${table.componentID}]`, 'click', (event: Event) => {
     const el = event.delegateTarget;
     let td = el.closest('td') as HTMLTableCellElement;
-    let tr = td.closest('tr') as HTMLTableRowElement;
     while (td && td.closest('table') != table.table) {
       td = (td.parentElement as HTMLElement).closest('td') as HTMLTableCellElement;
-      tr = td.parentElement as HTMLTableRowElement;
     }
-    let column = (td as any).column as SlColumn;
     const cellContext = getCellContext(td);
     const rowData = cellContext.rowData;
-
     if (typeof rowData.children == 'undefined' && table.treeConfig && table.treeConfig.lazy) {
       if (!table.treeLoadingNodeMethod) {
         console.warn('lazy 模式下应该设置 加载方法：loadingNodeMethod');
@@ -40,7 +36,7 @@ const handlerNodeToogleListener = (table: SlTable) => {
       table.treeLoadingNode = [...table.treeLoadingNode];
       Promise.resolve().then(async () => {
         try {
-          let result = await table.treeLoadingNodeMethod(cellContext, column);
+          let result = await table.treeLoadingNodeMethod(cellContext);
           if (result) {
             rowData.children = result;
           }
@@ -53,8 +49,8 @@ const handlerNodeToogleListener = (table: SlTable) => {
           emit(table, 'sl-tree-node-loaded', {
             detail: {
               dom: event.target,
+              result: result,
               ...cellContext,
-              result: result
             }
           });
         } catch (ex) {
@@ -100,9 +96,6 @@ const handlerNodeToogleListener = (table: SlTable) => {
         }
       });
       table.watchDataSourceChange();
-      table.updateComplete.then(() => {
-        table.asynTableHeaderWidth();
-      });
     }
   });
 };
