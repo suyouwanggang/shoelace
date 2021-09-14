@@ -86,26 +86,21 @@ export default class SlColumn extends LitElement {
   @property({ type: Number, reflect: true, attribute: 'order' })
   order = 0;
 
-
   /**列的类型，指定类型的列，有特定的渲染，例如index,checkbox,radio */
-  @property({ type: String, attribute:false})
-  type: 'index' | 'checkbox' | 'radio' |'date'|'date-month'|'date-year';
+  @property({ type: String, attribute: false })
+  type: 'index' | 'checkbox' | 'radio' | 'date' | 'date-month' | 'date-year';
 
   /**列编辑器，支持的内置编辑器 ，EDIT_TYPE, 或者一个函数，实现自定义列编辑器 */
-  @property({ type: Object, attribute:false})
-  edit:EDIT_TYPE|string|((context: CellContext) => TemplateResult<1>);
-
-  
+  @property({ type: Object, attribute: false })
+  edit: EDIT_TYPE | string | ((context: CellContext) => TemplateResult<1>);
 
   /** 编辑器 input,textarea 最大输入长度 */
-  @property({ type: Number, attribute:false})
-  inputMaxLength:number;
-
+  @property({ type: Number, attribute: false })
+  inputMaxLength: number;
 
   /** 定义列数据映射器,在 会将 rowData[field]转为为显示值，同时在编辑的时候，也会作为select下拉项 */
-  @property({ type: Array, attribute:false})
-  items:Array<ColumnItems>;
-
+  @property({ type: Array, attribute: false })
+  items: Array<ColumnItems>;
 
   /**
    *  所有hidden!=false直接子column,并且按照order排序了
@@ -116,7 +111,6 @@ export default class SlColumn extends LitElement {
     }) as SlColumn[];
     return children.sort((item1, item2) => item1.order - item2.order);
   }
-
 
   /**
    * 所有直接子column

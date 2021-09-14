@@ -484,58 +484,54 @@ export default class SlTable extends LitElement {
   enableVirtualScroll: number;
 
   /**定义表格rowData id 属性,如果列 type='checkbox'|'radio',需要 */
-  @property({type:String,attribute:false})
-  idProp:'id';
+  @property({ type: String, attribute: false })
+  idProp: 'id';
 
   /** 当前选中的对象的 id 列表 */
-  @property({type:Array,attribute:false})
-  checkedIDValue=[];
-
-  
+  @property({ type: Array, attribute: false })
+  checkedIDValue = [];
 
   //表格编辑模式
 
   /**表格编辑总控： 是否允许启动表格编辑功能 */
   @property({ type: Boolean, attribute: false })
-  editEnable=false;
+  editEnable = false;
 
   /** 编辑模式：row:行编辑(一次编辑一行，cell:单元格编辑（一次编辑一个TD），columm：列编辑模式，一次编辑一列*/
   @property({ type: String, attribute: false })
-  editMode:'row'|'column'|'cell'='row';
-  
+  editMode: 'row' | 'column' | 'cell' = 'row';
+
   /** 编辑行为：如果 editMode=row,是否一次允许出现多个行编辑，editMode=column, 是否允许一出出现多列编辑 */
   @property({ type: Boolean, attribute: false })
-  editAccordion=false;
+  editAccordion = false;
   @watch('editAccordion')
-  changeEditAccordion(){
-    if(this.editAccordion){
-      if(this.currentEditRow&&this.currentEditRow.length>0){
-        this.currentEditRow=[this.currentEditRow[0]];
-      } if(this.currentEditColumn&&this.currentEditColumn.length>0){
-        this.currentEditColumn=[this.currentEditColumn[0]];
+  changeEditAccordion() {
+    if (this.editAccordion) {
+      if (this.currentEditRow && this.currentEditRow.length > 0) {
+        this.currentEditRow = [this.currentEditRow[0]];
+      }
+      if (this.currentEditColumn && this.currentEditColumn.length > 0) {
+        this.currentEditColumn = [this.currentEditColumn[0]];
       }
     }
   }
 
   /** 触发编辑模式的事件,支持click,dbclick,manual */
   @property({ type: String, attribute: false })
-  editTrigger='click';
+  editTrigger = 'click';
 
   /** 当前编辑的行数据 */
-  @property({type:Array,attribute:false})
-  currentEditRow:Array<any>=[];
+  @property({ type: Array, attribute: false })
+  currentEditRow: Array<any> = [];
 
   /** 当前编辑的单元格  */
   @state()
-  currentEditCell?:{column:SlColumn,rowData:any};
+  currentEditCell?: { column: SlColumn; rowData: any };
 
   /** 当前编辑的列*/
-  @property({type:Array,attribute:false})
-  currentEditColumn:Array<SlColumn>=[];
+  @property({ type: Array, attribute: false })
+  currentEditColumn: Array<SlColumn> = [];
 
-
-
-  
   @watchProps(['dataSource', 'treeConfig'])
   watchDataSourceChange() {
     if (this.treeConfig && this.dataSource) {
@@ -705,9 +701,9 @@ export default class SlTable extends LitElement {
       Promise.resolve().then(() => {
         const { rows, tdRenderColumnData } = caculateColumnData(this.canShowColumns);
         this.theadRows = rows;
-        for(let l of tdRenderColumnData){
-          if(l.field&&l.width){
-            this.table.style.setProperty(`--sl-column-width-${l.field}`,isNumberWidth(l.width)?l.width+'px':l.width);
+        for (let l of tdRenderColumnData) {
+          if (l.field && l.width) {
+            this.table.style.setProperty(`--sl-column-width-${l.field}`, isNumberWidth(l.width) ? l.width + 'px' : l.width);
           }
         }
         this.tdRenderColumns = tdRenderColumnData;

@@ -99,80 +99,84 @@ const handlerNodeToogleListener = (table: SlTable) => {
     }
   });
 };
-const TDEVENTS = ['click', 'dblclick','contextmenu', 'keydown', 'keyup', 'keypress', 'mousedown', 'mouseenter', 'mousemove', 'mouseover', 'mouseout'];
+const TDEVENTS = ['click', 'dblclick', 'contextmenu', 'keydown', 'keyup', 'keypress', 'mousedown', 'mouseenter', 'mousemove', 'mouseover', 'mouseout'];
 /**给Table tr, td 添加事件 */
 const hanlderTRTDEvent = (table: SlTable) => {
   const one1 = onEventArray(table.table, `tbody[componentID=${table.componentID}]>tr>td`, TDEVENTS, (event: Event) => {
     let td = event.delegateTarget as HTMLTableCellElement;
     let tr = td.parentElement as HTMLTableRowElement;
-    while (td&&td.parentElement && td.closest('table') != table.table) {
+    while (td && td.parentElement && td.closest('table') != table.table) {
       td = (td.parentElement as HTMLElement).closest('td') as HTMLTableCellElement;
-      tr = td.parentElement  as HTMLTableRowElement;
+      tr = td.parentElement as HTMLTableRowElement;
     }
-    const rowContext=getRowContext(tr);
-    const cellContext=getCellContext(td)
-    if(td&&table.editEnable&&table.editTrigger==event.type){
-      if(event.type=='contextmenu'){
+    const rowContext = getRowContext(tr);
+    const cellContext = getCellContext(td);
+    if (td && table.editEnable && table.editTrigger == event.type) {
+      if (event.type == 'contextmenu') {
         event.preventDefault();
       }
-      if(table.editMode=='row'){
-        if(!(table.currentEditRow&&table.currentEditRow.includes(rowContext.rowData))){
-          if(table.editAccordion){
-             table.currentEditRow=[rowContext.rowData];
-         }else{
-           if(!table.currentEditRow){
-             table.currentEditRow=[];
-           }
-           table.currentEditRow.push(rowContext.rowData);
-           table.currentEditRow=[...table.currentEditRow];
-         }
-        }
-      }else if(table.editMode=='column'){
-        if(!(table.currentEditColumn&&table.currentEditColumn.includes(cellContext.column))){
-          if(table.editAccordion){
-            table.currentEditColumn=[cellContext.column];
-          }else{
-            if(!table.currentEditColumn){
-              table.currentEditColumn=[];
+      if (table.editMode == 'row') {
+        if (!(table.currentEditRow && table.currentEditRow.includes(rowContext.rowData))) {
+          if (table.editAccordion) {
+            table.currentEditRow = [rowContext.rowData];
+          } else {
+            if (!table.currentEditRow) {
+              table.currentEditRow = [];
             }
-              table.currentEditColumn.push(cellContext.column);
-              table.currentEditColumn=[...table.currentEditColumn];
+            table.currentEditRow.push(rowContext.rowData);
+            table.currentEditRow = [...table.currentEditRow];
           }
         }
-      }else if(table.editMode=='cell'){
-        table.currentEditCell={
-          rowData:rowContext.rowData,
-          column:cellContext.column
+      } else if (table.editMode == 'column') {
+        if (!(table.currentEditColumn && table.currentEditColumn.includes(cellContext.column))) {
+          if (table.editAccordion) {
+            table.currentEditColumn = [cellContext.column];
+          } else {
+            if (!table.currentEditColumn) {
+              table.currentEditColumn = [];
+            }
+            table.currentEditColumn.push(cellContext.column);
+            table.currentEditColumn = [...table.currentEditColumn];
+          }
         }
+      } else if (table.editMode == 'cell') {
+        table.currentEditCell = {
+          rowData: rowContext.rowData,
+          column: cellContext.column
+        };
       }
-      table.updateComplete.then(()=>{
-          window.setTimeout(()=>{
-            let editor= td.querySelector('input,select,textarea,sl-input,sl-select') as HTMLElement;
-            editor?.focus();
-          },10)
-      })
+      table.updateComplete.then(() => {
+        window.setTimeout(() => {
+          let editor = td.querySelector('input,select,textarea,sl-input,sl-select') as HTMLElement;
+          editor?.focus();
+        }, 10);
+      });
     }
-    td?emit(table, `sl-table-td-${event.type}`, {
-      cancelable: true,
-      detail: {
-        td: td,
-        row: tr,
-        ...cellContext
-      }
-    }):'';
+    td
+      ? emit(table, `sl-table-td-${event.type}`, {
+          cancelable: true,
+          detail: {
+            td: td,
+            row: tr,
+            ...cellContext
+          }
+        })
+      : '';
   });
   const one2 = onEventArray(table.table, `tbody[componentID=${table.componentID}]>tr`, TDEVENTS, (event: Event) => {
     let tr = event.delegateTarget as HTMLTableRowElement;
-    while (tr&&tr.parentElement!=null && tr.closest('table') != table.table) {
+    while (tr && tr.parentElement != null && tr.closest('table') != table.table) {
       tr = (tr.parentElement as HTMLElement).closest('tr') as HTMLTableRowElement;
     }
-    tr?emit(table, `sl-table-tr-${event.type}`, {
-      cancelable: true,
-      detail: {
-        row: tr,
-        ...table.getRowContext(tr)
-      }
-    }):'';
+    tr
+      ? emit(table, `sl-table-tr-${event.type}`, {
+          cancelable: true,
+          detail: {
+            row: tr,
+            ...table.getRowContext(tr)
+          }
+        })
+      : '';
   });
   return {
     dispose() {
@@ -191,59 +195,64 @@ const handerTableResizeEvent = (slTable: SlTable) => {
   let debounseUpdate = debounce(function () {
     updateTableCache(slTable);
   }, 60);
-  let width=0;
-  let oldWidth=0;
-  let th:HTMLElement;
-  let isTableResize=false;
-  return dragOnHandler(table, `thead[componentID=${slTable.componentID}]>tr>th div.th-resize-helper`, (changePos, event) => {
-    if(isTableResize){
-      return ;
-    }
-    isTableResize=true;
-    let div = (event as any).delegateTarget as HTMLElement;
-    th = div.closest('th') as HTMLElement;
-    while (th && th.closest('table') != slTable.table) {
-      th = (th.parentElement as Element).closest('th') as HTMLElement;
-    }
-    let column = (th as any).column as SlColumn;
-    if (!column || column.table != slTable) {
-      return;
-    }
-    saveAsDefaultTableCache(slTable);
-    width = parseInt(getCssValue(th, 'width'));
-    oldWidth=width;
-    width += changePos.x;
-    if (column.maxWidth) {
-      let maxWidth = parseInt(column.maxWidth, 10);
-      if (width > maxWidth) {
-        width = maxWidth;
+  let width = 0;
+  let oldWidth = 0;
+  let th: HTMLElement;
+  let isTableResize = false;
+  return dragOnHandler(
+    table,
+    `thead[componentID=${slTable.componentID}]>tr>th div.th-resize-helper`,
+    (changePos, event) => {
+      if (isTableResize) {
+        return;
+      }
+      isTableResize = true;
+      let div = (event as any).delegateTarget as HTMLElement;
+      th = div.closest('th') as HTMLElement;
+      while (th && th.closest('table') != slTable.table) {
+        th = (th.parentElement as Element).closest('th') as HTMLElement;
+      }
+      let column = (th as any).column as SlColumn;
+      if (!column || column.table != slTable) {
+        return;
+      }
+      saveAsDefaultTableCache(slTable);
+      width = parseInt(getCssValue(th, 'width'));
+      oldWidth = width;
+      width += changePos.x;
+      if (column.maxWidth) {
+        let maxWidth = parseInt(column.maxWidth, 10);
+        if (width > maxWidth) {
+          width = maxWidth;
+        }
+      }
+      if (column.minWidth) {
+        let minWidth = parseInt(column.minWidth, 10);
+        if (width < minWidth) {
+          width = minWidth;
+        }
+      }
+      if (column.field) {
+        slTable.table.style.setProperty(`--sl-column-width-${column.field}`, width + 'px');
+      }
+      column.width = width + '';
+      slTable.updateComplete.then(() => {
+        isTableResize = false;
+        emit(slTable, 'sl-table-column-resize', {
+          detail: {
+            column: column,
+            oldWidth: oldWidth,
+            width: width
+          }
+        });
+      });
+    },
+    () => {
+      if (slTable.cacheKey) {
+        debounseUpdate();
       }
     }
-    if (column.minWidth) {
-      let minWidth = parseInt(column.minWidth, 10);
-      if (width < minWidth) {
-        width = minWidth;
-      }
-    }
-    if(column.field){
-      slTable.table.style.setProperty(`--sl-column-width-${column.field}`,width+'px');
-    }
-    column.width=width+'';
-   slTable.updateComplete.then(()=>{
-     isTableResize=false;
-     emit(slTable, 'sl-table-column-resize', {
-      detail: {
-        column: column,
-        oldWidth:oldWidth,
-        width: width ,
-      }
-    });
-   })
-  },()=>{
-    if(slTable.cacheKey){
-      debounseUpdate();
-    }
-  });
+  );
 };
 const handlerTableScroll = (slTable: SlTable) => {
   let scrollDiv = slTable.scrollDiv;
@@ -267,11 +276,10 @@ const handlerTableScroll = (slTable: SlTable) => {
       scrollDiv.scrollTop += y * scrollDiv.offsetHeight;
       scrollDiv.scrollLeft += x * scrollDiv.offsetWidth;
     }
-    if(slTable.enableVirtualScroll){
+    if (slTable.enableVirtualScroll) {
       _event.preventDefault();
       debouceScroll();
     }
-    
   });
   return addEvent(scrollDiv, 'scroll', () => {
     emit(slTable, 'sl-table-scroll', {
@@ -279,7 +287,7 @@ const handlerTableScroll = (slTable: SlTable) => {
         div: scrollDiv
       }
     });
-    if(slTable.enableVirtualScroll){
+    if (slTable.enableVirtualScroll) {
       debouceScroll();
     }
   });

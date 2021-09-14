@@ -149,7 +149,7 @@ export default class SlForm extends LitElement {
         serialize: (el: SlSelect, formData) => {
           if (el.name && !el.disabled) {
             if (el.multiple) {
-              const selectedOptions = [...el.value as Array<string|number>];
+              const selectedOptions = [...(el.value as Array<string | number>)];
               if (selectedOptions.length) {
                 selectedOptions.map(value => formData.append(el.name, String(value)));
               } else {

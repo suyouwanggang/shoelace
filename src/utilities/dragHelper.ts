@@ -73,7 +73,7 @@ export const dragHandler = (dragDiv: HTMLElement, callBack: (changePos: Poniter,
  * @param selector  子选择器
  * @param callBack 回调 (changePos:Poniter,event:MouseEvent)
  */
-export const dragOnHandler = (dragDiv: HTMLElement, selector: string, callBack: (changePos: Poniter, event: MouseEvent) => void,endBack?:(event: MouseEvent)=>void) => {
+export const dragOnHandler = (dragDiv: HTMLElement, selector: string, callBack: (changePos: Poniter, event: MouseEvent) => void, endBack?: (event: MouseEvent) => void) => {
   let oldPointer: Poniter;
   let newPointer: Poniter;
   let documentMouseMove: {
@@ -87,7 +87,7 @@ export const dragOnHandler = (dragDiv: HTMLElement, selector: string, callBack: 
     (event as any).delegateTarget = delegateTarget;
     if (event.preventDefault) {
       event.preventDefault();
-    } 
+    }
     newPointer = {
       x: event.pageX - oldPointer.x,
       y: event.pageY - oldPointer.y
@@ -111,7 +111,7 @@ export const dragOnHandler = (dragDiv: HTMLElement, selector: string, callBack: 
     if (documentMouseMove) {
       documentMouseMove.dispose();
     }
-    if(endBack){
+    if (endBack) {
       endBack(event);
     }
   };
@@ -120,7 +120,7 @@ export const dragOnHandler = (dragDiv: HTMLElement, selector: string, callBack: 
     delegateTarget = (event as any).delegateTarget;
     if (event.preventDefault) {
       event.preventDefault();
-    } 
+    }
     oldPointer = {
       x: event.pageX,
       y: event.pageY

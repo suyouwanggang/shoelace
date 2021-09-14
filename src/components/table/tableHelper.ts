@@ -43,44 +43,44 @@ type ColumnCacheData = {
  * @param data 数据
  * @param field 字段
  */
-export const getFieldValue = (data: any, field: string|((data:any)=>any)) => {
-  if(field==undefined||field==null){
+export const getFieldValue = (data: any, field: string | ((data: any) => any)) => {
+  if (field == undefined || field == null) {
     return data;
-  }else if(isFunction(field)){
+  } else if (isFunction(field)) {
     return field(data);
-  }else{
+  } else {
     if (field.indexOf('.') === -1) {
       return data[field];
-    }else {
-        const fields = field.split('.');
-        let value = data;
-        for (let i = 0, len = fields.length; i < len && value != null && value !== undefined; ++i) {
-            value = value[fields[i]];
-        }
-        return value === undefined ? '' : value;
+    } else {
+      const fields = field.split('.');
+      let value = data;
+      for (let i = 0, len = fields.length; i < len && value != null && value !== undefined; ++i) {
+        value = value[fields[i]];
+      }
+      return value === undefined ? '' : value;
     }
   }
   return '';
 };
-export const setFieldValue=(data:any,field:string, value:any)=>{
-  if(field==undefined||field==null){
+export const setFieldValue = (data: any, field: string, value: any) => {
+  if (field == undefined || field == null) {
     return data;
-  }else if (field.indexOf('.') === -1) {
+  } else if (field.indexOf('.') === -1) {
     data[field] = value;
   } else {
-      const fields = field.split('.');
-      let tempObject = data;
-      for (let i = 0, len = fields.length - 1; i < len; ++i) {
-          let fieldObject=tempObject[fields[i]];
-          if(!fieldObject){
-            tempObject[fields[i]]={};
-            fieldObject= tempObject[fields[i]];
-          }
-          tempObject = fieldObject ;
+    const fields = field.split('.');
+    let tempObject = data;
+    for (let i = 0, len = fields.length - 1; i < len; ++i) {
+      let fieldObject = tempObject[fields[i]];
+      if (!fieldObject) {
+        tempObject[fields[i]] = {};
+        fieldObject = tempObject[fields[i]];
       }
-      tempObject[fields[fields.length - 1]] = value;
+      tempObject = fieldObject;
+    }
+    tempObject[fields[fields.length - 1]] = value;
   }
-}
+};
 const setColumnCacheData = (column: SlColumn, key: keyof ColumnCacheData, value: any) => {
   let data = columnCacheData.get(column);
   if (!data) {

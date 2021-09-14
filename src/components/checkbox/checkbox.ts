@@ -40,7 +40,7 @@ export default class SlCheckbox extends LitElement {
   @property() name: string;
 
   /** The checkbox's value attribute. */
-  @property({attribute:false}) value: string|number;
+  @property({ attribute: false }) value: string | number;
 
   /** Disables the checkbox. */
   @property({ type: Boolean, reflect: true }) disabled = false;

@@ -27,15 +27,15 @@ export const renderThColTemplate = (context: CellHeadContext, table: SlTable) =>
     if (column.width) {
       const isNumber = isNumberWidth(column.width);
       styleObject['width'] = column.width + (isNumber ? 'px' : '');
-      if(!column.minWidth){
-        styleObject['min-width']=styleObject['width'];
+      if (!column.minWidth) {
+        styleObject['min-width'] = styleObject['width'];
       }
     }
     if (column.minWidth) {
       const isNumber = isNumberWidth(column.minWidth);
       styleObject['min-width'] = column.minWidth + (isNumber ? 'px' : '');
     }
-    
+
     if (column.maxWidth) {
       const isNumber = isNumberWidth(column.maxWidth);
       styleObject['max-width'] = column.maxWidth + (isNumber ? 'px' : '');
@@ -76,7 +76,9 @@ export const renderThColTemplate = (context: CellHeadContext, table: SlTable) =>
         } else {
           (headResult['@click'] as EventListenerObject).handleEvent(_event);
         }
-      } catch (ex) {console.error(ex);}
+      } catch (ex) {
+        console.error(ex);
+      }
     }
     if (trigger == SortTrigger.cell) {
       sortRenderHanlder(column, table);
@@ -113,11 +115,11 @@ const renderCellData = (context: CellContext) => {
     return col.renderCell(context);
   } else {
     let fieldValue = getFieldValue(context.rowData, col.field);
-    if(fieldValue==undefined||fieldValue==null){
-      fieldValue='';
+    if (fieldValue == undefined || fieldValue == null) {
+      fieldValue = '';
     }
-    if(col.items){
-      fieldValue=findItemLable(col.items,fieldValue);
+    if (col.items) {
+      fieldValue = findItemLable(col.items, fieldValue);
     }
     colResult = html`<div class="tdWrap">${fieldValue}</div>`;
   }
@@ -140,11 +142,11 @@ export const renderTdCellTemplate = (context: CellContext, table: SlTable) => {
   if (tdResult == undefined || tdResult == nothing || tdResult.rowspan == 0 || tdResult.colspan == 0) {
     return nothing; //标识此td 不进行渲染
   } else {
-    const isEditFlag=isCellEditor(context,table);
-    if(isEditFlag){
-      const editTemplate=getCellEditor(context);
-      if(editTemplate!=editNone){
-        tdResult.template=editTemplate;
+    const isEditFlag = isCellEditor(context, table);
+    if (isEditFlag) {
+      const editTemplate = getCellEditor(context);
+      if (editTemplate != editNone) {
+        tdResult.template = editTemplate;
       }
     }
     const styleInfo = table.customRenderCellStyle ? table.customRenderCellStyle(context) : {};

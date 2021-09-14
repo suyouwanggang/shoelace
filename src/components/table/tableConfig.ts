@@ -120,8 +120,8 @@ export type CellHeadContext = {
   colspan: number;
 };
 /** 定义column Items 类型 */
-export type ColumnItems={
-  id:number|string;
-  name:string;
-  [key:string]:any;
-}
+export type ColumnItems = {
+  id: number | string;
+  name: string;
+  [key: string]: any;
+};

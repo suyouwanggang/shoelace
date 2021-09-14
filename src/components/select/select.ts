@@ -103,7 +103,7 @@ export default class SlSelect extends LitElement {
   @property({ type: Boolean }) hoist = false;
 
   /** The value of the control. This will be a string or an array depending on `multiple`. */
-  @property({attribute:false}) value: string|number | Array<string|number> ;
+  @property({ attribute: false }) value: string | number | Array<string | number>;
 
   /** Draws a pill-style select with rounded edges. */
   @property({ type: Boolean, reflect: true }) pill = false;
@@ -150,7 +150,6 @@ export default class SlSelect extends LitElement {
     return this.input.reportValidity();
   }
 
-  
   /** Sets a custom validation message. If `message` is not empty, the field will be considered invalid. */
   setCustomValidity(message: string) {
     this.input.setCustomValidity(message);
@@ -275,13 +274,13 @@ export default class SlSelect extends LitElement {
     const item = event.detail.item as SlMenuItem;
 
     if (this.multiple) {
-      let index=(this.value as Array<string|number>).indexOf(item.value);
-      if(index>=0){
-        (this.value as Array<string|number>).splice(index,1);
-      }else{
-        (this.value as Array<string|number>).push(item.value);
+      let index = (this.value as Array<string | number>).indexOf(item.value);
+      if (index >= 0) {
+        (this.value as Array<string | number>).splice(index, 1);
+      } else {
+        (this.value as Array<string | number>).push(item.value);
       }
-      this.value=[...this.value  as Array<string|number>];
+      this.value = [...(this.value as Array<string | number>)];
     } else {
       this.value = item.value;
     }
@@ -304,7 +303,7 @@ export default class SlSelect extends LitElement {
   handleMultipleChange() {
     // Cast to array | string based on `this.multiple`
     const value = this.getValueAsArray();
-    this.value = this.multiple ? value : value[0] ;
+    this.value = this.multiple ? value : value[0];
     this.syncItemsFromValue();
   }
 
@@ -318,7 +317,7 @@ export default class SlSelect extends LitElement {
     const items = this.getItems();
 
     // Check for duplicate values in menu items
-    const values: Array<string|number>= [];
+    const values: Array<string | number> = [];
     items.map(item => {
       if (values.includes(item.value)) {
         console.error(`Duplicate value found in <sl-select> menu item: '${item.value}'`, item);
@@ -425,7 +424,7 @@ export default class SlSelect extends LitElement {
   }
 
   render() {
-    const hasSelection = this.multiple ? (this.value as Array<string|number>)?.length > 0 : this.value !== '';
+    const hasSelection = this.multiple ? (this.value as Array<string | number>)?.length > 0 : this.value !== '';
 
     return renderFormControl(
       {
@@ -449,7 +448,7 @@ export default class SlSelect extends LitElement {
           class=${classMap({
             select: true,
             'select--open': this.isOpen,
-            'select--empty': Array.isArray(this.value)? this.value.length === 0:this.value=='',
+            'select--empty': Array.isArray(this.value) ? this.value.length === 0 : this.value == '',
             'select--focused': this.hasFocus,
             'select--clearable': this.clearable,
             'select--disabled': this.disabled,
