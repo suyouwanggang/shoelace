@@ -68,6 +68,7 @@
   - [Layout](/components/layout)
   - [Table](/components/table)
   - [TreeTable](/components/treeTable)
+  - [EditTable](/components/tableEdit)
   <!--plop:component-->
 
 - Utilities

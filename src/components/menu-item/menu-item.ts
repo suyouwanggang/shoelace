@@ -32,7 +32,7 @@ export default class SlMenuItem extends LitElement {
   @property({ type: Boolean, reflect: true }) checked = false;
 
   /** A unique value to store in the menu item. This can be used as a way to identify menu items when selected. */
-  @property() value = '';
+  @property() value:number|string = '';
 
   /** Draws the menu item in a disabled state. */
   @property({ type: Boolean, reflect: true }) disabled = false;

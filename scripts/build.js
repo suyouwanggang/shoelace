@@ -20,9 +20,9 @@ const { dev } = commandLineArgs({ name: 'dev', type: Boolean });
 del.sync('./dist');
 
 try {
-  if (!dev) execSync('tsc', { stdio: 'inherit' }); // for type declarations
+  if (!dev) execSync('npx tsc', { stdio: 'inherit' }); // for type declarations
   if (dev) {
-    execSync('tsc', { declaration: true });
+    execSync('npx tsc', { declaration: true });
   }
   execSync('node scripts/make-metadata.js', { stdio: 'inherit' });
   execSync('node scripts/make-search.js', { stdio: 'inherit' });
@@ -138,7 +138,8 @@ try {
           if (/(\.css|\.styles\.ts)$/.test(filename)) {
             return;
           }
-
+          console.log(`make-css change - ${filename}`);
+          execSync('node scripts/make-css.js', { stdio: 'inherit' });
           execSync('node scripts/make-metadata.js', { stdio: 'inherit' });
         })
         .then(() => bs.reload())

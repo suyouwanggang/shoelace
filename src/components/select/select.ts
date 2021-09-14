@@ -103,7 +103,7 @@ export default class SlSelect extends LitElement {
   @property({ type: Boolean }) hoist = false;
 
   /** The value of the control. This will be a string or an array depending on `multiple`. */
-  @property() value: string | Array<string> = '';
+  @property({attribute:false}) value: string|number | Array<string|number> ;
 
   /** Draws a pill-style select with rounded edges. */
   @property({ type: Boolean, reflect: true }) pill = false;
@@ -150,6 +150,7 @@ export default class SlSelect extends LitElement {
     return this.input.reportValidity();
   }
 
+  
   /** Sets a custom validation message. If `message` is not empty, the field will be considered invalid. */
   setCustomValidity(message: string) {
     this.input.setCustomValidity(message);
@@ -167,7 +168,7 @@ export default class SlSelect extends LitElement {
 
   getValueAsArray() {
     // Single selects use '' as an empty selection value, so convert this to [] for an empty multi select
-    if (this.multiple && this.value === '') {
+    if (this.multiple && this.value == '') {
       return [];
     }
 
@@ -271,14 +272,19 @@ export default class SlSelect extends LitElement {
   }
 
   handleMenuSelect(event: CustomEvent) {
-    const item = event.detail.item;
+    const item = event.detail.item as SlMenuItem;
 
     if (this.multiple) {
-      this.value = this.value?.includes(item.value) ? (this.value as []).filter(v => v !== item.value) : [...this.value, item.value];
+      let index=(this.value as Array<string|number>).indexOf(item.value);
+      if(index>=0){
+        (this.value as Array<string|number>).splice(index,1);
+      }else{
+        (this.value as Array<string|number>).push(item.value);
+      }
+      this.value=[...this.value  as Array<string|number>];
     } else {
       this.value = item.value;
     }
-
     this.syncItemsFromValue();
   }
 
@@ -298,7 +304,7 @@ export default class SlSelect extends LitElement {
   handleMultipleChange() {
     // Cast to array | string based on `this.multiple`
     const value = this.getValueAsArray();
-    this.value = this.multiple ? value : value[0] || '';
+    this.value = this.multiple ? value : value[0] ;
     this.syncItemsFromValue();
   }
 
@@ -312,7 +318,7 @@ export default class SlSelect extends LitElement {
     const items = this.getItems();
 
     // Check for duplicate values in menu items
-    const values: string[] = [];
+    const values: Array<string|number>= [];
     items.map(item => {
       if (values.includes(item.value)) {
         console.error(`Duplicate value found in <sl-select> menu item: '${item.value}'`, item);
@@ -350,7 +356,7 @@ export default class SlSelect extends LitElement {
 
   resizeMenu() {
     const box = this.shadowRoot?.querySelector('.select__box') as HTMLElement;
-    this.menu.style.width = `${box.clientWidth}px`;
+    this.menu.style.minWidth = `${box.clientWidth}px`;
 
     if (this.dropdown) {
       this.dropdown.reposition();
@@ -419,7 +425,7 @@ export default class SlSelect extends LitElement {
   }
 
   render() {
-    const hasSelection = this.multiple ? this.value?.length > 0 : this.value !== '';
+    const hasSelection = this.multiple ? (this.value as Array<string|number>)?.length > 0 : this.value !== '';
 
     return renderFormControl(
       {
@@ -443,7 +449,7 @@ export default class SlSelect extends LitElement {
           class=${classMap({
             select: true,
             'select--open': this.isOpen,
-            'select--empty': this.value?.length === 0,
+            'select--empty': Array.isArray(this.value)? this.value.length === 0:this.value=='',
             'select--focused': this.hasFocus,
             'select--clearable': this.clearable,
             'select--disabled': this.disabled,
@@ -485,7 +491,7 @@ export default class SlSelect extends LitElement {
               <slot name="prefix"></slot>
             </span>
 
-            <div class="select__label">${this.displayTags.length ? html` <span part="tags" class="select__tags"> ${this.displayTags} </span> ` : this.displayLabel || this.placeholder}</div>
+            <div part="select_label" class="select__label">${this.displayTags.length ? html` <span part="tags" class="select__tags"> ${this.displayTags} </span> ` : this.displayLabel || this.placeholder}</div>
 
             ${this.clearable && hasSelection
               ? html` <sl-icon-button exportparts="base:clear-button" class="select__clear" name="x-circle" library="system" @click=${this.handleClearClick} tabindex="-1"></sl-icon-button> `

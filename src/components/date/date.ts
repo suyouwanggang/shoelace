@@ -20,6 +20,7 @@ import styles from './date.styles';
  *
  * @csspart sl-date-panel - The component's base wrapper.
  * @csspart input - The input text.
+ * @csspart base - The input wrap container.
  *
  */
 @customElement('sl-date')
@@ -94,6 +95,7 @@ export default class SlDate extends LitElement {
   datePanel: SlDatePanel;
   @query('#dropDown')
   dropDown: SlDropdown;
+
   @watchProps(['disabled', 'readonly'], { waitUntilFirstUpdate: true })
   watchDisabledPanel() {
     if (this.disabled || this.readonly) {
@@ -109,6 +111,7 @@ export default class SlDate extends LitElement {
       this.valueDate = new Date(this.value);
     } else {
       this.value = undefined;
+      this.valueDate=undefined;
     }
   }
   @property({ type: Boolean, reflect: true }) invalid = false;
@@ -128,24 +131,25 @@ export default class SlDate extends LitElement {
     }
   }
   render() {
-    return html`<sl-dropdown .distance=${this.distance} id="dropDown" part="dropDown" .placement=${this.placement} .hoist=${this.hoist} .disabled=${this.readonly || this.disabled}>
+    return html`
+    <sl-dropdown .distance=${this.distance} id="dropDown" part="dropDown" .placement=${this.placement} .hoist=${this.hoist} .disabled=${this.readonly || this.disabled}>
       <sl-input
-        part="sl-date-input"
-        exportparts="base:input"
-        @sl-change=${this.handlerInputClick}
-        .value=${this.valueDateString}
-        .pill=${this.pill}
-        .clearable=${this.clearable}
-        .placeholder=${this.placeholder}
-        .readonly=${this.readonly}
-        .disabled=${this.disabled}
-        .invalid=${this.invalid}
-        .size=${this.size}
-        slot="trigger"
-        >${this.valueDateString}
-        <sl-icon slot="suffix" name="calendar3"></sl-icon>
-      </sl-input>
-      <div part="date-panel-div">
+           slot="trigger"
+          part="sl-date-input"
+          exportparts="base:base,input:input"
+          @sl-change=${this.handlerInputClick}
+          .value=${this.valueDateString}
+          .pill=${this.pill}
+          .clearable=${this.clearable}
+          .placeholder=${this.placeholder}
+          .readonly=${this.readonly}
+          .disabled=${this.disabled}
+          .invalid=${this.invalid}
+          .size=${this.size}
+          >${this.valueDateString}
+          <sl-icon slot="suffix" name="calendar3"></sl-icon>
+        </sl-input>  
+    <div part="date-panel-div">
         <sl-date-panel id="sl-date-panel" .value=${this.value} .mode=${this.mode} .min=${this.min} .max=${this.max} @sl-date-select=${this.handlerDateSelect}></sl-date-panel>
       </div>
     </sl-dropdown>`;

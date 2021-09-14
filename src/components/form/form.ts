@@ -117,7 +117,7 @@ export default class SlForm extends LitElement {
       },
       {
         tag: 'sl-checkbox',
-        serialize: (el: SlCheckbox, formData) => (el.name && el.checked && !el.disabled ? formData.append(el.name, el.value) : null)
+        serialize: (el: SlCheckbox, formData) => (el.name && el.checked && !el.disabled ? formData.append(el.name, String(el.value)) : null)
       },
       {
         tag: 'sl-color-picker',
@@ -149,9 +149,9 @@ export default class SlForm extends LitElement {
         serialize: (el: SlSelect, formData) => {
           if (el.name && !el.disabled) {
             if (el.multiple) {
-              const selectedOptions = [...el.value];
+              const selectedOptions = [...el.value as Array<string|number>];
               if (selectedOptions.length) {
-                selectedOptions.map(value => formData.append(el.name, value));
+                selectedOptions.map(value => formData.append(el.name, String(value)));
               } else {
                 formData.append(el.name, '');
               }

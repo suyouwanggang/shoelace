@@ -4,7 +4,7 @@ import { addEvent, getCssValue, onEvent, onEventArray } from '../../utilities/co
 import { dragOnHandler } from '../../utilities/dragHelper';
 import SlColumn from '../column/column';
 import { iteratorNodeData, TreeNodeData } from '../tree-node/tree-node-util';
-import SlTable from './table';
+import SlTable, { getRowContext } from './table';
 import { saveAsDefaultTableCache, updateTableCache } from './tableCacheHelper';
 import { getCellContext } from './tableRenderHelper';
 
@@ -50,7 +50,7 @@ const handlerNodeToogleListener = (table: SlTable) => {
             detail: {
               dom: event.target,
               result: result,
-              ...cellContext,
+              ...cellContext
             }
           });
         } catch (ex) {
@@ -99,37 +99,80 @@ const handlerNodeToogleListener = (table: SlTable) => {
     }
   });
 };
-const TDEVENTS = ['click', 'dblclick', 'keydown', 'keyup', 'keypress', 'mousedown', 'mouseenter', 'mousemove', 'mouseover', 'mouseout'];
+const TDEVENTS = ['click', 'dblclick','contextmenu', 'keydown', 'keyup', 'keypress', 'mousedown', 'mouseenter', 'mousemove', 'mouseover', 'mouseout'];
 /**给Table tr, td 添加事件 */
 const hanlderTRTDEvent = (table: SlTable) => {
-  let one1 = onEventArray(table.table, `tbody[componentID=${table.componentID}]>tr>td`, TDEVENTS, (event: Event) => {
+  const one1 = onEventArray(table.table, `tbody[componentID=${table.componentID}]>tr>td`, TDEVENTS, (event: Event) => {
     let td = event.delegateTarget as HTMLTableCellElement;
-    let tr = td.parentElement;
-    while (td && td.closest('table') != table.table) {
+    let tr = td.parentElement as HTMLTableRowElement;
+    while (td&&td.parentElement && td.closest('table') != table.table) {
       td = (td.parentElement as HTMLElement).closest('td') as HTMLTableCellElement;
-      tr = td.parentElement;
+      tr = td.parentElement  as HTMLTableRowElement;
     }
-    emit(table, `sl-table-td-${event.type}`, {
+    const rowContext=getRowContext(tr);
+    const cellContext=getCellContext(td)
+    if(td&&table.editEnable&&table.editTrigger==event.type){
+      if(event.type=='contextmenu'){
+        event.preventDefault();
+      }
+      if(table.editMode=='row'){
+        if(!(table.currentEditRow&&table.currentEditRow.includes(rowContext.rowData))){
+          if(table.editAccordion){
+             table.currentEditRow=[rowContext.rowData];
+         }else{
+           if(!table.currentEditRow){
+             table.currentEditRow=[];
+           }
+           table.currentEditRow.push(rowContext.rowData);
+           table.currentEditRow=[...table.currentEditRow];
+         }
+        }
+      }else if(table.editMode=='column'){
+        if(!(table.currentEditColumn&&table.currentEditColumn.includes(cellContext.column))){
+          if(table.editAccordion){
+            table.currentEditColumn=[cellContext.column];
+          }else{
+            if(!table.currentEditColumn){
+              table.currentEditColumn=[];
+            }
+              table.currentEditColumn.push(cellContext.column);
+              table.currentEditColumn=[...table.currentEditColumn];
+          }
+        }
+      }else if(table.editMode=='cell'){
+        table.currentEditCell={
+          rowData:rowContext.rowData,
+          column:cellContext.column
+        }
+      }
+      table.updateComplete.then(()=>{
+          window.setTimeout(()=>{
+            let editor= td.querySelector('input,select,textarea,sl-input,sl-select') as HTMLElement;
+            editor?.focus();
+          },10)
+      })
+    }
+    td?emit(table, `sl-table-td-${event.type}`, {
       cancelable: true,
       detail: {
         td: td,
         row: tr,
-        ...getCellContext(td)
+        ...cellContext
       }
-    });
+    }):'';
   });
-  let one2 = onEventArray(table.table, `tbody[componentID=${table.componentID}]>tr`, TDEVENTS, (event: Event) => {
+  const one2 = onEventArray(table.table, `tbody[componentID=${table.componentID}]>tr`, TDEVENTS, (event: Event) => {
     let tr = event.delegateTarget as HTMLTableRowElement;
-    while (tr && tr.closest('table') != table.table) {
+    while (tr&&tr.parentElement!=null && tr.closest('table') != table.table) {
       tr = (tr.parentElement as HTMLElement).closest('tr') as HTMLTableRowElement;
     }
-    emit(table, `sl-table-tr-${event.type}`, {
+    tr?emit(table, `sl-table-tr-${event.type}`, {
       cancelable: true,
       detail: {
         row: tr,
         ...table.getRowContext(tr)
       }
-    });
+    }):'';
   });
   return {
     dispose() {
@@ -148,9 +191,17 @@ const handerTableResizeEvent = (slTable: SlTable) => {
   let debounseUpdate = debounce(function () {
     updateTableCache(slTable);
   }, 60);
+  let width=0;
+  let oldWidth=0;
+  let th:HTMLElement;
+  let isTableResize=false;
   return dragOnHandler(table, `thead[componentID=${slTable.componentID}]>tr>th div.th-resize-helper`, (changePos, event) => {
+    if(isTableResize){
+      return ;
+    }
+    isTableResize=true;
     let div = (event as any).delegateTarget as HTMLElement;
-    let th = div.closest('th') as HTMLElement;
+    th = div.closest('th') as HTMLElement;
     while (th && th.closest('table') != slTable.table) {
       th = (th.parentElement as Element).closest('th') as HTMLElement;
     }
@@ -159,9 +210,8 @@ const handerTableResizeEvent = (slTable: SlTable) => {
       return;
     }
     saveAsDefaultTableCache(slTable);
-    let width = parseInt(getCssValue(th, 'width'));
-    let tableWidth = parseInt(getCssValue(table, 'width'), 10);
-    let oldWidth = width;
+    width = parseInt(getCssValue(th, 'width'));
+    oldWidth=width;
     width += changePos.x;
     if (column.maxWidth) {
       let maxWidth = parseInt(column.maxWidth, 10);
@@ -175,15 +225,22 @@ const handerTableResizeEvent = (slTable: SlTable) => {
         width = minWidth;
       }
     }
-    table.style.width = tableWidth + (width - oldWidth) + 'px';
-    column.width = width + 'px';
-    emit(slTable, 'sl-table-column-resize', {
+    if(column.field){
+      slTable.table.style.setProperty(`--sl-column-width-${column.field}`,width+'px');
+    }
+    column.width=width+'';
+   slTable.updateComplete.then(()=>{
+     isTableResize=false;
+     emit(slTable, 'sl-table-column-resize', {
       detail: {
         column: column,
-        change: width - oldWidth
+        oldWidth:oldWidth,
+        width: width ,
       }
     });
-    if (slTable.cacheKey) {
+   })
+  },()=>{
+    if(slTable.cacheKey){
       debounseUpdate();
     }
   });
@@ -210,8 +267,11 @@ const handlerTableScroll = (slTable: SlTable) => {
       scrollDiv.scrollTop += y * scrollDiv.offsetHeight;
       scrollDiv.scrollLeft += x * scrollDiv.offsetWidth;
     }
-    _event.preventDefault();
-    debouceScroll();
+    if(slTable.enableVirtualScroll){
+      _event.preventDefault();
+      debouceScroll();
+    }
+    
   });
   return addEvent(scrollDiv, 'scroll', () => {
     emit(slTable, 'sl-table-scroll', {
@@ -219,7 +279,9 @@ const handlerTableScroll = (slTable: SlTable) => {
         div: scrollDiv
       }
     });
-    debouceScroll();
+    if(slTable.enableVirtualScroll){
+      debouceScroll();
+    }
   });
 };
 /** table 扩展行逻辑处理 */
