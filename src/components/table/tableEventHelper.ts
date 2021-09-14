@@ -111,6 +111,7 @@ const hanlderTRTDEvent = (table: SlTable) => {
     }
     const rowContext = getRowContext(tr);
     const cellContext = getCellContext(td);
+    let edittimeoutID:number;
     if (td && table.editEnable && table.editTrigger == event.type) {
       if (event.type == 'contextmenu') {
         event.preventDefault();
@@ -124,7 +125,7 @@ const hanlderTRTDEvent = (table: SlTable) => {
               table.currentEditRow = [];
             }
             table.currentEditRow.push(rowContext.rowData);
-            table.currentEditRow = [...table.currentEditRow];
+            //table.currentEditRow = [...table.currentEditRow];
           }
         }
       } else if (table.editMode == 'column') {
@@ -136,7 +137,7 @@ const hanlderTRTDEvent = (table: SlTable) => {
               table.currentEditColumn = [];
             }
             table.currentEditColumn.push(cellContext.column);
-            table.currentEditColumn = [...table.currentEditColumn];
+            //table.currentEditColumn = [...table.currentEditColumn];
           }
         }
       } else if (table.editMode == 'cell') {
@@ -145,12 +146,14 @@ const hanlderTRTDEvent = (table: SlTable) => {
           column: cellContext.column
         };
       }
-      table.updateComplete.then(() => {
-        window.setTimeout(() => {
+      edittimeoutID=window.setTimeout(() => {
+        window.clearTimeout(edittimeoutID);
+        table.requestUpdate();
+        table.updateComplete.then(() => {
           let editor = td.querySelector('input,select,textarea,sl-input,sl-select') as HTMLElement;
           editor?.focus();
-        }, 10);
-      });
+        })
+      },10)
     }
     td
       ? emit(table, `sl-table-td-${event.type}`, {

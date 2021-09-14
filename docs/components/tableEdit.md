@@ -37,7 +37,7 @@ Table 组件
                 { id: 10008, name: 'Test10', role: 2, checke:[], sex: 1, age: 35, address: 'Javascript 从入门到放弃' }
                 
                 ] ;
-        for(let i=0,j=100;i<j;i++){
+        for(let i=0,j=60;i<j;i++){
             dateList.push({});
         }
 
