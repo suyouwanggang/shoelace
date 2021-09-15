@@ -163,7 +163,7 @@ registDefaultEditor(EDIT_TYPE.MULIT_SELECT, context => {
     clearable
     hoist
     class="edit_select edit_field_${column.field}"
-    .value=${array}
+    .value=${live(array)}
     @sl-change=${(event: Event) => {
       if (column.field) {
         array = (event.target as any).value;
@@ -172,7 +172,7 @@ registDefaultEditor(EDIT_TYPE.MULIT_SELECT, context => {
       emitTableCellEditFun(context, event.target as EventTarget);
     }}
   >
-    ${column.items ? column.items.map(item => html`<sl-menu-item .value=${item.id}>${getSelectLable(item)}</sl-menu-item>`) : ''}
+    ${column.items ? column.items.map(item => html`<sl-menu-item .value=${live(item.id)}>${getSelectLable(item)}</sl-menu-item>`) : ''}
   </sl-select>`;
 });
 
@@ -204,7 +204,7 @@ registDefaultEditor(EDIT_TYPE.MULIT_CHECKBOX, context => {
       emitTableCellEditFun(context, event.target as EventTarget);
     }}
   >
-    ${column.items ? column.items.map(item => html`<sl-checkbox .checked=${array.includes(item.id)} .value=${item.id}>${getSelectLable(item)}</sl-checkbox>`) : ''}
+    ${column.items ? column.items.map(item => html`<sl-checkbox .checked=${live(array.includes(item.id))} .value=${item.id}>${getSelectLable(item)}</sl-checkbox>`) : ''}
   </div>`;
 });
 
@@ -225,9 +225,9 @@ registDefaultEditor(EDIT_TYPE.DATE, context => {
       class="edit_date edit_field_${column.field}"
       .value=${live(value)}
       @sl-date-change=${(event: Event) => {
-        column.field ? setFieldValue(rowData, column.field, (event.target as any).value) : '';
-        emitTableCellEditFun(context, event.target as EventTarget);
-      }}
+      column.field ? setFieldValue(rowData, column.field, (event.target as any).value) : '';
+      emitTableCellEditFun(context, event.target as EventTarget);
+    }}
     >
     </sl-date>
   </div>`;
