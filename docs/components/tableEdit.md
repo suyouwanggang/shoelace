@@ -121,9 +121,6 @@ Table 组件
     });
 
 
-
-
-
     document.querySelector('#editMode').addEventListener('click',()=>{
         //编辑模式 row->column-cell 再返回row;
         table.editMode=table.editMode=='row'?'column':(table.editMode=='column'?'cell':'row');
@@ -131,15 +128,31 @@ Table 组件
     });
 
     
-
-
-    
-   
-    
-    
-    
 </script>
 ```
+### Table 编辑相关的属性
+  `enableEdit` 启用编辑功能  
+  `editMode` 编辑模式，支持 'row','column','cell' 三种  
+  `editAccordion`：true|false :true表示只能编辑一行，或者一列 
+  `editTrigger`：哪种TD事件，进入触发编辑 例如'click','mouseover'
+
+### Table 编辑相关的事件
+  `sl-table-edit-cell`：单元格内置的编辑器，发生变化是触发。  
+  `sl-table-edit-cell-before-change`：单元格进入编辑模式前触发，此时阻止事件取消进入，可以通过event.detail 获取td 和cellContext 数据 。  
+  `sl-table-edit-cell-active`：单元格进入编辑器模式（上次不是此单元格），此时column.edit 已经熏染完了 可以通过event.detail 获取td 和cellContext 数据 。  
+### Table column 编辑属性
+  `edit`:指定单元格的编辑器,内置的有'input','text','date','select','multi-select', 'multi-checkbox'  
+  `type`: 'date','date-month','date-year',配合'edit=date',可以改变 rowData[field] ,类似值为'2020-01-20','2020-01','2020'  
+  `edit`: 'select' 表现为select, 此时需要 column 的 `items` 属性，此时设置 rowData[field]=2  
+  `edit`: 'multi-select' 表现为select, 此时需要 column 的 `items` 属性， 此时编辑改变设置 rowData[field]=[1,2,'3'];  
+  `edit`: 'multi-checkbox'表现为checkbox, 此时需要 column 的 `items` 属性， 此时辑改变设置 rowData[field]=[1,2];  
+  `edit`: 可以为函数 ,接收`CelllContext` 作为参数，返回HtmlTemplate 实现自定义的列编辑。
+  `自定义内置全局单元格编辑器`:可以调用 `registDefaultEditor` 
+  ```typescript
+  const registDefaultEditor: (editKey: string, editTemplate: (context: CellContext) => TemplateResult<1>) => void;
+  ```
+
+ 
 
 
 

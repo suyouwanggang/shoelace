@@ -203,7 +203,7 @@ Table 组件
 </script>
 ```
 ### 表格自定义熏染和事件 要理解几个上下文
- #### TBody TR 上下文
+#### TBody TR 上下文
   ```javascript
   /** Table 行上下文 */
 export type RowContext = {
@@ -222,7 +222,7 @@ export type RowContext = {
   originalParentData?: TreeNodeData;
 };
   ```
- #### TBody TR TD 上下文
+#### TBody TR TD 上下文
   ```javascript
  /** Table TBody TD 上下文 */
 export type CellContext = {
@@ -245,7 +245,7 @@ export type CellContext = {
   originalParentData?: TreeNodeData;
 };
   ```
- #### THead  TD/TH 上下文
+#### THead  TD/TH 上下文
   ```javascript
  /** Table TH 上下文 */
 export type CellHeadContext = {
@@ -261,7 +261,6 @@ export type CellHeadContext = {
   colspan: number;
 };
  ```
-
 ### 调整列顺序
  ```javascript
             //改变sl-table 下面的column 的order
