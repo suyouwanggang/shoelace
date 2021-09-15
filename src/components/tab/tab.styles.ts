@@ -15,7 +15,7 @@ export default css`
     font-family: var(--sl-font-sans);
     font-size: var(--sl-font-size-small);
     font-weight: var(--sl-font-weight-semibold);
-    border-radius: 4px;
+    border-radius: var(--sl-border-radius-medium);
     color: rgb(var(--sl-color-neutral-600));
     padding: var(--sl-spacing-medium) var(--sl-spacing-large);
     white-space: nowrap;
@@ -52,10 +52,10 @@ export default css`
 
   .tab__close-button {
     font-size: var(--sl-font-size-large);
-    margin-left: var(--sl-spacing-xx-small);
+    margin-left: var(--sl-spacing-2x-small);
   }
 
   .tab__close-button::part(base) {
-    padding: var(--sl-spacing-xxx-small);
+    padding: var(--sl-spacing-3x-small);
   }
 `;

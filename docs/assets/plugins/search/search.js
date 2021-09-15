@@ -59,7 +59,9 @@
             placeholder="Search this site"
             size="large"
             clearable
-          ></sl-input>
+          >
+            <sl-icon slot="prefix" name="search"></sl-icon>
+          </sl-input>
         </header>
         <div class="site-search__body">
           <ul class="site-search__results"></ul>
@@ -190,7 +192,7 @@
             nextEl = items[Math.min(items.length - 1, index + 1)];
             break;
           case 'Home':
-            nextEl = items[items.length > 0 ? 1 : 0];
+            nextEl = items[0];
             break;
           case 'End':
             nextEl = items[items.length - 1];
@@ -219,7 +221,7 @@
         await searchIndex;
 
         const hasQuery = query.length > 0;
-        const matches = hasQuery ? searchIndex.search(query) : [];
+        const matches = hasQuery ? searchIndex.search(`${query}~1`) : [];
 
         let hasResults = hasQuery && matches.length > 0;
         siteSearch.classList.toggle('site-search--has-results', hasQuery && hasResults);
