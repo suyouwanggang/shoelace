@@ -309,22 +309,20 @@ export default class SlTable extends LitElement {
         //改造，多次请求，只执行一次重新计算
         this.watchFixedColumnsChange();
         this.isAsyncTableWidth = false;
+        emit(this, 'sl-table-resize');
       });
     }
   }
-
   private _resizeResult: DisposeObject;
   firstUpdated(map: PropertyValues) {
     super.firstUpdated(map);
-    // this.watchCellBoxLinesChange();
     this.columnChangeHanlder();
     this._resizeResult = addResizeHander([this, this.table], () => {
       this.asynTableHeaderWidth();
-      emit(this, 'sl-table-resize');
-      if (this.enableVirtualScroll) {
-        this.requestUpdate();
-      }
     });
+    if (this.enableVirtualScroll && this.virtualItemHeight) {
+      this.requestUpdate();
+    }
     connectTableHanlder(this);
   }
   connectedCallback() {
