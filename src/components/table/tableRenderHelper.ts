@@ -161,7 +161,7 @@ export const renderTdCellTemplate = (context: CellContext, table: SlTable) => {
         classObj = { ...classInfo };
       }
     }
-    const tdHtml=html`<div class='tdWrap ${!isEditFlag&&table.enableCellBox?'cellBox':''}'>${tdResult.template ? html`${tdResult.template}` : html`${tdResult}`}</div>`;
+    const tdHtml = html`<div class="tdWrap ${!isEditFlag && table.enableCellBox ? 'cellBox' : ''}">${tdResult.template ? html`${tdResult.template}` : html`${tdResult}`}</div>`;
 
     const tdSpreadResult = table.customRenderCellSpread ? table.customRenderCellSpread(context) : undefined;
     return html`<td

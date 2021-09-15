@@ -120,7 +120,7 @@ export const emitTableCellEditFun = (context: CellContext, dom: EventTarget) => 
   const table = context.column.table;
   emit(table, 'sl-table-edit-cell', {
     detail: {
-      td:(dom as HTMLElement).closest('td'),
+      td: (dom as HTMLElement).closest('td'),
       dom: dom,
       context
     }

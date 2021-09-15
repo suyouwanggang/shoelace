@@ -101,13 +101,13 @@ const handlerNodeToogleListener = (table: SlTable) => {
   });
 };
 const lastEditCellSymbol = Symbol('lastEditCell'); //属性，存储table 上次编辑的TD
-const lastEditSymboPromise = Symbol('lastEditPromise');//属性，存储table 上次编辑的Promise
+const lastEditSymboPromise = Symbol('lastEditPromise'); //属性，存储table 上次编辑的Promise
 const getLastEditCell = (table: SlTable) => {
   return (table as any)[lastEditCellSymbol];
-}
+};
 const setLastEditCell = (table: SlTable, lastEditCell: HTMLTableCellElement) => {
-  return (table as any)[lastEditCellSymbol] = lastEditCell;
-}
+  return ((table as any)[lastEditCellSymbol] = lastEditCell);
+};
 const processTDCellEdit = (td: HTMLTableCellElement, table: SlTable, event: Event) => {
   const tr = td.parentElement as HTMLTableRowElement;
   processEdit();
@@ -186,14 +186,14 @@ const processTDCellEdit = (td: HTMLTableCellElement, table: SlTable, event: Even
                 td: td,
                 ...cellContext
               }
-            })
+            });
             setLastEditCell(table, td);
           }
         });
-      })
+      });
     }
   }
-}
+};
 const TDEVENTS = ['click', 'dblclick', 'contextmenu', 'keydown', 'keyup', 'keypress', 'mousedown', 'mouseenter', 'mousemove', 'mouseover', 'mouseout'];
 /**给Table tr, td 添加事件 */
 const hanlderTRTDEvent = (table: SlTable) => {
@@ -207,14 +207,15 @@ const hanlderTRTDEvent = (table: SlTable) => {
     if (td && table.editEnable && table.editTrigger == event.type) {
       processTDCellEdit(td, table, event);
     }
-    td ? emit(table, `sl-table-td-${event.type}`, {
-      cancelable: true,
-      detail: {
-        td: td,
-        row: tr,
-        ...getCellContext(td)
-      }
-    })
+    td
+      ? emit(table, `sl-table-td-${event.type}`, {
+          cancelable: true,
+          detail: {
+            td: td,
+            row: tr,
+            ...getCellContext(td)
+          }
+        })
       : '';
   });
   const one2 = onEventArray(table.table, `tbody[componentID=${table.componentID}]>tr`, TDEVENTS, (event: Event) => {
@@ -224,12 +225,12 @@ const hanlderTRTDEvent = (table: SlTable) => {
     }
     tr
       ? emit(table, `sl-table-tr-${event.type}`, {
-        cancelable: true,
-        detail: {
-          row: tr,
-          ...table.getRowContext(tr)
-        }
-      })
+          cancelable: true,
+          detail: {
+            row: tr,
+            ...table.getRowContext(tr)
+          }
+        })
       : '';
   });
   return {
