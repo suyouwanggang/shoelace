@@ -424,11 +424,11 @@ export default class SlSelect extends LitElement {
   }
   focus(option: FocusOptions) {
     this.updateComplete.then(() => {
-      const input = this.renderRoot.querySelector(`div#${this.inputId}`) as HTMLLIElement;
+      const input = this.renderRoot.querySelector(`div#${this.inputId}`) as HTMLElement;
       if (input) {
         input.focus(option);
       }
-    })
+    });
   }
   render() {
     const hasSelection = this.multiple ? (this.value as Array<string | number>)?.length > 0 : this.value !== '';

@@ -112,7 +112,7 @@ export default class SlDate extends LitElement {
       if (input) {
         input.focus(option);
       }
-    })
+    });
   }
   @watchProps(['value', 'mode'])
   watchSelectModeChange() {
