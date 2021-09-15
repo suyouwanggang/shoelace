@@ -209,13 +209,13 @@ const hanlderTRTDEvent = (table: SlTable) => {
     }
     td
       ? emit(table, `sl-table-td-${event.type}`, {
-          cancelable: true,
-          detail: {
-            td: td,
-            row: tr,
-            ...getCellContext(td)
-          }
-        })
+        cancelable: true,
+        detail: {
+          td: td,
+          row: tr,
+          ...getCellContext(td)
+        }
+      })
       : '';
   });
   const one2 = onEventArray(table.table, `tbody[componentID=${table.componentID}]>tr`, TDEVENTS, (event: Event) => {
@@ -225,12 +225,12 @@ const hanlderTRTDEvent = (table: SlTable) => {
     }
     tr
       ? emit(table, `sl-table-tr-${event.type}`, {
-          cancelable: true,
-          detail: {
-            row: tr,
-            ...table.getRowContext(tr)
-          }
-        })
+        cancelable: true,
+        detail: {
+          row: tr,
+          ...table.getRowContext(tr)
+        }
+      })
       : '';
   });
   return {
@@ -309,31 +309,48 @@ const handerTableResizeEvent = (slTable: SlTable) => {
     }
   );
 };
+const tableScrollPromiseFlag = Symbol('table-scroll-promise');
 const handlerTableScroll = (slTable: SlTable) => {
   let scrollDiv = slTable.scrollDiv;
+  let scrollTop = scrollDiv.scrollTop;
+  let scrollLeft = scrollDiv.scrollLeft;
   let debouceScroll = throttleTimeout(
     () => {
       if (slTable.enableVirtualScroll && slTable.virtualItemHeight) {
-        slTable.requestUpdate();
+        if (scrollDiv.scrollTop != scrollTop || scrollDiv.scrollLeft != scrollLeft) {
+          slTable.requestUpdate();
+          slTable.updateComplete.then(() => {
+            scrollTop = scrollDiv.scrollTop;
+            scrollLeft = scrollDiv.scrollLeft;
+          })
+        }
       }
     },
     60,
     120
   );
+  addEvent(slTable, 'sl-table-resize', debouceScroll);
   addEvent(scrollDiv, 'mousewheel', (_event: WheelEvent) => {
-    let y = _event.deltaY;
-    let x = _event.deltaX;
-    let deltaMode = _event.deltaMode;
-    if (deltaMode == WheelEvent.DOM_DELTA_PIXEL) {
-      scrollDiv.scrollTop += y;
-      scrollDiv.scrollLeft += x;
-    } else {
-      scrollDiv.scrollTop += y * scrollDiv.offsetHeight;
-      scrollDiv.scrollLeft += x * scrollDiv.offsetWidth;
-    }
     if (slTable.enableVirtualScroll) {
       _event.preventDefault();
-      debouceScroll();
+      let y = _event.deltaY;
+      let deltaMode = _event.deltaMode;
+      if (deltaMode == WheelEvent.DOM_DELTA_PIXEL) {
+        scrollDiv.scrollTop += y;
+        //scrollDiv.scrollLeft += x;
+      } else {
+        scrollDiv.scrollTop += y * slTable.virtualItemHeight;
+        //scrollDiv.scrollLeft += x;
+      }
+
+      if ((slTable as any)[tableScrollPromiseFlag]) {
+        return;
+      }
+      (slTable as any)[tableScrollPromiseFlag] = true;
+      Promise.resolve().then(() => {
+        debouceScroll();
+        (slTable as any)[tableScrollPromiseFlag] = false;
+      })
     }
   });
   return addEvent(scrollDiv, 'scroll', () => {

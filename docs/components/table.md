@@ -43,7 +43,8 @@ Table 组件
         dateList.push( { id: i, name: 'Test add'+i, role: 'Test1', sex: Math.random()>0.5?'Man':'Women', age: 28, address: 'Javascript 从入门到放弃'+i });
     }
     table.tableHeight=500;
-    
+    table.fixedColumns='3';
+
 
     //启用虚拟滚动
     table.enableVirtualScroll=true;

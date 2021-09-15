@@ -309,22 +309,20 @@ export default class SlTable extends LitElement {
         //改造，多次请求，只执行一次重新计算
         this.watchFixedColumnsChange();
         this.isAsyncTableWidth = false;
+        emit(this, 'sl-table-resize');
       });
     }
   }
-
   private _resizeResult: DisposeObject;
   firstUpdated(map: PropertyValues) {
     super.firstUpdated(map);
-    // this.watchCellBoxLinesChange();
     this.columnChangeHanlder();
     this._resizeResult = addResizeHander([this, this.table], () => {
       this.asynTableHeaderWidth();
-      emit(this, 'sl-table-resize');
-      if (this.enableVirtualScroll) {
-        this.requestUpdate();
-      }
     });
+    if (this.enableVirtualScroll && this.virtualItemHeight) {
+      this.requestUpdate();
+    }
     connectTableHanlder(this);
   }
   connectedCallback() {
@@ -380,7 +378,7 @@ export default class SlTable extends LitElement {
         }
       }
       if (!isNaN(right)) {
-        for (let i = columnSize - 1, j = 0; j < right && i >= 0; ) {
+        for (let i = columnSize - 1, j = 0; j < right && i >= 0;) {
           let col = this.tdRenderColumns[i];
           while (col != null && col.tagName.toLowerCase() == 'sl-column') {
             style += this.caculateFixedColumnStyle(col, tableRect, false);
@@ -428,16 +426,16 @@ export default class SlTable extends LitElement {
     const trTemplates = (rowColumn: SlColumn[], rowIndex: number) => {
       return html`<tr .columns=${rowColumn}>
         ${rowColumn.map((column, index) => {
-          const cache = getColumnCacheData(column);
-          const context: CellHeadContext = {
-            column: column,
-            colIndex: index,
-            rowspan: cache.rowspan as number,
-            colspan: cache.colspan as number,
-            colRowIndex: rowIndex
-          };
-          return renderThColTemplate(context, table);
-        })}
+        const cache = getColumnCacheData(column);
+        const context: CellHeadContext = {
+          column: column,
+          colIndex: index,
+          rowspan: cache.rowspan as number,
+          colspan: cache.colspan as number,
+          colRowIndex: rowIndex
+        };
+        return renderThColTemplate(context, table);
+      })}
       </tr>`;
     };
     return this.theadRows.map((items, index) => trTemplates(items, index));
@@ -636,8 +634,8 @@ export default class SlTable extends LitElement {
       rowList.push(
         html`<tr
           ${ref(el => {
-            setRowContext(el as HTMLTableRowElement, rowContext);
-          })}
+          setRowContext(el as HTMLTableRowElement, rowContext);
+        })}
           .rowData=${rowData}
           style=${styleMap(trStyle)}
           class=${classMap(trClassObject)}
