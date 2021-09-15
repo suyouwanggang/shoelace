@@ -80,9 +80,7 @@ console.log('Generating search index for documentation');
 
       const content = fs.readFileSync(file, 'utf8');
       const allHeadings = getHeadings(content, 4);
-      const title =
-        allHeadings.find(heading => heading.level === 1)?.content ||
-        path.basename(path.basename(filename), path.extname(filename));
+      const title = allHeadings.find(heading => heading.level === 1)?.content || path.basename(path.basename(filename), path.extname(filename));
       const headings = allHeadings
         .filter(heading => heading.level > 1)
         .map(heading => heading.content)
