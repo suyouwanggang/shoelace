@@ -24,7 +24,7 @@ Table 组件
     <sl-column field='sex'  label='Sex'  resize-able  width=150  agile-cell='right'></sl-column>
      <sl-column field='date'   label='Date' resize-able   width=150    agile-cell='right'></sl-column>
     <sl-column field='address'  label='address'  width=180  resize-able  ></sl-column>
-    <sl-column field='date-month'  label='Date-Month' resize-able  width=110    ></sl-column>
+    <sl-column field='date-month'  label='Date-Month' resize-able  width=130    ></sl-column>
     <sl-column field='description'  label='描述'  width=100    ></sl-column>
     <sl-column field='check'  label='multi-select' resize-able  width=150    ></sl-column>
     <sl-column field='multi-check'  label='multi-checkbox' resize-able  width=150    ></sl-column>

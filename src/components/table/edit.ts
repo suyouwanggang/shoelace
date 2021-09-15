@@ -224,9 +224,9 @@ registDefaultEditor(EDIT_TYPE.DATE, context => {
       class="edit_date edit_field_${column.field}"
       .value=${live(value)}
       @sl-date-change=${(event: Event) => {
-      column.field ? setFieldValue(rowData, column.field, (event.target as any).value) : '';
-      emitTableCellEditFun(context, event.target as EventTarget);
-    }}
+        column.field ? setFieldValue(rowData, column.field, (event.target as any).value) : '';
+        emitTableCellEditFun(context, event.target as EventTarget);
+      }}
     >
     </sl-date>
   </div>`;

@@ -106,6 +106,14 @@ export default class SlDate extends LitElement {
     }
   }
 
+  focus(option: FocusOptions) {
+    this.updateComplete.then(() => {
+      const input = this.renderRoot.querySelector('sl-input[part="sl-date-input"]') as SlInput;
+      if (input) {
+        input.focus(option);
+      }
+    })
+  }
   @watchProps(['value', 'mode'])
   watchSelectModeChange() {
     let dateTemp = castDate(this.value);

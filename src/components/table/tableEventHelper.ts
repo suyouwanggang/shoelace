@@ -108,6 +108,7 @@ const getLastEditCell = (table: SlTable) => {
 const setLastEditCell = (table: SlTable, lastEditCell: HTMLTableCellElement) => {
   return ((table as any)[lastEditCellSymbol] = lastEditCell);
 };
+const TABLE_EDIT_SELECTS = 'input,select,textarea,sl-input,sl-select,sl-date';
 const processTDCellEdit = (td: HTMLTableCellElement, table: SlTable, event: Event) => {
   const tr = td.parentElement as HTMLTableRowElement;
   processEdit();
@@ -177,7 +178,7 @@ const processTDCellEdit = (td: HTMLTableCellElement, table: SlTable, event: Even
         table.requestUpdate();
         table.updateComplete.then(() => {
           (table as any)[lastEditSymboPromise] = false;
-          let editor = td.querySelector('input,select,textarea,sl-input,sl-select') as HTMLElement;
+          let editor = td.querySelector(TABLE_EDIT_SELECTS) as HTMLElement;
           editor?.focus();
           if (td != getLastEditCell(table)) {
             /** 监听当前进入了编辑状态的单元格 */
@@ -194,10 +195,11 @@ const processTDCellEdit = (td: HTMLTableCellElement, table: SlTable, event: Even
     }
   }
 };
-const TDEVENTS = ['click', 'dblclick', 'contextmenu', 'keydown', 'keyup', 'keypress', 'mousedown', 'mouseenter', 'mousemove', 'mouseover', 'mouseout'];
+/** tbody 代理的事件 */
+export const TABLE_TBODY_DELEGATE_EVENTS = ['click', 'dblclick', 'contextmenu', 'keydown', 'keyup', 'keypress', 'mousedown', 'mouseenter', 'mousemove', 'mouseover', 'mouseout'];
 /**给Table tr, td 添加事件 */
 const hanlderTRTDEvent = (table: SlTable) => {
-  const one1 = onEventArray(table.table, `tbody[componentID=${table.componentID}]>tr>td`, TDEVENTS, (event: Event) => {
+  const one1 = onEventArray(table.table, `tbody[componentID=${table.componentID}]>tr>td`, TABLE_TBODY_DELEGATE_EVENTS, (event: Event) => {
     let td = event.delegateTarget as HTMLTableCellElement;
     let tr = td.parentElement as HTMLTableRowElement;
     while (td && td.parentElement && td.closest('table') != table.table) {
@@ -209,28 +211,28 @@ const hanlderTRTDEvent = (table: SlTable) => {
     }
     td
       ? emit(table, `sl-table-td-${event.type}`, {
-          cancelable: true,
-          detail: {
-            td: td,
-            row: tr,
-            ...getCellContext(td)
-          }
-        })
+        cancelable: true,
+        detail: {
+          td: td,
+          row: tr,
+          ...getCellContext(td)
+        }
+      })
       : '';
   });
-  const one2 = onEventArray(table.table, `tbody[componentID=${table.componentID}]>tr`, TDEVENTS, (event: Event) => {
+  const one2 = onEventArray(table.table, `tbody[componentID=${table.componentID}]>tr`, TABLE_TBODY_DELEGATE_EVENTS, (event: Event) => {
     let tr = event.delegateTarget as HTMLTableRowElement;
     while (tr && tr.parentElement != null && tr.closest('table') != table.table) {
       tr = (tr.parentElement as HTMLElement).closest('tr') as HTMLTableRowElement;
     }
     tr
       ? emit(table, `sl-table-tr-${event.type}`, {
-          cancelable: true,
-          detail: {
-            row: tr,
-            ...table.getRowContext(tr)
-          }
-        })
+        cancelable: true,
+        detail: {
+          row: tr,
+          ...table.getRowContext(tr)
+        }
+      })
       : '';
   });
   return {
