@@ -79,8 +79,11 @@ export default class SlDate extends LitElement {
       let dropDown = this.renderRoot.querySelector('#dropDown') as SlDropdown;
       dropDown.open = false;
     }
+    this.emitDateSelect();
+  }
+  protected emitDateSelect() {
     emit(this, 'sl-date-change', {
-      detail: { ...event.detail }
+      detail: { value: this.valueDateString, date: this.valueDate }
     });
   }
   /** 内部 value 所对应的日期 */
@@ -124,6 +127,7 @@ export default class SlDate extends LitElement {
       this.invalid = false;
       this.datePanel.value = this.valueDateString;
       this.watchSelectModeChange();
+      this.emitDateSelect();
     } else {
       this.value = undefined;
       input.value = oldDateString;

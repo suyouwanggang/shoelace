@@ -46,7 +46,7 @@ Table 组件
     table.virtualItemHeight=48;
     table.customStyle=`
         input{
-            width:90px;
+            width:80px;
             height:28px;
             outline:none;
             border: solid var(--sl-input-border-width) rgb( var(--sl-input-border-color));
@@ -152,13 +152,5 @@ Table 组件
   const registDefaultEditor: (editKey: string, editTemplate: (context: CellContext) => TemplateResult<1>) => void;
   ```
 
- 
 
 
-
-[component-metadata:sl-table]
-<br>
-<br>
-[component-header:sl-column]
-column 组件:用于定义表头
-[component-metadata:sl-column]

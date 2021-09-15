@@ -190,7 +190,6 @@ registDefaultEditor(EDIT_TYPE.MULIT_CHECKBOX, context => {
     hoist
     class="edit_select edit_field_${column.field}"
     @sl-change=${(event: Event) => {
-      debugger;
       let new_array: (string | number)[] = [];
       let checkbox = (refObj.value as HTMLElement).querySelectorAll('sl-checkbox') as NodeListOf<SlCheckbox>;
       checkbox.forEach(item => {
@@ -225,9 +224,9 @@ registDefaultEditor(EDIT_TYPE.DATE, context => {
       class="edit_date edit_field_${column.field}"
       .value=${live(value)}
       @sl-date-change=${(event: Event) => {
-        column.field ? setFieldValue(rowData, column.field, (event.target as any).value) : '';
-        emitTableCellEditFun(context, event.target as EventTarget);
-      }}
+      column.field ? setFieldValue(rowData, column.field, (event.target as any).value) : '';
+      emitTableCellEditFun(context, event.target as EventTarget);
+    }}
     >
     </sl-date>
   </div>`;
