@@ -18,7 +18,7 @@ import styles from './table.styles';
 import { removeTableCacheByKey, restoreFromLocalCache } from './tableCacheHelper';
 import { CellContext, CellHeadContext, defaultSortConfig, defaultTreeConfig, RowContext, SortConfig, SortValue, TreeConfig } from './tableConfig';
 import { connectTableHanlder, getTreeNodeAllChildrenSize } from './tableEventHelper';
-import caculateColumnData, { getColumnCacheData, isNumberWidth, RowHeader } from './tableHelper';
+import caculateColumnData, { getColumnCacheData, RowHeader } from './tableHelper';
 import { getCellContext, getHeadCellContext, renderTdCellTemplate, renderThColTemplate } from './tableRenderHelper';
 import { vituralScrollCalc } from './virtualScroll';
 
@@ -66,10 +66,13 @@ let componentID = 0;
  * @event {{dom:HTMLElement,...cellContext}}  sl-tree-node-loaded - after table tree node lazy load children end  .tree load 事件
  * @event {{dom:HTMLElement,...cellContext}}  sl-tree-node-load-error - Emitted after table tbody td node state toogle  .tree 事件
  *
- *  //tbody 行，tbody td 事件
+ *  //tbody 行，tbody tr 事件
  * @event {{row:TR,...RowContext}}  sl-table-tr-${normalEvent} - Emitted table tbody tr trigger normalEvent .support normalEvent event [click,dblclick,keydown,keypress,mousedown,mouseenter,mouseleave,mousemove,mouseout,mouseover,mouseup]  .
- *
- * @event {{row:TR,td:TD,...RellContext}}  sl-table-td-${normalEvent} - Emitted table tbody td trigger normalEvent.  support normalEvent  event [click,dblclick,keydown,keypress,mousedown,mouseenter,mouseleave,mousemove,mouseout,mouseover,mouseup].
+ * //tbody 行，tbody tr td 事件
+ * @event {{row:TR,td:TD,...CellContext}}  sl-table-td-${normalEvent} - Emitted table tbody td trigger normalEvent.  support normalEvent  event [click,dblclick,keydown,keypress,mousedown,mouseenter,mouseleave,mousemove,mouseout,mouseover,mouseup].
+ * @event {{td:TD,dom:HTMLElement,...CellContext}}  sl-table-edit-cell - 当table 组件内置 cell edit 数据发生变化.
+ * @event {{td:TD,dom:HTMLElement,...CellContext}}  sl-table-edit-cell-active - 当单元格进入了编辑状态时触发
+ * @event {{td:TD,...CellContext}}   sl-table-edit-cell-before-change - Emitted  before when table  edit cell  change .
  *
  *
  *
@@ -313,6 +316,7 @@ export default class SlTable extends LitElement {
   private _resizeResult: DisposeObject;
   firstUpdated(map: PropertyValues) {
     super.firstUpdated(map);
+    // this.watchCellBoxLinesChange();
     this.columnChangeHanlder();
     this._resizeResult = addResizeHander([this, this.table], () => {
       this.asynTableHeaderWidth();
@@ -376,7 +380,7 @@ export default class SlTable extends LitElement {
         }
       }
       if (!isNaN(right)) {
-        for (let i = columnSize - 1, j = 0; j < right && i >= 0; ) {
+        for (let i = columnSize - 1, j = 0; j < right && i >= 0;) {
           let col = this.tdRenderColumns[i];
           while (col != null && col.tagName.toLowerCase() == 'sl-column') {
             style += this.caculateFixedColumnStyle(col, tableRect, false);
@@ -424,16 +428,16 @@ export default class SlTable extends LitElement {
     const trTemplates = (rowColumn: SlColumn[], rowIndex: number) => {
       return html`<tr .columns=${rowColumn}>
         ${rowColumn.map((column, index) => {
-          const cache = getColumnCacheData(column);
-          const context: CellHeadContext = {
-            column: column,
-            colIndex: index,
-            rowspan: cache.rowspan as number,
-            colspan: cache.colspan as number,
-            colRowIndex: rowIndex
-          };
-          return renderThColTemplate(context, table);
-        })}
+        const cache = getColumnCacheData(column);
+        const context: CellHeadContext = {
+          column: column,
+          colIndex: index,
+          rowspan: cache.rowspan as number,
+          colspan: cache.colspan as number,
+          colRowIndex: rowIndex
+        };
+        return renderThColTemplate(context, table);
+      })}
       </tr>`;
     };
     return this.theadRows.map((items, index) => trTemplates(items, index));
@@ -528,9 +532,23 @@ export default class SlTable extends LitElement {
   @state()
   currentEditCell?: { column: SlColumn; rowData: any };
 
+
   /** 当前编辑的列*/
   @property({ type: Array, attribute: false })
   currentEditColumn: Array<SlColumn> = [];
+
+  /** TBody TD 是否启用多行...*/
+  @property({ type: Boolean, attribute: false })
+  enableCellBox = false;
+
+  /** TBody TD 是否超过多行则...*/
+  @property({ type: Number, attribute: false })
+  cellBoxLines = 1;
+
+  @watch('cellBoxLines', { waitUntilFirstUpdate: true })
+  watchCellBoxLinesChange() {
+    this.style.setProperty('--sl-table-cell-box-lines', this.cellBoxLines + '');
+  }
 
   @watchProps(['dataSource', 'treeConfig'])
   watchDataSourceChange() {
@@ -619,8 +637,8 @@ export default class SlTable extends LitElement {
       rowList.push(
         html`<tr
           ${ref(el => {
-            setRowContext(el as HTMLTableRowElement, rowContext);
-          })}
+          setRowContext(el as HTMLTableRowElement, rowContext);
+        })}
           .rowData=${rowData}
           style=${styleMap(trStyle)}
           class=${classMap(trClassObject)}
@@ -699,14 +717,9 @@ export default class SlTable extends LitElement {
     if (this.hasUpdated && this.scrollDiv && this.isColumnHanlderFlag) {
       this.isColumnHanlderFlag = false;
       Promise.resolve().then(() => {
-        const { rows, tdRenderColumnData } = caculateColumnData(this.canShowColumns);
+        const { rows, leafColumns } = caculateColumnData(this.canShowColumns);
         this.theadRows = rows;
-        for (let l of tdRenderColumnData) {
-          if (l.field && l.width) {
-            this.table.style.setProperty(`--sl-column-width-${l.field}`, isNumberWidth(l.width) ? l.width + 'px' : l.width);
-          }
-        }
-        this.tdRenderColumns = tdRenderColumnData;
+        this.tdRenderColumns = leafColumns;
         this.isColumnHanlderFlag = true;
       });
     }

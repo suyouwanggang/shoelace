@@ -4,6 +4,7 @@ import { addEvent, getCssValue, onEvent, onEventArray } from '../../utilities/co
 import { dragOnHandler } from '../../utilities/dragHelper';
 import SlColumn from '../column/column';
 import { iteratorNodeData, TreeNodeData } from '../tree-node/tree-node-util';
+import { editNone } from './edit';
 import SlTable, { getRowContext } from './table';
 import { saveAsDefaultTableCache, updateTableCache } from './tableCacheHelper';
 import { getCellContext } from './tableRenderHelper';
@@ -99,6 +100,100 @@ const handlerNodeToogleListener = (table: SlTable) => {
     }
   });
 };
+const lastEditCellSymbol = Symbol('lastEditCell'); //属性，存储table 上次编辑的TD
+const lastEditSymboPromise = Symbol('lastEditPromise');//属性，存储table 上次编辑的Promise
+const getLastEditCell = (table: SlTable) => {
+  return (table as any)[lastEditCellSymbol];
+}
+const setLastEditCell = (table: SlTable, lastEditCell: HTMLTableCellElement) => {
+  return (table as any)[lastEditCellSymbol] = lastEditCell;
+}
+const processTDCellEdit = (td: HTMLTableCellElement, table: SlTable, event: Event) => {
+  const tr = td.parentElement as HTMLTableRowElement;
+  processEdit();
+  function processEdit() {
+    const rowContext = getRowContext(tr);
+    const cellContext = getCellContext(td);
+    if (!cellContext || !cellContext.column) {
+      return;
+    }
+    const edit = cellContext.column.edit;
+    if (edit == editNone || !edit) {
+      return;
+    }
+    let lastEditCell = getLastEditCell(table);
+    if (lastEditCell && lastEditCell != td) {
+      /** 监听上次编辑的单元格 */
+      const eventEmit = emit(table, 'sl-table-edit-cell-before-change', {
+        cancelable: true,
+        detail: {
+          td: lastEditCell,
+          ...getCellContext(lastEditCell)
+        }
+      });
+      if (!eventEmit.defaultPrevented) {
+        editCellFun();
+      }
+    } else {
+      editCellFun();
+    }
+    function editCellFun() {
+      if (event.type == 'contextmenu') {
+        event.preventDefault();
+      }
+      if ((table as any)[lastEditSymboPromise]) {
+        return;
+      }
+      (table as any)[lastEditSymboPromise] = true;
+      Promise.resolve().then(() => {
+        if (table.editMode == 'row') {
+          if (!(table.currentEditRow && table.currentEditRow.includes(rowContext.rowData))) {
+            if (table.editAccordion) {
+              table.currentEditRow = [rowContext.rowData];
+            } else {
+              if (!table.currentEditRow) {
+                table.currentEditRow = [];
+              }
+              table.currentEditRow.push(rowContext.rowData);
+            }
+          }
+        } else if (table.editMode == 'column') {
+          if (!(table.currentEditColumn && table.currentEditColumn.includes(cellContext.column))) {
+            if (table.editAccordion) {
+              table.currentEditColumn = [cellContext.column];
+            } else {
+              if (!table.currentEditColumn) {
+                table.currentEditColumn = [];
+              }
+              table.currentEditColumn.push(cellContext.column);
+            }
+          }
+        } else if (table.editMode == 'cell') {
+          table.currentEditCell = {
+            rowData: rowContext.rowData,
+            column: cellContext.column
+          };
+        }
+        table.requestUpdate();
+        table.updateComplete.then(() => {
+          (table as any)[lastEditSymboPromise] = false;
+          let editor = td.querySelector('input,select,textarea,sl-input,sl-select') as HTMLElement;
+          editor?.focus();
+          if (td != getLastEditCell(table)) {
+            /** 监听当前进入了编辑状态的单元格 */
+            emit(table, 'sl-table-edit-cell-active', {
+              detail: {
+                td: td,
+                ...cellContext
+              }
+            })
+            setLastEditCell(table, td);
+          }
+        });
+      })
+    }
+  }
+}
 const TDEVENTS = ['click', 'dblclick', 'contextmenu', 'keydown', 'keyup', 'keypress', 'mousedown', 'mouseenter', 'mousemove', 'mouseover', 'mouseout'];
 /**给Table tr, td 添加事件 */
 const hanlderTRTDEvent = (table: SlTable) => {
@@ -109,61 +204,17 @@ const hanlderTRTDEvent = (table: SlTable) => {
       td = (td.parentElement as HTMLElement).closest('td') as HTMLTableCellElement;
       tr = td.parentElement as HTMLTableRowElement;
     }
-    const rowContext = getRowContext(tr);
-    const cellContext = getCellContext(td);
-    let edittimeoutID:number;
     if (td && table.editEnable && table.editTrigger == event.type) {
-      if (event.type == 'contextmenu') {
-        event.preventDefault();
-      }
-      if (table.editMode == 'row') {
-        if (!(table.currentEditRow && table.currentEditRow.includes(rowContext.rowData))) {
-          if (table.editAccordion) {
-            table.currentEditRow = [rowContext.rowData];
-          } else {
-            if (!table.currentEditRow) {
-              table.currentEditRow = [];
-            }
-            table.currentEditRow.push(rowContext.rowData);
-            //table.currentEditRow = [...table.currentEditRow];
-          }
-        }
-      } else if (table.editMode == 'column') {
-        if (!(table.currentEditColumn && table.currentEditColumn.includes(cellContext.column))) {
-          if (table.editAccordion) {
-            table.currentEditColumn = [cellContext.column];
-          } else {
-            if (!table.currentEditColumn) {
-              table.currentEditColumn = [];
-            }
-            table.currentEditColumn.push(cellContext.column);
-            //table.currentEditColumn = [...table.currentEditColumn];
-          }
-        }
-      } else if (table.editMode == 'cell') {
-        table.currentEditCell = {
-          rowData: rowContext.rowData,
-          column: cellContext.column
-        };
-      }
-      edittimeoutID=window.setTimeout(() => {
-        window.clearTimeout(edittimeoutID);
-        table.requestUpdate();
-        table.updateComplete.then(() => {
-          let editor = td.querySelector('input,select,textarea,sl-input,sl-select') as HTMLElement;
-          editor?.focus();
-        })
-      },10)
+      processTDCellEdit(td, table, event);
     }
-    td
-      ? emit(table, `sl-table-td-${event.type}`, {
-          cancelable: true,
-          detail: {
-            td: td,
-            row: tr,
-            ...cellContext
-          }
-        })
+    td ? emit(table, `sl-table-td-${event.type}`, {
+      cancelable: true,
+      detail: {
+        td: td,
+        row: tr,
+        ...getCellContext(td)
+      }
+    })
       : '';
   });
   const one2 = onEventArray(table.table, `tbody[componentID=${table.componentID}]>tr`, TDEVENTS, (event: Event) => {
@@ -173,12 +224,12 @@ const hanlderTRTDEvent = (table: SlTable) => {
     }
     tr
       ? emit(table, `sl-table-tr-${event.type}`, {
-          cancelable: true,
-          detail: {
-            row: tr,
-            ...table.getRowContext(tr)
-          }
-        })
+        cancelable: true,
+        detail: {
+          row: tr,
+          ...table.getRowContext(tr)
+        }
+      })
       : '';
   });
   return {
@@ -199,6 +250,7 @@ const handerTableResizeEvent = (slTable: SlTable) => {
     updateTableCache(slTable);
   }, 60);
   let width = 0;
+  let tableWidth = 0;
   let oldWidth = 0;
   let th: HTMLElement;
   let isTableResize = false;
@@ -221,6 +273,7 @@ const handerTableResizeEvent = (slTable: SlTable) => {
       }
       saveAsDefaultTableCache(slTable);
       width = parseInt(getCssValue(th, 'width'));
+      tableWidth = parseInt(getCssValue(table, 'width'));
       oldWidth = width;
       width += changePos.x;
       if (column.maxWidth) {
@@ -235,10 +288,8 @@ const handerTableResizeEvent = (slTable: SlTable) => {
           width = minWidth;
         }
       }
-      if (column.field) {
-        slTable.table.style.setProperty(`--sl-column-width-${column.field}`, width + 'px');
-      }
       column.width = width + '';
+      table.style.width = tableWidth + (width - oldWidth) + 'px';
       slTable.updateComplete.then(() => {
         isTableResize = false;
         emit(slTable, 'sl-table-column-resize', {

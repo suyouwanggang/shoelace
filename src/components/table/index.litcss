@@ -218,11 +218,20 @@ th[align=right]{
         height: 1em;
     }
 }
-
+.tdWrap{
+    word-break: break-all;
+    word-wrap: break-word;
+}
 .edit_select {
     sl-checkbox + sl-checkbox {
         margin-left:10px;
     }
+}
+.cellBox{
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-line-clamp: var(--sl-table-cell-box-lines,1);
+    -webkit-box-orient: vertical;
 }
 /** 内置编辑器 :sl-date ***/
 .edit_date::part(input){

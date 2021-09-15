@@ -105,10 +105,10 @@ export const getColumnCacheData = (column: SlColumn) => {
  * @param columns 表头
  * @returns {   
  *   rows: 有多少个 TR 
-      tdRenderColumnData:叶子TH， 用于渲染tbody
+      leafColumns:叶子TH， 用于渲染tbody
  * }
  */
-const caculateColumnData = (columns: SlColumn[]): { rows: RowHeader; tdRenderColumnData: SlColumn[] } => {
+const caculateColumnData = (columns: SlColumn[]): { rows: RowHeader; leafColumns: SlColumn[] } => {
   clearColumnCacheData(columns);
   //const colspanMap=new Map<ColumnData,number>();//每个th 跨多少列
   // const rowSpanMap=new Map<ColumnData,number>();//每个th 跨多少行
@@ -208,7 +208,7 @@ const caculateColumnData = (columns: SlColumn[]): { rows: RowHeader; tdRenderCol
 
   return {
     rows: rows, //有多少行
-    tdRenderColumnData: renderThArray //叶子单元格
+    leafColumns: renderThArray //叶子单元格
   };
 };
 /**

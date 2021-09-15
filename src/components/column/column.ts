@@ -90,7 +90,7 @@ export default class SlColumn extends LitElement {
   @property({ type: String, attribute: false })
   type: 'index' | 'checkbox' | 'radio' | 'date' | 'date-month' | 'date-year';
 
-  /**列编辑器，支持的内置编辑器 ，EDIT_TYPE, 或者一个函数，实现自定义列编辑器 */
+  /**列编辑器，内置单元格编辑器 ，EDIT_TYPE:input,text,date,select,multi-select, multi-checkbox, 或者一个函数，实现自定义列编辑器 */
   @property({ type: Object, attribute: false })
   edit: EDIT_TYPE | string | ((context: CellContext) => TemplateResult<1>);
 

@@ -17,14 +17,14 @@ Table 组件
     </sl-select>
 </div>
 
-<sl-table id='tableDIV' >
-     <sl-column id='index' field='index' label='index'   align='left' min-width='70' ></sl-column>
+<sl-table id='tableDIV' border >
+     <sl-column id='index' align='center' field='index' label='index'   align='left' min-width='70' ></sl-column>
     <sl-column field='name'   label='Name' resize-able  align='left' width='200' ></sl-column>
     <sl-column field='role'  label='Role' resize-able width=150    ></sl-column>
     <sl-column field='sex'  label='Sex'  resize-able  width=150  agile-cell='right'></sl-column>
      <sl-column field='date'   label='Date' resize-able   width=150    agile-cell='right'></sl-column>
-    <sl-column field='address'  label='address'  width=180    ></sl-column>
-    <sl-column field='date-month'  label='Date-Month' resize-able  min-width=60    ></sl-column>
+    <sl-column field='address'  label='address'  width=180  resize-able  ></sl-column>
+    <sl-column field='date-month'  label='Date-Month' resize-able  width=110    ></sl-column>
     <sl-column field='description'  label='描述'  width=100    ></sl-column>
     <sl-column field='check'  label='multi-select' resize-able  width=150    ></sl-column>
     <sl-column field='multi-check'  label='multi-checkbox' resize-able  width=150    ></sl-column>
@@ -32,34 +32,46 @@ Table 组件
 <script >
     const table=document.querySelector('#tableDIV');
     const dateList=[
-                { id: 10001, name: 'Test1', role: 1,check:[], sex: 2, age: 28,date:'2018-01-01', address: 'Javascript 从入门到放弃' },
+                { id: 10001, name: 'Test1', role: 1,check:[], sex: 2, age: 28,date:'2018-01-01', address: 'Javascript 从入门到放弃 从入门到放弃 从入门到放弃 从入门到放弃' },
                 { id: 10008, name: 'Test8', role: 2, checke:[], sex: 1, age: 35, address: 'Javascript 从入门到放弃' },
                 { id: 10008, name: 'Test10', role: 2, checke:[], sex: 1, age: 35, address: 'Javascript 从入门到放弃' }
                 
                 ] ;
-        for(let i=0,j=60;i<j;i++){
-            dateList.push({});
+        for(let i=0,j=3000;i<j;i++){
+            dateList.push({name:'new'+(i+4)});
         }
 
     table.dataSource=dateList;
+    table.enableVirtualScroll=true;
+    table.virtualItemHeight=48;
     table.customStyle=`
         input{
+            width:90px;
             height:28px;
             outline:none;
             border: solid var(--sl-input-border-width) rgb( var(--sl-input-border-color));
         }
     `;
+    //监听上一次编辑的单元格
+    table.addEventListener('sl-table-edit-cell-before-change',(event)=>{
+        console.log('lastEdit===> field=',event.detail.column.field +' rowIndex='+event.detail.rowIndex,event.detail.td);
+    });
+    //监听当TD进入了编辑状态
+    table.addEventListener('sl-table-edit-cell-active',(event)=>{
+       console.log('active cell===> field=',event.detail.column.field +' rowIndex='+event.detail.rowIndex ,event.detail.td);
+    });
+
     document.querySelector('sl-column#index').renderCell=({column,rowData,rowIndex})=>{
           return rowIndex+1;
     };
     
-    document.querySelector('sl-column[field=role]').items=[{id:1,name:'经理'},{id:2,name:'测试'}];
+    document.querySelector('sl-column[field=role]').items=[{id:1,name:'项目经理'},{id:2,name:'测试'},{id:3,name:'实施'}];
     document.querySelector('sl-column[field=role]').edit='select';
 
-    document.querySelector('sl-column[field=check]').items=[{id:1,name:'A'},{id:2,name:'B'},{id:3,name:'C'},{id:4,name:'D'}];
+    document.querySelector('sl-column[field=check]').items=[{id:1,name:'A'},{id:2,name:'B'},{id:3,name:'C'}];
     document.querySelector('sl-column[field=check]').edit='multi-select';
 
-      document.querySelector('sl-column[field=multi-check]').items=[{id:1,name:'A'},{id:2,name:'B'},{id:3,name:'C'},{id:4,name:'D'}];
+      document.querySelector('sl-column[field=multi-check]').items=[{id:1,name:'A'},{id:2,name:'B'},{id:3,name:'C'}];
     document.querySelector('sl-column[field=multi-check]').edit='multi-checkbox';
 
 
@@ -79,13 +91,17 @@ Table 组件
         if(value==undefined|| value==null){
             value='';
         }
-        return html`<input style='width:100px;' .value=${value} @input=${(event)=>rowData[column.field]= event.target.value} />`;
+        return html`<input .value=${value} @input=${(event)=>rowData[column.field]= event.target.value} />`;
     }
     table.fixedColumns='2,1';
     table.editAccordion=true;
     table.editEnable=true;
     table.tableHeight=500;
     window.table=table;
+    //启用TD 多行点点
+    table.enableCellBox=true;
+    //TD 内容超过1 行,则...
+    table.cellBoxLines=1;
     
     document.querySelector('sl-column[field=sex]').items=[{id:2,name:'Man'},{id:1,name:'Women'}];
     document.querySelector('sl-column[field=sex]').edit='select';
@@ -94,6 +110,7 @@ Table 组件
         table.dataSource=[{},...table.dataSource]; //添加一行新数据
         //如果是accordion 模式，则设置第一行数据为编辑行，否则 添加第一行数据到编辑行数据
         table.currentEditRow=table.editAccordion?[table.dataSource[0]]: [...table.currentEditRow,table.dataSource[0]];
+        table.scrollDiv.scrollTop=0;
     });
     document.querySelector('#accordtion').addEventListener('sl-change',()=>{
         table.editAccordion=!table.editAccordion;

@@ -4,8 +4,8 @@ import { createRef, ref } from 'lit/directives/ref';
 import { emit } from '../../internal/event';
 import { isArray, isFunction } from '../../utilities/common';
 import { getLocal } from '../../utilities/getResouce';
-import '../checkbox/checkbox';
 import SlCheckbox from '../checkbox/checkbox';
+import '../checkbox/checkbox';
 import '../input/input';
 import '../select/select';
 import SlTable from './table';
@@ -16,8 +16,6 @@ import { getFieldValue, setFieldValue } from './tableHelper';
  * column 内置的关键单元格编辑器
  */
 export enum EDIT_TYPE {
-  /** none,表示不能进入编辑模式 */
-  NONE = 'none',
   /** input 输入  */
   INPUT = 'input',
   /** text 输入 */
@@ -34,7 +32,7 @@ export enum EDIT_TYPE {
 const defaultEditMap = new Map<string, (context: CellContext) => TemplateResult<1>>();
 
 /**
- * 注册默认Editor
+ * 注册默认单元格编辑器 Editor
  * @param editKey 编辑器类型
  * @param editTemplate  编辑器实现
  */
@@ -122,6 +120,7 @@ export const emitTableCellEditFun = (context: CellContext, dom: EventTarget) => 
   const table = context.column.table;
   emit(table, 'sl-table-edit-cell', {
     detail: {
+      td:(dom as HTMLElement).closest('td'),
       dom: dom,
       context
     }
