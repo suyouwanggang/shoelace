@@ -12,17 +12,17 @@ let columnUniqueID = 0;
  */
 @customElement('sl-column')
 export default class SlColumn extends LitElement {
-  /**表头自定义渲染(this:SlColumn,table:SlTable):TemplateResult<1>*/
+  /**表头自定义渲染*/
   @property({ attribute: false, type: Object }) renderCol: (context: CellHeadContext) => TemplateResult<1>;
 
-  /**对应TD渲染 ,接收表格column:lie, rowData:行数据,rowDataIndex,columnIndex:列顺序 此对应的TD*/
+  /**对应TD渲染 ,接收表格cellContext:作为参数，渲染TD*/
   @property({ attribute: false, type: Object }) renderCell: (context: CellContext) => TemplateResult<1> | { template: TemplateResult<1>; colspan?: number; rowspan?: number; editor: TemplateResult<1> };
 
   /**是否隐藏此列 */
   @property({ type: Boolean, reflect: true, attribute: true })
   hidden: boolean = false;
 
-  /** 列所对应的字段，应该唯一 */
+  /** 列所对应的字段，在同一个table 中应该唯一，此会作为rowData 的key，支持"." 作为分隔符 */
   @property({ type: String, reflect: true, attribute: true })
   field: string;
 
@@ -86,7 +86,7 @@ export default class SlColumn extends LitElement {
   @property({ type: Number, reflect: true, attribute: 'order' })
   order = 0;
 
-  /**列的类型，指定类型的列，有特定的渲染，例如index,checkbox,radio */
+  /**列的类型，指定类型的列，有特定的渲染，例如index,checkbox,radio,或者会影响列的edit模式 */
   @property({ type: String, attribute: false })
   type: 'index' | 'checkbox' | 'radio' | 'date' | 'date-month' | 'date-year';
 
@@ -98,7 +98,7 @@ export default class SlColumn extends LitElement {
   @property({ type: Number, attribute: false })
   inputMaxLength: number;
 
-  /** 定义列数据映射器,在 会将 rowData[field]转为为显示值，同时在编辑的时候，也会作为select下拉项 */
+  /** 定义列数据映射器,在 会将 rowData[field]转为为显示值，同时在编辑的时候，也会作为select，checkbox 下拉项 */
   @property({ type: Array, attribute: false })
   items: Array<ColumnItems>;
 
