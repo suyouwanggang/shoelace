@@ -5,8 +5,21 @@
 Table 组件启用TreeTable 需要设置treeConfig属性
 
 ```html preview
+<div style='margin:10px'>
+    <sl-checkbox id='checkProp'>选中值为name属性 &nbsp;</sl-checkbox>
+    <sl-checkbox id='checkDown' checked>选中时向下级联</sl-checkbox>
+    <sl-checkbox id='checkUp' >选中时向上级联&nbsp;&nbsp;</sl-checkbox>
+    <sl-button onclick="javascript:table.checkValue=null;"> 清空选中值</sl-button>
+    <style>
+        sl-checkbox  + sl-checkbox {
+            margin-right:20px;
+        }
+    </style>
+</div>
+<div style='margin:10px;height:28px;overflow:hidden;line-height:28px;' id='checkValueDiv'></div>
 <sl-table id='tableDIV' >
-     <sl-column field='index'  label='#'  align='center' min-width='40' ></sl-column>
+     <sl-column type="index"  label='#'  align='center' min-width='40' ></sl-column><!-- type='index' 内置序号列，如果不满足，可以设置column.renderCell 属性来实现自定义渲染 -->
+    <sl-column type='checkbox'  label='#'  align='center' ></sl-column><!--type='checkbox' 内置逻辑列， -->
     <sl-column field='name' sort-able resize-able label='Name' width='100%'  align='left' min-width='200' ></sl-column>
     <sl-column field='size' sort-able label='size' align='right'  resize-able min-width='100' order=2 ></sl-column>
     <sl-column field='date' sort-able label='Date'resize-able  min-width='100' order=3 agile-cell='right'></sl-column>
@@ -14,13 +27,7 @@ Table 组件启用TreeTable 需要设置treeConfig属性
 </sl-table>
 <script >
     const table=document.querySelector('#tableDIV');
-    table.children[1].renderCell=({rowData,rowIndex})=>{
-        return html`<span>${rowData.name}<span>`;
-    };
     table.cacheKey='tableDIV';
-    table.children[0].renderCell=({rowIndex})=>{
-        return html`${rowIndex+1}`;
-    }
     table.treeConfig={};
     const dateList=[
         { id: 1000, name: 'Javascript 从入门到放弃1', type: 'mp3', size: 1024, date: '2020-08-01' },
@@ -51,17 +58,48 @@ Table 组件启用TreeTable 需要设置treeConfig属性
             { id: 23666, name: 'Test8', type: 'xlsx', size: 2048, date: '2020-11-01' },
             { id: 24555, name: 'Javascript 从入门到放弃9', type: 'avi', size: 224, date: '2020-10-01' }
         ];
+        table.checkValue=[dateList[0]];
     table.dataSource=dateList;
     table.fixedColumns=2;
     window.table=table;
     table.tableHeight='400px';
+
+    //自定义某些数据，不能选中
+     table.checkDisablePropField='disabled';//或者每行rowData.disabled， 则不能选中
+    table.checkDisablePropField=(rowData)=>{
+        return rowData.id==0;
+    }
+
+    table.addEventListener('sl-table-check-before-change',(event)=>{
+        console.log(event.type,event.detail.checkbox);
+     });
+
+    table.addEventListener('sl-table-check-change',(event)=>{
+        let value=event.detail.value;
+        console.log(event.type,value);
+        document.querySelector('#checkValueDiv').textContent=table.checkValue?JSON.stringify(table.checkValue):"";
+    });
+    document.querySelector('#checkValueDiv').textContent=table.checkValue?JSON.stringify(table.checkValue):"";
+    document.querySelector('#checkProp').addEventListener('sl-change',(event)=>{
+        let checkEl=event.target;
+        table.checkPropField=checkEl.checked?'name':undefined;
+    });
+    document.querySelector('#checkDown').addEventListener('sl-change',(event)=>{
+        let checkEl=event.target;
+        table.checkTreeCasecadeDown=checkEl.checked;
+    });
+    document.querySelector('#checkUp').addEventListener('sl-change',(event)=>{
+        let checkEl=event.target;
+        table.checkTreeCasecadeUp=checkEl.checked;
+    });
 </script>
 ```
 
 Table 组件启用TreeTable 懒加载 ,和虚拟滚动加载
 ```html preview
 <sl-table id='tableDIV2' border>
-    <sl-column field='index'  label='#'  align='center' min-width='40' ></sl-column>
+    <sl-column type="index"  label='#'  align='center' min-width='40' ></sl-column>
+    <sl-column type="checkbox"  label='#'  align='center' min-width='40' ></sl-column>
     <sl-column field='name'  sort-able resize-able label='Name' width='100%' max-width='600' align='left' min-width='200' ></sl-column>
     <sl-column field='size' sort-able label='size' align='right' resize-able min-width='100' order=2 ></sl-column>
     <sl-column field='date' sort-able label='Date'resize-able  min-width='100' order=3 agile-cell='right'></sl-column>
@@ -70,10 +108,7 @@ Table 组件启用TreeTable 懒加载 ,和虚拟滚动加载
 <script >
     const table2=document.querySelector('#tableDIV2');
     table2.treeConfig={treeNodeColumn:'name',lazy:true ,hasChildProp:'hasChild'};
-    //指定TreeNode 渲染在 column field=type 列，同时支持懒加载
-    table2.children[0].renderCell=({rowIndex})=>{
-        return html`${rowIndex+1}`;
-    };
+    
     table2.cacheKey='treeTable';
     table2.treeLoadingNodeMethod=(cellContext)=>{
         let rowData=cellContext.rowData;
@@ -121,11 +156,12 @@ Table 组件启用TreeTable 懒加载 ,和虚拟滚动加载
    
     //启用虚拟滚动
     table2.enableVirtualScroll=true;
+    table2.stripe=true;//斑马线
     //虚拟滚动行高
     table2.virtualItemHeight=45;
     table2.customStyle=`div.tdWrap{height:28px;overflow:hidden;}`;//控制单元高度
     table2.dataSource=dateList;
-    table2.fixedColumns=2;
+    table2.fixedColumns=3;
     window.table2=table2;
     table2.treeNodeNoWrap=false;
     table2.tableLayoutFixed=true;

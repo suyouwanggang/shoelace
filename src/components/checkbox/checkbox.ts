@@ -6,6 +6,7 @@ import { live } from 'lit-html/directives/live';
 import { emit } from '../../internal/event';
 import { watch } from '../../internal/watch';
 import styles from './checkbox.styles';
+import { isArray, isObject } from '../../utilities/common';
 
 let id = 0;
 
@@ -17,6 +18,7 @@ let id = 0;
  *
  * @event sl-blur - Emitted when the control loses focus.
  * @event sl-change - Emitted when the control's checked state changes.
+ * @event sl-before-change - Emitted before  the control's checked state changes,user can cancel default.
  * @event sl-focus - Emitted when the control gains focus.
  *
  * @csspart base - The component's base wrapper.
@@ -40,7 +42,7 @@ export default class SlCheckbox extends LitElement {
   @property() name: string;
 
   /** The checkbox's value attribute. */
-  @property({ attribute: false }) value: string | number;
+  @property() value: string | number | any;
 
   /** Disables the checkbox. */
   @property({ type: Boolean, reflect: true }) disabled = false;
@@ -88,9 +90,14 @@ export default class SlCheckbox extends LitElement {
   }
 
   handleClick() {
-    this.checked = !this.checked;
-    this.indeterminate = false;
-    emit(this, 'sl-change');
+    const beforeCheck = emit(this, 'sl-before-change', {
+      cancelable: true,
+    });
+    if (!beforeCheck.defaultPrevented) {
+      this.checked = !this.checked;
+      this.indeterminate = false;
+      emit(this, 'sl-change');
+    }
   }
 
   handleBlur() {
@@ -123,12 +130,12 @@ export default class SlCheckbox extends LitElement {
       <label
         part="base"
         class=${classMap({
-          checkbox: true,
-          'checkbox--checked': this.checked,
-          'checkbox--disabled': this.disabled,
-          'checkbox--focused': this.hasFocus,
-          'checkbox--indeterminate': this.indeterminate
-        })}
+      checkbox: true,
+      'checkbox--checked': this.checked,
+      'checkbox--disabled': this.disabled,
+      'checkbox--focused': this.hasFocus,
+      'checkbox--indeterminate': this.indeterminate
+    })}
         for=${this.inputId}
       >
         <input
@@ -136,7 +143,7 @@ export default class SlCheckbox extends LitElement {
           class="checkbox__input"
           type="checkbox"
           name=${ifDefined(this.name)}
-          value=${ifDefined(this.value)}
+          value=${isObject(this.value) || isArray(this.value) ? '' : ifDefined(this.value)}
           .indeterminate=${live(this.indeterminate)}
           .checked=${live(this.checked)}
           .disabled=${this.disabled}
@@ -151,7 +158,7 @@ export default class SlCheckbox extends LitElement {
 
         <span part="control" class="checkbox__control">
           ${this.checked
-            ? html`
+        ? html`
                 <span part="checked-icon" class="checkbox__icon">
                   <svg viewBox="0 0 16 16">
                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round">
@@ -165,9 +172,9 @@ export default class SlCheckbox extends LitElement {
                   </svg>
                 </span>
               `
-            : ''}
+        : ''}
           ${!this.checked && this.indeterminate
-            ? html`
+        ? html`
                 <span part="indeterminate-icon" class="checkbox__icon">
                   <svg viewBox="0 0 16 16">
                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round">
@@ -180,7 +187,7 @@ export default class SlCheckbox extends LitElement {
                   </svg>
                 </span>
               `
-            : ''}
+        : ''}
         </span>
 
         <span part="label" id=${this.labelId} class="checkbox__label">

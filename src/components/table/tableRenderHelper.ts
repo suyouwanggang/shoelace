@@ -5,6 +5,7 @@ import { styleMap } from 'lit-html/directives/style-map';
 import { ref } from 'lit/directives/ref.js';
 import { spread } from '../../internal/spread';
 import { isFunction } from '../../utilities/common';
+import { getColumnRenderResult, getReisterCellTemplate } from './cellDefaultRender';
 import { editNone, findItemLable, getCellEditor, isCellEditor } from './edit';
 import { renderSortHeaderTemplate, sortRenderHanlder } from './sort';
 import SlTable from './table';
@@ -16,8 +17,9 @@ const setHeadCellContext = (el: HTMLTableCellElement, context: CellHeadContext) 
     cellHeadContextMap.set(el, context);
   }
 };
+
 /** 获取 td 上下文 */
-export const getHeadCellContext = (el: HTMLTableCellElement) => {
+export const getTableHeadCellContext = (el: HTMLTableCellElement) => {
   return cellHeadContextMap.get(el) as CellHeadContext;
 };
 export const renderThColTemplate = (context: CellHeadContext, table: SlTable) => {
@@ -84,6 +86,8 @@ export const renderThColTemplate = (context: CellHeadContext, table: SlTable) =>
       sortRenderHanlder(column, table);
     }
   };
+
+
   return html`<th
     uniqueID=${column.uniqueID}
     .column=${column}
@@ -100,7 +104,7 @@ export const renderThColTemplate = (context: CellHeadContext, table: SlTable) =>
     ${spread(headResult)}
   >
     <div class="thWrap">
-      <span class="column-title ${column.sortAble ? 'sort-able' : ''}">${column.renderCol ? html`${column.renderCol(context)}` : column.label}</span>
+      <span class="column-title ${column.sortAble ? 'sort-able' : ''}">${getColumnRenderResult(context, table)}</span>
       ${renderSortHeaderTemplate(table, column, handerSort)} ${column.resizeAble ? html`<div part="resize-hanler" @click=${stopHanderClick} class="th-resize-helper"></div>` : ''}
     </div>
   </th>`;
@@ -108,21 +112,29 @@ export const renderThColTemplate = (context: CellHeadContext, table: SlTable) =>
 const stopHanderClick = (event: Event) => {
   event.stopPropagation();
 };
-const renderCellData = (context: CellContext) => {
-  const col = context.column;
-  let colResult: any;
-  if (col.renderCell) {
-    return col.renderCell(context);
-  } else {
-    let fieldValue = getFieldValue(context.rowData, col.field);
-    if (fieldValue == undefined || fieldValue == null) {
-      fieldValue = '';
-    }
-    if (col.items) {
-      fieldValue = findItemLable(col.items, fieldValue);
-    }
-    colResult = html`${fieldValue}`;
+export const getColumnCellRenderTemplate = (context: CellContext, table: SlTable) => {
+  const column = context.column;
+  if (column.renderCell) {
+    return column.renderCell(context);
   }
+  let templateFun = getReisterCellTemplate(column.type);
+  if (templateFun) {
+    return templateFun(context, table);
+  } else {
+    return cellDataRenderResult(context) as TemplateResult<1>;
+  }
+}
+const cellDataRenderResult = (context: CellContext) => {
+  const col = context.column;
+  let colResult: TemplateResult<1>;
+  let fieldValue = getFieldValue(context.rowData, col.field);
+  if (fieldValue == undefined || fieldValue == null) {
+    fieldValue = '';
+  }
+  if (col.items) {
+    fieldValue = findItemLable(col.items, fieldValue);
+  }
+  colResult = html`${fieldValue}`;
   return colResult;
 };
 const cellContextMap = new WeakMap<HTMLTableCellElement, CellContext>();
@@ -138,7 +150,7 @@ export const getCellContext = (el: HTMLTableCellElement) => {
 
 export const renderTdCellTemplate = (context: CellContext, table: SlTable) => {
   const column = context.column;
-  let tdResult = renderCellData(context);
+  let tdResult = getColumnCellRenderTemplate(context, table) as any;
   if (tdResult == undefined || tdResult == nothing || tdResult.rowspan == 0 || tdResult.colspan == 0) {
     return nothing; //标识此td 不进行渲染
   } else {

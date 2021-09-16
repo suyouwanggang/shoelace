@@ -8,6 +8,7 @@ import { emit } from '../../internal/event';
 import { spread, SpreadResult } from '../../internal/spread';
 import { watch } from '../../internal/watch';
 import { watchProps } from '../../internal/watchProps';
+import { isArray, isFunction } from '../../utilities/common';
 import { getResouceValue } from '../../utilities/getResouce';
 import { addResizeHander, DisposeObject } from '../../utilities/resize.util';
 import SlColumn from '../column/column';
@@ -19,7 +20,7 @@ import { removeTableCacheByKey, restoreFromLocalCache } from './tableCacheHelper
 import { CellContext, CellHeadContext, defaultSortConfig, defaultTreeConfig, RowContext, SortConfig, SortValue, TreeConfig } from './tableConfig';
 import { connectTableHanlder, getTreeNodeAllChildrenSize } from './tableEventHelper';
 import caculateColumnData, { getColumnCacheData, RowHeader } from './tableHelper';
-import { getCellContext, getHeadCellContext, renderTdCellTemplate, renderThColTemplate } from './tableRenderHelper';
+import { getCellContext, getTableHeadCellContext, renderTdCellTemplate, renderThColTemplate } from './tableRenderHelper';
 import { vituralScrollCalc } from './virtualScroll';
 
 const rowContextMap = new WeakMap<HTMLTableRowElement, RowContext>();
@@ -70,9 +71,14 @@ let componentID = 0;
  * @event {{row:TR,...RowContext}}  sl-table-tr-${normalEvent} - Emitted table tbody tr trigger normalEvent .support normalEvent event [click,dblclick,keydown,keypress,mousedown,mouseenter,mouseleave,mousemove,mouseout,mouseover,mouseup]  .
  * //tbody 行，tbody tr td 事件
  * @event {{row:TR,td:TD,...CellContext}}  sl-table-td-${normalEvent} - Emitted table tbody td trigger normalEvent.  support normalEvent  event [click,dblclick,keydown,keypress,mousedown,mouseenter,mouseleave,mousemove,mouseout,mouseover,mouseup].
- * @event {{td:TD,dom:HTMLElement,...CellContext}}  sl-table-edit-cell - 当table 组件内置 cell edit 数据发生变化.
+ * @event {{td:TD,dom:HTMLElement,...CellContext}}  sl-table-edit-cell - 当Table 组件内置 cell edit 数据发生变化,时触发.
  * @event {{td:TD,dom:HTMLElement,...CellContext}}  sl-table-edit-cell-active - 当单元格进入了编辑状态时触发
  * @event {{td:TD,...CellContext}}   sl-table-edit-cell-before-change - Emitted  before when table  edit cell  change .
+ * //表格 checkbox 控制
+ * @event {{checkbox:SlCheckbox,...CellContext }}   sl-table-check-before-change - Emitted  before  tbody checkbox check will change .
+ * @event {{value:Array<any> }}   sl-table-check-change - Emitted  after  tbody checkbox check  changed.
+ * 
+ * 
  *
  *
  *
@@ -87,7 +93,7 @@ let componentID = 0;
  *
  * @csspart base - The component's base wrapper.
  * @csspart scroll-div - The component's scroll-div .
- * @csspart part - The component's table .
+ * @csspart table - The component's table .
  * @csspart resize-hanler - The th's resize-hanlder .
  *
  * @cssproperty --sl-th-padding-size - td,th padding
@@ -183,6 +189,10 @@ export default class SlTable extends LitElement {
 
   @state()
   private innerDataSource: unknown[];
+  /** 获取表格实际渲染的数据列表 */
+  public getRenderDataSource() {
+    return this.innerDataSource;
+  }
 
   public treeNodeHasChildren(rowData: TreeNodeData) {
     if (typeof rowData.children == 'undefined' && this.treeConfig && this.treeConfig.lazy) {
@@ -228,7 +238,7 @@ export default class SlTable extends LitElement {
   @property({ type: Object, attribute: false })
   expandRowRender: (rowContext: RowContext, columns: SlColumn[], layLoadData?: any) => TemplateResult<1>;
   /** 存储已经加载过的扩展数据  */
-  @property({ type: Object })
+  @property({ type: Object, attribute: false })
   cacheExpandLazyLoadDataMap = new Map<any, any>();
 
   /**
@@ -283,6 +293,10 @@ export default class SlTable extends LitElement {
   public getRowDataDataIndex(rowData: TreeNodeData) {
     return this.cacheTreeNodeMap.get(rowData)?.seqno as number;
   }
+  /**Table 启用Tree 的时候，获取缓存数据关系 */
+  public get treeDataCache() {
+    return this.cacheTreeNodeMap;
+  }
 
   /**
    * table  heading
@@ -320,10 +334,14 @@ export default class SlTable extends LitElement {
     this._resizeResult = addResizeHander([this, this.table], () => {
       this.asynTableHeaderWidth();
     });
+    connectTableHanlder(this);
     if (this.enableVirtualScroll && this.virtualItemHeight) {
       this.requestUpdate();
+      this.updateComplete.then(() => {
+        this.requestUpdate();
+      })
     }
-    connectTableHanlder(this);
+
   }
   connectedCallback() {
     super.connectedCallback();
@@ -378,7 +396,7 @@ export default class SlTable extends LitElement {
         }
       }
       if (!isNaN(right)) {
-        for (let i = columnSize - 1, j = 0; j < right && i >= 0; ) {
+        for (let i = columnSize - 1, j = 0; j < right && i >= 0;) {
           let col = this.tdRenderColumns[i];
           while (col != null && col.tagName.toLowerCase() == 'sl-column') {
             style += this.caculateFixedColumnStyle(col, tableRect, false);
@@ -426,16 +444,16 @@ export default class SlTable extends LitElement {
     const trTemplates = (rowColumn: SlColumn[], rowIndex: number) => {
       return html`<tr .columns=${rowColumn}>
         ${rowColumn.map((column, index) => {
-          const cache = getColumnCacheData(column);
-          const context: CellHeadContext = {
-            column: column,
-            colIndex: index,
-            rowspan: cache.rowspan as number,
-            colspan: cache.colspan as number,
-            colRowIndex: rowIndex
-          };
-          return renderThColTemplate(context, table);
-        })}
+        const cache = getColumnCacheData(column);
+        const context: CellHeadContext = {
+          column: column,
+          colIndex: index,
+          rowspan: cache.rowspan as number,
+          colspan: cache.colspan as number,
+          colRowIndex: rowIndex
+        };
+        return renderThColTemplate(context, table);
+      })}
       </tr>`;
     };
     return this.theadRows.map((items, index) => trTemplates(items, index));
@@ -485,13 +503,6 @@ export default class SlTable extends LitElement {
   @property({ type: Number, attribute: false })
   enableVirtualScroll: number;
 
-  /**定义表格rowData id 属性,如果列 type='checkbox'|'radio',需要 */
-  @property({ type: String, attribute: false })
-  idProp: 'id';
-
-  /** 当前选中的对象的 id 列表 */
-  @property({ type: Array, attribute: false })
-  checkedIDValue = [];
 
   //表格编辑模式
 
@@ -545,6 +556,38 @@ export default class SlTable extends LitElement {
   @watch('cellBoxLines', { waitUntilFirstUpdate: true })
   watchCellBoxLinesChange() {
     this.style.setProperty('--sl-table-cell-box-lines', this.cellBoxLines + '');
+  }
+
+  /** 定义列 type='checkbox','radio'时起作用， 定义checkbox 列绑定的属性 ，如果不指定，则Table checkbox列 绑定值就是rowData 本身*/
+  @property({ type: String })
+  checkPropField: string;
+
+  /**定义列 type='checkbox','radio'时起作用， 确定列 checkbx/radio Disable属性,或者一个函数接收rowData ，确定rowData checkbox 列是否可以选择 如果不指定，则此列checkbox 所有的都可以勾选*/
+  @property()
+  checkDisablePropField: string | ((rowData: any) => boolean);
+
+  /** 定义表格当前多选中的值（作用于checkbox 列上） */
+  @property({ type: Object, attribute: false })
+  checkValue: any | Array<any>;
+
+  /**如果启用TreeConfig ,checkbox 向下级联 选中 */
+  @property({ type: Boolean })
+  checkTreeCasecadeDown = true;
+
+  /**如果启用TreeConfig ,checkbox 向上级联 选中 */
+  @property({ type: Boolean })
+  checkTreeCasecadeUp = false;
+
+
+
+  /**判断rowData 是否是checkbox 列选中 */
+  public isRowDataChecked(rowData: any) {
+    const rowCheckValue = this.checkPropField ? rowData[this.checkPropField] : rowData;
+    return isArray(this.checkValue) ? (this.checkValue as Array<any>).includes(rowCheckValue) : this.checkValue != undefined && this.checkValue == rowCheckValue;
+  }
+  /**判断rowData 是否是checkbox,radio列 disable */
+  public isRowDataCheckedDisabled(rowData: any) {
+    return this.checkDisablePropField ? (isFunction(this.checkDisablePropField) ? this.checkDisablePropField(rowData) : rowData[this.checkPropField]) : false;
   }
 
   @watchProps(['dataSource', 'treeConfig'])
@@ -634,8 +677,8 @@ export default class SlTable extends LitElement {
       rowList.push(
         html`<tr
           ${ref(el => {
-            setRowContext(el as HTMLTableRowElement, rowContext);
-          })}
+          setRowContext(el as HTMLTableRowElement, rowContext);
+        })}
           .rowData=${rowData}
           style=${styleMap(trStyle)}
           class=${classMap(trClassObject)}
@@ -660,7 +703,7 @@ export default class SlTable extends LitElement {
   }
   /** 获取 thead th 上下文  */
   public getHeadCellContext(th: HTMLTableCellElement) {
-    return getHeadCellContext(th);
+    return getTableHeadCellContext(th);
   }
   private _virtualRenderTbodyRows() {
     if (this.enableVirtualScroll && this.scrollDiv) {

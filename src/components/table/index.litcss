@@ -249,3 +249,7 @@ th[align=right]{
     min-width: 0px;
     width:0;
 }
+.thWrap sl-checkbox, .tdWrap sl-checkbox{
+    width:1em;
+    height: 1em;
+}

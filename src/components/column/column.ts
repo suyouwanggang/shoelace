@@ -1,4 +1,4 @@
-import { LitElement, PropertyValues, TemplateResult } from 'lit';
+import { LitElement, nothing, PropertyValues, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { EDIT_TYPE } from '../table/edit';
 import SlTable from '../table/table';
@@ -16,7 +16,7 @@ export default class SlColumn extends LitElement {
   @property({ attribute: false, type: Object }) renderCol: (context: CellHeadContext) => TemplateResult<1>;
 
   /**对应TD渲染 ,接收表格cellContext:作为参数，渲染TD*/
-  @property({ attribute: false, type: Object }) renderCell: (context: CellContext) => TemplateResult<1> | { template: TemplateResult<1>; colspan?: number; rowspan?: number; editor: TemplateResult<1> };
+  @property({ attribute: false, type: Object }) renderCell: (context: CellContext) => TemplateResult<1> | { template: TemplateResult<1>; colspan?: number; rowspan?: number; } | typeof nothing;
 
   /**是否隐藏此列 */
   @property({ type: Boolean, reflect: true, attribute: true })
@@ -87,7 +87,7 @@ export default class SlColumn extends LitElement {
   order = 0;
 
   /**列的类型，指定类型的列，有特定的渲染，例如index,checkbox,radio,或者会影响列的edit模式 */
-  @property({ type: String, attribute: false })
+  @property({ type: String })
   type: 'index' | 'checkbox' | 'radio' | 'date' | 'date-month' | 'date-year';
 
   /**列编辑器，内置单元格编辑器 ，EDIT_TYPE:input,text,date,select,multi-select, multi-checkbox, 或者一个函数，实现自定义列编辑器 */
@@ -95,12 +95,23 @@ export default class SlColumn extends LitElement {
   edit: EDIT_TYPE | string | ((context: CellContext) => TemplateResult<1>);
 
   /** 编辑器 input,textarea 最大输入长度 */
-  @property({ type: Number, attribute: false })
+  @property({ type: Number })
   inputMaxLength: number;
+
+  /** 编辑器 input,textarea 最小输入长度 */
+  @property({ type: Number })
+  inputMinLength: number;
+
+  /**编辑器 是否是必填的 待实现*/
+  @property({ type: Boolean })
+  editRequired: boolean;
 
   /** 定义列数据映射器,在 会将 rowData[field]转为为显示值，同时在编辑的时候，也会作为select，checkbox 下拉项 */
   @property({ type: Array, attribute: false })
   items: Array<ColumnItems>;
+
+
+
 
   /**
    *  所有hidden!=false直接子column,并且按照order排序了

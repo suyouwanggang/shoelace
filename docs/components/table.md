@@ -14,7 +14,8 @@ Table 组件
     <sl-checkbox checked >address</sl-checkbox>
 </div>
 <sl-table id='tableDIV' cache-key='one'>
-     <sl-column id='index' field='index' label='index'   align='left' min-width='70' ></sl-column>
+     <sl-column id='index' type='index' label='index'   align='center' min-width='70' ></sl-column>
+     <sl-column id='checkbox' type='checkbox' align='center' ></sl-column>
     <sl-column field='expaned' label='#'   align='left' min-width='40' ></sl-column>
     <sl-column field='name' sort-able resize-able label='Name'   align='left' min-width='200' ></sl-column>
     <sl-column field='role'  label='Role' resize-able min-width='100' order=2 ></sl-column>
@@ -35,11 +36,9 @@ Table 组件
                 { id: 10006, name: 'Test6', role: 'Designer', sex: 'Women', age: 21, address: 'Javascript 从入门到放弃' },
                 { id: 10007, name: 'Test7', role: 'Test', sex: 'Man', age: 29, address: 'Javascript 从入门到放弃' },
                 { id: 10008, name: 'Test8', role: 'Develop', sex: 'Man', age: 35, address: 'Javascript 从入门到放弃' }];
-      document.querySelector('sl-column#index[field=index]').renderCell=({column,rowData,rowIndex})=>{
-          return rowIndex;
-    }
+     
     
-    for(let i=0,j=20000-11;i<j;i++){
+    for(let i=0,j=20000-dateList.length;i<j;i++){
         dateList.push( { id: i, name: 'Test add'+i, role: 'Test1', sex: Math.random()>0.5?'Man':'Women', age: 28, address: 'Javascript 从入门到放弃'+i });
     }
     table.tableHeight=500;
@@ -117,12 +116,14 @@ Table 组件
 
 ```html preview
 <sl-table id='tableDIV2' border cache-key='two'>
+    <sl-column type="index" label='Index' align='center'  min-width='70' ></sl-column>
+    <sl-column type="checkbox"  align='center'   ></sl-column>
     <sl-column label='基本信息'  resize-able >
          <sl-column field='name' resize-able label='Name' min-width='300' sort-able  width='100%' align='left'  ></sl-column>
          <sl-column field='sex' label='Sex'  resize-able  sort-able min-width=60  align='right' order=2></sl-column>
-         <sl-column field='age' label='Age'  resize-able  sort-able min-width=90 align='left' col-align='left' order=1></sl-column>
     </sl-column>
     <sl-column field='role' label='Role' align='right' resize-able min-width='200' order=2 ></sl-column>
+    <sl-column field='age' label='Age'  resize-able  sort-able min-width=90 align='left' col-align='left' order=1></sl-column>
     <sl-column field='address' label='address'  resize-able min-width=200  order='1'  ></sl-column>
 </sl-table>
 <script >
@@ -169,7 +170,7 @@ Table 组件
         return html`<tr >${result}</tr><tr>${result}</tr>`;
     };
     
-    let index=0;
+   
     table2.addEventListener('sl-table-td-click',(event)=>{
         let detail=event.detail;
         // console.table({type:event.type,td:detail.td.toString(), column:detail.column.field,row:detail.row.toString(),rowData:JSON.stringify(detail.rowData)});
@@ -197,7 +198,7 @@ Table 组件
    
     
     window.table2=table2;
-    table2.fixedColumns=3;
+    table2.fixedColumns=4;
     table2.tableHeight=600;
     table2.sortValue={orderBy:'name',orderType:'ASC'};
 </script>

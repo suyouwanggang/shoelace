@@ -7,7 +7,7 @@ Table 组件
 ```html preview
 <div style='margin:10px'>
     <sl-button id='add'>add</sl-button>
-    <sl-checkbox id='accordtion' checked>accordtion</sl-checkbox>
+    <sl-checkbox id='accordtion' value=10 checked>accordtion</sl-checkbox>
     <sl-button id='editMode'>编辑模式：row</sl-button>
     <sl-select id='trigger'  style='display:inline-block'>
         <sl-menu-item value='click'>click</sl-menu-item>
@@ -71,7 +71,7 @@ Table 组件
     document.querySelector('sl-column[field=check]').items=[{id:1,name:'A'},{id:2,name:'B'},{id:3,name:'C'}];
     document.querySelector('sl-column[field=check]').edit='multi-select';
 
-      document.querySelector('sl-column[field=multi-check]').items=[{id:1,name:'A'},{id:2,name:'B'},{id:3,name:'C'}];
+      document.querySelector('sl-column[field=multi-check]').items=[{id:1,name:'A'},{id:2,name:'B'},{id:new Date(),name:'C'}];
     document.querySelector('sl-column[field=multi-check]').edit='multi-checkbox';
 
 
