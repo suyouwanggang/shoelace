@@ -16,7 +16,7 @@ export default class SlColumn extends LitElement {
   @property({ attribute: false, type: Object }) renderCol: (context: CellHeadContext) => TemplateResult<1>;
 
   /**对应TD渲染 ,接收表格cellContext:作为参数，渲染TD*/
-  @property({ attribute: false, type: Object }) renderCell: (context: CellContext) => TemplateResult<1> | { template: TemplateResult<1>; colspan?: number; rowspan?: number; } | typeof nothing;
+  @property({ attribute: false, type: Object }) renderCell: (context: CellContext) => TemplateResult<1> | { template: TemplateResult<1>; colspan?: number; rowspan?: number } | typeof nothing;
 
   /**是否隐藏此列 */
   @property({ type: Boolean, reflect: true, attribute: true })
@@ -109,9 +109,6 @@ export default class SlColumn extends LitElement {
   /** 定义列数据映射器,在 会将 rowData[field]转为为显示值，同时在编辑的时候，也会作为select，checkbox 下拉项 */
   @property({ type: Array, attribute: false })
   items: Array<ColumnItems>;
-
-
-
 
   /**
    *  所有hidden!=false直接子column,并且按照order排序了

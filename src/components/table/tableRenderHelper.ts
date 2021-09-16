@@ -87,7 +87,6 @@ export const renderThColTemplate = (context: CellHeadContext, table: SlTable) =>
     }
   };
 
-
   return html`<th
     uniqueID=${column.uniqueID}
     .column=${column}
@@ -123,7 +122,7 @@ export const getColumnCellRenderTemplate = (context: CellContext, table: SlTable
   } else {
     return cellDataRenderResult(context) as TemplateResult<1>;
   }
-}
+};
 const cellDataRenderResult = (context: CellContext) => {
   const col = context.column;
   let colResult: TemplateResult<1>;

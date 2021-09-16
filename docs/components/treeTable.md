@@ -9,7 +9,8 @@ Table 组件启用TreeTable 需要设置treeConfig属性
     <sl-checkbox id='checkProp'>选中值为name属性 &nbsp;</sl-checkbox>
     <sl-checkbox id='checkDown' checked>选中时向下级联</sl-checkbox>
     <sl-checkbox id='checkUp' >选中时向上级联&nbsp;&nbsp;</sl-checkbox>
-    <sl-button onclick="javascript:table.checkValue=null;"> 清空选中值</sl-button>
+    <sl-button onclick="javascript:table.checkValue=null;
+     document.querySelector('#checkValueDiv').textContent=table.checkValue?JSON.stringify(table.checkValue):'';"> 清空选中值</sl-button>
     <style>
         sl-checkbox  + sl-checkbox {
             margin-right:20px;

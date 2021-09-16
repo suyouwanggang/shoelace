@@ -77,8 +77,8 @@ let componentID = 0;
  * //表格 checkbox 控制
  * @event {{checkbox:SlCheckbox,...CellContext }}   sl-table-check-before-change - Emitted  before  tbody checkbox check will change .
  * @event {{value:Array<any> }}   sl-table-check-change - Emitted  after  tbody checkbox check  changed.
- * 
- * 
+ *
+ *
  *
  *
  *
@@ -339,9 +339,8 @@ export default class SlTable extends LitElement {
       this.requestUpdate();
       this.updateComplete.then(() => {
         this.requestUpdate();
-      })
+      });
     }
-
   }
   connectedCallback() {
     super.connectedCallback();
@@ -503,7 +502,6 @@ export default class SlTable extends LitElement {
   @property({ type: Number, attribute: false })
   enableVirtualScroll: number;
 
-
   //表格编辑模式
 
   /**表格编辑总控： 是否允许启动表格编辑功能 */
@@ -560,7 +558,7 @@ export default class SlTable extends LitElement {
 
   /** 定义列 type='checkbox','radio'时起作用， 定义checkbox 列绑定的属性 ，如果不指定，则Table checkbox列 绑定值就是rowData 本身*/
   @property({ type: String })
-  checkPropField: string;
+  checkPropField: string | ((rowData: any) => any);
 
   /**定义列 type='checkbox','radio'时起作用， 确定列 checkbx/radio Disable属性,或者一个函数接收rowData ，确定rowData checkbox 列是否可以选择 如果不指定，则此列checkbox 所有的都可以勾选*/
   @property()
@@ -578,16 +576,18 @@ export default class SlTable extends LitElement {
   @property({ type: Boolean })
   checkTreeCasecadeUp = false;
 
-
-
+  public getRowDataCheckValue(rowData: any) {
+    const rowCheckValue = isFunction(this.checkPropField) ? this.checkPropField(rowData) : this.checkPropField ? rowData[this.checkPropField] : rowData;
+    return rowCheckValue;
+  }
   /**判断rowData 是否是checkbox 列选中 */
   public isRowDataChecked(rowData: any) {
-    const rowCheckValue = this.checkPropField ? rowData[this.checkPropField] : rowData;
+    let rowCheckValue = this.getRowDataCheckValue(rowData);
     return isArray(this.checkValue) ? (this.checkValue as Array<any>).includes(rowCheckValue) : this.checkValue != undefined && this.checkValue == rowCheckValue;
   }
   /**判断rowData 是否是checkbox,radio列 disable */
   public isRowDataCheckedDisabled(rowData: any) {
-    return this.checkDisablePropField ? (isFunction(this.checkDisablePropField) ? this.checkDisablePropField(rowData) : rowData[this.checkPropField]) : false;
+    return isFunction(this.checkDisablePropField) ? this.checkDisablePropField(rowData) : this.checkDisablePropField ? rowData[this.checkDisablePropField] : false;
   }
 
   @watchProps(['dataSource', 'treeConfig'])
