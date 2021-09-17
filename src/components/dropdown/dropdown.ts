@@ -158,7 +158,7 @@ export default class SlDropdown extends LitElement {
       //
       // If the dropdown is used within a shadow DOM, we need to obtain the activeElement within that shadowRoot,
       // otherwise `document.activeElement` will only return the name of the parent shadow DOM element.
-      setTimeout(() => {
+      Promise.resolve(() => {
         const activeElement = this.containingElement.getRootNode() instanceof ShadowRoot ? document.activeElement?.shadowRoot?.activeElement : document.activeElement;
 
         if (activeElement?.closest(this.containingElement.tagName.toLowerCase()) !== this.containingElement) {
