@@ -40,11 +40,15 @@ Table 组件
         for(let i=0,j=300000;i<j;i++){
             dateList.push({name:'new'+(i+4)});
         }
-
+   
     table.dataSource=dateList;
     table.enableVirtualScroll=true;
     table.virtualItemHeight=48;
+    /*保证非编辑，跟编辑行的高度一致，否则页面虚拟加载， Cell Edit 会跳动*/
     table.customStyle=`
+        .tdWrap {
+            height:31px;
+        }
         input{
             width:80px;
             height:28px;
@@ -55,7 +59,15 @@ Table 组件
     //监听上一次编辑的单元格
     table.addEventListener('sl-table-edit-cell-before-change',(event)=>{
         console.log('lastEdit===> field=',event.detail.column.field +' rowIndex='+event.detail.rowIndex,event.detail.td);
+        //event.preventDefault 能阻止 后续 sl-table-edit-cell-into，sl-table-edit-cell-active 事件
     });
+
+    // //监听当TD进入了编辑状态
+    table.addEventListener('sl-table-edit-cell-into',(event)=>{
+       console.log('intoing edit cell===> field=',event.detail.column.field +' rowIndex='+event.detail.rowIndex ,event.detail.td);
+    });
+
+
     //监听当TD进入了编辑状态
     table.addEventListener('sl-table-edit-cell-active',(event)=>{
        console.log('active cell===> field=',event.detail.column.field +' rowIndex='+event.detail.rowIndex ,event.detail.td);

@@ -130,7 +130,7 @@ const processTDCellEdit = (td: HTMLTableCellElement, table: SlTable, event: Even
     }
     let lastEditCell = getLastEditCell(table);
     if (lastEditCell && lastEditCell != td) {
-      /** 监听上次编辑的单元格 */
+      /** 监听编辑的单元格改变 */
       const eventEmit = emit(table, 'sl-table-edit-cell-before-change', {
         cancelable: true,
         detail: {
@@ -148,6 +148,18 @@ const processTDCellEdit = (td: HTMLTableCellElement, table: SlTable, event: Even
       if (event.type == 'contextmenu') {
         event.preventDefault();
       }
+      //监听当前TD 进入edit 前
+      const eventEmit = emit(table, 'sl-table-edit-cell-into', {
+        cancelable: true,
+        detail: {
+          td: td,
+          ...getCellContext(td)
+        }
+      });
+      if (eventEmit.defaultPrevented) {
+        return;
+      }
+
       if ((table as any)[lastEditSymboPromise]) {
         return;
       }
@@ -217,13 +229,13 @@ const hanlderTRTDEvent = (table: SlTable) => {
     }
     td
       ? emit(table, `sl-table-td-${event.type}`, {
-          cancelable: true,
-          detail: {
-            td: td,
-            row: tr,
-            ...getCellContext(td)
-          }
-        })
+        cancelable: true,
+        detail: {
+          td: td,
+          row: tr,
+          ...getCellContext(td)
+        }
+      })
       : '';
   });
   const one2 = onEventArray(table.table, `tbody[componentID=${table.componentID}]>tr`, TABLE_TBODY_DELEGATE_EVENTS, (event: Event) => {
@@ -233,12 +245,12 @@ const hanlderTRTDEvent = (table: SlTable) => {
     }
     tr
       ? emit(table, `sl-table-tr-${event.type}`, {
-          cancelable: true,
-          detail: {
-            row: tr,
-            ...table.getRowContext(tr)
-          }
-        })
+        cancelable: true,
+        detail: {
+          row: tr,
+          ...table.getRowContext(tr)
+        }
+      })
       : '';
   });
   return {

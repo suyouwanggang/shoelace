@@ -91,7 +91,7 @@ registDefaultEditor(EDIT_TYPE.INPUT, context => {
     .value=${live(String(value))}
     @sl-input=${(event: Event) => {
       column.field ? setFieldValue(rowData, column.field, (event.target as any).value) : '';
-      emitTableCellEditFun(context, event.target as EventTarget);
+      emitTableCellEditFun(context, event.target as EventTarget, (event.target as any).value);
     }}
   >
   </sl-input>`;
@@ -110,18 +110,19 @@ registDefaultEditor(EDIT_TYPE.TEXT, context => {
     .value=${live(String(value))}
     @sl-input=${(event: Event) => {
       column.field ? setFieldValue(rowData, column.field, (event.target as any).value) : '';
-      emitTableCellEditFun(context, event.target as EventTarget);
+      emitTableCellEditFun(context, event.target as EventTarget, (event.target as any).value);
     }}
   >
   </sl-textarea>`;
 });
 /** 触发sl-table-edit-cell 事件 */
-export const emitTableCellEditFun = (context: CellContext, dom: EventTarget) => {
+export const emitTableCellEditFun = (context: CellContext, dom: EventTarget, value: any) => {
   const table = context.column.table;
-  emit(table, 'sl-table-edit-cell', {
+  emit(table, 'sl-table-edit-cell-data-change', {
     detail: {
       td: (dom as HTMLElement).closest('td'),
       dom: dom,
+      value: value,
       context
     }
   });
@@ -142,7 +143,7 @@ registDefaultEditor(EDIT_TYPE.SELECT, context => {
       if (column.field) {
         setFieldValue(rowData, column.field, (event.target as any).value);
       }
-      emitTableCellEditFun(context, event.target as EventTarget);
+      emitTableCellEditFun(context, event.target as EventTarget, (event.target as any).value);
     }}
     .value=${live(value)}
   >
@@ -169,7 +170,7 @@ registDefaultEditor(EDIT_TYPE.MULIT_SELECT, context => {
         array = (event.target as any).value;
         setFieldValue(rowData, column.field, array);
       }
-      emitTableCellEditFun(context, event.target as EventTarget);
+      emitTableCellEditFun(context, event.target as EventTarget, (event.target as any).value);
     }}
   >
     ${column.items ? column.items.map(item => html`<sl-menu-item .value=${live(item.id)}>${getSelectLable(item)}</sl-menu-item>`) : ''}
@@ -200,7 +201,7 @@ registDefaultEditor(EDIT_TYPE.MULIT_CHECKBOX, context => {
       if (column.field) {
         setFieldValue(rowData, column.field, new_array);
       }
-      emitTableCellEditFun(context, event.target as EventTarget);
+      emitTableCellEditFun(context, event.target as EventTarget, new_array);
     }}
   >
     ${column.items ? column.items.map(item => html`<sl-checkbox .checked=${live(array.includes(item.id))} .value=${item.id}>${getSelectLable(item)}</sl-checkbox>`) : ''}
@@ -224,9 +225,9 @@ registDefaultEditor(EDIT_TYPE.DATE, context => {
       class="edit_date edit_field_${column.field}"
       .value=${live(value)}
       @sl-date-change=${(event: Event) => {
-        column.field ? setFieldValue(rowData, column.field, (event.target as any).value) : '';
-        emitTableCellEditFun(context, event.target as EventTarget);
-      }}
+      column.field ? setFieldValue(rowData, column.field, (event.target as any).value) : '';
+      emitTableCellEditFun(context, event.target as EventTarget, (event.target as any).value);
+    }}
     >
     </sl-date>
   </div>`;
