@@ -203,7 +203,7 @@ registDefaultEditor(EDIT_TYPE.MULIT_CHECKBOX, context => {
       emitTableCellEditFun(context, event.target as EventTarget);
     }}
   >
-    ${column.items ? column.items.map(item => html`<sl-checkbox  .checked=${live(array.includes(item.id))} .value=${item.id}>${getSelectLable(item)}</sl-checkbox>`) : ''}
+    ${column.items ? column.items.map(item => html`<sl-checkbox .checked=${live(array.includes(item.id))} .value=${item.id}>${getSelectLable(item)}</sl-checkbox>`) : ''}
   </div>`;
 });
 
@@ -224,9 +224,9 @@ registDefaultEditor(EDIT_TYPE.DATE, context => {
       class="edit_date edit_field_${column.field}"
       .value=${live(value)}
       @sl-date-change=${(event: Event) => {
-      column.field ? setFieldValue(rowData, column.field, (event.target as any).value) : '';
-      emitTableCellEditFun(context, event.target as EventTarget);
-    }}
+        column.field ? setFieldValue(rowData, column.field, (event.target as any).value) : '';
+        emitTableCellEditFun(context, event.target as EventTarget);
+      }}
     >
     </sl-date>
   </div>`;

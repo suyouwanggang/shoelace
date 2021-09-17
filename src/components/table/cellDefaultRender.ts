@@ -55,7 +55,7 @@ registerColTemplate('checkbox', (_column, table) => {
   const dataSource = table.getRenderDataSource();
   const checkAll = dataSource && isArray(table.checkValue) ? (table.checkValue as Array<any>).length == dataSource.length : false;
   const indeterminate = !checkAll && isArray(table.checkValue) ? (table.checkValue as Array<any>).length > 0 : table.checkValue != undefined;
-  return html`<sl-checkbox class='table-check' .checked=${checkAll} .indeterminate=${indeterminate} @sl-change=${(event: Event) => checkboxColChange(table, event.target as SlCheckbox)}></sl-checkbox>`;
+  return html`<sl-checkbox class="table-check" .checked=${checkAll} .indeterminate=${indeterminate} @sl-change=${(event: Event) => checkboxColChange(table, event.target as SlCheckbox)}></sl-checkbox>`;
 });
 
 export const getColumnRenderResult = (context: CellHeadContext, table: SlTable) => {
@@ -142,7 +142,7 @@ registerCellTemplate('checkbox', (context, table) => {
   const ischecked = table.isRowDataChecked(rowData);
   const isdisabled = table.isRowDataCheckedDisabled(rowData);
   return html`<sl-checkbox
-   class='table-check'
+    class="table-check"
     @sl-before-change=${(event: Event) => {
       const el = event.target as SlCheckbox;
       emit(table, 'sl-table-check-before-change', {

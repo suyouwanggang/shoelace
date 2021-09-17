@@ -47,7 +47,8 @@ const handlerNodeToogleListener = (table: SlTable) => {
             table.treeLoadingNode.splice(index, 1);
           }
           const isScrollEnd = table.scrollDiv.scrollTop == table.scrollDiv.scrollHeight - table.scrollDiv.offsetHeight;
-          if (isScrollEnd) {//如果是最下面的位置，此时必须要调整下scrollTop 的位置，否则，会显示底部空白
+          if (isScrollEnd) {
+            //如果是最下面的位置，此时必须要调整下scrollTop 的位置，否则，会显示底部空白
             table.scrollDiv.scrollTop = table.scrollDiv.scrollTop - 1;
           }
           table.watchDataSourceChange();
@@ -216,13 +217,13 @@ const hanlderTRTDEvent = (table: SlTable) => {
     }
     td
       ? emit(table, `sl-table-td-${event.type}`, {
-        cancelable: true,
-        detail: {
-          td: td,
-          row: tr,
-          ...getCellContext(td)
-        }
-      })
+          cancelable: true,
+          detail: {
+            td: td,
+            row: tr,
+            ...getCellContext(td)
+          }
+        })
       : '';
   });
   const one2 = onEventArray(table.table, `tbody[componentID=${table.componentID}]>tr`, TABLE_TBODY_DELEGATE_EVENTS, (event: Event) => {
@@ -232,12 +233,12 @@ const hanlderTRTDEvent = (table: SlTable) => {
     }
     tr
       ? emit(table, `sl-table-tr-${event.type}`, {
-        cancelable: true,
-        detail: {
-          row: tr,
-          ...table.getRowContext(tr)
-        }
-      })
+          cancelable: true,
+          detail: {
+            row: tr,
+            ...table.getRowContext(tr)
+          }
+        })
       : '';
   });
   return {

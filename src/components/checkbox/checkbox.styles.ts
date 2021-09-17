@@ -99,7 +99,7 @@ export default css`
     line-height: var(--sl-toggle-size);
     user-select: none;
   }
-  .checkbox_label_hasSlot{
-     margin-left: 0.5em;
+  .checkbox_label_hasSlot {
+    margin-left: 0.5em;
   }
 `;
