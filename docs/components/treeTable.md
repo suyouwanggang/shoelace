@@ -166,7 +166,7 @@ Table 组件启用TreeTable 懒加载 ,和虚拟滚动加载
     window.table2=table2;
     table2.treeNodeNoWrap=false;
     table2.tableLayoutFixed=true;
-    table2.tableMaxHeight=600;
+    table2.tableMaxHeight=400;
 </script>
 ```
 
