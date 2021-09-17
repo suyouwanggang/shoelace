@@ -18,7 +18,7 @@ Table 组件
 </div>
 
 <sl-table id='tableDIV' border >
-     <sl-column id='index' align='center' field='index' label='index'   align='left' min-width='70' ></sl-column>
+     <sl-column id='index' align='center' field='index' label='index'   align='left' min-width='80' ></sl-column>
     <sl-column field='name'   label='Name' resize-able  align='left' width='200' ></sl-column>
     <sl-column field='role'  label='Role' resize-able width=150    ></sl-column>
     <sl-column field='sex'  label='Sex'  resize-able  width=150  agile-cell='right'></sl-column>
@@ -32,12 +32,12 @@ Table 组件
 <script >
     const table=document.querySelector('#tableDIV');
     const dateList=[
-                { id: 10001, name: 'Test1', role: 1,check:[], sex: 2, age: 28,date:'2018-01-01', address: 'Javascript 从入门到放弃 从入门到放弃 从入门到放弃 从入门到放弃' },
-                { id: 10008, name: 'Test8', role: 2, checke:[], sex: 1, age: 35, address: 'Javascript 从入门到放弃' },
-                { id: 10008, name: 'Test10', role: 2, checke:[], sex: 1, age: 35, address: 'Javascript 从入门到放弃' }
+                { id: 10001, name: 'Test1', role: 1,check:[1],'multi-check':[2], sex: 2, age: 28,date:'2018-01-01', address: 'Javascript 从入门到放弃 从入门到放弃 从入门到放弃 从入门到放弃' },
+                { id: 10008, name: 'Test8', role: 2, checke:[2], sex: 1, age: 35, address: 'Javascript 从入门到放弃' },
+                { id: 10008, name: 'Test10', role: 2, checke:[3], sex: 1, age: 35, address: 'Javascript 从入门到放弃' }
                 
                 ] ;
-        for(let i=0,j=3000;i<j;i++){
+        for(let i=0,j=300000;i<j;i++){
             dateList.push({name:'new'+(i+4)});
         }
 
@@ -142,10 +142,10 @@ Table 组件
   `sl-table-edit-cell-active`：单元格进入编辑器模式（上次不是此单元格），此时column.edit 已经熏染完了 可以通过event.detail 获取td 和cellContext 数据 。  
 ### Table column 编辑属性
   `edit`:指定单元格的编辑器,内置的有'input','text','date','select','multi-select', 'multi-checkbox'  
-  `type`: 'date','date-month','date-year',配合'edit=date',可以改变 rowData[field] ,类似值为'2020-01-20','2020-01','2020'  
-  `edit`: 'select' 表现为select, 此时需要 column 的 `items` 属性，此时设置 rowData[field]=2  
-  `edit`: 'multi-select' 表现为select, 此时需要 column 的 `items` 属性， 此时编辑改变设置 rowData[field]=[1,2,'3'];  
-  `edit`: 'multi-checkbox'表现为checkbox, 此时需要 column 的 `items` 属性， 此时辑改变设置 rowData[field]=[1,2];  
+  `type`: 'date','date-month','date-year',配合'edit=date',编辑后设置 rowData[field] ,值为'2020-01-20','2020-01','2020'  等
+  `edit`: 'select' 表现为select, 此时需要 column 的 `items` 属性，编辑后类似设置 rowData[field]=2  
+  `edit`: 'multi-select' 表现为select, 此时需要 column 的 `items` 属性， 编辑后类似设置 rowData[field]=[1,2,'3'];  
+  `edit`: 'multi-checkbox'表现为checkbox, 此时需要 column 的 `items` 属性， 编辑后类似设置 rowData[field]=[1,2];  
   `edit`: 可以为函数 ,接收`CelllContext` 作为参数，返回HtmlTemplate 实现自定义的列编辑。
   `自定义内置全局单元格编辑器`:可以调用 `registDefaultEditor` 
   ```typescript

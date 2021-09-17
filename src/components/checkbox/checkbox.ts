@@ -1,12 +1,13 @@
-import { LitElement, html } from 'lit';
-import { customElement, property, query, state } from 'lit/decorators.js';
+import { html, LitElement } from 'lit';
 import { classMap } from 'lit-html/directives/class-map';
 import { ifDefined } from 'lit-html/directives/if-defined';
 import { live } from 'lit-html/directives/live';
+import { customElement, property, query, state } from 'lit/decorators.js';
 import { emit } from '../../internal/event';
+import { hasSlot } from '../../internal/slot';
 import { watch } from '../../internal/watch';
-import styles from './checkbox.styles';
 import { isArray, isObject } from '../../utilities/common';
+import styles from './checkbox.styles';
 
 let id = 0;
 
@@ -124,18 +125,23 @@ export default class SlCheckbox extends LitElement {
   handleStateChange() {
     this.invalid = !this.input.checkValidity();
   }
+  @state()
+  private hasLabelSlot = false;
+  labelSlotChange() {
+    this.hasLabelSlot = hasSlot(this);
+  }
 
   render() {
     return html`
       <label
         part="base"
         class=${classMap({
-          checkbox: true,
-          'checkbox--checked': this.checked,
-          'checkbox--disabled': this.disabled,
-          'checkbox--focused': this.hasFocus,
-          'checkbox--indeterminate': this.indeterminate
-        })}
+      checkbox: true,
+      'checkbox--checked': this.checked,
+      'checkbox--disabled': this.disabled,
+      'checkbox--focused': this.hasFocus,
+      'checkbox--indeterminate': this.indeterminate
+    })}
         for=${this.inputId}
       >
         <input
@@ -158,7 +164,7 @@ export default class SlCheckbox extends LitElement {
 
         <span part="control" class="checkbox__control">
           ${this.checked
-            ? html`
+        ? html`
                 <span part="checked-icon" class="checkbox__icon">
                   <svg viewBox="0 0 16 16">
                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round">
@@ -172,9 +178,9 @@ export default class SlCheckbox extends LitElement {
                   </svg>
                 </span>
               `
-            : ''}
+        : ''}
           ${!this.checked && this.indeterminate
-            ? html`
+        ? html`
                 <span part="indeterminate-icon" class="checkbox__icon">
                   <svg viewBox="0 0 16 16">
                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round">
@@ -187,11 +193,11 @@ export default class SlCheckbox extends LitElement {
                   </svg>
                 </span>
               `
-            : ''}
+        : ''}
         </span>
 
-        <span part="label" id=${this.labelId} class="checkbox__label">
-          <slot></slot>
+        <span part="label" id=${this.labelId} class="checkbox__label ${this.hasLabelSlot ? 'checkbox_label_hasSlot' : ''}">
+          <slot @slotchange=${this.labelSlotChange}></slot>
         </span>
       </label>
     `;

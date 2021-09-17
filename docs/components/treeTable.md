@@ -99,7 +99,7 @@ Table 组件启用TreeTable 需要设置treeConfig属性
 Table 组件启用TreeTable 懒加载 ,和虚拟滚动加载
 ```html preview
 <sl-table id='tableDIV2' border>
-    <sl-column type="index"  label='#'  align='center' min-width='40' ></sl-column>
+    <sl-column type="index"  label='#'  align='center' min-width='60'  ></sl-column>
     <sl-column type="checkbox"  label='#'  align='center' min-width='40' ></sl-column>
     <sl-column field='name'  sort-able resize-able label='Name' width='100%' max-width='600' align='left' min-width='200' ></sl-column>
     <sl-column field='size' sort-able label='size' align='right' resize-able min-width='100' order=2 ></sl-column>
@@ -114,10 +114,15 @@ Table 组件启用TreeTable 懒加载 ,和虚拟滚动加载
     table2.treeLoadingNodeMethod=(cellContext)=>{
         let rowData=cellContext.rowData;
         let name=rowData.name;
+
         let result=[];
         for(let i=0;i<200;i++){
-            result.push({name:' ajax chapter'+(i+1),type:'mp3',size:rowData.size+(i*1000),date:'2028-08-11',hasChild:Math.random()>0.6});
-        }   
+            let sub={name:' ajax chapter'+(Math.random()+'').substring(2,7),type:'mp3',size:rowData.size+(i*1000),date:'2028-08-11',hasChild:Math.random()>0.6};
+            if(table2.checkValue&&table2.checkValue.includes(rowData)){
+                table2.checkValue.push(sub);
+            }
+            result.push(sub); 
+        }  
         return new Promise((resolve)=>{
             window.setTimeout(()=>{
                 resolve(result);

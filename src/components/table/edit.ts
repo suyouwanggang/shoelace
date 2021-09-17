@@ -86,7 +86,7 @@ registDefaultEditor(EDIT_TYPE.INPUT, context => {
   }
   return html`<sl-input
     size="small"
-    class="edit_input edit_field_${column.field}"
+    class="edit_${EDIT_TYPE.INPUT} edit_field_${column.field}"
     .maxlength=${column.inputMaxLength}
     .value=${live(String(value))}
     @sl-input=${(event: Event) => {
@@ -105,7 +105,7 @@ registDefaultEditor(EDIT_TYPE.TEXT, context => {
     value = '';
   }
   return html`<sl-textarea
-    class="edit_text edit_field_${column.field}"
+    class="edit_${EDIT_TYPE.TEXT} edit_field_${column.field}"
     .maxlength=${column.inputMaxLength}
     .value=${live(String(value))}
     @sl-input=${(event: Event) => {
@@ -137,7 +137,7 @@ registDefaultEditor(EDIT_TYPE.SELECT, context => {
   return html`<sl-select
     size="small"
     hoist
-    class="edit_select edit_field_${column.field}"
+    class="edit_${EDIT_TYPE.SELECT} edit_field_${column.field}"
     @sl-change=${(event: Event) => {
       if (column.field) {
         setFieldValue(rowData, column.field, (event.target as any).value);
@@ -162,7 +162,7 @@ registDefaultEditor(EDIT_TYPE.MULIT_SELECT, context => {
     multiple
     clearable
     hoist
-    class="edit_select edit_field_${column.field}"
+    class="edit_${EDIT_TYPE.MULIT_SELECT} edit_field_${column.field}"
     .value=${live(array)}
     @sl-change=${(event: Event) => {
       if (column.field) {
@@ -188,7 +188,7 @@ registDefaultEditor(EDIT_TYPE.MULIT_CHECKBOX, context => {
     ${ref(refObj)}
     multiple
     hoist
-    class="edit_select edit_field_${column.field}"
+    class="edit_${EDIT_TYPE.MULIT_CHECKBOX} edit_field_${column.field}"
     @sl-change=${(event: Event) => {
       let new_array: (string | number)[] = [];
       let checkbox = (refObj.value as HTMLElement).querySelectorAll('sl-checkbox') as NodeListOf<SlCheckbox>;
@@ -203,7 +203,7 @@ registDefaultEditor(EDIT_TYPE.MULIT_CHECKBOX, context => {
       emitTableCellEditFun(context, event.target as EventTarget);
     }}
   >
-    ${column.items ? column.items.map(item => html`<sl-checkbox .checked=${live(array.includes(item.id))} .value=${item.id}>${getSelectLable(item)}</sl-checkbox>`) : ''}
+    ${column.items ? column.items.map(item => html`<sl-checkbox  .checked=${live(array.includes(item.id))} .value=${item.id}>${getSelectLable(item)}</sl-checkbox>`) : ''}
   </div>`;
 });
 
@@ -224,9 +224,9 @@ registDefaultEditor(EDIT_TYPE.DATE, context => {
       class="edit_date edit_field_${column.field}"
       .value=${live(value)}
       @sl-date-change=${(event: Event) => {
-        column.field ? setFieldValue(rowData, column.field, (event.target as any).value) : '';
-        emitTableCellEditFun(context, event.target as EventTarget);
-      }}
+      column.field ? setFieldValue(rowData, column.field, (event.target as any).value) : '';
+      emitTableCellEditFun(context, event.target as EventTarget);
+    }}
     >
     </sl-date>
   </div>`;

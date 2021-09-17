@@ -222,34 +222,34 @@ th[align=right]{
     word-break: break-all;
     word-wrap: break-word;
 }
-.edit_select {
-    sl-checkbox + sl-checkbox {
-        margin-left:10px;
-    }
-}
+
 .cellBox{
     display: -webkit-box;
     overflow: hidden;
     -webkit-line-clamp: var(--sl-table-cell-box-lines,1);
     -webkit-box-orient: vertical;
 }
-/** 内置编辑器 :sl-date ***/
-.edit_date::part(input){
-    min-width:30px;
-    width:30px;
-}
+
 /** 内置编辑器 :sl-input ***/
 .edit_input::part(input){
     min-width:10px;
     width:10px;
 }
 
+/** 内置编辑器 :sl-date ***/
+.edit_date::part(input){
+    min-width:10px;
+    width:10px;
+}
 /***内置编辑器：sl-select***/
 .edit_select::part(select_label){
     min-width: 0px;
     width:0;
 }
-.thWrap sl-checkbox, .tdWrap sl-checkbox{
-    width:1em;
-    height: 1em;
+ 
+/***内置编辑器：multi-checkbox***/
+.edit_multi-checkbox {
+    sl-checkbox + sl-checkbox {
+        margin-left:0.8em;
+    }
 }
