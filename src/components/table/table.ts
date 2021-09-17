@@ -71,10 +71,9 @@ let componentID = 0;
  * @event {{row:TR,...RowContext}}  sl-table-tr-${normalEvent} - Emitted table tbody tr trigger normalEvent .support normalEvent event [click,dblclick,keydown,keypress,mousedown,mouseenter,mouseleave,mousemove,mouseout,mouseover,mouseup]  .
  * //tbody 行，tbody tr td 事件
  * @event {{row:TR,td:TD,...CellContext}}  sl-table-td-${normalEvent} - Emitted table tbody td trigger normalEvent.  support normalEvent  event [click,dblclick,keydown,keypress,mousedown,mouseenter,mouseleave,mousemove,mouseout,mouseover,mouseup].
- * @event {{td:TD,...CellContext}}   sl-table-edit-cell-before-change -  when user click a new edit cell ,then emit this event ，event.detail td is last Edit cell,
- * @event {{td:TD,...CellContext}}   sl-table-edit-cell-into -  Emitted before when  td before into Edit state (顺序： sl-table-edit-cell-before-change(第一编辑时不触发)->sl-table-edit-cell-into ->sl-table-edit-cell-active)
- * @event {{td:TD,dom:HTMLElement,...CellContext}}  sl-table-edit-cell-active - Emitted  when  td into Edit stated.  当单元格进入了编辑状态时触发 
- * @event {{td:TD,dom:HTMLElement,...CellContext}}  sl-table-edit-cell-data-change - 当Table 组件内置 cell edit 数据发生变化,时触发.
+ * @event {{td:TD,dom:HTMLElement,...CellContext}}  sl-table-edit-cell - 当Table 组件内置 cell edit 数据发生变化,时触发.
+ * @event {{td:TD,dom:HTMLElement,...CellContext}}  sl-table-edit-cell-active - 当单元格进入了编辑状态时触发
+ * @event {{td:TD,...CellContext}}   sl-table-edit-cell-before-change - Emitted  before when table  edit cell  change .
  * //表格 checkbox 控制
  * @event {{checkbox:SlCheckbox,...CellContext }}   sl-table-check-before-change - Emitted  before  tbody checkbox check will change .
  * @event {{value:Array<any> }}   sl-table-check-change - Emitted  after  tbody checkbox check  changed.

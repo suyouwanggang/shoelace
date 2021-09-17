@@ -388,9 +388,9 @@ export default class SlDropdown extends LitElement {
         part="base"
         id=${this.componentId}
         class=${classMap({
-      dropdown: true,
-      'dropdown--open': this.open
-    })}
+          dropdown: true,
+          'dropdown--open': this.open
+        })}
       >
         <span part="trigger" class="dropdown__trigger" @click=${this.handleTriggerClick} @keydown=${this.handleTriggerKeyDown} @keyup=${this.handleTriggerKeyUp}>
           <slot name="trigger" @slotchange=${this.handleTriggerSlotChange}></slot>

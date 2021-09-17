@@ -100,7 +100,9 @@ export default css`
 
   .radio__label {
     line-height: var(--sl-toggle-size);
-    margin-left: 0.5em;
     user-select: none;
+  }
+  .radio_label_has{
+    margin-left: 0.5em;
   }
 `;

@@ -6,6 +6,7 @@ import { live } from 'lit-html/directives/live';
 import { emit } from '../../internal/event';
 import { watch } from '../../internal/watch';
 import styles from './radio.styles';
+import { hasSlot } from '../../internal/slot';
 
 let id = 0;
 
@@ -140,17 +141,21 @@ export default class SlRadio extends LitElement {
       event.preventDefault();
     }
   }
-
+  @state()
+  private hasSlotLabel = false;
+  private slotChangeHandler() {
+    this.hasSlotLabel = hasSlot(this);
+  }
   render() {
     return html`
       <label
         part="base"
         class=${classMap({
-          radio: true,
-          'radio--checked': this.checked,
-          'radio--disabled': this.disabled,
-          'radio--focused': this.hasFocus
-        })}
+      radio: true,
+      'radio--checked': this.checked,
+      'radio--disabled': this.disabled,
+      'radio--focused': this.hasFocus
+    })}
         for=${this.inputId}
         @keydown=${this.handleKeyDown}
       >
@@ -182,8 +187,8 @@ export default class SlRadio extends LitElement {
           </span>
         </span>
 
-        <span part="label" id=${this.labelId} class="radio__label">
-          <slot></slot>
+        <span part="label" id=${this.labelId} class="radio__label ${this.hasSlotLabel ? ' radio_label_has' : ''}">
+          <slot @slotchange=${this.slotChangeHandler}></slot>
         </span>
       </label>
     `;
