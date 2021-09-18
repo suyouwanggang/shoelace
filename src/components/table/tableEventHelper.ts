@@ -229,13 +229,13 @@ const hanlderTRTDEvent = (table: SlTable) => {
     }
     td
       ? emit(table, `sl-table-td-${event.type}`, {
-          cancelable: true,
-          detail: {
-            td: td,
-            row: tr,
-            ...getCellContext(td)
-          }
-        })
+        cancelable: true,
+        detail: {
+          td: td,
+          row: tr,
+          ...getCellContext(td)
+        }
+      })
       : '';
   });
   const one2 = onEventArray(table.table, `tbody[componentID=${table.componentID}]>tr`, TABLE_TBODY_DELEGATE_EVENTS, (event: Event) => {
@@ -245,12 +245,12 @@ const hanlderTRTDEvent = (table: SlTable) => {
     }
     tr
       ? emit(table, `sl-table-tr-${event.type}`, {
-          cancelable: true,
-          detail: {
-            row: tr,
-            ...table.getRowContext(tr)
-          }
-        })
+        cancelable: true,
+        detail: {
+          row: tr,
+          ...table.getRowContext(tr)
+        }
+      })
       : '';
   });
   return {
@@ -329,8 +329,9 @@ const handerTableResizeEvent = (slTable: SlTable) => {
     }
   );
 };
-const tableScrollPromiseFlag = Symbol('table-scroll-promise');
+
 const handlerTableScroll = (slTable: SlTable) => {
+  const tableScrollPromiseFlag = Symbol('table-scroll-promise');
   let scrollDiv = slTable.scrollDiv;
   let scrollTop = scrollDiv.scrollTop;
   let scrollLeft = scrollDiv.scrollLeft;
@@ -349,8 +350,8 @@ const handlerTableScroll = (slTable: SlTable) => {
     60,
     120
   );
-  addEvent(slTable, 'sl-table-resize', debouceScroll);
-  addEvent(scrollDiv, 'mousewheel', (_event: WheelEvent) => {
+  const l1 = addEvent(slTable, 'sl-table-resize', debouceScroll);
+  const l2 = addEvent(scrollDiv, 'mousewheel', (_event: WheelEvent) => {
     if (slTable.enableVirtualScroll) {
       _event.preventDefault();
       let y = _event.deltaY;
@@ -373,7 +374,7 @@ const handlerTableScroll = (slTable: SlTable) => {
       });
     }
   });
-  return addEvent(scrollDiv, 'scroll', () => {
+  const l3 = addEvent(scrollDiv, 'scroll', () => {
     emit(slTable, 'sl-table-scroll', {
       detail: {
         div: scrollDiv
@@ -383,6 +384,13 @@ const handlerTableScroll = (slTable: SlTable) => {
       debouceScroll();
     }
   });
+  return {
+    dispose() {
+      l1.dispose();
+      l2.dispose();
+      l3.dispose();
+    }
+  }
 };
 /** table 扩展行逻辑处理 */
 const handlerRowExpandListener = (table: SlTable) => {
@@ -390,7 +398,7 @@ const handlerRowExpandListener = (table: SlTable) => {
   return onEvent(tableEl, `tbody[componentID=${table.componentID}]>tr>td span[part=expand-toogle-icon][componentID=${table.componentID}]`, 'click', (event: Event) => {
     const el = event.delegateTarget as HTMLElement;
     let td = el.closest('td') as HTMLTableCellElement;
-    while (td.parentNode && td.parentNode.parentNode?.parentNode != tableEl) {
+    while (td.parentNode && td.closest('table') != tableEl) {
       td = (td.parentNode as HTMLElement).closest('td') as HTMLTableCellElement;
     }
     const tr = td.closest('tr') as HTMLTableRowElement;

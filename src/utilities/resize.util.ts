@@ -1,11 +1,11 @@
-const handerMap = new WeakMap<Element, Array<(elment: Element) => void>>();
+const handerMap = new WeakMap<Element, Array<(elment: Element, entry: ResizeObserverEntry) => void>>();
 const resizeObserver = new ResizeObserver((entries: ResizeObserverEntry[]) => {
   for (let entry of entries) {
     let el = entry.target;
     let handerls = handerMap.get(el);
     if (handerls) {
       for (let h of handerls) {
-        h(el);
+        h(el, entry);
       }
     }
   }
@@ -19,7 +19,7 @@ export type DisposeObject = {
  * @param callCackFun 回调函数
  * @returns 返回一个对象，通过dispose() 解除对象的监听
  */
-export const addResizeHander = (els: Array<Element>, callCackFun: (el: Element) => void): DisposeObject => {
+export const addResizeHander = (els: Array<Element>, callCackFun: (el: Element, entry: ResizeObserverEntry) => void): DisposeObject => {
   for (let el of els) {
     resizeObserver.observe(el);
     if (handerMap.has(el)) {

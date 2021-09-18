@@ -102,7 +102,7 @@ export default css`
     line-height: var(--sl-toggle-size);
     user-select: none;
   }
-  .radio_label_has{
+  .radio_label_has {
     margin-left: 0.5em;
   }
 `;

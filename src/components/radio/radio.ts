@@ -151,11 +151,11 @@ export default class SlRadio extends LitElement {
       <label
         part="base"
         class=${classMap({
-      radio: true,
-      'radio--checked': this.checked,
-      'radio--disabled': this.disabled,
-      'radio--focused': this.hasFocus
-    })}
+          radio: true,
+          'radio--checked': this.checked,
+          'radio--disabled': this.disabled,
+          'radio--focused': this.hasFocus
+        })}
         for=${this.inputId}
         @keydown=${this.handleKeyDown}
       >

@@ -395,7 +395,7 @@ export default class SlTable extends LitElement {
         }
       }
       if (!isNaN(right)) {
-        for (let i = columnSize - 1, j = 0; j < right && i >= 0;) {
+        for (let i = columnSize - 1, j = 0; j < right && i >= 0; ) {
           let col = this.tdRenderColumns[i];
           while (col != null && col.tagName.toLowerCase() == 'sl-column') {
             style += this.caculateFixedColumnStyle(col, tableRect, false);
@@ -443,16 +443,16 @@ export default class SlTable extends LitElement {
     const trTemplates = (rowColumn: SlColumn[], rowIndex: number) => {
       return html`<tr .columns=${rowColumn}>
         ${rowColumn.map((column, index) => {
-        const cache = getColumnCacheData(column);
-        const context: CellHeadContext = {
-          column: column,
-          colIndex: index,
-          rowspan: cache.rowspan as number,
-          colspan: cache.colspan as number,
-          colRowIndex: rowIndex
-        };
-        return renderThColTemplate(context, table);
-      })}
+          const cache = getColumnCacheData(column);
+          const context: CellHeadContext = {
+            column: column,
+            colIndex: index,
+            rowspan: cache.rowspan as number,
+            colspan: cache.colspan as number,
+            colRowIndex: rowIndex
+          };
+          return renderThColTemplate(context, table);
+        })}
       </tr>`;
     };
     return this.theadRows.map((items, index) => trTemplates(items, index));
@@ -674,21 +674,21 @@ export default class SlTable extends LitElement {
         }
       }
       const rowSpreadResult = this.customRenderRowSpread ? this.customRenderRowSpread(rowContext) : undefined;
-      const expandRowTemplate = this.expandRowRender != undefined && this.expandRowData.includes(rowData)
-        ? this.expandRowRender(rowContext, cellTdArray, this.cacheExpandLazyLoadDataMap.get(rowData)) : nothing;
+      const expandRowTemplate = this.expandRowRender != undefined && this.expandRowData.includes(rowData) ? this.expandRowRender(rowContext, cellTdArray, this.cacheExpandLazyLoadDataMap.get(rowData)) : nothing;
 
       rowList.push(
         html`<tr
-          ${ref(el => {
-          setRowContext(el as HTMLTableRowElement, rowContext);
-        })}
-          .rowData=${rowData}
-          style=${styleMap(trStyle)}
-          class=${classMap(trClassObject)}
-          ${spread(rowSpreadResult)}
-        >
-          ${rowHtml}
-        </tr>${expandRowTemplate}`
+            ${ref(el => {
+              setRowContext(el as HTMLTableRowElement, rowContext);
+            })}
+            .rowData=${rowData}
+            style=${styleMap(trStyle)}
+            class=${classMap(trClassObject)}
+            ${spread(rowSpreadResult)}
+          >
+            ${rowHtml}
+          </tr>
+          ${expandRowTemplate}`
       );
     }
     // return html`${repeat(dataSource.slice(start, end), (rowData) => getRowDataKey(rowData), (_rowData, index) => rowList[index])}`
