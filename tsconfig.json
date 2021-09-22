@@ -70,11 +70,26 @@
     /* Advanced Options */
     "removeComments": false,
     "skipLibCheck": true ,                     /* Skip type checking of declaration files. */
-    "forceConsistentCasingInFileNames": true  /* Disallow inconsistently-cased references to the same file. */
+    "forceConsistentCasingInFileNames": true,  /* Disallow inconsistently-cased references to the same file. */
+    "plugins": [
+      {
+        "transform": "@lit/ts-transformers",
+        "import": "preserveBlankLinesTransformer"
+      },
+      {
+        "transform": "@lit/ts-transformers",
+        "import": "idiomaticDecoratorsTransformer"
+      },
+      {
+        "transform": "@lit/ts-transformers",
+        "import": "constructorCleanupTransformer",
+        "after": true
+      }
+    ]
   },
   "exclude": [
     "docs","jsdoc",
-    "dist","types",
+    "dist","types","tsdist",
     "src/**/*.test.ts"
   ]
 }

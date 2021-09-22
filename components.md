@@ -418,7 +418,7 @@
 | `invalid`       | `invalid`       | `boolean`          | false   | This will be true when the control is in an invalid state. Validity is determined by the `required` prop. |
 | `name`          | `name`          | `string`           |         | The checkbox's name attribute.                   |
 | `required`      | `required`      | `boolean`          | false   | Makes the checkbox a required field.             |
-| `value`         |                 | `string \| number` |         | The checkbox's value attribute.                  |
+| `value`         | `value`         |                    |         | The checkbox's value attribute.                  |
 
 ## Methods
 
@@ -432,16 +432,18 @@
 | `handleDisabledChange` | `(): void`                                    |                                                  |
 | `handleFocus`          | `(): void`                                    |                                                  |
 | `handleStateChange`    | `(): void`                                    |                                                  |
+| `labelSlotChange`      | `(): void`                                    |                                                  |
 | `reportValidity`       | `(): boolean`                                 | Checks for validity and shows the browser's validation message if the control is invalid. |
 | `setCustomValidity`    | `(message: string): void`                     | Sets a custom validation message. If `message` is not empty, the field will be considered invalid. |
 
 ## Events
 
-| Event       | Description                                      |
-|-------------|--------------------------------------------------|
-| `sl-blur`   | Emitted when the control loses focus.            |
-| `sl-change` | Emitted when the control's checked state changes. |
-| `sl-focus`  | Emitted when the control gains focus.            |
+| Event              | Description                                      |
+|--------------------|--------------------------------------------------|
+| `sl-before-change` | Emitted before  the control's checked state changes,user can cancel default. |
+| `sl-blur`          | Emitted when the control loses focus.            |
+| `sl-change`        | Emitted when the control's checked state changes. |
+| `sl-focus`         | Emitted when the control gains focus.            |
 
 ## Slots
 
@@ -595,31 +597,33 @@
 
 ## Properties
 
-| Property             | Attribute     | Modifiers | Type                                             | Default                        | Description                                      |
-|----------------------|---------------|-----------|--------------------------------------------------|--------------------------------|--------------------------------------------------|
-| `align`              | `align`       |           | `"left" \| "center" \| "right"`                  | "left"                         | 列所对应的TD 的水平对齐方式                                  |
-| `childAllColumn`     |               | readonly  | `SlColumn[]`                                     |                                | 所有直接子column                                      |
-| `childCanShowColumn` |               | readonly  | `SlColumn[]`                                     |                                | 所有hidden!=false直接子column,并且按照order排序了            |
-| `colAlign`           | `col-align`   |           | `"left" \| "center" \| "right"`                  | "center"                       | 列所对应表头TH 的水平对齐方式                                 |
-| `colvAlign`          | `col-valign`  |           | `"top" \| "middle" \| "bottom"`                  | "middle"                       | 列所对应表头TH 的垂直对齐方式                                 |
-| `edit`               |               |           | `string \| ((context: CellContext) => TemplateResult<1>)` |                                | 列编辑器，内置单元格编辑器 ，EDIT_TYPE:input,text,date,select,multi-select, multi-checkbox, 或者一个函数，实现自定义列编辑器 |
-| `field`              | `field`       |           | `string`                                         |                                | 列所对应的字段，在同一个table 中应该唯一，此会作为rowData 的key，支持"." 作为分隔符 |
-| `hidden`             | `hidden`      |           | `boolean`                                        | false                          | 是否隐藏此列                                           |
-| `inputMaxLength`     |               |           | `number`                                         |                                | 编辑器 input,textarea 最大输入长度                        |
-| `items`              |               |           | `ColumnItems[]`                                  |                                | 定义列数据映射器,在 会将 rowData[field]转为为显示值，同时在编辑的时候，也会作为select，checkbox 下拉项 |
-| `label`              | `label`       |           | `string`                                         |                                | 列所对应的label，默认th 就是显示此label                       |
-| `maxWidth`           | `max-width`   |           | `string`                                         |                                | 最大列宽                                             |
-| `minWidth`           | `min-width`   |           | `string`                                         |                                | 最小列宽                                             |
-| `order`              | `order`       |           | `number`                                         | 0                              | 顺序:越小越靠前                                         |
-| `renderCell`         |               |           | `(context: CellContext) => TemplateResult<1> \| { template: TemplateResult<1>; colspan?: number \| undefined; rowspan?: number \| undefined; editor: TemplateResult<...>; }` |                                | 对应TD渲染 ,接收表格cellContext:作为参数，渲染TD                |
-| `renderCol`          |               |           | `(context: CellHeadContext) => TemplateResult<1>` |                                | 表头自定义渲染                                          |
-| `resizeAble`         | `resize-able` |           | `boolean`                                        |                                | 是否支持拖动列的宽度                                       |
-| `sortAble`           | `sort-able`   |           | `boolean`                                        |                                | 列是否支持排序                                          |
-| `table`              |               | readonly  | `SlTable`                                        |                                |                                                  |
-| `type`               |               |           | `"index" \| "checkbox" \| "radio" \| "date" \| "date-month" \| "date-year"` |                                | 列的类型，指定类型的列，有特定的渲染，例如index,checkbox,radio,或者会影响列的edit模式 |
-| `uniqueID`           | `uniqueID`    |           | `string`                                         | "'unique_' + columnUniqueID++" | 初始化自动生成唯一ID                                      |
-| `vAlign`             | `valign`      |           | `"top" \| "middle" \| "bottom"`                  | "middle"                       | 列所对应的TD 的垂直对齐方式                                  |
-| `width`              | `width`       |           | `string`                                         |                                | 列宽                                               |
+| Property             | Attribute        | Modifiers | Type                                             | Default                        | Description                                      |
+|----------------------|------------------|-----------|--------------------------------------------------|--------------------------------|--------------------------------------------------|
+| `align`              | `align`          |           | `"left" \| "center" \| "right"`                  | "left"                         | 列所对应的TD 的水平对齐方式                                  |
+| `childAllColumn`     |                  | readonly  | `SlColumn[]`                                     |                                | 所有直接子column                                      |
+| `childCanShowColumn` |                  | readonly  | `SlColumn[]`                                     |                                | 所有hidden!=false直接子column,并且按照order排序了            |
+| `colAlign`           | `col-align`      |           | `"left" \| "center" \| "right"`                  | "center"                       | 列所对应表头TH 的水平对齐方式                                 |
+| `colvAlign`          | `col-valign`     |           | `"top" \| "middle" \| "bottom"`                  | "middle"                       | 列所对应表头TH 的垂直对齐方式                                 |
+| `edit`               |                  |           | `string \| ((context: CellContext) => TemplateResult<1>)` |                                | 列编辑器，内置单元格编辑器 ，EDIT_TYPE:input,text,date,select,multi-select, multi-checkbox, 或者一个函数，实现自定义列编辑器 |
+| `editRequired`       | `editRequired`   |           | `boolean`                                        |                                | 编辑器 是否是必填的 待实现                                   |
+| `field`              | `field`          |           | `string`                                         |                                | 列所对应的字段，在同一个table 中应该唯一，此会作为rowData 的key，支持"." 作为分隔符 |
+| `hidden`             | `hidden`         |           | `boolean`                                        | false                          | 是否隐藏此列                                           |
+| `inputMaxLength`     | `inputMaxLength` |           | `number`                                         |                                | 编辑器 input,textarea 最大输入长度                        |
+| `inputMinLength`     | `inputMinLength` |           | `number`                                         |                                | 编辑器 input,textarea 最小输入长度                        |
+| `items`              |                  |           | `ColumnItems[]`                                  |                                | 定义列数据映射器,在 会将 rowData[field]转为为显示值，同时在编辑的时候，也会作为select，checkbox 下拉项 |
+| `label`              | `label`          |           | `string`                                         |                                | 列所对应的label，默认th 就是显示此label                       |
+| `maxWidth`           | `max-width`      |           | `string`                                         |                                | 最大列宽                                             |
+| `minWidth`           | `min-width`      |           | `string`                                         |                                | 最小列宽                                             |
+| `order`              | `order`          |           | `number`                                         | 0                              | 顺序:越小越靠前                                         |
+| `renderCell`         |                  |           | `(context: CellContext) => TemplateResult<1> \| { template: TemplateResult<1>; colspan?: number \| undefined; rowspan?: number \| undefined; } \| unique symbol` |                                | 对应TD渲染 ,接收表格cellContext:作为参数，渲染TD                |
+| `renderCol`          |                  |           | `(context: CellHeadContext) => TemplateResult<1>` |                                | 表头自定义渲染                                          |
+| `resizeAble`         | `resize-able`    |           | `boolean`                                        |                                | 是否支持拖动列的宽度                                       |
+| `sortAble`           | `sort-able`      |           | `boolean`                                        |                                | 列是否支持排序                                          |
+| `table`              |                  | readonly  | `SlTable`                                        |                                |                                                  |
+| `type`               | `type`           |           | `"index" \| "checkbox" \| "radio" \| "date" \| "date-month" \| "date-year"` |                                | 列的类型，指定类型的列，有特定的渲染，例如index,checkbox,radio,或者会影响列的edit模式 |
+| `uniqueID`           | `uniqueID`       |           | `string`                                         | "'unique_' + columnUniqueID++" | 初始化自动生成唯一ID                                      |
+| `vAlign`             | `valign`         |           | `"top" \| "middle" \| "bottom"`                  | "middle"                       | 列所对应的TD 的垂直对齐方式                                  |
+| `width`              | `width`          |           | `string`                                         |                                | 列宽                                               |
 
 ## Methods
 
@@ -709,10 +713,11 @@
 
 ## Methods
 
-| Method                  | Type       |
-|-------------------------|------------|
-| `watchDisabledPanel`    | `(): void` |
-| `watchSelectModeChange` | `(): void` |
+| Method                  | Type                           |
+|-------------------------|--------------------------------|
+| `focus`                 | `(option: FocusOptions): void` |
+| `watchDisabledPanel`    | `(): void`                     |
+| `watchSelectModeChange` | `(): void`                     |
 
 ## Events
 
@@ -1423,7 +1428,7 @@
 |-------------|-------------|--------------------|---------|--------------------------------------------------|
 | `checked`   | `checked`   | `boolean`          | false   | Draws the item in a checked state.               |
 | `disabled`  | `disabled`  | `boolean`          | false   | Draws the menu item in a disabled state.         |
-| `highlight` | `highlight` | `boolean`          | false   | hightlight 这个菜单项                                 |
+| `highlight` | `highlight` | `boolean`          | false   | hightlight ����˵���                              |
 | `menuItem`  |             | `HTMLElement`      |         |                                                  |
 | `value`     | `value`     | `string \| number` | ""      | A unique value to store in the menu item. This can be used as a way to identify menu items when selected. |
 
@@ -1662,18 +1667,10 @@
 
 ## Properties
 
-| Property      | Attribute      | Type               | Default | Description                                      |
-|---------------|----------------|--------------------|---------|--------------------------------------------------|
-| `indicator`   |                | `SVGCircleElement` |         |                                                  |
-| `percentage`  | `percentage`   | `number`           |         | The current progress percentage, 0 - 100.        |
-| `size`        | `size`         | `number`           | 128     | The size of the progress ring in pixels.         |
-| `strokeWidth` | `stroke-width` | `number`           | 4       | The stroke width of the progress ring in pixels. |
-
-## Methods
-
-| Method           | Type       |
-|------------------|------------|
-| `updateProgress` | `(): void` |
+| Property     | Attribute    | Type               | Description                               |
+|--------------|--------------|--------------------|-------------------------------------------|
+| `indicator`  |              | `SVGCircleElement` |                                           |
+| `percentage` | `percentage` | `number`           | The current progress percentage, 0 - 100. |
 
 ## Slots
 
@@ -1690,10 +1687,12 @@
 
 ## CSS Custom Properties
 
-| Property            | Description          |
-|---------------------|----------------------|
-| `--indicator-color` | The indicator color. |
-| `--track-color`     | The track color.     |
+| Property            | Description                                      |
+|---------------------|--------------------------------------------------|
+| `--indicator-color` | The indicator color.                             |
+| `--size`            | The diameter of the progress ring (cannot be a percentage). |
+| `--track-color`     | The color of the track.                          |
+| `--track-width`     | The width of the track.                          |
 
 
 # sl-qr-code
@@ -2144,6 +2143,7 @@
 
 | Method                 | Type                                         | Description                                      |
 |------------------------|----------------------------------------------|--------------------------------------------------|
+| `focus`                | `(option: FocusOptions): void`               |                                                  |
 | `getItemLabel`         | `(item: SlMenuItem): string`                 |                                                  |
 | `getItems`             | `(): SlMenuItem[]`                           |                                                  |
 | `getValueAsArray`      | `(): (string \| number)[]`                   |                                                  |
@@ -2236,11 +2236,12 @@
 
 ## CSS Custom Properties
 
-| Property            | Description                           |
-|---------------------|---------------------------------------|
-| `--indicator-color` | The color of the spinner's indicator. |
-| `--stroke-width`    | The width of the indicator.           |
-| `--track-color`     | The color of the spinner's track.     |
+| Property            | Description                                      |
+|---------------------|--------------------------------------------------|
+| `--indicator-color` | The color of the indicator.                      |
+| `--speed`           | The time it takes for the spinner to complete one animation cycle. |
+| `--track-color`     | The color of the track.                          |
+| `--track-width`     | The width of the track.                          |
 
 
 # sl-splitter
@@ -2574,95 +2575,105 @@
 
 ## Properties
 
-| Property                       | Attribute                    | Modifiers | Type                                             | Default                           | Description                                      |
-|--------------------------------|------------------------------|-----------|--------------------------------------------------|-----------------------------------|--------------------------------------------------|
-| `allSubColumns`                |                              | readonly  | `SlColumn[]`                                     |                                   |                                                  |
-| `baseDiv`                      |                              |           | `HTMLDivElement`                                 |                                   |                                                  |
-| `border`                       | `border`                     |           | `boolean`                                        | false                             | table 是否显示border                                 |
-| `cacheExpandLazyLoadDataMap`   | `cacheExpandLazyLoadDataMap` |           | `Map<any, any>`                                  | "new Map<any, any>()"             | 存储已经加载过的扩展数据                                     |
-| `cacheKey`                     | `cache-key`                  |           | `string`                                         |                                   | table 前端缓存ID                                     |
-| `canShowColumns`               |                              | readonly  | `SlColumn[]`                                     |                                   |                                                  |
-| `cellBoxLines`                 |                              |           | `number`                                         | 1                                 | TBody TD 是否超过多行则...                              |
-| `checkedIDValue`               |                              |           | `never[]`                                        | []                                | 当前选中的对象的 id 列表                                   |
-| `componentID`                  |                              |           | `string`                                         | "`${'tableID_' + componentID++}`" |                                                  |
-| `currentEditCell`              |                              |           | `{ column: SlColumn; rowData: any; } \| undefined` |                                   | 当前编辑的单元格                                         |
-| `currentEditColumn`            |                              |           | `SlColumn[]`                                     | []                                | 当前编辑的列                                           |
-| `currentEditRow`               |                              |           | `array`                                          | []                                | 当前编辑的行数据                                         |
-| `customRenderCellClassMap`     |                              |           | `(cellContext: CellContext) => string \| string[] \| ClassInfo` |                                   | 自定义 渲染tbody td的class                             |
-| `customRenderCellHeadClassMap` |                              |           | `(context: CellHeadContext) => string \| string[] \| ClassInfo` |                                   | 自定义 渲染thead th的class                             |
-| `customRenderCellHeadSpread`   |                              |           | `(context: CellHeadContext) => SpreadResult`     |                                   | 自定义 渲染thead  th SpreadResult                     |
-| `customRenderCellHeadStyle`    |                              |           | `(context: CellHeadContext) => StyleInfo`        |                                   | 自定义 渲染tHeader th的样式                              |
-| `customRenderCellSpread`       |                              |           | `(cellContext: CellContext) => SpreadResult`     |                                   | 自定义 渲染tbody td的 SpreadResult                     |
-| `customRenderCellStyle`        |                              |           | `(context: CellContext) => StyleInfo`            |                                   | 自定义 渲染tbody td的样式                                |
-| `customRenderFooter`           | `customRenderFooter`         |           | `(columns: SlColumn[]) => TemplateResult<1>`     |                                   | 渲染tfooter 此方法接收所有的列，返回footer 组成的tr template list |
-| `customRenderRowClassMap`      |                              |           | `(rowContext: RowContext) => string \| string[] \| ClassInfo` |                                   | 自定义 渲染tHeader tr的样式                              |
-| `customRenderRowSpread`        |                              |           | `(rowContext: RowContext) => SpreadResult`       |                                   | 自定义 渲染tbody tr的Spread                            |
-| `customRenderRowStyle`         |                              |           | `(rowContext: RowContext) => StyleInfo`          |                                   | 自定义 渲染tbody tr的样式                                |
-| `dataSource`                   |                              |           | `unknown[]`                                      |                                   | 表格需要渲染的数据 必须是数组                                  |
-| `editAccordion`                |                              |           | `boolean`                                        | false                             | 编辑行为：如果 editMode=row,是否一次允许出现多个行编辑，editMode=column, 是否允许一出出现多列编辑 |
-| `editEnable`                   |                              |           | `boolean`                                        | false                             | 表格编辑总控： 是否允许启动表格编辑功能                             |
-| `editMode`                     |                              |           | `"row" \| "column" \| "cell"`                    | "row"                             | 编辑模式：row:行编辑(一次编辑一行，cell:单元格编辑（一次编辑一个TD），columm：列编辑模式，一次编辑一列 |
-| `editTrigger`                  |                              |           | `string`                                         | "click"                           | 触发编辑模式的事件,支持click,dbclick,manual                 |
-| `enableCellBox`                |                              |           | `boolean`                                        | false                             | TBody TD 是否启用多行...                               |
-| `enableVirtualScroll`          |                              |           | `number`                                         |                                   | 虚拟滚动启用                                           |
-| `expandAccordion`              |                              |           | `boolean`                                        | false                             | 是否只能展开一个扩展行                                      |
-| `expandColumn`                 |                              |           | `string`                                         |                                   | 指定哪一列触发行扩展数据加载                                   |
-| `expandLazy`                   |                              |           | `boolean`                                        | false                             | 是否懒加载扩展行                                         |
-| `expandLazyLoadMethod`         |                              |           | `(rowData: unknown) => Promise<any>`             |                                   | 指定懒加载扩展的方法                                       |
-| `expandRowData`                |                              |           | `unknown[]`                                      | []                                | 存储哪些行数据是展开的                                      |
-| `expandRowRender`              |                              |           | `(rowContext: RowContext, columns: SlColumn[], layLoadData?: any) => TemplateResult<1>` |                                   | 方法：指定如何渲染扩展行，接收行数据和叶子columns， 返回的应该是<tr>Template Result |
-| `expandingRowData`             |                              |           | `unknown[]`                                      | []                                | 存储正在展开的行数据                                       |
-| `fixedColumns`                 |                              |           | `string \| Number[]`                             |                                   | 设置表格 列固定，例如：fixedColumns="2",则为前两列固定，"2,2" 则为前两列，后两列固定，"0,2" ，[0,2]则为最后两列固定 |
-| `fixedFoot`                    |                              |           | `boolean`                                        | false                             | table 是否固定footer 到底部                             |
-| `hoverAble`                    |                              |           | `boolean`                                        | true                              | table 是否支持鼠标活动行变色                                |
-| `idProp`                       |                              |           | `"id"`                                           |                                   | 定义表格rowData id 属性,如果列 type='checkbox'\|'radio',需要 |
-| `scrollDiv`                    |                              |           | `HTMLDivElement`                                 |                                   | scroll DIV                                       |
-| `size`                         |                              |           | `"small" \| "default" \| "larger"`               | "small"                           | td size                                          |
-| `sortConfig`                   |                              |           | `SortConfig`                                     | {}                                |                                                  |
-| `sortValue`                    |                              |           | `SortValue \| SortValue[] \| undefined`          |                                   | 表格当前排序值                                          |
-| `stripe`                       |                              |           | `boolean`                                        | false                             | table 支持斑马线                                      |
-| `table`                        |                              |           | `HTMLTableElement`                               |                                   |                                                  |
-| `tableHeight`                  | `tableHeight`                |           | `string`                                         |                                   | table 容器高度，支持类似 css  "100% - 40px" 或者“ 100vh - 30px ” |
-| `tableLayoutFixed`             | `tableLayoutFixed`           |           | `boolean`                                        |                                   | 是否表格 是 table-layout ：fixed                       |
-| `tableMaxHeight`               | `tableMaxHeight`             |           | `string`                                         |                                   | table 容器最大高度                                     |
-| `tableMinHeight`               | `tableMinHeight`             |           | `string`                                         |                                   | table 容器最小高度                                     |
-| `thead`                        |                              |           | `HTMLTableSectionElement`                        |                                   | table  heading                                   |
-| `treeConfig`                   |                              |           | `TreeConfig \| undefined`                        |                                   |                                                  |
-| `treeLoadingNode`              |                              |           | `TreeNodeData[]`                                 | []                                | 当为Tree的时候，存储哪些 正在加载中的TreeNodeData                |
-| `treeLoadingNodeMethod`        | `treeLoadingNodeMethod`      |           | `(context: CellContext) => Promise<TreeNodeData[]>` |                                   | 加载TreeNode 子数据，接收参数nodeData,parentData           |
-| `treeNodeNoWrap`               | `treeNodeNoWrap`             |           | `boolean`                                        |                                   | true, 则TreeNode 列，不会换行                           |
-| `virtualItemHeight`            |                              |           | `number`                                         |                                   | 虚拟滚动行高                                           |
+| Property                       | Attribute               | Modifiers | Type                                             | Default                           | Description                                      |
+|--------------------------------|-------------------------|-----------|--------------------------------------------------|-----------------------------------|--------------------------------------------------|
+| `allSubColumns`                |                         | readonly  | `SlColumn[]`                                     |                                   |                                                  |
+| `baseDiv`                      |                         |           | `HTMLDivElement`                                 |                                   |                                                  |
+| `border`                       | `border`                |           | `boolean`                                        | false                             | table 是否显示border                                 |
+| `cacheExpandLazyLoadDataMap`   |                         |           | `Map<any, any>`                                  | "new Map<any, any>()"             | 存储已经加载过的扩展数据                                     |
+| `cacheKey`                     | `cache-key`             |           | `string`                                         |                                   | table 前端缓存ID                                     |
+| `canShowColumns`               |                         | readonly  | `SlColumn[]`                                     |                                   |                                                  |
+| `cellBoxLines`                 |                         |           | `number`                                         | 1                                 | TBody TD 是否超过多行则...                              |
+| `checkDisablePropField`        | `checkDisablePropField` |           | `string \| ((rowData: any) => boolean)`          |                                   | 定义列 type='checkbox','radio'时起作用， 确定列 checkbx/radio Disable属性,或者一个函数接收rowData ，确定rowData checkbox 列是否可以选择 如果不指定，则此列checkbox 所有的都可以勾选 |
+| `checkPropField`               | `checkPropField`        |           | `string \| ((rowData: any) => any)`              |                                   | 定义列 type='checkbox','radio'时起作用， 定义checkbox 列绑定的属性 ，如果不指定，则Table checkbox列 绑定值就是rowData 本身 |
+| `checkTreeCasecadeDown`        | `checkTreeCasecadeDown` |           | `boolean`                                        | true                              | 如果启用TreeConfig ,checkbox 向下级联 选中                 |
+| `checkTreeCasecadeUp`          | `checkTreeCasecadeUp`   |           | `boolean`                                        | false                             | 如果启用TreeConfig ,checkbox 向上级联 选中                 |
+| `checkValue`                   |                         |           |                                                  |                                   | 定义表格当前多选中的值（作用于checkbox 列上）                      |
+| `componentID`                  |                         |           | `string`                                         | "`${'tableID_' + componentID++}`" |                                                  |
+| `currentEditCell`              |                         |           | `{ column: SlColumn; rowData: any; } \| undefined` |                                   | 当前编辑的单元格                                         |
+| `currentEditColumn`            |                         |           | `SlColumn[]`                                     | []                                | 当前编辑的列                                           |
+| `currentEditRow`               |                         |           | `array`                                          | []                                | 当前编辑的行数据                                         |
+| `customRenderCellClassMap`     |                         |           | `(cellContext: CellContext) => string \| string[] \| ClassInfo` |                                   | 自定义 渲染tbody td的class                             |
+| `customRenderCellHeadClassMap` |                         |           | `(context: CellHeadContext) => string \| string[] \| ClassInfo` |                                   | 自定义 渲染thead th的class                             |
+| `customRenderCellHeadSpread`   |                         |           | `(context: CellHeadContext) => SpreadResult`     |                                   | 自定义 渲染thead  th SpreadResult                     |
+| `customRenderCellHeadStyle`    |                         |           | `(context: CellHeadContext) => StyleInfo`        |                                   | 自定义 渲染tHeader th的样式                              |
+| `customRenderCellSpread`       |                         |           | `(cellContext: CellContext) => SpreadResult`     |                                   | 自定义 渲染tbody td的 SpreadResult                     |
+| `customRenderCellStyle`        |                         |           | `(context: CellContext) => StyleInfo`            |                                   | 自定义 渲染tbody td的样式                                |
+| `customRenderFooter`           | `customRenderFooter`    |           | `(columns: SlColumn[]) => TemplateResult<1>`     |                                   | 渲染tfooter 此方法接收所有的列，返回footer 组成的tr template list |
+| `customRenderRowClassMap`      |                         |           | `(rowContext: RowContext) => string \| string[] \| ClassInfo` |                                   | 自定义 渲染tHeader tr的样式                              |
+| `customRenderRowSpread`        |                         |           | `(rowContext: RowContext) => SpreadResult`       |                                   | 自定义 渲染tbody tr的Spread                            |
+| `customRenderRowStyle`         |                         |           | `(rowContext: RowContext) => StyleInfo`          |                                   | 自定义 渲染tbody tr的样式                                |
+| `dataSource`                   |                         |           | `unknown[]`                                      |                                   | 表格需要渲染的数据 必须是数组                                  |
+| `editAccordion`                |                         |           | `boolean`                                        | false                             | 编辑行为：如果 editMode=row,是否一次允许出现多个行编辑，editMode=column, 是否允许一出出现多列编辑 |
+| `editEnable`                   |                         |           | `boolean`                                        | false                             | 表格编辑总控： 是否允许启动表格编辑功能                             |
+| `editMode`                     |                         |           | `"row" \| "column" \| "cell"`                    | "row"                             | 编辑模式：row:行编辑(一次编辑一行，cell:单元格编辑（一次编辑一个TD），columm：列编辑模式，一次编辑一列 |
+| `editTrigger`                  |                         |           | `string`                                         | "click"                           | 触发编辑模式的事件,支持click,dbclick,manual                 |
+| `enableCellBox`                |                         |           | `boolean`                                        | false                             | TBody TD 是否启用多行...                               |
+| `enableVirtualScroll`          |                         |           | `number`                                         |                                   | 虚拟滚动启用                                           |
+| `expandAccordion`              |                         |           | `boolean`                                        | false                             | 是否只能展开一个扩展行                                      |
+| `expandColumn`                 |                         |           | `string`                                         |                                   | 指定哪一列触发行扩展数据加载                                   |
+| `expandLazy`                   |                         |           | `boolean`                                        | false                             | 是否懒加载扩展行                                         |
+| `expandLazyLoadMethod`         |                         |           | `(rowData: unknown) => Promise<any>`             |                                   | 指定懒加载扩展的方法                                       |
+| `expandRowData`                |                         |           | `unknown[]`                                      | []                                | 存储哪些行数据是展开的                                      |
+| `expandRowRender`              |                         |           | `(rowContext: RowContext, columns: SlColumn[], layLoadData?: any) => TemplateResult<1>` |                                   | 方法：指定如何渲染扩展行，接收行数据和叶子columns， 返回的应该是<tr>Template Result |
+| `expandingRowData`             |                         |           | `unknown[]`                                      | []                                | 存储正在展开的行数据                                       |
+| `fixedColumns`                 |                         |           | `string \| Number[]`                             |                                   | 设置表格 列固定，例如：fixedColumns="2",则为前两列固定，"2,2" 则为前两列，后两列固定，"0,2" ，[0,2]则为最后两列固定 |
+| `fixedFoot`                    |                         |           | `boolean`                                        | false                             | table 是否固定footer 到底部                             |
+| `hoverAble`                    |                         |           | `boolean`                                        | true                              | table 是否支持鼠标活动行变色                                |
+| `scrollDiv`                    |                         |           | `HTMLDivElement`                                 |                                   | scroll DIV                                       |
+| `size`                         |                         |           | `"small" \| "default" \| "larger"`               | "small"                           | td size                                          |
+| `sortConfig`                   |                         |           | `SortConfig`                                     | {}                                |                                                  |
+| `sortValue`                    |                         |           | `SortValue \| SortValue[] \| undefined`          |                                   | 表格当前排序值                                          |
+| `stripe`                       |                         |           | `boolean`                                        | false                             | table 支持斑马线                                      |
+| `table`                        |                         |           | `HTMLTableElement`                               |                                   |                                                  |
+| `tableHeight`                  | `tableHeight`           |           | `string`                                         |                                   | table 容器高度，支持类似 css  "100% - 40px" 或者“ 100vh - 30px ” |
+| `tableLayoutFixed`             | `tableLayoutFixed`      |           | `boolean`                                        |                                   | 是否表格 是 table-layout ：fixed                       |
+| `tableMaxHeight`               | `tableMaxHeight`        |           | `string`                                         |                                   | table 容器最大高度                                     |
+| `tableMinHeight`               | `tableMinHeight`        |           | `string`                                         |                                   | table 容器最小高度                                     |
+| `thead`                        |                         |           | `HTMLTableSectionElement`                        |                                   | table  heading                                   |
+| `treeConfig`                   |                         |           | `TreeConfig \| undefined`                        |                                   |                                                  |
+| `treeDataCache`                |                         | readonly  | `Map<any, TreeNodeCacheType>`                    |                                   | Table 启用Tree 的时候，获取缓存数据关系                        |
+| `treeLoadingNode`              |                         |           | `TreeNodeData[]`                                 | []                                | 当为Tree的时候，存储哪些 正在加载中的TreeNodeData                |
+| `treeLoadingNodeMethod`        | `treeLoadingNodeMethod` |           | `(context: CellContext) => Promise<TreeNodeData[]>` |                                   | 加载TreeNode 子数据，接收参数nodeData,parentData           |
+| `treeNodeNoWrap`               | `treeNodeNoWrap`        |           | `boolean`                                        |                                   | true, 则TreeNode 列，不会换行                           |
+| `virtualItemHeight`            |                         |           | `number`                                         |                                   | 虚拟滚动行高                                           |
 
 ## Methods
 
-| Method                    | Type                                          | Description                                      |
-|---------------------------|-----------------------------------------------|--------------------------------------------------|
-| `asynTableHeaderWidth`    | `(): void`                                    |                                                  |
-| `changeEditAccordion`     | `(): void`                                    |                                                  |
-| `columnChangeHanlder`     | `(): void`                                    | 如果column 发生了变化，需要重新计算 表头布局                       |
-| `doExpandRowData`         | `(rowData: unknown): Promise<void>`           | 展开行数据的扩展 数据<br /><br />**rowData**: table 行绑定的数据 |
-| `getCellContext`          | `(td: HTMLTableCellElement): CellContext`     | 获取 td 上下文                                        |
-| `getHeadCellContext`      | `(th: HTMLTableCellElement): CellHeadContext` | 获取 thead th 上下文                                  |
-| `getRowContext`           | `(row: HTMLTableRowElement): RowContext`      | 获取 行上下文                                          |
-| `getRowDataDataIndex`     | `(rowData: TreeNodeData): number`             | 获取渲染后的 rowData 的顺序号                              |
-| `getRowDataParentData`    | `(rowData: TreeNodeData): TreeNodeData`       | 获取渲染后的 rowData 对应的父对象                            |
-| `getRowDataTreeLevel`     | `(rowData: TreeNodeData): number`             | 获取渲染后的 rowData 对应的Tree level                     |
-| `locacheIDChange`         | `(oldKey: string): void`                      |                                                  |
-| `sortConfigChange`        | `(): void`                                    |                                                  |
-| `treeNodeHasChildren`     | `(rowData: TreeNodeData): unknown`            |                                                  |
-| `watchCellBoxLinesChange` | `(): void`                                    |                                                  |
-| `watchDataSourceChange`   | `(): void`                                    |                                                  |
-| `watchFixedColumnsChange` | `(): void`                                    |                                                  |
+| Method                     | Type                                          | Description                                      |
+|----------------------------|-----------------------------------------------|--------------------------------------------------|
+| `asynTableHeaderWidth`     | `(): void`                                    |                                                  |
+| `changeEditAccordion`      | `(): void`                                    |                                                  |
+| `columnChangeHanlder`      | `(): void`                                    | 如果column 发生了变化，需要重新计算 表头布局                       |
+| `doExpandRowData`          | `(rowData: unknown): Promise<void>`           | 展开行数据的扩展 数据<br /><br />**rowData**: table 行绑定的数据 |
+| `getCellContext`           | `(td: HTMLTableCellElement): CellContext`     | 获取 td 上下文                                        |
+| `getHeadCellContext`       | `(th: HTMLTableCellElement): CellHeadContext` | 获取 thead th 上下文                                  |
+| `getRenderDataSource`      | `(): unknown[]`                               | 获取表格实际渲染的数据列表                                    |
+| `getRowContext`            | `(row: HTMLTableRowElement): RowContext`      | 获取 行上下文                                          |
+| `getRowDataCheckValue`     | `(rowData: any): any`                         |                                                  |
+| `getRowDataDataIndex`      | `(rowData: TreeNodeData): number`             | 获取渲染后的 rowData 的顺序号                              |
+| `getRowDataParentData`     | `(rowData: TreeNodeData): TreeNodeData`       | 获取渲染后的 rowData 对应的父对象                            |
+| `getRowDataTreeLevel`      | `(rowData: TreeNodeData): number`             | 获取渲染后的 rowData 对应的Tree level                     |
+| `isRowDataChecked`         | `(rowData: any): boolean`                     | 判断rowData 是否是checkbox 列选中                        |
+| `isRowDataCheckedDisabled` | `(rowData: any): any`                         | 判断rowData 是否是checkbox,radio列 disable             |
+| `locacheIDChange`          | `(oldKey: string): void`                      |                                                  |
+| `sortConfigChange`         | `(): void`                                    |                                                  |
+| `treeNodeHasChildren`      | `(rowData: TreeNodeData): unknown`            |                                                  |
+| `watchCellBoxLinesChange`  | `(): void`                                    |                                                  |
+| `watchDataSourceChange`    | `(): void`                                    |                                                  |
+| `watchFixedColumnsChange`  | `(): void`                                    |                                                  |
 
 ## Events
 
 | Event                              | Type                                     | Description                                      |
 |------------------------------------|------------------------------------------|--------------------------------------------------|
 | `sl-table-before-sort`             | `{column:SLColumn,sortValue:排序前值}`       | Emitted before table column sort. 排序事件           |
+| `sl-table-check-before-change`     | `{checkbox:SlCheckbox,...CellContext }`  | Emitted  before  tbody checkbox check will change . |
+| `sl-table-check-change`            | `{value:Array<any> }`                    | Emitted  after  tbody checkbox check  changed.   |
 | `sl-table-column-resize`           | `{column:SLColumn,change:改变的宽度}`         | Emitted table column width change by drag. 拖动列事件 |
-| `sl-table-edit-cell`               | `{td:TD,dom:HTMLElement,...CellContext}` | 当table 组件内置 cell edit 数据发生变化.                    |
+| `sl-table-edit-cell`               | `{td:TD,dom:HTMLElement,...CellContext}` | 当Table 组件内置 cell edit 数据发生变化,时触发.                |
 | `sl-table-edit-cell-active`        | `{td:TD,dom:HTMLElement,...CellContext}` | 当单元格进入了编辑状态时触发                                   |
-| `sl-table-edit-cell-before-change` | `{td:TD,...CellContext}`                 | Emitted  before when table  edit cell  change .  |
+| `sl-table-edit-cell-before-change` | `{td:TD,...CellContext}`                 | Emitted  before when table  edit cell  change .<br />//表格 checkbox 控制 |
 | `sl-table-resize`                  |                                          | Emitted table resize.                            |
 | `sl-table-scroll`                  | `{div:HTMLDIVElement}`                   | Emitted scroll table.滚动事件                        |
 | `sl-table-sort`                    | `{column:SLColumn,sortValue:当前排序值}`      | Emitted table column sort. 排序事件                  |
@@ -2685,9 +2696,9 @@
 | Part            | Description                   |
 |-----------------|-------------------------------|
 | `base`          | The component's base wrapper. |
-| `part`          | The component's table .       |
 | `resize-hanler` | The th's resize-hanlder .     |
 | `scroll-div`    | The component's scroll-div .  |
+| `table`         | The component's table .       |
 
 ## CSS Custom Properties
 

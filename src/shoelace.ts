@@ -73,4 +73,4 @@ export { default as SlTable } from './components/table/table';
 export * from './utilities/animation';
 export * from './utilities/base-path';
 export * from './utilities/icon-library';
-import './globExport.ts';
+import './globExport';
