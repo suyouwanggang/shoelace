@@ -19,8 +19,9 @@ Table 组件启用TreeTable 需要设置treeConfig属性
 </div>
 <div style='margin:10px;height:28px;overflow:hidden;line-height:28px;' id='checkValueDiv'></div>
 <sl-table id='tableDIV' >
-     <sl-column type="index"  label='#'  align='center' min-width='40' ></sl-column><!-- type='index' 内置序号列，如果不满足，可以设置column.renderCell 属性来实现自定义渲染 -->
+    <sl-column type="index"  label='#'  align='center' min-width='40' ></sl-column><!-- type='index' 内置序号列，如果不满足，可以设置column.renderCell 属性来实现自定义渲染 -->
     <sl-column type='checkbox'  label='#'  align='center' ></sl-column><!--type='checkbox' 内置逻辑列， -->
+    <sl-column type='radio'  label=''  align='center' ></sl-column><!--type='rdio' 内置逻辑列， -->
     <sl-column field='name' sort-able resize-able label='Name' width='100%'  align='left' min-width='200' ></sl-column>
     <sl-column field='size' sort-able label='size' align='right'  resize-able min-width='100' order=2 ></sl-column>
     <sl-column field='date' sort-able label='Date'resize-able  min-width='100' order=3 agile-cell='right'></sl-column>
@@ -66,7 +67,7 @@ Table 组件启用TreeTable 需要设置treeConfig属性
     table.tableHeight='400px';
 
     //自定义某些数据，不能选中
-     table.checkDisablePropField='disabled';//或者每行rowData.disabled， 则不能选中
+    table.checkDisablePropField='disabled';//或者每行rowData.disabled， 则不能选中
     table.checkDisablePropField=(rowData)=>{
         return rowData.id==0;
     }

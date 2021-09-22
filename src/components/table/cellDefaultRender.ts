@@ -21,6 +21,16 @@ export const getReisterColTemplate = (type: string) => {
   return defaultColMap.get(type);
 };
 export const checkboxColChange = (table: SlTable, checkbox: SlCheckbox) => {
+
+  const head_before = emit(table, 'sl-table-check-head-before-change', {
+    cancelable: true,
+    detail: {
+      checkbox: checkbox,
+    }
+  });
+  if (head_before.defaultPrevented) {
+    return;
+  }
   const checked = checkbox.checked;
   let array: any[] = [];
   if (checked) {
@@ -47,6 +57,7 @@ export const checkboxColChange = (table: SlTable, checkbox: SlCheckbox) => {
   table.checkValue = array;
   emit(table, 'sl-table-check-change', {
     detail: {
+      checkbox: checkbox,
       value: table.checkValue
     }
   });
@@ -57,6 +68,8 @@ registerColTemplate('checkbox', (_column, table) => {
   const indeterminate = !checkAll && isArray(table.checkValue) ? (table.checkValue as Array<any>).length > 0 : table.checkValue != undefined;
   return html`<sl-checkbox class="table-check" .checked=${checkAll} .indeterminate=${indeterminate} @sl-change=${(event: Event) => checkboxColChange(table, event.target as SlCheckbox)}></sl-checkbox>`;
 });
+
+
 
 export const getColumnRenderResult = (context: CellHeadContext, table: SlTable) => {
   const column = context.column;
@@ -158,6 +171,29 @@ registerCellTemplate('checkbox', (context, table) => {
     @sl-change=${(event: Event) => checkboxTDChange(event.target as SlCheckbox, table)}
   ></sl-checkbox>`;
 });
+
+registerCellTemplate('radio', (context, table) => {
+  const rowData = context.rowData;
+  const checkValue = table.getRowDataCheckValue(rowData);
+  const ischecked = table.isRowDataRadioChecked(rowData);
+  const isdisabled = table.isRowDataCheckedDisabled(rowData);
+  return html`<sl-radio
+    class="table-check"
+    .checked=${live(ischecked)}
+    .disabled=${isdisabled}
+    @sl-change=${(_event: Event) => {
+      table.radioValue = checkValue;
+      emit(table, 'sl-table-radio-change', {
+        detail: {
+          value: checkValue,
+          context: context
+        }
+      })
+    }}
+  ></sl-radio>`;
+});
+
+
 /**注册 index列逻辑 */
 registerCellTemplate('index', (context, _table) => {
   const rowIndex = context.rowIndex;

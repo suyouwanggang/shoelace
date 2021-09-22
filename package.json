@@ -84,7 +84,7 @@
     "sass": "^1.38.0",
     "sinon": "^11.1.1",
     "strip-css-comments": "^4.1.0",
-	"@lit/ts-transformers": "^1.0.2",
+    "@lit/ts-transformers": "^1.0.2",
     "tslib": "^2.2.0",
     "ttypescript": "^1.5.12",
     "typedoc": "^0.21.5",

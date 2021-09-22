@@ -59,23 +59,27 @@ let componentID = 0;
  * @event {{column:SLColumn,change:改变的宽度}}  sl-table-column-resize - Emitted table column width change by drag. 拖动列事件
  *
  *
- * @event {{dom:HTMLElement,...cellContext}}  sl-tree-node-before-open - Emitted before table tree node to open   . tree 事件
- * @event {{dom:HTMLElement,...cellContext}}  sl-tree-node-before-close - Emitted before table tree node to close  . tree 事件
- * @event {{dom:HTMLElement,...cellContext}}  sl-tree-node-before-toogle - Emitted before table tbody td node state toogle  . tree 事件
- * @event {{dom:HTMLElement,...cellContext}}  sl-tree-node-open - Emitted after table tbody td node state toogle  . tree 事件
- * @event {{dom:HTMLElement,...cellContext}}  sl-tree-node-toogle - Emitted after table tbody td node state toogle  .tree 事件
- * @event {{dom:HTMLElement,...cellContext}}  sl-tree-node-loaded - after table tree node lazy load children end  .tree load 事件
- * @event {{dom:HTMLElement,...cellContext}}  sl-tree-node-load-error - Emitted after table tbody td node state toogle  .tree 事件
+ * @event {{dom:HTMLElement,context:CellContext}}  sl-tree-node-before-open - Emitted before table tree node to open   . tree 事件
+ * @event {{dom:HTMLElement,context:CellContext}}  sl-tree-node-before-close - Emitted before table tree node to close  . tree 事件
+ * @event {{dom:HTMLElement,context:CellContext}}  sl-tree-node-before-toogle - Emitted before table tbody td node state toogle  . tree 事件
+ * @event {{dom:HTMLElement,context:CellContext}}  sl-tree-node-open - Emitted after table tbody td node state toogle  . tree 事件
+ * @event {{dom:HTMLElement,context:CellContext}}  sl-tree-node-toogle - Emitted after table tbody td node state toogle  .tree 事件
+ * @event {{dom:HTMLElement,context:CellContext}}  sl-tree-node-loaded - after table tree node lazy load children end  .tree load 事件
+ * @event {{dom:HTMLElement,context:CellContext}}  sl-tree-node-load-error - Emitted after table tbody td node state toogle  .tree 事件
  *
  *  //tbody 行，tbody tr 事件
- * @event {{row:TR,...RowContext}}  sl-table-tr-${normalEvent} - Emitted table tbody tr trigger normalEvent .support normalEvent event [click,dblclick,keydown,keypress,mousedown,mouseenter,mouseleave,mousemove,mouseout,mouseover,mouseup]  .
+ * @event {{row:TR,context:RowContext}}  sl-table-tr-${normalEvent} - Emitted table tbody tr trigger normalEvent .support normalEvent event [click,dblclick,keydown,keypress,mousedown,mouseenter,mouseleave,mousemove,mouseout,mouseover,mouseup]  .
  * //tbody 行，tbody tr td 事件
- * @event {{row:TR,td:TD,...CellContext}}  sl-table-td-${normalEvent} - Emitted table tbody td trigger normalEvent.  support normalEvent  event [click,dblclick,keydown,keypress,mousedown,mouseenter,mouseleave,mousemove,mouseout,mouseover,mouseup].
- * @event {{td:TD,dom:HTMLElement,...CellContext}}  sl-table-edit-cell - 当Table 组件内置 cell edit 数据发生变化,时触发.
- * @event {{td:TD,dom:HTMLElement,...CellContext}}  sl-table-edit-cell-active - 当单元格进入了编辑状态时触发
- * @event {{td:TD,...CellContext}}   sl-table-edit-cell-before-change - Emitted  before when table  edit cell  change .
+ * @event {{row:TR,td:TD,context:CellContext}}  sl-table-td-${normalEvent} - Emitted table tbody td trigger normalEvent.  support normalEvent  event [click,dblclick,keydown,keypress,mousedown,mouseenter,mouseleave,mousemove,mouseout,mouseover,mouseup].
+ * @event {{td:TD,dom:HTMLElement,context:CellContext,value:any}}  sl-table-cell-edit-commit - 当Table 组件内置 cell edit 数据发生变化,时触发.
+ * 
+ * @event {{td:TD,context:CellContext}}   sl-table-cell-edit-before-change- Emitted  before when table  edit cell  change .
+ * @event {{td:TD,dom:HTMLElement,context:CellContext}}  sl-cell-edit-start - 当单元格开始进入编辑状态（此时cell还没变成编辑状态，可以取消阻止事件）
+ * @event {{td:TD,dom:HTMLElement,context:CellContext}}  sl-cell-edit-active - 当单元格进入了编辑状态时触发
+ * //EIDT 发生顺序（sl-table-cell-edit-before-change->sl-cell-edit-start->sl-table-cell-edit-active)
  * //表格 checkbox 控制
- * @event {{checkbox:SlCheckbox,...CellContext }}   sl-table-check-before-change - Emitted  before  tbody checkbox check will change .
+ * @event {{checkbox:SlCheckbox,context:CellContext }}   sl-table-check-before-change - Emitted  before  tbody checkbox check will change .
+ * @event {{checkbox:SlCheckbox,context:CellContext }}   sl-table-check-head-before-change - Emitted  before when column checkbox will change .
  * @event {{value:Array<any> }}   sl-table-check-change - Emitted  after  tbody checkbox check  changed.
  *
  *
@@ -395,7 +399,7 @@ export default class SlTable extends LitElement {
         }
       }
       if (!isNaN(right)) {
-        for (let i = columnSize - 1, j = 0; j < right && i >= 0; ) {
+        for (let i = columnSize - 1, j = 0; j < right && i >= 0;) {
           let col = this.tdRenderColumns[i];
           while (col != null && col.tagName.toLowerCase() == 'sl-column') {
             style += this.caculateFixedColumnStyle(col, tableRect, false);
@@ -443,16 +447,16 @@ export default class SlTable extends LitElement {
     const trTemplates = (rowColumn: SlColumn[], rowIndex: number) => {
       return html`<tr .columns=${rowColumn}>
         ${rowColumn.map((column, index) => {
-          const cache = getColumnCacheData(column);
-          const context: CellHeadContext = {
-            column: column,
-            colIndex: index,
-            rowspan: cache.rowspan as number,
-            colspan: cache.colspan as number,
-            colRowIndex: rowIndex
-          };
-          return renderThColTemplate(context, table);
-        })}
+        const cache = getColumnCacheData(column);
+        const context: CellHeadContext = {
+          column: column,
+          colIndex: index,
+          rowspan: cache.rowspan as number,
+          colspan: cache.colspan as number,
+          colRowIndex: rowIndex
+        };
+        return renderThColTemplate(context, table);
+      })}
       </tr>`;
     };
     return this.theadRows.map((items, index) => trTemplates(items, index));
@@ -564,26 +568,59 @@ export default class SlTable extends LitElement {
   @property()
   checkDisablePropField: string | ((rowData: any) => boolean);
 
-  /** 定义表格当前多选中的值（作用于checkbox 列上） */
+  /** 定义表格当前多选中的值（作用于type=checkbox 列上） */
   @property({ type: Object, attribute: false })
   checkValue: any | Array<any>;
 
+  /** 定义表格当前单选的值（作用于type=radio 列上） */
+  @property({ type: Object, attribute: false })
+  radioValue: any;
+
   /**如果启用TreeConfig ,checkbox 向下级联 选中 */
-  @property({ type: Boolean })
+  @property({ type: Boolean, attribute: false })
   checkTreeCasecadeDown = true;
 
   /**如果启用TreeConfig ,checkbox 向上级联 选中 */
-  @property({ type: Boolean })
+  @property({ type: Boolean, attribute: false })
   checkTreeCasecadeUp = false;
 
+  /**获取rowData 选中值 */
   public getRowDataCheckValue(rowData: any) {
     const rowCheckValue = isFunction(this.checkPropField) ? this.checkPropField(rowData) : this.checkPropField ? rowData[this.checkPropField] : rowData;
     return rowCheckValue;
+  }
+  /**
+   * 循环 选中的数据
+   * @param vistorFun 数据处理器
+   */
+  public forEachCheckValue(vistorFun: (rowData: any, ...args: any) => void) {
+    if (this.dataSource) {
+      const wrapVistor = (rowData: any, ...args: any) => {
+        if (this.isRowDataChecked(rowData)) {
+          vistorFun(rowData, ...args);
+        }
+      }
+      if (this.treeConfig) {
+        for (let l of this.dataSource) {
+          iteratorNodeData(l as TreeNodeData, wrapVistor);
+        }
+      } else {
+        for (let i = 0, j = this.dataSource.length; i < j; i++) {
+          wrapVistor(this.dataSource[i], i);
+        }
+      }
+    }
   }
   /**判断rowData 是否是checkbox 列选中 */
   public isRowDataChecked(rowData: any) {
     let rowCheckValue = this.getRowDataCheckValue(rowData);
     return isArray(this.checkValue) ? (this.checkValue as Array<any>).includes(rowCheckValue) : this.checkValue != undefined && this.checkValue == rowCheckValue;
+  }
+
+  /**判断rowData 是否是radio 列选中 */
+  public isRowDataRadioChecked(rowData: any) {
+    let rowCheckValue = this.getRowDataCheckValue(rowData);
+    return this.radioValue == rowCheckValue;
   }
   /**判断rowData 是否是checkbox,radio列 disable */
   public isRowDataCheckedDisabled(rowData: any) {
@@ -679,8 +716,8 @@ export default class SlTable extends LitElement {
       rowList.push(
         html`<tr
             ${ref(el => {
-              setRowContext(el as HTMLTableRowElement, rowContext);
-            })}
+          setRowContext(el as HTMLTableRowElement, rowContext);
+        })}
             .rowData=${rowData}
             style=${styleMap(trStyle)}
             class=${classMap(trClassObject)}

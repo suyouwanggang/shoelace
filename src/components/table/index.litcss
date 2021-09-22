@@ -211,7 +211,7 @@ th[align=right]{
         position: relative;
         cursor: pointer;
         font-size: var(--sl-tree-trriger-icon,14px);
-        padding: var(--sl-tree-trriger-padding,0 4px 0 2px);
+        padding: var(--sl-tree-trriger-padding,0 4px );
     }
     svg{
         width: 1em;

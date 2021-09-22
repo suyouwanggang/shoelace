@@ -118,7 +118,7 @@ registDefaultEditor(EDIT_TYPE.TEXT, context => {
 /** 触发sl-table-edit-cell 事件 */
 export const emitTableCellEditFun = (context: CellContext, dom: EventTarget, value: any) => {
   const table = context.column.table;
-  emit(table, 'sl-table-edit-cell-data-change', {
+  emit(table, 'sl-table-cell-edit-commit', {
     detail: {
       td: (dom as HTMLElement).closest('td'),
       dom: dom,
@@ -225,9 +225,9 @@ registDefaultEditor(EDIT_TYPE.DATE, context => {
       class="edit_date edit_field_${column.field}"
       .value=${live(value)}
       @sl-date-change=${(event: Event) => {
-        column.field ? setFieldValue(rowData, column.field, (event.target as any).value) : '';
-        emitTableCellEditFun(context, event.target as EventTarget, (event.target as any).value);
-      }}
+      column.field ? setFieldValue(rowData, column.field, (event.target as any).value) : '';
+      emitTableCellEditFun(context, event.target as EventTarget, (event.target as any).value);
+    }}
     >
     </sl-date>
   </div>`;

@@ -18,7 +18,7 @@ Table 组件
 </div>
 
 <sl-table id='tableDIV' border >
-     <sl-column id='index' align='center' field='index' label='index'   align='left' min-width='80' ></sl-column>
+     <sl-column id='index' type="index" align='center' field='index' label='index'   align='left' min-width='80' ></sl-column>
     <sl-column field='name'   label='Name' resize-able  align='left' width='200' ></sl-column>
     <sl-column field='role'  label='Role' resize-able width=150    ></sl-column>
     <sl-column field='sex'  label='Sex'  resize-able  width=150  agile-cell='right'></sl-column>
@@ -57,25 +57,23 @@ Table 组件
         }
     `;
     //监听上一次编辑的单元格
-    table.addEventListener('sl-table-edit-cell-before-change',(event)=>{
-        console.log('lastEdit===> field=',event.detail.column.field +' rowIndex='+event.detail.rowIndex,event.detail.td);
+    table.addEventListener('sl-cell-edit-before-change',(event)=>{
+        console.log('lastEdit===> field=',event.detail.context.column.field +' rowIndex='+event.detail.context.rowIndex,event.detail.td);
         //event.preventDefault 能阻止 后续 sl-table-edit-cell-into，sl-table-edit-cell-active 事件
     });
 
     // //监听当TD进入了编辑状态
-    table.addEventListener('sl-table-edit-cell-into',(event)=>{
-       console.log('intoing edit cell===> field=',event.detail.column.field +' rowIndex='+event.detail.rowIndex ,event.detail.td);
+    table.addEventListener('sl-cell-edit-start',(event)=>{
+       console.log('intoing edit cell===> field=',event.detail.context.column.field +' rowIndex='+event.detail.context.rowIndex ,event.detail.td);
     });
 
 
     //监听当TD进入了编辑状态
-    table.addEventListener('sl-table-edit-cell-active',(event)=>{
-       console.log('active cell===> field=',event.detail.column.field +' rowIndex='+event.detail.rowIndex ,event.detail.td);
+    table.addEventListener('sl-cell-edit-active',(event)=>{
+       console.log('active cell===> field=',event.detail.context.column.field +' rowIndex='+event.detail.context.rowIndex ,event.detail.td);
     });
 
-    document.querySelector('sl-column#index').renderCell=({column,rowData,rowIndex})=>{
-          return rowIndex+1;
-    };
+    
     
     document.querySelector('sl-column[field=role]').items=[{id:1,name:'项目经理'},{id:2,name:'测试'},{id:3,name:'实施'}];
     document.querySelector('sl-column[field=role]').edit='select';
@@ -149,9 +147,11 @@ Table 组件
   `editTrigger`：哪种TD事件，进入触发编辑 例如'click','mouseover'
 
 ### Table 编辑相关的事件
-  `sl-table-edit-cell`：单元格内置的编辑器，发生变化是触发。  
-  `sl-table-edit-cell-before-change`：单元格进入编辑模式前触发，此时阻止事件取消进入，可以通过event.detail 获取td 和cellContext 数据 。  
-  `sl-table-edit-cell-active`：单元格进入编辑器模式（上次不是此单元格），此时column.edit 已经熏染完了 可以通过event.detail 获取td 和cellContext 数据 。  
+  `sl-cell-edit-commit`：单元格内置的编辑器，值发生变化是触发。  
+  `sl-cell-edit-before-change`：Emmit when before when table  edit cell  change。 
+  `sl--cell-edit-start`：单元格开始进入编辑状态（如果Cell是编辑状态则不触发)。   
+  `sl--cell-edit-active`：单元格进入编辑模式后触发，此时column.edit 已经熏染完了 可以通过event.detail 获取td 和cellContext 数据 。  
+  `顺序`:sl-cell-edit-before-change->sl--cell-edit-start->sl--cell-edit-active
 ### Table column 编辑属性
   `edit`:指定单元格的编辑器,内置的有'input','text','date','select','multi-select', 'multi-checkbox'  
   `type`: 'date','date-month','date-year',配合'edit=date',编辑后设置 rowData[field] ,值为'2020-01-20','2020-01','2020'  等
