@@ -1,6 +1,6 @@
 import { LitElement, html } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
-import { classMap } from 'lit-html/directives/class-map';
+import { classMap } from 'lit-html/directives/class-map.js';
 import styles from './menu-item.styles';
 
 import '../icon/icon';
@@ -37,7 +37,7 @@ export default class SlMenuItem extends LitElement {
   /** Draws the menu item in a disabled state. */
   @property({ type: Boolean, reflect: true }) disabled = false;
 
-  /** hightlight è¿™ä¸ªèœå•é¡¹ */
+  /** hightlight Õâ¸ö²Ëµ¥Ïî */
   @property({ type: Boolean, reflect: true }) highlight = false;
 
   firstUpdated() {
