@@ -37,7 +37,7 @@ export default class SlMenuItem extends LitElement {
   /** Draws the menu item in a disabled state. */
   @property({ type: Boolean, reflect: true }) disabled = false;
 
-  /** hightlight Õâ¸ö²Ëµ¥Ïî */
+  /** hightlight ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½ï¿½ */
   @property({ type: Boolean, reflect: true }) highlight = false;
 
   firstUpdated() {

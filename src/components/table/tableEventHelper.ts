@@ -229,13 +229,13 @@ const hanlderTRTDEvent = (table: SlTable) => {
     }
     td
       ? emit(table, `sl-table-td-${event.type}`, {
-        cancelable: true,
-        detail: {
-          td: td,
-          row: tr,
-          ...getCellContext(td)
-        }
-      })
+          cancelable: true,
+          detail: {
+            td: td,
+            row: tr,
+            ...getCellContext(td)
+          }
+        })
       : '';
   });
   const one2 = onEventArray(table.table, `tbody[componentID=${table.componentID}]>tr`, TABLE_TBODY_DELEGATE_EVENTS, (event: Event) => {
@@ -245,12 +245,12 @@ const hanlderTRTDEvent = (table: SlTable) => {
     }
     tr
       ? emit(table, `sl-table-tr-${event.type}`, {
-        cancelable: true,
-        detail: {
-          row: tr,
-          ...table.getRowContext(tr)
-        }
-      })
+          cancelable: true,
+          detail: {
+            row: tr,
+            ...table.getRowContext(tr)
+          }
+        })
       : '';
   });
   return {
@@ -390,7 +390,7 @@ const handlerTableScroll = (slTable: SlTable) => {
       l2.dispose();
       l3.dispose();
     }
-  }
+  };
 };
 /** table 扩展行逻辑处理 */
 const handlerRowExpandListener = (table: SlTable) => {
