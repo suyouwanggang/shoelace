@@ -1,7 +1,7 @@
 import { html, nothing, svg, TemplateResult } from 'lit';
-import { classMap } from 'lit-html/directives/class-map';
-import { ifDefined } from 'lit-html/directives/if-defined';
-import { styleMap } from 'lit-html/directives/style-map';
+import { classMap } from 'lit/directives/class-map.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
+import { styleMap } from 'lit/directives/style-map.js';
 import { ref } from 'lit/directives/ref.js';
 import { spread } from '../../internal/spread';
 import { isFunction } from '../../utilities/common';

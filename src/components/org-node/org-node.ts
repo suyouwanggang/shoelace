@@ -1,5 +1,5 @@
 import { LitElement, html, PropertyValues, TemplateResult } from 'lit';
-import { classMap } from 'lit-html/directives/class-map';
+import { classMap } from 'lit/directives/class-map.js';
 import { customElement, property, queryAll } from 'lit/decorators.js';
 import { emit } from '../../internal/event';
 import styles from './org-node.styles';
