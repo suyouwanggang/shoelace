@@ -59,9 +59,16 @@ export default class SlScroll extends LitElement {
    * 滚动条 容器宽度，必须大与 滚动条宽度
    */
   @property({ type: Number, reflect: true, attribute: 'scroll-bar-out-width' }) scrollBarOutWidth: number = 12;
-  static minScrollheight = 8;
 
-  wheelScrollChange = 120;
+
+  @property({ type: Number, attribute: false })
+  /** 滚动条最小值 */
+  minScrollSize = 20;
+
+  /** 定义滚动值大小 */
+  @property({ attribute: false, type: Number })
+  scrollItemValue = 30;
+
   @eventOptions({
     passive: false
   })
@@ -71,12 +78,10 @@ export default class SlScroll extends LitElement {
     const changeXValue = e.deltaX;
     e.preventDefault();
     if (changeYValue !== undefined && changeYValue !== 0) {
-      scrollObj.changeYScroll((changeYValue > 0 ? 1 : -1) * this.wheelScrollChange);
+      scrollObj.changeYScroll((changeYValue > 0 ? 1 : -1) * this.scrollItemValue);
     }
     if (changeXValue !== undefined && changeXValue !== 0) {
-      scrollObj.changeXScroll((changeXValue > 0 ? 1 : -1) * this.wheelScrollChange);
-    } else {
-      scrollObj.changeYScroll(e.detail * this.wheelScrollChange);
+      scrollObj.changeXScroll((changeXValue > 0 ? 1 : -1) * this.scrollItemValue);
     }
   }
   private _touchStartX = 0;
@@ -99,7 +104,7 @@ export default class SlScroll extends LitElement {
 
   render() {
     return html`<div part="base" id="container" style="--scroll-bar-width:${this.scrollBarWidth}px ; --scroll-bar-out-width:${this.scrollBarOutWidth}px">
-      <div part="content" id="content" @DOMMouseScroll="${this._wheelHander}" @mousewheel=${this._wheelHander} @touchmove=${this._touchMoveHanlder} @touchstart=${this._touchStartHanlder}>
+      <div part="content" id="content"  @mousewheel=${this._wheelHander} @touchmove=${this._touchMoveHanlder} @touchstart=${this._touchStartHanlder}>
         <div id="content-wrap" part="content-wrap">
           <slot id="contentSlot"></slot>
         </div>
@@ -220,16 +225,16 @@ export default class SlScroll extends LitElement {
           x = 0;
         switch (key) {
           case 'ArrowDown':
-            y = this.wheelScrollChange;
+            y = this.scrollItemValue;
             break;
           case 'ArrowUp':
-            y = 0 - this.wheelScrollChange;
+            y = 0 - this.scrollItemValue;
             break;
           case 'ArrowLeft':
-            x = 0 - this.wheelScrollChange;
+            x = 0 - this.scrollItemValue;
             break;
           case 'ArrowRight':
-            x = this.wheelScrollChange;
+            x = this.scrollItemValue;
             break;
           default:
             break;
@@ -295,8 +300,8 @@ export default class SlScroll extends LitElement {
     if (scrollHeight > height) {
       const rate = height / scrollHeight;
       result = rate * height;
-      if (result < SlScroll.minScrollheight) {
-        result = SlScroll.minScrollheight;
+      if (result < this.minScrollSize) {
+        result = this.minScrollSize;
       }
     }
     this.partYHandler.style.height = result + 'px';
@@ -310,8 +315,8 @@ export default class SlScroll extends LitElement {
     if (scrollWidth > width) {
       const rate = width / scrollWidth;
       result = rate * width;
-      if (result < SlScroll.minScrollheight) {
-        result = SlScroll.minScrollheight;
+      if (result < this.minScrollSize) {
+        result = this.minScrollSize;
       }
     }
     this.partXHandler.style.width = result + 'px';

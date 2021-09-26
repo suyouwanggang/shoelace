@@ -5,7 +5,7 @@
 A scroll component .
 
 ```html preview
-<sl-scroll style='width:80%;height:300px;border:1px solid #f2f2f2;'  id="sl-scrollDIV"></sl-scroll>
+<sl-scroll style='width:50%;height:300px;border:1px solid #f2f2f2;'  id="sl-scrollDIV"></sl-scroll>
 <script>
     var sl=document.querySelector('#sl-scrollDIV');
 sl.addEventListener('sl-scroll-y',(event)=>{
