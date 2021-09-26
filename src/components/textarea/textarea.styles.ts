@@ -20,8 +20,7 @@ export default css`
     line-height: var(--sl-line-height-normal);
     letter-spacing: var(--sl-input-letter-spacing);
     vertical-align: middle;
-    transition: var(--sl-transition-fast) color, var(--sl-transition-fast) border, var(--sl-transition-fast) box-shadow,
-      var(--sl-transition-fast) background-color;
+    transition: var(--sl-transition-fast) color, var(--sl-transition-fast) border, var(--sl-transition-fast) box-shadow, var(--sl-transition-fast) background-color;
     cursor: text;
   }
 

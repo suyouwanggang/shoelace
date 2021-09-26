@@ -23,8 +23,7 @@ describe('<sl-avatar>', () => {
   });
 
   describe('when provided an image and alt parameter', async () => {
-    const image =
-      'https://images.unsplash.com/photo-1529778873920-4da4926a72c2?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80';
+    const image = 'https://images.unsplash.com/photo-1529778873920-4da4926a72c2?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80';
     const alt = 'Gray tabby kitten looking down';
     before(async () => {
       el = await fixture<SlAvatar>(html`<sl-avatar image="${image}" alt="${alt}"></sl-avatar>`);
@@ -55,9 +54,7 @@ describe('<sl-avatar>', () => {
 
     describe('when an error occurs when attempting to load the image', async () => {
       before(async () => {
-        el = await fixture<SlAvatar>(
-          html`<sl-avatar image="data:text/plain;not-an-image-url" alt="${alt}"></sl-avatar>`
-        );
+        el = await fixture<SlAvatar>(html`<sl-avatar image="data:text/plain;not-an-image-url" alt="${alt}"></sl-avatar>`);
       });
 
       it('does not render the "image" part', async () => {

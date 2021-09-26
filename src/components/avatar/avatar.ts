@@ -59,17 +59,7 @@ export default class SlAvatar extends LitElement {
                 </slot>
               </div>
             `}
-        ${this.image && !this.hasError
-          ? html`
-              <img
-                part="image"
-                class="avatar__image"
-                src="${this.image}"
-                alt=""
-                @error="${() => (this.hasError = true)}"
-              />
-            `
-          : ''}
+        ${this.image && !this.hasError ? html` <img part="image" class="avatar__image" src="${this.image}" alt="" @error="${() => (this.hasError = true)}" /> ` : ''}
       </div>
     `;
   }
