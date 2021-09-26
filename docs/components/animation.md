@@ -7,6 +7,66 @@ Animate elements declaratively with nearly 100 baked-in presets, or roll your ow
 To animate an element, wrap it in `<sl-animation>` and set an animation `name`. The animation not start until you add the `play` attribute. Refer to the [properties table](#properties) for a list of all animation options.
 
 ```html preview
+<div id='animte_html'>
+</div>
+<script type='module'>
+   import {hide,show} from '/dist/shoelace.js';
+   let index=4;
+   var list=[{name:'1'},{name:'2'},{name:'3'}];
+   var current=null;
+   var isAdd=false;
+   var html=window.html;
+   function RandomNum(Min, Max) {
+      var Range = Max - Min;
+      var Rand = Math.random();
+      var num = Min + Math.floor(Rand * Range); //舍去
+      return num;
+}
+    function deleteItem(item){
+        list.splice(list.indexOf(item),1);
+        current=null;
+        renderFun();
+    }
+    function addItem(){
+      isAdd=true;
+      let tempIndex=RandomNum(0,list.length-1)
+      list.splice(tempIndex,0,{name:index++});
+      current=list[tempIndex];
+       renderFun(()=>{
+         isAdd=false;
+       });
+    }
+    function renderFun(call){
+      var div=document.querySelector('#animte_html');
+      const template=list.map(item => html`<div class='item' ${current==item?(isAdd?show():hide()):'' }><span>${item.name}</span>
+       <sl-button @click=${()=>{current=item;renderFun(()=>deleteItem(item))}}> <sl-icon name='trash'></sl-icon></sl-button</div>`);
+      const newTemplate=html`<sl-button  @click=${addItem}> <sl-icon name='plus'></sl-icon> </sl-button>`;
+      const divArray=html`${template}${newTemplate}`;
+      window.LitRender(divArray, div);
+      if(call){
+        call();
+      }
+    }
+    renderFun();
+</script>
+<style>
+    #animte_html{
+        width:300px;
+    }
+ .item{
+    border-bottom:1px solid rgb(var(--sl-input-border-color));
+    display:flex;
+    padding:10px 4px;
+    margin: 5px;
+}
+  .item span{
+    flex:1;
+  }
+</style>
+```
+
+
+```html preview
 <div class="animation-overview">
   <sl-animation name="bounce" duration="2000" play><div class="box"></div></sl-animation>
   <sl-animation name="jello" duration="2000" play><div class="box"></div></sl-animation>

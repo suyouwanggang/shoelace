@@ -16,12 +16,11 @@ import babel from 'esbuild-plugin-babel';
 const build = esbuild.build;
 const bs = browserSync.create();
 const { dev } = commandLineArgs({ name: 'dev', type: Boolean });
-import { idiomaticDecoratorsTransformer, preserveBlankLinesTransformer, constructorCleanupTransformer } from '@lit/ts-transformers';
 del.sync('./dist');
 try {
-  if (!dev) execSync('npx ttsc', { stdio: 'inherit' }); // for type declarations
+  if (!dev) execSync('npx tsc', { stdio: 'inherit' }); // for type declarations
   if (dev) {
-    execSync('npx ttsc', { declaration: true });
+    execSync('npx tsc', { declaration: true });
   }
   execSync('node scripts/make-metadata.js', { stdio: 'inherit' });
   execSync('node scripts/make-search.js', { stdio: 'inherit' });

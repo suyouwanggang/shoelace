@@ -60,7 +60,6 @@ export default class SlScroll extends LitElement {
    */
   @property({ type: Number, reflect: true, attribute: 'scroll-bar-out-width' }) scrollBarOutWidth: number = 12;
 
-
   @property({ type: Number, attribute: false })
   /** 滚动条最小值 */
   minScrollSize = 20;
@@ -104,7 +103,7 @@ export default class SlScroll extends LitElement {
 
   render() {
     return html`<div part="base" id="container" style="--scroll-bar-width:${this.scrollBarWidth}px ; --scroll-bar-out-width:${this.scrollBarOutWidth}px">
-      <div part="content" id="content"  @mousewheel=${this._wheelHander} @touchmove=${this._touchMoveHanlder} @touchstart=${this._touchStartHanlder}>
+      <div part="content" id="content" @mousewheel=${this._wheelHander} @touchmove=${this._touchMoveHanlder} @touchstart=${this._touchStartHanlder}>
         <div id="content-wrap" part="content-wrap">
           <slot id="contentSlot"></slot>
         </div>
