@@ -43,7 +43,8 @@ let id = 0;
  * @event sl-blur - Emitted when the control loses focus.
  *
  * @csspart base - The component's base wrapper.
- * @csspart clear-button - The input's clear button, exported from <sl-input>.
+ * @csspart clear-button - The clear button.
+ * @csspart control - The container that holds the prefix, label, and suffix.
  * @csspart form-control - The form control that wraps the label, input, and help text.
  * @csspart help-text - The select's help text.
  * @csspart icon - The select's icon.
@@ -59,7 +60,7 @@ export default class SlSelect extends LitElement {
   static styles = styles;
 
   @query('.select') dropdown: SlDropdown;
-  @query('.select__box') box: SlDropdown;
+  @query('.select__control') control: SlDropdown;
   @query('.select__hidden-select') input: HTMLInputElement;
   @query('.select__menu') menu: SlMenu;
 
@@ -104,6 +105,9 @@ export default class SlSelect extends LitElement {
 
   /** The value of the control. This will be a string or an array depending on `multiple`. */
   @property({ attribute: false }) value: string | number | Array<string | number>;
+
+  /** Draws a filled select. */
+  @property({ type: Boolean, reflect: true }) filled = false;
 
   /** Draws a pill-style select with rounded edges. */
   @property({ type: Boolean, reflect: true }) pill = false;
@@ -266,7 +270,7 @@ export default class SlSelect extends LitElement {
   }
 
   handleLabelClick() {
-    const box = this.shadowRoot?.querySelector('.select__box') as HTMLElement;
+    const box = this.shadowRoot?.querySelector('.select__control') as HTMLElement;
     box.focus();
   }
 
@@ -296,7 +300,7 @@ export default class SlSelect extends LitElement {
     this.isOpen = false;
 
     // Restore focus on the box after the menu is hidden
-    this.box.focus();
+    this.control.focus();
   }
 
   @watch('multiple')
@@ -354,7 +358,7 @@ export default class SlSelect extends LitElement {
   }
 
   resizeMenu() {
-    const box = this.shadowRoot?.querySelector('.select__box') as HTMLElement;
+    const box = this.shadowRoot?.querySelector('.select__control') as HTMLElement;
     this.menu.style.minWidth = `${box.clientWidth}px`;
 
     if (this.dropdown) {
@@ -459,6 +463,8 @@ export default class SlSelect extends LitElement {
             'select--clearable': this.clearable,
             'select--disabled': this.disabled,
             'select--multiple': this.multiple,
+            'select--standard': !this.filled,
+            'select--filled': this.filled,
             'select--has-tags': this.multiple && this.displayTags.length > 0,
             'select--placeholder-visible': this.displayLabel === '',
             'select--small': this.size === 'small',
@@ -471,9 +477,10 @@ export default class SlSelect extends LitElement {
           @sl-hide=${this.handleMenuHide}
         >
           <div
+            part="control"
             slot="trigger"
             id=${this.inputId}
-            class="select__box"
+            class="select__control"
             role="combobox"
             aria-labelledby=${ifDefined(
               getLabelledBy({

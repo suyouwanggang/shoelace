@@ -21,11 +21,10 @@ export const getReisterColTemplate = (type: string) => {
   return defaultColMap.get(type);
 };
 export const checkboxColChange = (table: SlTable, checkbox: SlCheckbox) => {
-
   const head_before = emit(table, 'sl-table-check-head-before-change', {
     cancelable: true,
     detail: {
-      checkbox: checkbox,
+      checkbox: checkbox
     }
   });
   if (head_before.defaultPrevented) {
@@ -68,8 +67,6 @@ registerColTemplate('checkbox', (_column, table) => {
   const indeterminate = !checkAll && isArray(table.checkValue) ? (table.checkValue as Array<any>).length > 0 : table.checkValue != undefined;
   return html`<sl-checkbox class="table-check" .checked=${checkAll} .indeterminate=${indeterminate} @sl-change=${(event: Event) => checkboxColChange(table, event.target as SlCheckbox)}></sl-checkbox>`;
 });
-
-
 
 export const getColumnRenderResult = (context: CellHeadContext, table: SlTable) => {
   const column = context.column;
@@ -188,11 +185,10 @@ registerCellTemplate('radio', (context, table) => {
           value: checkValue,
           context: context
         }
-      })
+      });
     }}
   ></sl-radio>`;
 });
-
 
 /**注册 index列逻辑 */
 registerCellTemplate('index', (context, _table) => {

@@ -1,7 +1,7 @@
 .code-block {
   position: relative;
   border-radius: 3px;
-  background-color: rgb(var(--sl-color-neutral-50));
+  background-color: rgb(var(--sl-surface-base-alt));
   margin-bottom: 1.5rem;
 }
 
@@ -15,7 +15,7 @@
   border-bottom: none;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
-  background-color: rgb(var(--sl-color-neutral-0));
+  background-color: rgb(var(--sl-surface-base));
   min-width: 20rem;
   max-width: 100%;
   padding: 1.5rem 3.25rem 1.5rem 1.5rem;
@@ -44,7 +44,7 @@
   width: 1.75rem;
   font-size: 20px;
   color: rgb(var(--sl-color-neutral-500));
-  background-color: rgb(var(--sl-color-neutral-0));
+  background-color: rgb(var(--sl-surface-base));
   border-left: solid 1px rgb(var(--sl-color-neutral-200));
   border-top-right-radius: 3px;
   cursor: ew-resize;
@@ -87,7 +87,7 @@
   min-width: 2.5rem;
   border: none;
   border-radius: 0;
-  background: rgb(var(--sl-color-neutral-0));
+  background: rgb(var(--sl-surface-base));
   font: inherit;
   font-size: 0.7rem;
   font-weight: 500;
@@ -121,7 +121,7 @@
   box-shadow: 0 0 0 1px rgb(var(--sl-color-primary-400));
   border-right-color: transparent;
   background-color: rgb(var(--sl-color-primary-50));
-  color: rgb(var(--sl-color-primary-600));
+  color: rgb(var(--sl-color-primary-700));
   z-index: 1;
 }
 

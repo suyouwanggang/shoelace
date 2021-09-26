@@ -72,7 +72,7 @@ let componentID = 0;
  * //tbody 行，tbody tr td 事件
  * @event {{row:TR,td:TD,context:CellContext}}  sl-table-td-${normalEvent} - Emitted table tbody td trigger normalEvent.  support normalEvent  event [click,dblclick,keydown,keypress,mousedown,mouseenter,mouseleave,mousemove,mouseout,mouseover,mouseup].
  * @event {{td:TD,dom:HTMLElement,context:CellContext,value:any}}  sl-table-cell-edit-commit - 当Table 组件内置 cell edit 数据发生变化,时触发.
- * 
+ *
  * @event {{td:TD,context:CellContext}}   sl-table-cell-edit-before-change- Emitted  before when table  edit cell  change .
  * @event {{td:TD,dom:HTMLElement,context:CellContext}}  sl-cell-edit-start - 当单元格开始进入编辑状态（此时cell还没变成编辑状态，可以取消阻止事件）
  * @event {{td:TD,dom:HTMLElement,context:CellContext}}  sl-cell-edit-active - 当单元格进入了编辑状态时触发
@@ -399,7 +399,7 @@ export default class SlTable extends LitElement {
         }
       }
       if (!isNaN(right)) {
-        for (let i = columnSize - 1, j = 0; j < right && i >= 0;) {
+        for (let i = columnSize - 1, j = 0; j < right && i >= 0; ) {
           let col = this.tdRenderColumns[i];
           while (col != null && col.tagName.toLowerCase() == 'sl-column') {
             style += this.caculateFixedColumnStyle(col, tableRect, false);
@@ -447,16 +447,16 @@ export default class SlTable extends LitElement {
     const trTemplates = (rowColumn: SlColumn[], rowIndex: number) => {
       return html`<tr .columns=${rowColumn}>
         ${rowColumn.map((column, index) => {
-        const cache = getColumnCacheData(column);
-        const context: CellHeadContext = {
-          column: column,
-          colIndex: index,
-          rowspan: cache.rowspan as number,
-          colspan: cache.colspan as number,
-          colRowIndex: rowIndex
-        };
-        return renderThColTemplate(context, table);
-      })}
+          const cache = getColumnCacheData(column);
+          const context: CellHeadContext = {
+            column: column,
+            colIndex: index,
+            rowspan: cache.rowspan as number,
+            colspan: cache.colspan as number,
+            colRowIndex: rowIndex
+          };
+          return renderThColTemplate(context, table);
+        })}
       </tr>`;
     };
     return this.theadRows.map((items, index) => trTemplates(items, index));
@@ -599,7 +599,7 @@ export default class SlTable extends LitElement {
         if (this.isRowDataChecked(rowData)) {
           vistorFun(rowData, ...args);
         }
-      }
+      };
       if (this.treeConfig) {
         for (let l of this.dataSource) {
           iteratorNodeData(l as TreeNodeData, wrapVistor);
@@ -716,8 +716,8 @@ export default class SlTable extends LitElement {
       rowList.push(
         html`<tr
             ${ref(el => {
-          setRowContext(el as HTMLTableRowElement, rowContext);
-        })}
+              setRowContext(el as HTMLTableRowElement, rowContext);
+            })}
             .rowData=${rowData}
             style=${styleMap(trStyle)}
             class=${classMap(trClassObject)}
