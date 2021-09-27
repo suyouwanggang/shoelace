@@ -3,20 +3,20 @@ import { ElementPart, nothing } from 'lit';
 import { directive, Directive } from 'lit/directive.js';
 import { animateTo, animate_hide, animate_show, shimKeyframesHeightAuto } from '../internal/animate';
 import { getCssValue } from '../utilities/common';
-const showTransitionDuration = 300;
-const hideTransitionDuration = 300;
+const transitionDuration = 300;
 
 export type HideShowOption = {
     skip?: boolean;
+    easing?: string,
     hideRemove?: boolean;
     onComplete?: (element: HTMLElement) => void;
     duration?: number;
 };
-const requestNextFrame = (resovle: () => void) => {
+export const requestNextFrame = (resovle: () => void) => {
     return new Promise(() => {
         requestAnimationFrame(resovle);
-    })
-}
+    });
+};
 const emitEvent = (el: Element) => {
     el.dispatchEvent(new CustomEvent('sl-animate-complete'));
 };
@@ -34,8 +34,8 @@ class HideDirective extends Directive {
             element.parentElement?.insertBefore(div, element);
 
             animateTo(element, shimKeyframesHeightAuto(animate_hide, currentHeight), {
-                easing: 'ease-out',
-                duration: (_option && _option.duration) || hideTransitionDuration
+                easing: (_option && _option.easing) ? _option.easing : 'ease',
+                duration: (_option && _option.duration) ? _option.duration : transitionDuration
             }).then(() => {
                 requestAnimationFrame(() => {
                     element.parentElement?.removeChild(div);
@@ -48,7 +48,7 @@ class HideDirective extends Directive {
                     }
                 });
             });
-        })
+        });
 
         return nothing;
     }
@@ -63,7 +63,7 @@ class ShowDirective extends Directive {
             const element = _part.element as HTMLElement;
             const currentHeight = parseInt(getCssValue(element, 'height'));
             animateTo(element, shimKeyframesHeightAuto(animate_show, currentHeight), {
-                duration: (_option && _option.duration) || showTransitionDuration
+                duration: (_option && _option.duration) ? _option.duration : transitionDuration
             }).then(() => {
                 emitEvent(element);
                 if (_option && _option.onComplete) {
@@ -78,6 +78,7 @@ class ShowDirective extends Directive {
 export type AnimateOption = {
     name: string;
     onComplete?: (element: HTMLElement) => void;
+    easing: string;
     duration: number;
 };
 
@@ -96,14 +97,15 @@ class AnimateDirective extends Directive {
                 return;
             }
             animateTo(element, (animations as any)[_option.name], {
-                duration: (_option && _option.duration) || showTransitionDuration
+                easing: (_option && _option.easing) ? _option.easing : 'ease',
+                duration: (_option && _option.duration) ? _option.duration : transitionDuration
             }).then(() => {
                 emitEvent(element);
                 if (_option && _option.onComplete) {
                     _option.onComplete(element);
                 }
             });
-        })
+        });
         return nothing;
     }
 }

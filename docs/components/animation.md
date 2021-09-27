@@ -9,10 +9,12 @@ To animate an element, wrap it in `<sl-animation>` and set an animation `name`. 
 ```html preview
 <sl-radio-group id='changeRadio'>
   <sl-radio value='show' checked>show/hide</sl-radio>
-  <sl-radio value='slideRight'>slide-right</sl-radio>
-  <sl-radio value='slideUp'>slide-up</sl-radio>
+  <sl-radio value='slideInRight'>slideInRight</sl-radio>
+  <sl-radio value='slideInUp'>slideInup</sl-radio>
+  <sl-radio value='slideInDown'>slideInDown</sl-radio>
   <sl-radio value='bounceInUp'>bounceInUp</sl-radio>
-  <sl-radio value='bounceInLeft'>bounceInLeft</sl-radio>
+  <sl-radio value='bounceInRight'>bounceInRight</sl-radio>
+  <sl-radio value='backInRight'>backInRight</sl-radio>
 </sl-radio-group>
 <div id='animte_html'>
 </div>
@@ -59,12 +61,14 @@ To animate an element, wrap it in `<sl-animation>` and set an animation `name`. 
       const template=list.map(item =>{ 
           let action;
           if(actionName=='show'&& current==item){action=isAdd?show():hide()};
-         if(actionName=='slideRight'&&current==item){action=doAnimate({name:isAdd?'slideInRight':'slideOutRight'}) };
-         if(actionName=='slideUp'&&current==item){action=doAnimate({name:isAdd?'slideInDown':'slideOutUp',duration:300}) };
+         if(actionName=='slideInRight'&&current==item){action=doAnimate({name:isAdd?'slideInRight':'slideOutRight'}) };
+         if(actionName=='slideInUp'&&current==item){action=doAnimate({name:isAdd?'slideInUp':'slideOutUp',duration:600}) };
+         if(actionName=='slideInDown'&&current==item){action=doAnimate({name:isAdd?'slideInDown':'slideOutDown',duration:600}) };
          if(actionName=='bounceInUp'&&current==item){action=doAnimate({name:isAdd?'bounceInUp':'bounceOutUp',duration:300}) };
-         if(actionName=='bounceInLeft'&&current==item){action=doAnimate({name:isAdd?'bounceInLeft':'bounceOutRight',duration:300}) };
+         if(actionName=='bounceInRight'&&current==item){action=doAnimate({name:isAdd?'bounceInRight':'bounceOutRight',duration:600}) };
+         if(actionName=='backInRight'&&current==item){action=doAnimate({name:isAdd?'backInRight':'backOutRight',duration:600}) };
       return html`<div class='item' ${action} ><span>${item.name}</span>
-       <sl-button @click=${()=>{current=item;renderFun(()=>deleteItem(item))}}> <sl-icon name='trash'></sl-icon></sl-button</div>`});
+       <sl-button @click=${()=>{current=item;isAdd=false;renderFun(()=>deleteItem(item))}}> <sl-icon name='trash'></sl-icon></sl-button</div>`});
       const newTemplate=html`<sl-button  @click=${addItem}> <sl-icon name='plus'></sl-icon> </sl-button>`;
       const divArray=html`${template}${newTemplate}`;
       window.LitRender(divArray, div);
@@ -77,7 +81,7 @@ To animate an element, wrap it in `<sl-animation>` and set an animation `name`. 
 <style>
   #changeRadio::part(base){
     display:grid;
-    grid-template-columns: 200px 200px 200px;
+    grid-template-columns: 200px 200px 200px 200px;
   }
     #animte_html{
         width:300px;
