@@ -7,15 +7,33 @@ Animate elements declaratively with nearly 100 baked-in presets, or roll your ow
 To animate an element, wrap it in `<sl-animation>` and set an animation `name`. The animation not start until you add the `play` attribute. Refer to the [properties table](#properties) for a list of all animation options.
 
 ```html preview
+<sl-radio-group id='changeRadio'>
+  <sl-radio value='show' checked>show/hide</sl-radio>
+  <sl-radio value='slideRight'>slide-right</sl-radio>
+  <sl-radio value='slideUp'>slide-up</sl-radio>
+  <sl-radio value='bounceInUp'>bounceInUp</sl-radio>
+  <sl-radio value='bounceInLeft'>bounceInLeft</sl-radio>
+</sl-radio-group>
 <div id='animte_html'>
 </div>
 <script type='module'>
-   import {hide,show} from '/dist/shoelace.js';
+   import {hide,show,doAnimate} from '/dist/shoelace.js';
    let index=4;
    var list=[{name:'1'},{name:'2'},{name:'3'}];
+   var actionName='show';
    var current=null;
    var isAdd=false;
    var html=window.html;
+   document.querySelector('#changeRadio').addEventListener('click',(event)=>{
+       document.querySelectorAll('#changeRadio sl-radio').forEach(item=>{
+        if(item.checked){
+          actionName=item.value;
+        }
+      })
+      current=null;
+      console.log(actionName);
+      renderFun();
+   })
    function RandomNum(Min, Max) {
       var Range = Max - Min;
       var Rand = Math.random();
@@ -38,8 +56,15 @@ To animate an element, wrap it in `<sl-animation>` and set an animation `name`. 
     }
     function renderFun(call){
       var div=document.querySelector('#animte_html');
-      const template=list.map(item => html`<div class='item' ${current==item?(isAdd?show():hide()):'' }><span>${item.name}</span>
-       <sl-button @click=${()=>{current=item;renderFun(()=>deleteItem(item))}}> <sl-icon name='trash'></sl-icon></sl-button</div>`);
+      const template=list.map(item =>{ 
+          let action;
+          if(actionName=='show'&& current==item){action=isAdd?show():hide()};
+         if(actionName=='slideRight'&&current==item){action=doAnimate({name:isAdd?'slideInRight':'slideOutRight'}) };
+         if(actionName=='slideUp'&&current==item){action=doAnimate({name:isAdd?'slideInDown':'slideOutUp',duration:300}) };
+         if(actionName=='bounceInUp'&&current==item){action=doAnimate({name:isAdd?'bounceInUp':'bounceOutUp',duration:300}) };
+         if(actionName=='bounceInLeft'&&current==item){action=doAnimate({name:isAdd?'bounceInLeft':'bounceOutRight',duration:300}) };
+      return html`<div class='item' ${action} ><span>${item.name}</span>
+       <sl-button @click=${()=>{current=item;renderFun(()=>deleteItem(item))}}> <sl-icon name='trash'></sl-icon></sl-button</div>`});
       const newTemplate=html`<sl-button  @click=${addItem}> <sl-icon name='plus'></sl-icon> </sl-button>`;
       const divArray=html`${template}${newTemplate}`;
       window.LitRender(divArray, div);
@@ -50,6 +75,10 @@ To animate an element, wrap it in `<sl-animation>` and set an animation `name`. 
     renderFun();
 </script>
 <style>
+  #changeRadio::part(base){
+    display:grid;
+    grid-template-columns: 200px 200px 200px;
+  }
     #animte_html{
         width:300px;
     }

@@ -73,5 +73,5 @@ export { default as SlTable } from './components/table/table';
 export * from './utilities/animation';
 export * from './utilities/base-path';
 export * from './utilities/icon-library';
-export { hide, show } from './directives/hideOrShowAnimate';
+export { hide, show, doAnimate } from './directives/hideOrShowAnimate';
 import './globExport';
