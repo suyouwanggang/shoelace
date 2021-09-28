@@ -70,19 +70,6 @@ export default class SlAcPanel extends LitElement {
         easing: 'ease'
       });
       let allPromise = [thisAnimate];
-      // if(!panel.multi&&!tab.active){
-      //   const oldAnimate=oldActive.map(item=>{
-      //     return animateTo(
-      //       item.contentElement,
-      //       shimKeyframesHeightAuto(animate_hide,parseInt(getCssValue(item.contentElement, 'height'))),
-      //       {
-      //         duration: duration,
-      //         easing: 'ease'
-      //       }
-      //     );
-      //   }); 上次打开的关闭动画， 所有动画一起， 效果不好
-      //   allPromise=[...allPromise,...oldAnimate];
-      // }
       Promise.all(allPromise).then(() => {
         this.contentElement.style.removeProperty('display');
         emit(panel, 'tab-change', {

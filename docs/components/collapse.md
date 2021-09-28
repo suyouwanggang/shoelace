@@ -17,7 +17,7 @@ A description of the component goes here.
     </sl-ac-panel>
 
     <sl-ac-panel   header="This is Header 3">
-       <div>√  ++ E:\github\shoelace\src\components\ac-panel\ac-panel.ts
+       <div style='height:200px'>√  ++ E:\github\shoelace\src\components\ac-panel\ac-panel.ts
 √  ++ E:\github\shoelace\src\components\ac-panel\ac-panel.styles.ts
 √  ++ E:\github\shoelace\src\components\ac-panel\ac-panel.test.ts
 √  ++ E:\github\shoelace\docs\components\ac-panel.md

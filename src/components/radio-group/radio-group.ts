@@ -45,7 +45,7 @@ export default class SlRadioGroup extends LitElement {
   @watch('value', { waitUntilFirstUpdate: true })
   valueChange() {
     const checkedRadio = [...this.defaultSlot.assignedElements({ flatten: true })].filter(el => el.tagName.toLowerCase() === 'sl-radio') as SlRadio[];
-    checkedRadio.forEach((item) => {
+    checkedRadio.forEach(item => {
       if (item.value == this.value) {
         item.checked = true;
       } else {
@@ -60,7 +60,7 @@ export default class SlRadioGroup extends LitElement {
       this.valueChange();
     } else {
       const checkedRadio = [...this.defaultSlot.assignedElements({ flatten: true })].filter(el => el.tagName.toLowerCase() === 'sl-radio') as SlRadio[];
-      checkedRadio.forEach((item) => {
+      checkedRadio.forEach(item => {
         if (item.checked) {
           this.value = item.value;
           return;
@@ -74,7 +74,7 @@ export default class SlRadioGroup extends LitElement {
         this.value = radio.value;
         emit(this, 'sl-check-change');
       }
-    })
+    });
   }
   disconnectedCallback() {
     super.disconnectedCallback();
@@ -87,9 +87,9 @@ export default class SlRadioGroup extends LitElement {
       <fieldset
         part="base"
         class=${classMap({
-      'radio-group': true,
-      'radio-group--has-fieldset': this.fieldset
-    })}
+          'radio-group': true,
+          'radio-group--has-fieldset': this.fieldset
+        })}
         role="radiogroup"
         @focusin=${this.handleFocusIn}
       >
