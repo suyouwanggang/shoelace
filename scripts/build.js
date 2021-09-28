@@ -10,7 +10,7 @@ import esbuild from 'esbuild';
 import getPort from 'get-port';
 import glob from 'globby';
 import { execSync } from 'child_process';
-import {listCssPlugin} from './esbuild-plugin-lit-css.js';
+import { listCssPlugin } from './esbuild-plugin-lit-css.js';
 const build = esbuild.build;
 const bs = browserSync.create();
 const { dev } = commandLineArgs({ name: 'dev', type: Boolean });
@@ -55,7 +55,7 @@ try {
     },
     bundle: true,
     splitting: false,
-    plugins: [listCssPlugin({filter : /\.lit\.css$/, specifier:'lit', tag:'css', uglify:true})]
+    plugins: [listCssPlugin({ filter: /\.lit\.css$/, specifier: 'lit', tag: 'css', uglify: true })]
   });
   const buildResult = await esbuild
     .build({
@@ -76,7 +76,7 @@ try {
       },
       bundle: true,
       splitting: true,
-      plugins: [listCssPlugin({filter : /\.litcss$/, specifier:'lit', tag:'css', uglify:true})]
+      plugins: [listCssPlugin({ filter: /\.litcss$/, specifier: 'lit', tag: 'css', uglify: true })]
     })
     .catch(err => {
       console.error(chalk.red(err));
