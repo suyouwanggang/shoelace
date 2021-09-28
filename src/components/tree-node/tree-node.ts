@@ -81,7 +81,7 @@ export default class SlTreeNode extends LitElement {
     }
     return html`${!this.isClose
       ? this.nodeData?.children?.map((data, index) => {
-        return html`<sl-tree-node
+          return html`<sl-tree-node
             .nodeData=${data}
             .parentNodeData=${this.nodeData}
             .customStyle=${(this as any).customStyle}
@@ -91,7 +91,7 @@ export default class SlTreeNode extends LitElement {
             level=${level + ''}
             style="--sl-node-level:${level}"
           ></sl-tree-node>`;
-      })
+        })
       : ''}`;
   }
   /** 获取直接孩子数量 */
@@ -125,7 +125,7 @@ export default class SlTreeNode extends LitElement {
     }
     return html`<div part="base">
       <div part="node" ?disabled=${Boolean(this.nodeData.disable)} ?selected=${this.isTreeNodeSelected()}>${this.renderNodeData()}</div>
-      <div part="children"  class="${this.isClose ? 'close' : 'open'}">${this.renderChildren()}</div>
+      <div part="children" class="${this.isClose ? 'close' : 'open'}">${this.renderChildren()}</div>
     </div>`;
   }
   private emitEvent(eventType: string, event: Event) {
@@ -139,22 +139,23 @@ export default class SlTreeNode extends LitElement {
   }
   private async _clickTrigerHander(event: Event) {
     if (this.subChildSize > 0) {
-      let isClosed = this.isClose;//当前节点收缩状态
-      let children = this.renderRoot.querySelector("div[part=children]") as HTMLElement;
+      let isClosed = this.isClose; //当前节点收缩状态
+      let children = this.renderRoot.querySelector('div[part=children]') as HTMLElement;
       let custEvent = this.emitEvent(`sl-node-before-${isClosed ? 'open' : 'close'}`, event);
       let custToogleEvent = this.emitEvent(`sl-node-before-toogle`, event);
       if (!custEvent.defaultPrevented && !custToogleEvent.defaultPrevented) {
-        if (!isClosed) {//是打开状态
+        if (!isClosed) {
+          //是打开状态
           hideElement(children, { duration: 300 }, () => {
             children.classList.add('close');
             this.setNodeDataProperty('close', !this.nodeData?.close);
-          })
+          });
         } else {
           this.setNodeDataProperty('close', !this.nodeData?.close);
         }
         await this.updateComplete;
         if (isClosed) {
-          showElement(children, { duration: 300 })
+          showElement(children, { duration: 300 });
         }
         this.emitEvent(`sl-node-${isClosed ? 'open' : 'close'}`, event);
         this.emitEvent(`sl-node-toogle`, event);
