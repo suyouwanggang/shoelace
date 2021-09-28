@@ -68,7 +68,7 @@ function animateToogleCss(node: Element, cssClass: string) {
  * @param useCapture 是否捕获
  * @returns  返回一个object ,能够删除node监听
  */
-function addEvent(node: Element | Window | Document | DocumentFragment, eventType: string, hanlder: EventListenerObject | EventListener, useCapture: boolean | AddEventListenerOptions = false) {
+function addEvent(node: EventTarget, eventType: string, hanlder: EventListenerObject | EventListener, useCapture: boolean | AddEventListenerOptions = false) {
   node.addEventListener(eventType, hanlder, useCapture);
   return {
     dispose: function () {

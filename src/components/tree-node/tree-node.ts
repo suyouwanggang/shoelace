@@ -1,7 +1,8 @@
 import { html, LitElement, nothing } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
+import { cache } from 'lit/directives/cache.js';
 import '../../components/icon/icon';
-import { hideElement, showElement } from '../../directives/hideOrShowAnimate';
+import { doHideAnimate, doShowAnimate } from '../../directives/hideOrShowAnimate';
 import { customStyle } from '../../internal/customStyle';
 import { emit } from '../../internal/event';
 import { watch } from '../../internal/watch';
@@ -80,8 +81,8 @@ export default class SlTreeNode extends LitElement {
       level = parseInt(levelStr, 10) + 1;
     }
     return html`${!this.isClose
-      ? this.nodeData?.children?.map((data, index) => {
-          return html`<sl-tree-node
+      ? cache(this.nodeData?.children?.map((data, index) => {
+        return html`<sl-tree-node
             .nodeData=${data}
             .parentNodeData=${this.nodeData}
             .customStyle=${(this as any).customStyle}
@@ -91,7 +92,7 @@ export default class SlTreeNode extends LitElement {
             level=${level + ''}
             style="--sl-node-level:${level}"
           ></sl-tree-node>`;
-        })
+      }))
       : ''}`;
   }
   /** 获取直接孩子数量 */
@@ -146,7 +147,7 @@ export default class SlTreeNode extends LitElement {
       if (!custEvent.defaultPrevented && !custToogleEvent.defaultPrevented) {
         if (!isClosed) {
           //是打开状态
-          hideElement(children, { duration: 300 }, () => {
+          doHideAnimate(children, { duration: 300 }, () => {
             children.classList.add('close');
             this.setNodeDataProperty('close', !this.nodeData?.close);
           });
@@ -155,7 +156,7 @@ export default class SlTreeNode extends LitElement {
         }
         await this.updateComplete;
         if (isClosed) {
-          showElement(children, { duration: 300 });
+          doShowAnimate(children, { duration: 300 });
         }
         this.emitEvent(`sl-node-${isClosed ? 'open' : 'close'}`, event);
         this.emitEvent(`sl-node-toogle`, event);
