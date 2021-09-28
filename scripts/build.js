@@ -7,12 +7,10 @@ import commandLineArgs from 'command-line-args';
 import copy from 'recursive-copy';
 import del from 'del';
 import esbuild from 'esbuild';
-import fs from 'fs';
 import getPort from 'get-port';
 import glob from 'globby';
-import path from 'path';
 import { execSync } from 'child_process';
-import babel from 'esbuild-plugin-babel';
+import {listCssPlugin} from './esbuild-plugin-lit-css.js';
 const build = esbuild.build;
 const bs = browserSync.create();
 const { dev } = commandLineArgs({ name: 'dev', type: Boolean });
@@ -57,7 +55,7 @@ try {
     },
     bundle: true,
     splitting: false,
-    plugins: []
+    plugins: [listCssPlugin({filter : /\.lit\.css$/, specifier:'lit', tag:'css', uglify:true})]
   });
   const buildResult = await esbuild
     .build({
@@ -78,7 +76,7 @@ try {
       },
       bundle: true,
       splitting: true,
-      plugins: []
+      plugins: [listCssPlugin({filter : /\.litcss$/, specifier:'lit', tag:'css', uglify:true})]
     })
     .catch(err => {
       console.error(chalk.red(err));

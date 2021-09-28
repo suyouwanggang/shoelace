@@ -90,9 +90,9 @@ export default class SlRadioGroup extends LitElement {
       <fieldset
         part="base"
         class=${classMap({
-      'radio-group': true,
-      'radio-group--has-fieldset': this.fieldset
-    })}
+          'radio-group': true,
+          'radio-group--has-fieldset': this.fieldset
+        })}
         role="radiogroup"
         @focusin=${this.handleFocusIn}
       >

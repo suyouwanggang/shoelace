@@ -1,2 +1,0 @@
-import {css} from 'lit';
-export default css`:host{display:inline-flex}:host([block]){display:block}:host([block]) sl-dropDown[part=dropDown]{display:block}:host([block]) sl-input{display:block}sl-icon{cursor:pointer}sl-input{display:inline-flex}`; 
