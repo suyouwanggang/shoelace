@@ -2,7 +2,7 @@ import { LitElement, html } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import { classMap } from 'lit-html/directives/class-map.js';
 import styles from './menu-item.styles';
-
+import '../ripple/ripple';
 import '../icon/icon';
 import { watchProps } from '../../internal/watchProps';
 
@@ -37,7 +37,7 @@ export default class SlMenuItem extends LitElement {
   /** Draws the menu item in a disabled state. */
   @property({ type: Boolean, reflect: true }) disabled = false;
 
-  /** hightlight ����˵��� */
+  /** hightlight this menu-item */
   @property({ type: Boolean, reflect: true }) highlight = false;
 
   firstUpdated() {
@@ -52,15 +52,15 @@ export default class SlMenuItem extends LitElement {
 
   render() {
     return html`
-      <sl-ripple class="ripple-wrap" ?disabled=${this.disabled}>
+        <sl-ripple class="ripple-wrap" ?disabled=${this.disabled}>
         <div
           part="base"
           class=${classMap({
-            'menu-item': true,
-            'menu-item--checked': this.checked,
-            'menu-item--highlight': this.highlight,
-            'menu-item--disabled': this.disabled
-          })}
+      'menu-item': true,
+      'menu-item--checked': this.checked,
+      'menu-item--highlight': this.highlight,
+      'menu-item--disabled': this.disabled
+    })}
         >
           <span part="checked-icon" class="menu-item__check">
             <sl-icon name="check" library="system" aria-hidden="true"></sl-icon>
@@ -78,7 +78,7 @@ export default class SlMenuItem extends LitElement {
             <slot name="suffix"></slot>
           </span>
         </div>
-      </sl-ripple>
+        </sl-ripple>
     `;
   }
 }
