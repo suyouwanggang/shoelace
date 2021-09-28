@@ -81,18 +81,20 @@ export default class SlTreeNode extends LitElement {
       level = parseInt(levelStr, 10) + 1;
     }
     return html`${!this.isClose
-      ? cache(this.nodeData?.children?.map((data, index) => {
-        return html`<sl-tree-node
-            .nodeData=${data}
-            .parentNodeData=${this.nodeData}
-            .customStyle=${(this as any).customStyle}
-            .nodeRender=${this.nodeRender}
-            .tree=${this.tree}
-            index=${index}
-            level=${level + ''}
-            style="--sl-node-level:${level}"
-          ></sl-tree-node>`;
-      }))
+      ? cache(
+          this.nodeData?.children?.map((data, index) => {
+            return html`<sl-tree-node
+              .nodeData=${data}
+              .parentNodeData=${this.nodeData}
+              .customStyle=${(this as any).customStyle}
+              .nodeRender=${this.nodeRender}
+              .tree=${this.tree}
+              index=${index}
+              level=${level + ''}
+              style="--sl-node-level:${level}"
+            ></sl-tree-node>`;
+          })
+        )
       : ''}`;
   }
   /** 获取直接孩子数量 */

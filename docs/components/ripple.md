@@ -14,9 +14,11 @@ wrap component 给组件添加ripple（涟漪） 动画.
     <option value='B'>B</option>
     <option value='C'>C</option>
 </select></sl-ripple>
-<sl-ripple centered><button style='padding:10px 10px'><sl-badge  type="success">Bad</sl-badge>inline-flex;</button></sl-ripple>
+<sl-ripple centered><button  style='background-color: #1379BD;color:#FFF;border: 1px solid #BAC4CC;
+    padding: 10px 20px;
+    '><sl-badge  type="success">Bad</sl-badge>inline-flex</button></sl-ripple>
 
-<sl-ripple centered><div  style='width:160px;height:60px;background-color:rgb(53, 77, 141);color:#FFF;display:inline-flex;justify-content:center;align-items:center;' >border</div></sl-ripple>
+<sl-ripple centered><div  style='width:160px;height:60px;background-color:#f9807a;color:#FFF;display:inline-flex;justify-content:center;align-items:center;' >border</div></sl-ripple>
 ```
 
 ## Examples
