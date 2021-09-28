@@ -42,9 +42,12 @@ export default class SlRadioGroup extends LitElement {
       }
     });
   }
+  get allRadios() {
+    return [...this.defaultSlot.assignedElements({ flatten: true })].filter(el => el.tagName.toLowerCase() === 'sl-radio') as SlRadio[];
+  }
   @watch('value', { waitUntilFirstUpdate: true })
   valueChange() {
-    const checkedRadio = [...this.defaultSlot.assignedElements({ flatten: true })].filter(el => el.tagName.toLowerCase() === 'sl-radio') as SlRadio[];
+    const checkedRadio = this.allRadios;
     checkedRadio.forEach(item => {
       if (item.value == this.value) {
         item.checked = true;
@@ -59,7 +62,7 @@ export default class SlRadioGroup extends LitElement {
     if (this.value) {
       this.valueChange();
     } else {
-      const checkedRadio = [...this.defaultSlot.assignedElements({ flatten: true })].filter(el => el.tagName.toLowerCase() === 'sl-radio') as SlRadio[];
+      const checkedRadio = this.allRadios;
       checkedRadio.forEach(item => {
         if (item.checked) {
           this.value = item.value;
@@ -87,9 +90,9 @@ export default class SlRadioGroup extends LitElement {
       <fieldset
         part="base"
         class=${classMap({
-          'radio-group': true,
-          'radio-group--has-fieldset': this.fieldset
-        })}
+      'radio-group': true,
+      'radio-group--has-fieldset': this.fieldset
+    })}
         role="radiogroup"
         @focusin=${this.handleFocusIn}
       >
