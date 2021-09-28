@@ -64,7 +64,7 @@ export default css`
   :host(:focus) {
     outline: none;
   }
-  
+
   :host(:hover:not([aria-disabled='true'])) .menu-item,
   :host(${focusVisibleSelector}:not(.sl-focus-invisible):not([aria-disabled='true'])) .menu-item {
     outline: none;
@@ -86,7 +86,7 @@ export default css`
     visibility: visible;
   }
 
-  .ripple-wrap{
-    display:block;
+  .ripple-wrap {
+    display: block;
   }
 `;

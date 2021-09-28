@@ -156,29 +156,29 @@ export default class SlButton extends LitElement {
             ref=${(el: HTMLLinkElement) => (this.button = el)}
             part="base"
             class=${classMap({
-        button: true,
-        'button--default': this.type === 'default',
-        'button--primary': this.type === 'primary',
-        'button--success': this.type === 'success',
-        'button--neutral': this.type === 'neutral',
-        'button--warning': this.type === 'warning',
-        'button--danger': this.type === 'danger',
-        'button--text': this.type === 'text',
-        'button--small': this.size === 'small',
-        'button--medium': this.size === 'medium',
-        'button--large': this.size === 'large',
-        'button--caret': this.caret,
-        'button--circle': this.circle,
-        'button--disabled': this.disabled,
-        'button--focused': this.hasFocus,
-        'button--loading': this.loading,
-        'button--standard': !this.outline,
-        'button--outline': this.outline,
-        'button--pill': this.pill,
-        'button--has-label': this.hasLabel,
-        'button--has-prefix': this.hasPrefix,
-        'button--has-suffix': this.hasSuffix
-      })}
+              button: true,
+              'button--default': this.type === 'default',
+              'button--primary': this.type === 'primary',
+              'button--success': this.type === 'success',
+              'button--neutral': this.type === 'neutral',
+              'button--warning': this.type === 'warning',
+              'button--danger': this.type === 'danger',
+              'button--text': this.type === 'text',
+              'button--small': this.size === 'small',
+              'button--medium': this.size === 'medium',
+              'button--large': this.size === 'large',
+              'button--caret': this.caret,
+              'button--circle': this.circle,
+              'button--disabled': this.disabled,
+              'button--focused': this.hasFocus,
+              'button--loading': this.loading,
+              'button--standard': !this.outline,
+              'button--outline': this.outline,
+              'button--pill': this.pill,
+              'button--has-label': this.hasLabel,
+              'button--has-prefix': this.hasPrefix,
+              'button--has-suffix': this.hasSuffix
+            })}
             href=${ifDefined(this.href)}
             target=${ifDefined(this.target)}
             download=${ifDefined(this.download)}
@@ -198,29 +198,29 @@ export default class SlButton extends LitElement {
           <button
             part="base"
             class=${classMap({
-        button: true,
-        'button--default': this.type === 'default',
-        'button--primary': this.type === 'primary',
-        'button--success': this.type === 'success',
-        'button--neutral': this.type === 'neutral',
-        'button--warning': this.type === 'warning',
-        'button--danger': this.type === 'danger',
-        'button--text': this.type === 'text',
-        'button--small': this.size === 'small',
-        'button--medium': this.size === 'medium',
-        'button--large': this.size === 'large',
-        'button--caret': this.caret,
-        'button--circle': this.circle,
-        'button--disabled': this.disabled,
-        'button--focused': this.hasFocus,
-        'button--loading': this.loading,
-        'button--standard': !this.outline,
-        'button--outline': this.outline,
-        'button--pill': this.pill,
-        'button--has-label': this.hasLabel,
-        'button--has-prefix': this.hasPrefix,
-        'button--has-suffix': this.hasSuffix
-      })}
+              button: true,
+              'button--default': this.type === 'default',
+              'button--primary': this.type === 'primary',
+              'button--success': this.type === 'success',
+              'button--neutral': this.type === 'neutral',
+              'button--warning': this.type === 'warning',
+              'button--danger': this.type === 'danger',
+              'button--text': this.type === 'text',
+              'button--small': this.size === 'small',
+              'button--medium': this.size === 'medium',
+              'button--large': this.size === 'large',
+              'button--caret': this.caret,
+              'button--circle': this.circle,
+              'button--disabled': this.disabled,
+              'button--focused': this.hasFocus,
+              'button--loading': this.loading,
+              'button--standard': !this.outline,
+              'button--outline': this.outline,
+              'button--pill': this.pill,
+              'button--has-label': this.hasLabel,
+              'button--has-prefix': this.hasPrefix,
+              'button--has-suffix': this.hasSuffix
+            })}
             ?disabled=${this.disabled}
             type=${this.submit ? 'submit' : 'button'}
             name=${ifDefined(this.name)}

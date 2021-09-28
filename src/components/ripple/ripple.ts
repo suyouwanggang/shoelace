@@ -33,15 +33,14 @@ export interface IRippleProperties extends IRippleBaseProperties {
 /**
  * Configuration when showing a ripple.
  */
-export interface IRippleConfig extends IRippleBaseProperties { }
-
+export interface IRippleConfig extends IRippleBaseProperties {}
 
 /**
  * Base configuration for the ripple animation.
  */
 export const RIPPLE_ANIMATION_CONFIG: KeyframeAnimationOptions = {
-  easing: "ease-out",
-  fill: "both"
+  easing: 'ease-out',
+  fill: 'both'
 };
 export function computeRadius(a: number, b: number) {
   return Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2)) / 2;
@@ -57,8 +56,7 @@ export const RIPPLE_INITIAL_DURATION = 350;
 export const RIPPLE_RELEASE_DURATION = 500;
 
 const DISPOSEOBJ = {
-  dispose() {
-  }
+  dispose() {}
 };
 /**
  * @since 2.0
@@ -130,14 +128,13 @@ export default class SlRipple extends LitElement {
    * Role of the ripple.
    * @attr
    */
-  @property({ type: String, reflect: true }) role: AriaRole = "presentation";
+  @property({ type: String, reflect: true }) role: AriaRole = 'presentation';
 
   /**
    * Target for the spawn ripple events.
    * @attr
    */
   @property({ type: Object }) target: EventTarget = this;
-
 
   private listeners: Array<DisposeObject> = [];
   private rippleAnimationListeners: Array<DisposeObject> = [];
@@ -147,8 +144,8 @@ export default class SlRipple extends LitElement {
     if (this.target) {
       this.listeners = [];
       const mousedown = addEvent(this.target, 'mousedown', (e: MouseEvent) => this.spawnRipple(e), { passive: true });
-      const focusin = addEvent(this.target, "focusin", this.onFocusIn.bind(this), { passive: true });
-      const focusout = addEvent(this.target, "focusout", this.onFocusOut.bind(this), { passive: true });
+      const focusin = addEvent(this.target, 'focusin', this.onFocusIn.bind(this), { passive: true });
+      const focusout = addEvent(this.target, 'focusout', this.onFocusOut.bind(this), { passive: true });
       this.listeners.concat(mousedown, focusin, focusout);
     }
   }
@@ -177,7 +174,6 @@ export default class SlRipple extends LitElement {
     this.listeners.forEach(item => item.dispose());
     this.rippleAnimationListeners.forEach(item => item.dispose());
   }
-
 
   releaseRipple() {
     this.rippleAnimationListeners.forEach(item => item.dispose());
@@ -219,16 +215,16 @@ export default class SlRipple extends LitElement {
     this.rippleAnimationListeners.push(release);
     // Only if the target is present or if the ripple is NOT focusable we attach the release listeners.
     if (this.target != null && !this.focusable) {
-      this.rippleAnimationListeners.push(addEvent(window, "mouseup", this.releaseRipple.bind(this), { passive: true }));
+      this.rippleAnimationListeners.push(addEvent(window, 'mouseup', this.releaseRipple.bind(this), { passive: true }));
     }
     return release;
   }
 
   /**
-     * Shows a ripple at a specific coordinate.
-     * @param number
-     * @param config
-     */
+   * Shows a ripple at a specific coordinate.
+   * @param number
+   * @param config
+   */
   showRippleAtCoords({ x, y }: { x: number; y: number }, config?: Partial<IRippleConfig>) {
     const { releaseDuration = this.releaseDuration, initialDuration = this.initialDuration, autoRelease = this.autoRelease } = config || {};
     const { offsetWidth, offsetHeight } = this;
@@ -237,25 +233,21 @@ export default class SlRipple extends LitElement {
     x *= scale.ScaleX === 0 ? 1 : 1 / scale.ScaleX;
     y *= scale.ScaleY === 0 ? 1 : 1 / scale.ScaleY;
     // Create the ripple
-    const $ripple = document.createElement("div");
-    $ripple.classList.add("ripple");
+    const $ripple = document.createElement('div');
+    $ripple.classList.add('ripple');
 
     // Compute distance from the center of the rectangle (container) to its corner.
     // If the coords are in the center the ripple would fill the entire container.
     const containerRadius = computeRadius(offsetWidth, offsetHeight);
-
 
     // Compute the additional distance we have to add to the radius to make sure it always fills
     // the entire container. The extra distance will be the distance from the center to the coords.
     // If the coords are in the middle the extra radius will be 0.
     const extraRadius = computeRadius(Math.abs(offsetWidth / 2 - x), Math.abs(offsetHeight / 2 - y));
 
-
     // The size of the ripple is the diameter
     const radius = Math.round(containerRadius + extraRadius * 2);
     const diameter = radius * 2;
-
-
 
     // Assign the styles that makes it spawn from the desired coords
     Object.assign($ripple.style, {
@@ -263,10 +255,8 @@ export default class SlRipple extends LitElement {
       top: `${y - radius}px`,
       height: `${diameter}px`,
       width: `${diameter}px`,
-      position: "absolute"
+      position: 'absolute'
     });
-
-
 
     // Cleans up the ripple
     let released = false;
@@ -291,7 +281,6 @@ export default class SlRipple extends LitElement {
           });
         };
       }
-
     };
 
     // Start the animation and add the ripple to the DOM
@@ -319,8 +308,7 @@ export default class SlRipple extends LitElement {
   }
 
   firstUpdated(map: PropertyValues) {
-    super.firstUpdated(map)
-
+    super.firstUpdated(map);
   }
 }
 

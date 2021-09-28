@@ -52,15 +52,15 @@ export default class SlMenuItem extends LitElement {
 
   render() {
     return html`
-        <sl-ripple class="ripple-wrap" ?disabled=${this.disabled}>
+      <sl-ripple class="ripple-wrap" ?disabled=${this.disabled}>
         <div
           part="base"
           class=${classMap({
-      'menu-item': true,
-      'menu-item--checked': this.checked,
-      'menu-item--highlight': this.highlight,
-      'menu-item--disabled': this.disabled
-    })}
+            'menu-item': true,
+            'menu-item--checked': this.checked,
+            'menu-item--highlight': this.highlight,
+            'menu-item--disabled': this.disabled
+          })}
         >
           <span part="checked-icon" class="menu-item__check">
             <sl-icon name="check" library="system" aria-hidden="true"></sl-icon>
@@ -78,7 +78,7 @@ export default class SlMenuItem extends LitElement {
             <slot name="suffix"></slot>
           </span>
         </div>
-        </sl-ripple>
+      </sl-ripple>
     `;
   }
 }

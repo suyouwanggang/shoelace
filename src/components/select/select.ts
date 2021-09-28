@@ -104,7 +104,7 @@ export default class SlSelect extends LitElement {
   @property({ type: Boolean }) hoist = false;
 
   /** The value of the control. This will be a string or an array depending on `multiple`. */
-  @property({ attribute: false }) value: string | number | Array<string | number>;
+  @property({}) value: string | number | Array<string | number>;
 
   /** Draws a filled select. */
   @property({ type: Boolean, reflect: true }) filled = false;
@@ -389,12 +389,12 @@ export default class SlSelect extends LitElement {
             @click=${this.handleTagInteraction}
             @keydown=${this.handleTagInteraction}
             @sl-clear=${(event: CustomEvent) => {
-              event.stopPropagation();
-              if (!this.disabled) {
-                item.checked = false;
-                this.syncValueFromItems();
-              }
-            }}
+            event.stopPropagation();
+            if (!this.disabled) {
+              item.checked = false;
+              this.syncValueFromItems();
+            }
+          }}
           >
             ${this.getItemLabel(item)}
           </sl-tag>
@@ -456,23 +456,23 @@ export default class SlSelect extends LitElement {
           .containingElement=${this}
           ?disabled=${this.disabled}
           class=${classMap({
-            select: true,
-            'select--open': this.isOpen,
-            'select--empty': Array.isArray(this.value) ? this.value.length === 0 : this.value == '',
-            'select--focused': this.hasFocus,
-            'select--clearable': this.clearable,
-            'select--disabled': this.disabled,
-            'select--multiple': this.multiple,
-            'select--standard': !this.filled,
-            'select--filled': this.filled,
-            'select--has-tags': this.multiple && this.displayTags.length > 0,
-            'select--placeholder-visible': this.displayLabel === '',
-            'select--small': this.size === 'small',
-            'select--medium': this.size === 'medium',
-            'select--large': this.size === 'large',
-            'select--pill': this.pill,
-            'select--invalid': this.invalid
-          })}
+        select: true,
+        'select--open': this.isOpen,
+        'select--empty': Array.isArray(this.value) ? this.value.length === 0 : this.value == '',
+        'select--focused': this.hasFocus,
+        'select--clearable': this.clearable,
+        'select--disabled': this.disabled,
+        'select--multiple': this.multiple,
+        'select--standard': !this.filled,
+        'select--filled': this.filled,
+        'select--has-tags': this.multiple && this.displayTags.length > 0,
+        'select--placeholder-visible': this.displayLabel === '',
+        'select--small': this.size === 'small',
+        'select--medium': this.size === 'medium',
+        'select--large': this.size === 'large',
+        'select--pill': this.pill,
+        'select--invalid': this.invalid
+      })}
           @sl-show=${this.handleMenuShow}
           @sl-hide=${this.handleMenuHide}
         >
@@ -483,15 +483,15 @@ export default class SlSelect extends LitElement {
             class="select__control"
             role="combobox"
             aria-labelledby=${ifDefined(
-              getLabelledBy({
-                label: this.label,
-                labelId: this.labelId,
-                hasLabelSlot: this.hasLabelSlot,
-                helpText: this.helpText,
-                helpTextId: this.helpTextId,
-                hasHelpTextSlot: this.hasHelpTextSlot
-              })
-            )}
+        getLabelledBy({
+          label: this.label,
+          labelId: this.labelId,
+          hasLabelSlot: this.hasLabelSlot,
+          helpText: this.helpText,
+          helpTextId: this.helpTextId,
+          hasHelpTextSlot: this.hasHelpTextSlot
+        })
+      )}
             aria-haspopup="true"
             aria-expanded=${this.isOpen ? 'true' : 'false'}
             tabindex=${this.disabled ? '-1' : '0'}
@@ -506,8 +506,8 @@ export default class SlSelect extends LitElement {
             <div part="select_label" class="select__label">${this.displayTags.length ? html` <span part="tags" class="select__tags"> ${this.displayTags} </span> ` : this.displayLabel || this.placeholder}</div>
 
             ${this.clearable && hasSelection
-              ? html` <sl-icon-button exportparts="base:clear-button" class="select__clear" name="x-circle" library="system" @click=${this.handleClearClick} tabindex="-1"></sl-icon-button> `
-              : ''}
+          ? html` <sl-icon-button exportparts="base:clear-button" class="select__clear" name="x-circle" library="system" @click=${this.handleClearClick} tabindex="-1"></sl-icon-button> `
+          : ''}
 
             <span part="suffix" class="select__suffix">
               <slot name="suffix"></slot>

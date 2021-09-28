@@ -4,8 +4,8 @@
 .trigger-status {
     display:inline-block;
     position:relative;
-    margin-right:var(--sl-spacing-xx-small);
-    margin-left:var(--sl-spacing-xx-small);
+    margin-right:var(--sl-spacing-x-small);
+    margin-left:var(--sl-spacing-x-small);
     font-size:var(--sl-node-trigger-size,12px);
     cursor:pointer;
 }
@@ -34,11 +34,10 @@ div[part=base]{
         /** 节点按照层次收缩 **/
         padding-left:calc( var(--sl-node-level,0) * 0.8em);
         sl-icon[part=node-icon]{
-            margin-right:var(--sl-spacing-xx-small);
+            margin-right:var(--sl-spacing-2x-small);
         }
         transition: background-color ease 0.3ms ;
         div[part=node-span]{
-            margin-left:var(--sl-spacing-xx-small);
             flex:1 1 auto;
         }
         /**节点disabled 状态 **/
@@ -82,17 +81,13 @@ div[part=base]{
     }
     div[part=children]{
         display: block;
-        opacity: 1;
-       // transform: translate(var(--sl-spacing-small,0.8em),0);
-        transition: opacity ease 0.5ms;
-        &.close{
-            transition: opacity ease 0.5ms;
-            opacity: 0;
-            display: none;
+        &.close{ 		
+             display: none;
         }
     }
 }
 
+ 
 
 
 
