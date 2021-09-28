@@ -18,7 +18,7 @@ wrap component 给组件添加ripple（涟漪） 动画.
     padding: 10px 20px;
     '><sl-badge  type="success">Bad</sl-badge>inline-flex</button></sl-ripple>
 
-<sl-ripple centered><div  style='width:160px;height:60px;background-color:#f9807a;color:#FFF;display:inline-flex;justify-content:center;align-items:center;' >border</div></sl-ripple>
+<sl-ripple centered><div  style='width:160px;height:160px;background-color:#f9807a;color:#FFF;display:inline-flex;justify-content:center;align-items:center;' >border</div></sl-ripple>
 ```
 
 ## Examples
