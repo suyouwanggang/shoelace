@@ -171,35 +171,28 @@ export default class SlScroll extends LitElement {
   private _initScrollBarEvent() {
     const scrollObj = this;
     const dragFun = (scrollDiv: HTMLElement, callBackFun: ScrollBack) => {
-      let isDown = false;
       let x = 0;
       let y = 0;
       const handerDown = (event: MouseEvent) => {
         event.preventDefault();
-        isDown = true;
         x = event.clientX;
         y = event.clientY;
-        //console.log('mousedown');
         document.addEventListener('mousemove', handerMove);
         document.addEventListener('mouseup', handerUp);
       };
       const handerUp = (event: MouseEvent) => {
         event.preventDefault();
-        isDown = false;
         x = y = 0;
         document.removeEventListener('mousemove', handerMove);
         document.removeEventListener('mouseup', handerUp);
-        // console.log('mouseup');
       };
       const handerMove = (event: MouseEvent) => {
         event.preventDefault();
         const nX = event.clientX;
         const nY = event.clientY;
-        if (isDown) {
-          callBackFun(event.clientX - x, event.clientY - y);
-          x = nX;
-          y = nY;
-        }
+        callBackFun(nX - x, nY - y);
+        x = nX;
+        y = nY;
       };
       scrollDiv.addEventListener('mousedown', handerDown);
     };
