@@ -30,9 +30,7 @@ describe('<sl-breadcrumb-item>', () => {
   describe('when provided a href attribute', async () => {
     describe('and no target', () => {
       before(async () => {
-        el = await fixture<SlBreadcrumbItem>(html`
-          <sl-breadcrumb-item href="https://jsonplaceholder.typicode.com/">Home</sl-breadcrumb-item>
-        `);
+        el = await fixture<SlBreadcrumbItem>(html` <sl-breadcrumb-item href="https://jsonplaceholder.typicode.com/">Home</sl-breadcrumb-item> `);
       });
 
       it('should render a component that passes accessibility test', async () => {
@@ -47,9 +45,7 @@ describe('<sl-breadcrumb-item>', () => {
 
     describe('and target, without rel', () => {
       before(async () => {
-        el = await fixture<SlBreadcrumbItem>(html`
-          <sl-breadcrumb-item href="https://jsonplaceholder.typicode.com/" target="_blank">Help</sl-breadcrumb-item>
-        `);
+        el = await fixture<SlBreadcrumbItem>(html` <sl-breadcrumb-item href="https://jsonplaceholder.typicode.com/" target="_blank">Help</sl-breadcrumb-item> `);
       });
 
       it('should render a component that passes accessibility test', async () => {
@@ -75,11 +71,7 @@ describe('<sl-breadcrumb-item>', () => {
 
     describe('and target, with rel', () => {
       before(async () => {
-        el = await fixture<SlBreadcrumbItem>(html`
-          <sl-breadcrumb-item href="https://jsonplaceholder.typicode.com/" target="_blank" rel="alternate"
-            >Help</sl-breadcrumb-item
-          >
-        `);
+        el = await fixture<SlBreadcrumbItem>(html` <sl-breadcrumb-item href="https://jsonplaceholder.typicode.com/" target="_blank" rel="alternate">Help</sl-breadcrumb-item> `);
       });
 
       it('should render a component that passes accessibility test', async () => {

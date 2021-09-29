@@ -45,8 +45,7 @@ export default css`
     border-radius: 50%;
     border: solid var(--sl-input-border-width) rgb(var(--sl-color-neutral-400));
     transform: translateX(calc((var(--width) - var(--height)) / -2));
-    transition: var(--sl-transition-fast) transform ease, var(--sl-transition-fast) background-color,
-      var(--sl-transition-fast) border-color, var(--sl-transition-fast) box-shadow;
+    transition: var(--sl-transition-fast) transform ease, var(--sl-transition-fast) background-color, var(--sl-transition-fast) border-color, var(--sl-transition-fast) box-shadow;
   }
 
   .switch__input {
@@ -74,10 +73,7 @@ export default css`
     border-color: rgb(var(--sl-color-neutral-400));
   }
 
-  .switch:not(.switch--checked):not(.switch--disabled)
-    .switch__input${focusVisibleSelector}
-    ~ .switch__control
-    .switch__thumb {
+  .switch:not(.switch--checked):not(.switch--disabled) .switch__input${focusVisibleSelector} ~ .switch__control .switch__thumb {
     background-color: rgb(var(--sl-color-neutral-0));
     border-color: rgb(var(--sl-color-primary-600));
     box-shadow: 0 0 0 var(--sl-focus-ring-width) rgb(var(--sl-color-primary-500) / var(--sl-focus-ring-alpha));
@@ -112,10 +108,7 @@ export default css`
     border-color: rgb(var(--sl-color-primary-600));
   }
 
-  .switch.switch--checked:not(.switch--disabled)
-    .switch__input${focusVisibleSelector}
-    ~ .switch__control
-    .switch__thumb {
+  .switch.switch--checked:not(.switch--disabled) .switch__input${focusVisibleSelector} ~ .switch__control .switch__thumb {
     background-color: rgb(var(--sl-color-neutral-0));
     border-color: rgb(var(--sl-color-primary-600));
     box-shadow: 0 0 0 var(--sl-focus-ring-width) rgb(var(--sl-color-primary-500) / var(--sl-focus-ring-alpha));

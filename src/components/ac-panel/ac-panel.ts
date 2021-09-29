@@ -7,7 +7,7 @@ import SlCollapse from '../collapse/collapse';
 import '../icon/icon';
 import styles from './ac-panel.styles';
 
-const duration = 200;
+
 /**
  * @since 2.0
  * @status experimental
@@ -31,6 +31,8 @@ const duration = 200;
 @customElement('sl-ac-panel')
 export default class SlAcPanel extends LitElement {
   static styles = styles;
+  static ANIMATE_duration = 300;
+
   @property({ type: Boolean, reflect: true }) active = false;
   @property({ type: String, reflect: true }) key: string;
   @property({ type: String, reflect: true }) header: string;
@@ -65,8 +67,9 @@ export default class SlAcPanel extends LitElement {
       await panel.updateComplete;
       this.contentElement.style.display = 'block';
       const currentHeight = parseInt(getCssValue(this.contentElement, 'height'));
+      this.contentElement.getAnimations().forEach(animateItem => animateItem.cancel());
       let thisAnimate = animateTo(this.contentElement, shimKeyframesHeightAuto(this.active ? animate_show : animate_hide, currentHeight), {
-        duration: duration,
+        duration: SlAcPanel.ANIMATE_duration,
         easing: 'ease'
       });
       let allPromise = [thisAnimate];

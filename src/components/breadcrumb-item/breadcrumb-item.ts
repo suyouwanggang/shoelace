@@ -62,13 +62,7 @@ export default class SlBreadcrumbItem extends LitElement {
 
         ${isLink
           ? html`
-              <a
-                part="label"
-                class="breadcrumb-item__label breadcrumb-item__label--link"
-                href="${this.href}"
-                target="${this.target}"
-                rel=${ifDefined(this.target ? this.rel : undefined)}
-              >
+              <a part="label" class="breadcrumb-item__label breadcrumb-item__label--link" href="${this.href}" target="${this.target}" rel=${ifDefined(this.target ? this.rel : undefined)}>
                 <slot></slot>
               </a>
             `

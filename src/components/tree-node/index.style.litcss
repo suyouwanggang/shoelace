@@ -30,7 +30,7 @@ div[part=base]{
         display:flex;
         position: relative;
         align-items: center;
-        margin:5px 0;
+        padding:5px 0;
         /** 节点按照层次收缩 **/
         padding-left:calc( var(--sl-node-level,0) * 0.8em);
         sl-icon[part=node-icon]{

@@ -2,10 +2,11 @@ import { html, LitElement, nothing } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import { cache } from 'lit/directives/cache.js';
 import '../../components/icon/icon';
-import { doHideAnimate, doShowAnimate } from '../../directives/hideOrShowAnimate';
+import { animateTo, animate_hide, animate_show, shimKeyframesHeightAuto } from '../../internal/animate';
 import { customStyle } from '../../internal/customStyle';
 import { emit } from '../../internal/event';
 import { watch } from '../../internal/watch';
+import { getCssValue } from '../../utilities/common';
 import SlTree from '../tree/tree';
 import { DEFAULT_TREE_NODE_RENDER, NodeRenderInterface, TreeNodeData } from './tree-node-util';
 import styles from './tree-node.styles';
@@ -82,8 +83,8 @@ export default class SlTreeNode extends LitElement {
     }
     return html`${!this.isClose
       ? cache(
-          this.nodeData?.children?.map((data, index) => {
-            return html`<sl-tree-node
+        this.nodeData?.children?.map((data, index) => {
+          return html`<sl-tree-node
               .nodeData=${data}
               .parentNodeData=${this.nodeData}
               .customStyle=${(this as any).customStyle}
@@ -93,8 +94,8 @@ export default class SlTreeNode extends LitElement {
               level=${level + ''}
               style="--sl-node-level:${level}"
             ></sl-tree-node>`;
-          })
-        )
+        })
+      )
       : ''}`;
   }
   /** 获取直接孩子数量 */
@@ -140,6 +141,8 @@ export default class SlTreeNode extends LitElement {
       }
     });
   }
+  public static ANIMATE_duration = 300;
+  public static ANIMATE_easing = 'ease';
   private async _clickTrigerHander(event: Event) {
     if (this.subChildSize > 0) {
       let isClosed = this.isClose; //当前节点收缩状态
@@ -148,17 +151,25 @@ export default class SlTreeNode extends LitElement {
       let custToogleEvent = this.emitEvent(`sl-node-before-toogle`, event);
       if (!custEvent.defaultPrevented && !custToogleEvent.defaultPrevented) {
         if (!isClosed) {
-          //是打开状态
-          doHideAnimate(children, { duration: 300 }, () => {
+          //原来是打开状态,此时添加关闭动画
+          children.getAnimations().forEach(animateItem => animateItem.cancel());
+          animateTo(children, shimKeyframesHeightAuto(animate_hide, parseInt(getCssValue(children, 'height'))), {
+            duration: SlTreeNode.ANIMATE_duration,
+            easing: SlTreeNode.ANIMATE_easing
+          }).then(() => {
             children.classList.add('close');
-            this.setNodeDataProperty('close', !this.nodeData?.close);
-          });
+            this.setNodeDataProperty('close', !isClosed);
+          })
         } else {
-          this.setNodeDataProperty('close', !this.nodeData?.close);
+          this.setNodeDataProperty('close', !isClosed);
         }
         await this.updateComplete;
-        if (isClosed) {
-          doShowAnimate(children, { duration: 300 });
+        if (isClosed) {  //原来是关闭状态,此时添加打开动画
+          children.getAnimations().forEach(animateItem => animateItem.cancel());
+          animateTo(children, shimKeyframesHeightAuto(animate_show, parseInt(getCssValue(children, 'height'))), {
+            duration: SlTreeNode.ANIMATE_duration,
+            easing: SlTreeNode.ANIMATE_easing
+          })
         }
         this.emitEvent(`sl-node-${isClosed ? 'open' : 'close'}`, event);
         this.emitEvent(`sl-node-toogle`, event);
