@@ -2,6 +2,7 @@ import { html, LitElement, nothing } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import { cache } from 'lit/directives/cache.js';
 import '../../components/icon/icon';
+import { requestNextFrame } from '../../directives/hideOrShowAnimate';
 import { animateTo, animate_hide, animate_show, shimKeyframesHeightAuto } from '../../internal/animate';
 import { customStyle } from '../../internal/customStyle';
 import { emit } from '../../internal/event';
@@ -153,22 +154,28 @@ export default class SlTreeNode extends LitElement {
         if (!isClosed) {
           //原来是打开状态,此时添加关闭动画
           children.getAnimations().forEach(animateItem => animateItem.cancel());
-          animateTo(children, shimKeyframesHeightAuto(animate_hide, parseInt(getCssValue(children, 'height'))), {
-            duration: SlTreeNode.ANIMATE_duration,
-            easing: SlTreeNode.ANIMATE_easing
-          }).then(() => {
-            children.classList.add('close');
-            this.setNodeDataProperty('close', !isClosed);
+          requestNextFrame(() => {
+            animateTo(children, shimKeyframesHeightAuto(animate_hide, parseInt(getCssValue(children, 'height'))), {
+              duration: SlTreeNode.ANIMATE_duration,
+              easing: SlTreeNode.ANIMATE_easing
+            }).then(() => {
+              children.classList.add('close');
+              this.setNodeDataProperty('close', !isClosed);
+            });
           })
+
         } else {
           this.setNodeDataProperty('close', !isClosed);
         }
         await this.updateComplete;
-        if (isClosed) {  //原来是关闭状态,此时添加打开动画
+        if (isClosed) {
+          //原来是关闭状态,此时添加打开动画
           children.getAnimations().forEach(animateItem => animateItem.cancel());
-          animateTo(children, shimKeyframesHeightAuto(animate_show, parseInt(getCssValue(children, 'height'))), {
-            duration: SlTreeNode.ANIMATE_duration,
-            easing: SlTreeNode.ANIMATE_easing
+          requestNextFrame(() => {
+            animateTo(children, shimKeyframesHeightAuto(animate_show, parseInt(getCssValue(children, 'height'))), {
+              duration: SlTreeNode.ANIMATE_duration,
+              easing: SlTreeNode.ANIMATE_easing
+            });
           })
         }
         this.emitEvent(`sl-node-${isClosed ? 'open' : 'close'}`, event);

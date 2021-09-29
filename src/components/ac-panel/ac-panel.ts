@@ -7,7 +7,6 @@ import SlCollapse from '../collapse/collapse';
 import '../icon/icon';
 import styles from './ac-panel.styles';
 
-
 /**
  * @since 2.0
  * @status experimental
