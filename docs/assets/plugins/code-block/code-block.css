@@ -1,12 +1,8 @@
 .code-block {
   position: relative;
   border-radius: 3px;
-  background-color: rgb(var(--sl-surface-base-alt));
+  background-color: rgb(var(--sl-color-neutral-50));
   margin-bottom: 1.5rem;
-}
-
-.sl-theme-dark .code-block {
-  background-color: rgb(var(--sl-color-neutral-200));
 }
 
 .code-block__preview {
@@ -15,7 +11,7 @@
   border-bottom: none;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
-  background-color: rgb(var(--sl-surface-base));
+  background-color: rgb(var(--sl-color-neutral-0));
   min-width: 20rem;
   max-width: 100%;
   padding: 1.5rem 3.25rem 1.5rem 1.5rem;
@@ -43,8 +39,8 @@
   bottom: 0;
   width: 1.75rem;
   font-size: 20px;
-  color: rgb(var(--sl-color-neutral-500));
-  background-color: rgb(var(--sl-surface-base));
+  color: rgb(var(--sl-color-neutral-600));
+  background-color: rgb(var(--sl-color-neutral-0));
   border-left: solid 1px rgb(var(--sl-color-neutral-200));
   border-top-right-radius: 3px;
   cursor: ew-resize;
@@ -87,7 +83,7 @@
   min-width: 2.5rem;
   border: none;
   border-radius: 0;
-  background: rgb(var(--sl-surface-base));
+  background: rgb(var(--sl-color-neutral-0));
   font: inherit;
   font-size: 0.7rem;
   font-weight: 500;
@@ -95,7 +91,6 @@
   color: rgb(var(--sl-color-neutral-600));
   padding: 0 1rem;
   cursor: pointer;
-  transition: none;
 }
 
 .code-block__button:not(:last-of-type) {
@@ -161,18 +156,20 @@
 .markdown-section .docsify-copy-code-button {
   top: 4px;
   right: 4px;
-  background-color: rgb(var(--sl-color-neutral-500));
+  background-color: rgb(var(--sl-color-neutral-600));
   border-radius: var(--sl-border-radius-medium);
   font-family: var(--sl-font-sans);
-  font-size: var(--sl-font-size-small);
+  font-size: var(--sl-font-size-x-small);
   font-weight: var(--sl-font-weight-semibold);
+  text-transform: uppercase;
+  padding: 8px;
   user-select: none;
   transition: 0.1s all;
 }
 
 .markdown-section .docsify-copy-code-button.copied {
-  animation: pulse 1s;
-  --pulse-color: rgb(var(--sl-color-neutral-500));
+  animation: pulse 0.75s;
+  --pulse-color: rgb(var(--sl-color-neutral-600));
 }
 
 @keyframes pulse {

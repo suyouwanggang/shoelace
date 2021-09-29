@@ -8,13 +8,14 @@ _During the beta period, these restrictions may be relaxed in the event of a mis
 
 ## Next
 
-- Added initial surface design tokens
+- Added `--sl-surface-base` and `--sl-surface-base-alt` as early surface tokens to improve the appearance of alert, card, and panels in dark mode
+- Added the `--sl-panel-border-width` design token
 - Added missing background color to `<sl-details>`
 - Added the `outline` variation to `<sl-button>` [#522](https://github.com/shoelace-style/shoelace/issues/522)
-- Added the `filled` variation to `<sl-input>`, `<sl-textarea>`, and `<sl-select>` 
+- Added the `filled` variation to `<sl-input>`, `<sl-textarea>`, and `<sl-select>` and supporting design tokens
 - Added the `control` part to `<sl-select>` so you can target the main control with CSS [#538](https://github.com/shoelace-style/shoelace/issues/538)
 - Changed the default `distance` in `<sl-dropdown>` from `2` to `0` [#538](https://github.com/shoelace-style/shoelace/issues/538)
-- Modified the color scale to no longer use a luminance shift
+- Fixed a bug where `<sl-select>` would be larger than the viewport when it had lots of options [#544](https://github.com/shoelace-style/shoelace/issues/544)
 
 ## 2.0.0-beta.52
 
