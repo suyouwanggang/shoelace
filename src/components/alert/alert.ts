@@ -1,4 +1,4 @@
-import { LitElement, html } from 'lit';
+import { LitElement, html, render, TemplateResult } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import { classMap } from 'lit-html/directives/class-map.js';
 import { animateTo, stopAnimations } from '../../internal/animate';
@@ -7,10 +7,47 @@ import { watch } from '../../internal/watch';
 import { waitForEvent } from '../../internal/event';
 import { getAnimation, setDefaultAnimation } from '../../utilities/animation-registry';
 import styles from './alert.styles';
-
 import '../icon-button/icon-button';
 
-const toastStack = Object.assign(document.createElement('div'), { className: 'sl-toast-stack' });
+export type StackPosition = 'top-left' | 'top-right' | 'top-center' | 'bottom-left' | 'bottom-right' | 'bottom-center';
+type StackAlter = {
+  [key: string]: HTMLElement;
+}
+const toastStackMap: StackAlter = {};
+const getStatckDIV = (stack: StackPosition) => {
+  let el = toastStackMap[stack];
+  if (!el) {
+    el = Object.assign(document.createElement('div'), { className: 'sl-toast-stack' });
+    el.setAttribute('stack', stack);
+    toastStackMap[stack] = el;
+  }
+  return el;
+}
+export type MessageType = {
+  text?: string | TemplateResult<1>,
+  type: 'primary' | 'success' | 'neutral' | 'warning' | 'danger',
+  stack: StackPosition,
+  icon: string,
+  duration: number,
+  afterHide?: (alert: SlAlert) => void;
+  afterShow: (alert: SlAlert) => void;
+}
+const notify = (message: MessageType | string, type: 'primary' | 'success' | 'neutral' | 'warning' | 'danger' = 'primary', icon = 'info-circle', duration = 3000) => {
+  const isString = typeof message == 'string';
+  const messageObj = message as any;
+  let alert: SlAlert;
+  const messageText = !isString ? messageObj.text : message;
+  const alterTemplat = html`<sl-alert closable .type=${!isString && messageObj.type ? messageObj.type : type} .duration=${!isString && typeof messageObj.duration != 'undefined' ? messageObj.duration : duration} 
+  @sl-after-show=${() => !isString && messageObj.afterShow ? messageObj.afterShow(alert) : ''}
+  @sl-after-hide=${() => !isString && messageObj.afterHide ? messageObj.afterHide(alert) : ''}
+  >
+  <sl-icon name=${!isString && messageObj.icon ? messageObj.icon : icon} slot="icon"></sl-icon>
+  ${messageText}</sl-alert>`;
+  const frag = document.createDocumentFragment();
+  render(alterTemplat, frag);
+  alert = frag.querySelector('sl-alert') as SlAlert;
+  return alert.toast(!isString ? (message as MessageType).stack : undefined);
+}
 
 /**
  * @since 2.0
@@ -89,12 +126,12 @@ export default class SlAlert extends LitElement {
    * dismissed, it will be removed from the DOM completely. By storing a reference to the alert, you can reuse it by
    * calling this method again. The returned promise will resolve after the alert is hidden.
    */
-  async toast() {
+  async toast(stack: StackPosition = 'top-right') {
     return new Promise<void>(resolve => {
+      const toastStack = getStatckDIV(stack);
       if (!toastStack.parentElement) {
         document.body.append(toastStack);
       }
-
       toastStack.appendChild(this);
 
       // Wait for the toast stack to render
@@ -106,9 +143,10 @@ export default class SlAlert extends LitElement {
       this.addEventListener(
         'sl-after-hide',
         () => {
-          toastStack.removeChild(this);
+          if (toastStack.contains(this)) {
+            toastStack.removeChild(this);
+          }
           resolve();
-
           // Remove the toast stack from the DOM when there are no more alerts
           if (!toastStack.querySelector('sl-alert')) {
             toastStack.remove();
@@ -169,21 +207,22 @@ export default class SlAlert extends LitElement {
   handleDurationChange() {
     this.restartAutoHide();
   }
-
+  /** 发送全局message 消息 */
+  static notify = notify;
   render() {
     return html`
       <div
         part="base"
         class=${classMap({
-          alert: true,
-          'alert--open': this.open,
-          'alert--closable': this.closable,
-          'alert--primary': this.type === 'primary',
-          'alert--success': this.type === 'success',
-          'alert--neutral': this.type === 'neutral',
-          'alert--warning': this.type === 'warning',
-          'alert--danger': this.type === 'danger'
-        })}
+      alert: true,
+      'alert--open': this.open,
+      'alert--closable': this.closable,
+      'alert--primary': this.type === 'primary',
+      'alert--success': this.type === 'success',
+      'alert--neutral': this.type === 'neutral',
+      'alert--warning': this.type === 'warning',
+      'alert--danger': this.type === 'danger'
+    })}
         role="alert"
         aria-live="assertive"
         aria-atomic="true"
@@ -199,12 +238,12 @@ export default class SlAlert extends LitElement {
         </span>
 
         ${this.closable
-          ? html`
+        ? html`
               <span class="alert__close">
                 <sl-icon-button exportparts="base:close-button" name="x" library="system" @click=${this.handleCloseClick}></sl-icon-button>
               </span>
             `
-          : ''}
+        : ''}
       </div>
     `;
   }
@@ -225,6 +264,7 @@ setDefaultAnimation('alert.hide', {
   ],
   options: { duration: 250, easing: 'ease' }
 });
+
 
 declare global {
   interface HTMLElementTagNameMap {

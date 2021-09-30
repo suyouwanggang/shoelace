@@ -88,7 +88,7 @@
     ]
   },
   "exclude": [
-    "docs","jsdoc",
+    "docs","jsdoc","ttsc",
     "dist","types","tsdist",
     "src/**/*.test.ts"
   ]

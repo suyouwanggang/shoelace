@@ -1,8 +1,8 @@
 import { html, LitElement, nothing, PropertyValues, TemplateResult } from 'lit';
-import { ClassInfo, classMap } from 'lit/directives/class-map.js';
-import { StyleInfo, styleMap } from 'lit/directives/style-map.js';
 import { customElement, property, query, state } from 'lit/decorators.js';
+import { ClassInfo, classMap } from 'lit/directives/class-map.js';
 import { ref } from 'lit/directives/ref.js';
+import { StyleInfo, styleMap } from 'lit/directives/style-map.js';
 import { customStyle } from '../../internal/customStyle';
 import { emit } from '../../internal/event';
 import { spread, SpreadResult } from '../../internal/spread';
@@ -339,12 +339,6 @@ export default class SlTable extends LitElement {
       this.asynTableHeaderWidth();
     });
     connectTableHanlder(this);
-    if (this.enableVirtualScroll && this.virtualItemHeight) {
-      this.requestUpdate();
-      this.updateComplete.then(() => {
-        this.requestUpdate();
-      });
-    }
   }
   connectedCallback() {
     super.connectedCallback();
@@ -399,7 +393,7 @@ export default class SlTable extends LitElement {
         }
       }
       if (!isNaN(right)) {
-        for (let i = columnSize - 1, j = 0; j < right && i >= 0; ) {
+        for (let i = columnSize - 1, j = 0; j < right && i >= 0;) {
           let col = this.tdRenderColumns[i];
           while (col != null && col.tagName.toLowerCase() == 'sl-column') {
             style += this.caculateFixedColumnStyle(col, tableRect, false);
@@ -447,16 +441,16 @@ export default class SlTable extends LitElement {
     const trTemplates = (rowColumn: SlColumn[], rowIndex: number) => {
       return html`<tr .columns=${rowColumn}>
         ${rowColumn.map((column, index) => {
-          const cache = getColumnCacheData(column);
-          const context: CellHeadContext = {
-            column: column,
-            colIndex: index,
-            rowspan: cache.rowspan as number,
-            colspan: cache.colspan as number,
-            colRowIndex: rowIndex
-          };
-          return renderThColTemplate(context, table);
-        })}
+        const cache = getColumnCacheData(column);
+        const context: CellHeadContext = {
+          column: column,
+          colIndex: index,
+          rowspan: cache.rowspan as number,
+          colspan: cache.colspan as number,
+          colRowIndex: rowIndex
+        };
+        return renderThColTemplate(context, table);
+      })}
       </tr>`;
     };
     return this.theadRows.map((items, index) => trTemplates(items, index));
@@ -500,7 +494,7 @@ export default class SlTable extends LitElement {
 
   /** 虚拟滚动行高 */
   @property({ type: Number, attribute: false })
-  virtualItemHeight: number;
+  virtualItemHeight: number = 45;
 
   /** 虚拟滚动启用 */
   @property({ type: Number, attribute: false })
@@ -716,8 +710,8 @@ export default class SlTable extends LitElement {
       rowList.push(
         html`<tr
             ${ref(el => {
-              setRowContext(el as HTMLTableRowElement, rowContext);
-            })}
+          setRowContext(el as HTMLTableRowElement, rowContext);
+        })}
             .rowData=${rowData}
             style=${styleMap(trStyle)}
             class=${classMap(trClassObject)}
@@ -752,6 +746,11 @@ export default class SlTable extends LitElement {
       let scrollTop = this.scrollDiv.scrollTop;
       let height = this.thead.offsetHeight + (this.table.tFoot ? this.table.tFoot.offsetHeight : 0);
       const result = vituralScrollCalc(this.scrollDiv.clientHeight - height, this.innerDataSource.length, this.virtualItemHeight, scrollTop);
+      if (result.offsetStart == 0 && result.offsetEnd == 0 && this.innerDataSource.length > 0) {
+        this.updateComplete.then(() => {
+          this.requestUpdate();
+        })
+      }
       const trTop = html`<tr>
         <td style=${result.paddingTop > 0 ? `height:${result.paddingTop}px;` : 'display:none'} colspan=${tdRenderColumns.length}>&nbsp;</td>
       </tr>`;

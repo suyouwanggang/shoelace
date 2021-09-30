@@ -58,23 +58,23 @@
 
 ## Methods
 
-| Method                 | Type                | Description                                      |
-|------------------------|---------------------|--------------------------------------------------|
-| `handleCloseClick`     | `(): void`          |                                                  |
-| `handleDurationChange` | `(): void`          |                                                  |
-| `handleMouseMove`      | `(): void`          |                                                  |
-| `handleOpenChange`     | `(): Promise<void>` |                                                  |
-| `hide`                 | `(): Promise<void>` | Hides the alert                                  |
-| `restartAutoHide`      | `(): void`          |                                                  |
-| `show`                 | `(): Promise<void>` | Shows the alert.                                 |
-| `toast`                | `(): Promise<void>` | Displays the alert as a toast notification. This will move the alert out of its position in the DOM and, when<br />dismissed, it will be removed from the DOM completely. By storing a reference to the alert, you can reuse it by<br />calling this method again. The returned promise will resolve after the alert is hidden. |
+| Method                 | Type                                     | Description                                      |
+|------------------------|------------------------------------------|--------------------------------------------------|
+| `handleCloseClick`     | `(): void`                               |                                                  |
+| `handleDurationChange` | `(): void`                               |                                                  |
+| `handleMouseMove`      | `(): void`                               |                                                  |
+| `handleOpenChange`     | `(): Promise<void>`                      |                                                  |
+| `hide`                 | `(): Promise<void>`                      | Hides the alert                                  |
+| `restartAutoHide`      | `(): void`                               |                                                  |
+| `show`                 | `(): Promise<void>`                      | Shows the alert.                                 |
+| `toast`                | `(stack?: StackPosition): Promise<void>` | Displays the alert as a toast notification. This will move the alert out of its position in the DOM and, when<br />dismissed, it will be removed from the DOM completely. By storing a reference to the alert, you can reuse it by<br />calling this method again. The returned promise will resolve after the alert is hidden. |
 
 ## Events
 
 | Event           | Description                                      |
 |-----------------|--------------------------------------------------|
-| `sl-after-hide` | Emitted after the alert closes and all transitions are complete. |
-| `sl-after-show` | Emitted after the alert opens and all transitions are complete. |
+| `sl-after-hide` | Emitted after the alert closes and all animations are complete. |
+| `sl-after-show` | Emitted after the alert opens and all animations are complete. |
 | `sl-hide`       | Emitted when the alert closes.                   |
 | `sl-show`       | Emitted when the alert opens.                    |
 
@@ -212,12 +212,13 @@
 
 ## Properties
 
-| Property    | Attribute | Type                                         | Default | Description                                      |
-|-------------|-----------|----------------------------------------------|---------|--------------------------------------------------|
-| `hasPrefix` |           | `boolean`                                    | false   |                                                  |
-| `hasSuffix` |           | `boolean`                                    | false   |                                                  |
-| `href`      | `href`    | `string`                                     |         | Optional link to direct the user to when the breadcrumb item is activated. |
-| `target`    | `target`  | `"_blank" \| "_parent" \| "_self" \| "_top"` |         | Tells the browser where to open the link. Only used when `href` is set. |
+| Property    | Attribute | Type                                         | Default               | Description                                      |
+|-------------|-----------|----------------------------------------------|-----------------------|--------------------------------------------------|
+| `hasPrefix` |           | `boolean`                                    | false                 |                                                  |
+| `hasSuffix` |           | `boolean`                                    | false                 |                                                  |
+| `href`      | `href`    | `string`                                     |                       | Optional link to direct the user to when the breadcrumb item is activated. |
+| `rel`       | `rel`     | `string`                                     | "noreferrer noopener" | Optionally allows the user to determine how the link should talk to the browser.<br />ref: https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types |
+| `target`    | `target`  | `"_blank" \| "_parent" \| "_self" \| "_top"` |                       | Tells the browser where to open the link. Only used when `href` is set. |
 
 ## Methods
 
@@ -762,8 +763,8 @@
 
 | Event           | Description                                      |
 |-----------------|--------------------------------------------------|
-| `sl-after-hide` | Emitted after the details closes and all transitions are complete. |
-| `sl-after-show` | Emitted after the details opens and all transitions are complete. |
+| `sl-after-hide` | Emitted after the details closes and all animations are complete. |
+| `sl-after-show` | Emitted after the details opens and all animations are complete. |
 | `sl-hide`       | Emitted when the details closes.                 |
 | `sl-show`       | Emitted when the details opens.                  |
 
@@ -812,8 +813,8 @@
 
 | Event              | Description                                      |
 |--------------------|--------------------------------------------------|
-| `sl-after-hide`    | Emitted after the dialog closes and all transitions are complete. |
-| `sl-after-show`    | Emitted after the dialog opens and all transitions are complete. |
+| `sl-after-hide`    | Emitted after the dialog closes and all animations are complete. |
+| `sl-after-show`    | Emitted after the dialog opens and all animations are complete. |
 | `sl-hide`          | Emitted when the dialog closes.                  |
 | `sl-initial-focus` | Emitted when the dialog opens and the panel gains focus. Calling `event.preventDefault()`<br />will prevent focus and allow you to set it on a different element in the dialog, such as an input or button. |
 | `sl-request-close` | Emitted when the user attempts to close the dialog by clicking the close button, clicking the<br />overlay, or pressing the escape key. Calling `event.preventDefault()` will prevent the dialog from closing. Avoid<br />using this unless closing the dialog will result in destructive behavior such as data loss. |
@@ -879,8 +880,8 @@
 
 | Event              | Description                                      |
 |--------------------|--------------------------------------------------|
-| `sl-after-hide`    | Emitted after the drawer closes and all transitions are complete. |
-| `sl-after-show`    | Emitted after the drawer opens and all transitions are complete. |
+| `sl-after-hide`    | Emitted after the drawer closes and all animations are complete. |
+| `sl-after-show`    | Emitted after the drawer opens and all animations are complete. |
 | `sl-hide`          | Emitted when the drawer closes.                  |
 | `sl-initial-focus` | Emitted when the drawer opens and the panel gains focus. Calling `event.preventDefault()` will<br />prevent focus and allow you to set it on a different element in the drawer, such as an input or button. |
 | `sl-request-close` | Emitted when the user attempts to close the drawer by clicking the close button, clicking the<br />overlay, or pressing the escape key. Calling `event.preventDefault()` will prevent the drawer from closing. Avoid<br />using this unless closing the drawer will result in destructive behavior such as data loss. |
@@ -2909,8 +2910,8 @@
 
 | Event           | Description                                      |
 |-----------------|--------------------------------------------------|
-| `sl-after-hide` | Emitted after the tooltip has hidden and all transitions are complete. |
-| `sl-after-show` | Emitted after the tooltip has shown and all transitions are complete. |
+| `sl-after-hide` | Emitted after the tooltip has hidden and all animations are complete. |
+| `sl-after-show` | Emitted after the tooltip has shown and all animations are complete. |
 | `sl-hide`       | Emitted when the tooltip begins to hide.         |
 | `sl-show`       | Emitted when the tooltip begins to show.         |
 

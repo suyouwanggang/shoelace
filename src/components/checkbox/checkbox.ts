@@ -1,12 +1,14 @@
 import { html, LitElement } from 'lit';
-import { classMap } from 'lit-html/directives/class-map.js';
-import { ifDefined } from 'lit-html/directives/if-defined.js';
-import { live } from 'lit-html/directives/live.js';
 import { customElement, property, query, state } from 'lit/decorators.js';
+import { classMap } from 'lit/directives/class-map.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
+import { live } from 'lit/directives/live.js';
 import { emit } from '../../internal/event';
 import { hasSlot } from '../../internal/slot';
 import { watch } from '../../internal/watch';
 import { isArray, isObject } from '../../utilities/common';
+import '../ripple/ripple';
+import SlRipple from '../ripple/ripple';
 import styles from './checkbox.styles';
 
 let id = 0;
@@ -33,6 +35,7 @@ export default class SlCheckbox extends LitElement {
   static styles = styles;
 
   @query('input[type="checkbox"]') input: HTMLInputElement;
+  @query('sl-ripple') ripple: SlRipple;
 
   private inputId = `checkbox-${++id}`;
   private labelId = `checkbox-label-${id}`;
@@ -59,6 +62,8 @@ export default class SlCheckbox extends LitElement {
 
   /** This will be true when the control is in an invalid state. Validity is determined by the `required` prop. */
   @property({ type: Boolean, reflect: true }) invalid = false;
+
+  @property({ type: String, reflect: true }) type: 'primary' | 'success' | 'danger' | 'warning' | 'neutral' = 'primary';
 
   firstUpdated() {
     this.invalid = !this.input.checkValidity();
@@ -97,6 +102,7 @@ export default class SlCheckbox extends LitElement {
     if (!beforeCheck.defaultPrevented) {
       this.checked = !this.checked;
       this.indeterminate = false;
+      this.ripple.showRipple();
       emit(this, 'sl-change');
     }
   }
@@ -136,12 +142,12 @@ export default class SlCheckbox extends LitElement {
       <label
         part="base"
         class=${classMap({
-          checkbox: true,
-          'checkbox--checked': this.checked,
-          'checkbox--disabled': this.disabled,
-          'checkbox--focused': this.hasFocus,
-          'checkbox--indeterminate': this.indeterminate
-        })}
+      checkbox: true,
+      'checkbox--checked': this.checked,
+      'checkbox--disabled': this.disabled,
+      'checkbox--focused': this.hasFocus,
+      'checkbox--indeterminate': this.indeterminate
+    })}
         for=${this.inputId}
       >
         <input
@@ -161,10 +167,10 @@ export default class SlCheckbox extends LitElement {
           @blur=${this.handleBlur}
           @focus=${this.handleFocus}
         />
-
+        <sl-ripple unbounded  centered id=${this.inputId + '_ripple'}>
         <span part="control" class="checkbox__control">
           ${this.checked
-            ? html`
+        ? html`
                 <span part="checked-icon" class="checkbox__icon">
                   <svg viewBox="0 0 16 16">
                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round">
@@ -178,9 +184,9 @@ export default class SlCheckbox extends LitElement {
                   </svg>
                 </span>
               `
-            : ''}
+        : ''}
           ${!this.checked && this.indeterminate
-            ? html`
+        ? html`
                 <span part="indeterminate-icon" class="checkbox__icon">
                   <svg viewBox="0 0 16 16">
                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round">
@@ -193,9 +199,9 @@ export default class SlCheckbox extends LitElement {
                   </svg>
                 </span>
               `
-            : ''}
+        : ''}
         </span>
-
+        </sl-ripple>
         <span part="label" id=${this.labelId} class="checkbox__label ${this.hasLabelSlot ? 'checkbox_label_hasSlot' : ''}">
           <slot @slotchange=${this.labelSlotChange}></slot>
         </span>

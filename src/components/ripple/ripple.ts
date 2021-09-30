@@ -33,7 +33,7 @@ export interface IRippleProperties extends IRippleBaseProperties {
 /**
  * Configuration when showing a ripple.
  */
-export interface IRippleConfig extends IRippleBaseProperties {}
+export interface IRippleConfig extends IRippleBaseProperties { }
 
 /**
  * Base configuration for the ripple animation.
@@ -56,7 +56,7 @@ export const RIPPLE_INITIAL_DURATION = 350;
 export const RIPPLE_RELEASE_DURATION = 500;
 
 const DISPOSEOBJ = {
-  dispose() {}
+  dispose() { }
 };
 /**
  * @since 2.0
@@ -218,6 +218,11 @@ export default class SlRipple extends LitElement {
       this.rippleAnimationListeners.push(addEvent(window, 'mouseup', this.releaseRipple.bind(this), { passive: true }));
     }
     return release;
+  }
+  async showRipple() {
+    this.spawnRipple();
+    await this.updateComplete;
+    this.releaseRipple();
   }
 
   /**

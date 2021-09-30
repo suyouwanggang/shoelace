@@ -84,8 +84,8 @@ export default class SlTreeNode extends LitElement {
     }
     return html`${!this.isClose
       ? cache(
-        this.nodeData?.children?.map((data, index) => {
-          return html`<sl-tree-node
+          this.nodeData?.children?.map((data, index) => {
+            return html`<sl-tree-node
               .nodeData=${data}
               .parentNodeData=${this.nodeData}
               .customStyle=${(this as any).customStyle}
@@ -95,8 +95,8 @@ export default class SlTreeNode extends LitElement {
               level=${level + ''}
               style="--sl-node-level:${level}"
             ></sl-tree-node>`;
-        })
-      )
+          })
+        )
       : ''}`;
   }
   /** 获取直接孩子数量 */
@@ -162,8 +162,7 @@ export default class SlTreeNode extends LitElement {
               children.classList.add('close');
               this.setNodeDataProperty('close', !isClosed);
             });
-          })
-
+          });
         } else {
           this.setNodeDataProperty('close', !isClosed);
         }
@@ -176,7 +175,7 @@ export default class SlTreeNode extends LitElement {
               duration: SlTreeNode.ANIMATE_duration,
               easing: SlTreeNode.ANIMATE_easing
             });
-          })
+          });
         }
         this.emitEvent(`sl-node-${isClosed ? 'open' : 'close'}`, event);
         this.emitEvent(`sl-node-toogle`, event);

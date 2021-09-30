@@ -16,10 +16,9 @@ const bs = browserSync.create();
 const { dev } = commandLineArgs({ name: 'dev', type: Boolean });
 del.sync('./dist');
 try {
+  //  execSync('npx tsc -p ./ttsconfig.json', { declaration: true });
+
   if (!dev) execSync('npx tsc', { stdio: 'inherit' }); // for type declarations
-  if (dev) {
-    execSync('npx tsc', { declaration: true });
-  }
   execSync('node scripts/make-metadata.js', { stdio: 'inherit' });
   execSync('node scripts/make-search.js', { stdio: 'inherit' });
   execSync('node scripts/make-vscode-data.js', { stdio: 'inherit' });

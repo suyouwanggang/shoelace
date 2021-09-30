@@ -49,7 +49,7 @@ Table 组件
     table.enableVirtualScroll=true;
     //虚拟滚动行高
     table.virtualItemHeight=45;
-    table.customStyle=`div.tdWrap{height:28px;overflow:hidden;}`;
+    table.enableCellBox=true;
     //控制单元高度
 
     table.dataSource=dateList;
@@ -157,7 +157,7 @@ Table 组件
     table2.enableVirtualScroll=true;
     //虚拟滚动行高
     table2.virtualItemHeight=45;
-    table2.customStyle=`div.tdWrap{height:28px;overflow:hidden;}`;//控制单元高度
+    table2.enableCellBox=true;
    
 
     table2.customRenderFooter=(columns)=>{

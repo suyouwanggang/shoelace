@@ -7,6 +7,7 @@ export default css`
 
   :host {
     display: inline-block;
+    --sl-checkbox-bg-color:var(--sl-color-primary-500);
   }
 
   .checkbox {
@@ -19,7 +20,26 @@ export default css`
     vertical-align: middle;
     cursor: pointer;
   }
-
+  /** type primary,neutral, success,danger,warning,dark  */
+  
+  :host([type=primary]){
+    --sl-checkbox-bg-color:var(--sl-color-primary-500);
+  }
+  :host([type=success]){
+    --sl-checkbox-bg-color:var(--sl-color-success-500);
+  }
+  :host([type=danger]){
+    --sl-checkbox-bg-color:var(--sl-color-danger-500);
+  }
+  :host([type=warning]){
+    --sl-checkbox-bg-color:var(--sl-color-warning-500);
+  }
+  :host([type=neutral]){
+    --sl-checkbox-bg-color:var(  --sl-color-neutral-500);
+  }
+  sl-ripple{
+    padding:3px;
+  }
   .checkbox__control {
     flex: 0 0 auto;
     position: relative;
@@ -70,22 +90,22 @@ export default css`
   /* Checked/indeterminate */
   .checkbox--checked .checkbox__control,
   .checkbox--indeterminate .checkbox__control {
-    border-color: rgb(var(--sl-color-primary-600));
-    background-color: rgb(var(--sl-color-primary-600));
+    border-color: rgb(var(--sl-checkbox-bg-color));
+    background-color: rgb(var(--sl-checkbox-bg-color));
   }
 
   /* Checked/indeterminate + hover */
   .checkbox.checkbox--checked:not(.checkbox--disabled) .checkbox__control:hover,
   .checkbox.checkbox--indeterminate:not(.checkbox--disabled) .checkbox__control:hover {
-    border-color: rgb(var(--sl-color-primary-500));
-    background-color: rgb(var(--sl-color-primary-500));
+    border-color: rgb(var(--sl-checkbox-bg-color));
+    background-color: rgb(var(--sl-checkbox-bg-color));
   }
 
   /* Checked/indeterminate + focus */
   .checkbox.checkbox--checked:not(.checkbox--disabled) .checkbox__input${focusVisibleSelector} ~ .checkbox__control,
   .checkbox.checkbox--indeterminate:not(.checkbox--disabled) .checkbox__input${focusVisibleSelector} ~ .checkbox__control {
-    border-color: rgb(var(--sl-color-primary-500));
-    background-color: rgb(var(--sl-color-primary-500));
+    border-color: rgb(var(--sl-checkbox-bg-color));
+    background-color: rgb(var(--sl-checkbox-bg-color));
     box-shadow: var(--sl-focus-ring);
   }
 
@@ -100,6 +120,6 @@ export default css`
     user-select: none;
   }
   .checkbox_label_hasSlot {
-    margin-left: 0.5em;
+    margin-left:calc( 0.4em - 3px );
   }
 `;
