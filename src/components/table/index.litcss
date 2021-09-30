@@ -210,6 +210,7 @@ th[align=right]{
     .expand-toogle-icon{
         position: relative;
         cursor: pointer;
+        top:2px;
         font-size: var(--sl-tree-trriger-icon,14px);
         padding: var(--sl-tree-trriger-padding,0 4px );
     }

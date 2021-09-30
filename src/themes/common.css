@@ -22,29 +22,29 @@ sl-input::part(input) {
   max-height: 100%;
   overflow: auto;
 }
-.sl-toast-stack[stack="top-right"]{
+.sl-toast-stack[stack='top-right'] {
   top: 0;
   right: 0;
 }
 
-.sl-toast-stack[stack="top-left"]{
+.sl-toast-stack[stack='top-left'] {
   left: 0;
   top: 0;
 }
-.sl-toast-stack[stack="bottom-left"]{
+.sl-toast-stack[stack='bottom-left'] {
   bottom: 0;
   left: 0;
 }
-.sl-toast-stack[stack="bottom-right"]{
+.sl-toast-stack[stack='bottom-right'] {
   bottom: 0;
   right: 0;
 }
-.sl-toast-stack[stack="top-center"]{
+.sl-toast-stack[stack='top-center'] {
   left: 50%;
   transform: translateX(-50%);
   top: 0;
 }
-.sl-toast-stack[stack="bottom-center"]{
+.sl-toast-stack[stack='bottom-center'] {
   left: 50%;
   transform: translateX(-50%);
   bottom: 0;

@@ -7,7 +7,7 @@ export default css`
 
   :host {
     display: inline-block;
-    --sl-checkbox-bg-color:var(--sl-color-primary-500);
+    --sl-checkbox-bg-color: var(--sl-color-primary-500);
   }
 
   .checkbox {
@@ -21,24 +21,24 @@ export default css`
     cursor: pointer;
   }
   /** type primary,neutral, success,danger,warning,dark  */
-  
-  :host([type=primary]){
-    --sl-checkbox-bg-color:var(--sl-color-primary-500);
+
+  :host([type='primary']) {
+    --sl-checkbox-bg-color: var(--sl-color-primary-500);
   }
-  :host([type=success]){
-    --sl-checkbox-bg-color:var(--sl-color-success-500);
+  :host([type='success']) {
+    --sl-checkbox-bg-color: var(--sl-color-success-500);
   }
-  :host([type=danger]){
-    --sl-checkbox-bg-color:var(--sl-color-danger-500);
+  :host([type='danger']) {
+    --sl-checkbox-bg-color: var(--sl-color-danger-500);
   }
-  :host([type=warning]){
-    --sl-checkbox-bg-color:var(--sl-color-warning-500);
+  :host([type='warning']) {
+    --sl-checkbox-bg-color: var(--sl-color-warning-500);
   }
-  :host([type=neutral]){
-    --sl-checkbox-bg-color:var(  --sl-color-neutral-500);
+  :host([type='neutral']) {
+    --sl-checkbox-bg-color: var(--sl-color-neutral-500);
   }
-  sl-ripple{
-    padding:3px;
+  sl-ripple {
+    padding: 3px;
   }
   .checkbox__control {
     flex: 0 0 auto;
@@ -120,6 +120,6 @@ export default css`
     user-select: none;
   }
   .checkbox_label_hasSlot {
-    margin-left:calc( 0.4em - 3px );
+    margin-left: calc(0.4em - 3px);
   }
 `;

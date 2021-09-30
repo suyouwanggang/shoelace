@@ -10,6 +10,13 @@ Checkboxes allow the user to toggle an option on or off.
 <sl-checkbox name='checkbox' value='3'>Checkbox o3 </sl-checkbox>
 ```
 
+```html preview
+<sl-checkbox name='checkbox' type='success' checked value='1'>Checkbox o1</sl-checkbox>
+<sl-checkbox name='checkbox' type='danger' value='2'>Checkbox o2</sl-checkbox>
+<sl-checkbox name='checkbox' type='warning' value='2'>Checkbox o3</sl-checkbox>
+<sl-checkbox name='checkbox' type='neutral' value='2'>Checkbox o4</sl-checkbox>
+```
+
 ?> This component doesn't work with standard forms. Use [`<sl-form>`](/components/form) instead.
 
 ## Examples
