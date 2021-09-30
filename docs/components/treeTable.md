@@ -127,7 +127,7 @@ Table 组件启用TreeTable 懒加载 ,和虚拟滚动加载
         return new Promise((resolve)=>{
             window.setTimeout(()=>{
                 resolve(result);
-            },120)
+            },300)
         } );
     };
     const dateList=[

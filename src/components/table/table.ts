@@ -200,7 +200,7 @@ export default class SlTable extends LitElement {
 
   public treeNodeHasChildren(rowData: TreeNodeData) {
     if (typeof rowData.children == 'undefined' && this.treeConfig && this.treeConfig.lazy) {
-      return rowData[this.treeConfig.hasChildProp as string];
+      return rowData[this.treeConfig.hasChildProp as string] as boolean;
     } else {
       return rowData.children ? rowData.children.length > 0 : false;
     }
@@ -393,7 +393,7 @@ export default class SlTable extends LitElement {
         }
       }
       if (!isNaN(right)) {
-        for (let i = columnSize - 1, j = 0; j < right && i >= 0; ) {
+        for (let i = columnSize - 1, j = 0; j < right && i >= 0;) {
           let col = this.tdRenderColumns[i];
           while (col != null && col.tagName.toLowerCase() == 'sl-column') {
             style += this.caculateFixedColumnStyle(col, tableRect, false);
@@ -441,16 +441,16 @@ export default class SlTable extends LitElement {
     const trTemplates = (rowColumn: SlColumn[], rowIndex: number) => {
       return html`<tr .columns=${rowColumn}>
         ${rowColumn.map((column, index) => {
-          const cache = getColumnCacheData(column);
-          const context: CellHeadContext = {
-            column: column,
-            colIndex: index,
-            rowspan: cache.rowspan as number,
-            colspan: cache.colspan as number,
-            colRowIndex: rowIndex
-          };
-          return renderThColTemplate(context, table);
-        })}
+        const cache = getColumnCacheData(column);
+        const context: CellHeadContext = {
+          column: column,
+          colIndex: index,
+          rowspan: cache.rowspan as number,
+          colspan: cache.colspan as number,
+          colRowIndex: rowIndex
+        };
+        return renderThColTemplate(context, table);
+      })}
       </tr>`;
     };
     return this.theadRows.map((items, index) => trTemplates(items, index));
@@ -637,7 +637,7 @@ export default class SlTable extends LitElement {
           allTreeNode.push(node);
           let cache = {
             seqno: seqNo,
-            level: (this.cacheTreeNodeMap.has(parentNode) ? this.getRowDataTreeLevel(parentNode) : 0) + 1,
+            level: (this.cacheTreeNodeMap.has(parentNode) ? this.getRowDataTreeLevel(parentNode) + 1 : 0),
             parent: parentNode
           } as TreeNodeCacheType;
           this.cacheTreeNodeMap.set(node, cache);
@@ -710,8 +710,8 @@ export default class SlTable extends LitElement {
       rowList.push(
         html`<tr
             ${ref(el => {
-              setRowContext(el as HTMLTableRowElement, rowContext);
-            })}
+          setRowContext(el as HTMLTableRowElement, rowContext);
+        })}
             .rowData=${rowData}
             style=${styleMap(trStyle)}
             class=${classMap(trClassObject)}

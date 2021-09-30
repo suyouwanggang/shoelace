@@ -142,12 +142,12 @@ export default class SlCheckbox extends LitElement {
       <label
         part="base"
         class=${classMap({
-      checkbox: true,
-      'checkbox--checked': this.checked,
-      'checkbox--disabled': this.disabled,
-      'checkbox--focused': this.hasFocus,
-      'checkbox--indeterminate': this.indeterminate
-    })}
+          checkbox: true,
+          'checkbox--checked': this.checked,
+          'checkbox--disabled': this.disabled,
+          'checkbox--focused': this.hasFocus,
+          'checkbox--indeterminate': this.indeterminate
+        })}
         for=${this.inputId}
       >
         <input
@@ -170,7 +170,7 @@ export default class SlCheckbox extends LitElement {
         <sl-ripple unbounded centered id=${this.inputId + '_ripple'} .disabled=${this.disabled}>
           <span part="control" class="checkbox__control">
             ${this.checked
-        ? html`
+              ? html`
                   <span part="checked-icon" class="checkbox__icon">
                     <svg viewBox="0 0 16 16">
                       <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round">
@@ -184,9 +184,9 @@ export default class SlCheckbox extends LitElement {
                     </svg>
                   </span>
                 `
-        : ''}
+              : ''}
             ${!this.checked && this.indeterminate
-        ? html`
+              ? html`
                   <span part="indeterminate-icon" class="checkbox__icon">
                     <svg viewBox="0 0 16 16">
                       <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round">
@@ -199,7 +199,7 @@ export default class SlCheckbox extends LitElement {
                     </svg>
                   </span>
                 `
-        : ''}
+              : ''}
           </span>
         </sl-ripple>
         <span part="label" id=${this.labelId} class="checkbox__label ${this.hasLabelSlot ? 'checkbox_label_hasSlot' : ''}">
