@@ -8,9 +8,7 @@ describe('<sl-card>', () => {
 
   describe('when provided no parameters', async () => {
     before(async () => {
-      el = await fixture<SlCard>(
-        html` <sl-card>This is just a basic card. No image, no header, and no footer. Just your content.</sl-card> `
-      );
+      el = await fixture<SlCard>(html` <sl-card>This is just a basic card. No image, no header, and no footer. Just your content.</sl-card> `);
     });
 
     it('should render a component that passes accessibility test.', async () => {
@@ -119,9 +117,7 @@ describe('<sl-card>', () => {
     });
 
     it('should render the child content provided.', async () => {
-      expect(el.innerText).to.contain(
-        'This is a kitten, but not just any kitten. This kitten likes walking along pallets.'
-      );
+      expect(el.innerText).to.contain('This is a kitten, but not just any kitten. This kitten likes walking along pallets.');
     });
 
     it('accept "image" as an assigned child in the shadow root.', async () => {
