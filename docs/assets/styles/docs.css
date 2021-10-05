@@ -229,10 +229,6 @@ strong {
   margin-bottom: 0;
 }
 
-.markdown-section sl-tab-panel::part(base) {
-  padding: var(--sl-spacing-medium) 0;
-}
-
 .docsify-pagination-container {
   border-top-color: rgb(var(--sl-color-neutral-200)) !important;
 }
@@ -293,6 +289,10 @@ strong {
   background-color: rgb(var(--sl-color-neutral-50));
   border-radius: var(--sl-border-radius-small);
   padding: 2px 4px;
+}
+
+.markdown-section tr:nth-child(2n) code {
+  background-color: rgb(var(--sl-color-neutral-100));
 }
 
 kbd,
@@ -431,6 +431,11 @@ kbd,
 
 .markdown-section table .nowrap {
   white-space: nowrap;
+}
+
+.markdown-section table sl-tooltip code {
+  border-bottom: dashed 1px rgb(var(--sl-color-neutral-300));
+  cursor: help;
 }
 
 /* Iframes */
@@ -585,6 +590,7 @@ body[data-page^='/tokens/'] .table-wrapper td:first-child code {
   border-radius: 3px;
   width: 4rem;
   height: 4rem;
+  margin: 1rem;
 }
 
 /* Color palettes */

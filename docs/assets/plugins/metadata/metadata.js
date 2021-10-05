@@ -11,7 +11,6 @@
       <thead>
         <tr>
           <th>Name</th>
-          <th>Attribute</th>
           <th>Description</th>
           <th>Reflects</th>
           <th>Type</th>
@@ -21,16 +20,40 @@
       <tbody>
         ${props
           .map(prop => {
+            const hasAttribute = !!prop.attribute;
+            const isAttributeDifferent = prop.attribute !== prop.name;
+            let attributeInfo = '';
+
+            if (!hasAttribute) {
+              attributeInfo = `<br><small>(property only)</small>`;
+            } else if (isAttributeDifferent) {
+              attributeInfo = `
+                <br>
+                <sl-tooltip content="This attribute is different than the property">
+                  <small>
+                    <code class="nowrap">
+                      ${escapeHtml(prop.attribute)}
+                    </code>
+                  </small>
+                </sl-tooltip>`;
+            }
+
             return `
               <tr>
-                <td class="nowrap"><code>${escapeHtml(prop.name)}</code></td>
-                <td class="nowrap">${prop.attribute ? `<code>${escapeHtml(prop.attribute)}</code>` : '-'}</td>
-                <td>${escapeHtml(prop.description)}</td>
-                <td style="text-align: center;">${prop.reflects ? '<sl-icon label="yes" name="check"></sl-icon>' : ''}</td>
+                <td>
+                  <code class="nowrap">${escapeHtml(prop.name)}</code>
+                  ${attributeInfo}
+                </td>
+                <td>
+                  ${escapeHtml(prop.description)}
+                </td>
+                <td style="text-align: center;">${
+                  prop.reflects ? '<sl-icon label="yes" name="check"></sl-icon>' : ''
+                }</td>
                 <td>${prop.type?.text ? `<code>${escapeHtml(prop.type?.text || '')}</code>` : '-'}</td>
                 <td>${prop.default ? `<code>${escapeHtml(prop.default)}</code>` : '-'}</td>
               </tr>
-          `;
+            `;
           })
           .join('')}
       </tbody>
@@ -53,12 +76,12 @@
         ${events
           .map(
             event => `
-        <tr>
-          <td><code class="nowrap">${escapeHtml(event.name)}</code></td>
-          <td>${escapeHtml(event.description)}</td>
-          <td>${event.type?.text ? `<code>${escapeHtml(event.type?.text)}` : '-'}</td>
-        </tr>
-        `
+              <tr>
+                <td><code class="nowrap">${escapeHtml(event.name)}</code></td>
+                <td>${escapeHtml(event.description)}</td>
+                <td>${event.type?.text ? `<code>${escapeHtml(event.type?.text)}` : '-'}</td>
+              </tr>
+            `
           )
           .join('')}
       </tbody>
@@ -88,7 +111,9 @@
                   ${
                     method.parameters?.length
                       ? `
-                        <code>${escapeHtml(method.parameters.map(param => `${param.name}: ${param.type?.text}`).join(', '))}</code>
+                        <code>${escapeHtml(
+                          method.parameters.map(param => `${param.name}: ${param.type.text}`).join(', ')
+                        )}</code>
                       `
                       : '-'
                   }
@@ -142,11 +167,11 @@
         ${styles
           .map(
             style => `
-        <tr>
-          <td><code>${escapeHtml(style.name)}</code></td>
-          <td>${escapeHtml(style.description)}</td>
-        </tr>
-        `
+              <tr>
+                <td><code>${escapeHtml(style.name)}</code></td>
+                <td>${escapeHtml(style.description)}</td>
+              </tr>
+            `
           )
           .join('')}
       </tbody>
@@ -168,11 +193,11 @@
         ${parts
           .map(
             part => `
-        <tr>
-          <td class="nowrap"><code>${escapeHtml(part.name)}</code></td>
-          <td>${escapeHtml(part.description)}</td>
-        </tr>
-        `
+              <tr>
+                <td class="nowrap"><code>${escapeHtml(part.name)}</code></td>
+                <td>${escapeHtml(part.description)}</td>
+              </tr>
+           `
           )
           .join('')}
       </tbody>
@@ -194,11 +219,11 @@
         ${animations
           .map(
             animation => `
-        <tr>
-          <td class="nowrap"><code>${escapeHtml(animation.name)}</code></td>
-          <td>${escapeHtml(animation.description)}</td>
-        </tr>
-        `
+              <tr>
+                <td class="nowrap"><code>${escapeHtml(animation.name)}</code></td>
+                <td>${escapeHtml(animation.description)}</td>
+              </tr>
+            `
           )
           .join('')}
       </tbody>

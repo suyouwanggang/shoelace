@@ -6,16 +6,28 @@ Components with the <sl-badge type="warning" pill>Experimental</sl-badge> badge 
 
 _During the beta period, these restrictions may be relaxed in the event of a mission-critical bug._ 🐛
 
-## Next
+## 2.0.0-beta.53
 
+- 🚨 BREAKING: removed `<sl-menu-divider>` (use `<sl-divider>` instead)
+- 🚨 BREAKING: removed `percentage` attribute from `<sl-progress-bar>` and `<sl-progress-ring>` (use `value`) instead
+- 🚨 BREAKING: switched the default `type` of `<sl-tag>` from `primary` to `neutral`
+- Added the experimental `<sl-mutation-observer>` component
+- Added the `<sl-divider>` component
 - Added `--sl-surface-base` and `--sl-surface-base-alt` as early surface tokens to improve the appearance of alert, card, and panels in dark mode
 - Added the `--sl-panel-border-width` design token
 - Added missing background color to `<sl-details>`
+- Added the `--padding` custom property to `<sl-tab-panel>`
 - Added the `outline` variation to `<sl-button>` [#522](https://github.com/shoelace-style/shoelace/issues/522)
 - Added the `filled` variation to `<sl-input>`, `<sl-textarea>`, and `<sl-select>` and supporting design tokens
 - Added the `control` part to `<sl-select>` so you can target the main control with CSS [#538](https://github.com/shoelace-style/shoelace/issues/538)
+- Added a border to `<sl-badge>` to improve contrast when drawn on various background colors
+- Added `--track-color-active` and `--track-color-inactive` custom properties to `<sl-range>` [#550](https://github.com/shoelace-style/shoelace/issues/550)
+- Added the undocumented custom properties `--thumb-size`, `--tooltip-offset`, `--track-height` on `<sl-range>`
 - Changed the default `distance` in `<sl-dropdown>` from `2` to `0` [#538](https://github.com/shoelace-style/shoelace/issues/538)
 - Fixed a bug where `<sl-select>` would be larger than the viewport when it had lots of options [#544](https://github.com/shoelace-style/shoelace/issues/544)
+- Fixed a bug where `<sl-progress-ring>` wouldn't animate in Safari
+- Updated the default height of `<sl-progress-bar>` from `16px` to `1rem` and added a subtle shadow to indicate depth
+- Removed the `lit-html` dependency and moved corresponding imports to `lit` [#546](https://github.com/shoelace-style/shoelace/issues/546)
 
 ## 2.0.0-beta.52
 

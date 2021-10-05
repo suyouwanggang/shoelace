@@ -5,6 +5,7 @@ import { emit } from '../../internal/event';
 import { watch } from '../../internal/watch';
 import { onEvent } from '../../utilities/common';
 import { DisposeObject } from '../../utilities/resize.util';
+
 import type SlRadio from '../radio/radio';
 import styles from './radio-group.styles';
 
@@ -30,7 +31,7 @@ export default class SlRadioGroup extends LitElement {
   /** Shows the fieldset and legend that surrounds the radio group. */
   @property({ type: Boolean, attribute: 'fieldset' }) fieldset = false;
 
-  /**  选中值 */
+  /**  ѡ��ֵ */
   @property({ type: Object }) value: unknown;
 
   handleFocusIn() {

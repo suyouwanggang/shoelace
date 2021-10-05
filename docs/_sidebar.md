@@ -23,6 +23,7 @@
   - [Color Picker](/components/color-picker)
   - [Details](/components/details)
   - [Dialog](/components/dialog)
+  - [Divider](/components/divider)
   - [Drawer](/components/drawer)
   - [Dropdown](/components/dropdown)
   - [Form](/components/form)
@@ -31,7 +32,6 @@
   - [Image Comparer](/components/image-comparer)
   - [Input](/components/input)
   - [Menu](/components/menu)
-  - [Menu Divider](/components/menu-divider)
   - [Menu Item](/components/menu-item)
   - [Menu Label](/components/menu-label)
   - [Progress Bar](/components/progress-bar)
@@ -77,6 +77,7 @@
   - [Format Date](/components/format-date)
   - [Format Number](/components/format-number)
   - [Include](/components/include)
+  - [Mutation Observer](/components/mutation-observer)
   - [Relative Time](/components/relative-time)
   - [Resize Observer](/components/resize-observer)
   - [Responsive Media](/components/responsive-media)
@@ -91,5 +92,6 @@
   - [Z-index](/tokens/z-index)
 
 - Tutorials
+  - [Integrating with Laravel](/tutorials/integrating-with-laravel)
   - [Integrating with NextJS](/tutorials/integrating-with-nextjs)
   - [Integrating with Rails](/tutorials/integrating-with-rails)
