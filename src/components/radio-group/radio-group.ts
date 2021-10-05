@@ -31,7 +31,7 @@ export default class SlRadioGroup extends LitElement {
   /** Shows the fieldset and legend that surrounds the radio group. */
   @property({ type: Boolean, attribute: 'fieldset' }) fieldset = false;
 
-  /**  ѡ��ֵ */
+  /**  选中值 */
   @property({ type: Object }) value: unknown;
 
   handleFocusIn() {

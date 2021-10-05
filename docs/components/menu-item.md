@@ -24,7 +24,7 @@ Menu items provide options for the user to pick from in a menu.
 </sl-menu>
 
 <sl-dropdown placement='bottom-end' style='margin-right:1em'>
-    <sl-button slot="trigger" caret>¸ü¶à</sl-button>
+    <sl-button slot="trigger" caret>Action</sl-button>
   <sl-menu
      style="max-width: 200px; display:inline-block; border: solid 1px var (--sl-panel-border-color); border-radius: var(--sl-border-radius-medium);"
  >
