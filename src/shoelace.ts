@@ -68,6 +68,8 @@ export { default as SlRow } from './components/row/row';
 export { default as SlLayout } from './components/layout/layout';
 export { default as SlColumn } from './components/column/column';
 export { default as SlTable } from './components/table/table';
+export { default as SlRouter } from './components/router/router';
+export { default as SlRouterLink } from './components/router/router-link';
 /* plop:component */
 
 // Utilities

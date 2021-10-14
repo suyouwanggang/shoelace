@@ -5,7 +5,7 @@
 Menu items provide options for the user to pick from in a menu.
 
 ```html preview
-<sl-menu>
+<sl-menu style="max-width: 200px;display:inline-flex; border: solid 1px rgb(var(--sl-panel-border-color)); border-radius: var(--sl-border-radius-medium);">
   <sl-menu-item>Option 1</sl-menu-item>
   <sl-menu-item>Option 2</sl-menu-item>
   <sl-menu-item>Option 3</sl-menu-item>
@@ -25,9 +25,8 @@ Menu items provide options for the user to pick from in a menu.
 
 <sl-dropdown placement='bottom-end' style='margin-right:1em'>
     <sl-button slot="trigger" caret>Action</sl-button>
-  <sl-menu
-     style="max-width: 200px; display:inline-block; border: solid 1px var (--sl-panel-border-color); border-radius: var(--sl-border-radius-medium);"
- >
+  <sl-menu style="max-width: 200px; border: solid 1px rgb(var(--sl-panel-border-color)); border-radius: var(--sl-border-radius-medium);">
+
     <sl-menu-item>Add</sl-menu-item>
     <sl-menu-item>Delete</sl-menu-item>
     <sl-menu-item>Export</sl-menu-item>
@@ -40,12 +39,11 @@ Menu items provide options for the user to pick from in a menu.
       <sl-icon slot="prefix" name="gift"></sl-icon>
     </sl-menu-item>
     <sl-menu-item>
-      Suffix Icon
+      suffix Icon
       <sl-icon slot="suffix" name="heart"></sl-icon>
     </sl-menu-item>
   </sl-menu>
 </sl-dropdown>
-
 ```
 
 ## Examples

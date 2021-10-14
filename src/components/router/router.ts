@@ -1,5 +1,5 @@
 import { css, html, LitElement, PropertyValues } from 'lit';
-import { customElement, property } from 'lit/decorators';
+import { customElement, property } from 'lit/decorators.js';
 import { emit } from '../../internal/event';
 import { watch } from '../../internal/watch';
 import { isFunction } from '../../utilities/common';
@@ -54,7 +54,7 @@ export const getRouterByName = (name: string = 'default') => {
 export default class SlRouter extends LitElement {
   static get styles() {
     return css`
-      display: contents;
+      display:contents
     `;
   }
 
@@ -254,8 +254,8 @@ export default class SlRouter extends LitElement {
       const item = matchItems[matchItems.length - 1];
       this.beforeRouter
         ? this.beforeRouter(item, this.lastRouterItem, async () => {
-            this.excuteRouterComponenent(matchItems, pattern);
-          })
+          this.excuteRouterComponenent(matchItems, pattern);
+        })
         : this.excuteRouterComponenent(matchItems, pattern);
     } else {
       emit(this, 'not-found');

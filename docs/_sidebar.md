@@ -72,6 +72,7 @@
   <!--plop:component-->
 
 - Utilities
+  - [Router](/components/router)
   - [Animation](/components/animation)
   - [Format Bytes](/components/format-bytes)
   - [Format Date](/components/format-date)
