@@ -1,10 +1,10 @@
-import { css, html, LitElement, PropertyValues } from 'lit';
+import { html, LitElement, PropertyValues } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { emit } from '../../internal/event';
 import { watch } from '../../internal/watch';
 import { isFunction } from '../../utilities/common';
 import { defaultResove, getPathNames, isPathURLMatchPattern, PathNameResult, ResovlePathInterface, stripExtraTrailingSlash } from './pathResovle';
-
+import routStyle from './router.litcss';
 export type RouterItem = {
   name?: string /**路径名称 */;
   path: string /***匹配路径 */;
@@ -53,9 +53,7 @@ export const getRouterByName = (name: string = 'default') => {
 @customElement('sl-router')
 export default class SlRouter extends LitElement {
   static get styles() {
-    return css`
-      display:contents
-    `;
+    return routStyle;
   }
 
   /**设置路由名称 */
@@ -65,7 +63,10 @@ export default class SlRouter extends LitElement {
   /**设置路由路径 */
   @property({ attribute: false, reflect: false })
   routers: RouterItem[];
-
+  @watch('routers', { waitUntilFirstUpdate: true })
+  watchRoutersChange() {
+    this.routerChangeHanlder();
+  }
   constructor() {
     super();
     routerCache[this.name] = this;
@@ -77,23 +78,21 @@ export default class SlRouter extends LitElement {
   }
   firstUpdated(map: PropertyValues) {
     super.firstUpdated(map);
-    this.routerChangeHanlder();
   }
   connectedCallback() {
     super.connectedCallback();
-    window.addEventListener('load', this.routerChangeHanlder);
     window.addEventListener('hashchange', this.routerChangeHanlder);
   }
   /** before Router */
-  beforeRouter: (to: RouterItem, from: RouterItem | undefined, next: () => void) => void;
+  beforeRouter: (to: { item: RouterItem; data: RouterContextData }, from: { item: RouterItem; data: RouterContextData } | undefined, next: () => void) => void;
   /** after Router */
-  afterRouter: (to: RouterItem, from: RouterItem | undefined) => void;
+  afterRouter: (to: { item: RouterItem; data: RouterContextData }, from: { item: RouterItem; data: RouterContextData } | undefined) => void;
 
-  private _lastRouterItem?: RouterItem;
-  private _lastRouterData?: RouterContextData;
+  private _lastRouterItem: RouterItem;
+  private _lastRouterData: RouterContextData;
 
-  private _routerItem?: RouterItem;
-  private _routerData?: RouterContextData;
+  private _routerItem: RouterItem;
+  private _routerData: RouterContextData;
 
   /**获取当前匹配路由 */
   public get routerItem() {
@@ -161,7 +160,7 @@ export default class SlRouter extends LitElement {
     for (let temp of this.routers) {
       let item = findSubRouter(temp);
       if (!item) {
-        return null;
+        continue;
       }
       let result = [];
       let matchPath = stripExtraTrailingSlash(item.path);
@@ -178,6 +177,7 @@ export default class SlRouter extends LitElement {
   }
   public static HASH_EVENT_BEFORE = 'hash-router-before';
   public static HASH_EVENT_AFTER = 'hash-router-after';
+
   /**
    * 处理路由匹配
    * @param matchItems  当前匹配的路径路径
@@ -189,16 +189,16 @@ export default class SlRouter extends LitElement {
     this._lastRouterItem = this.routerItem;
     const importResult: any[] = [];
     for (let temp of matchItems) {
-      let importResult: any;
+      let tempResult: any;
       if (temp.import) {
-        importResult = isFunction(temp.import) ? await temp.import() : await import(temp.import);
+        tempResult = isFunction(temp.import) ? await temp.import() : await import(temp.import);
       }
-      importResult.push(importResult);
+      importResult.push(tempResult);
     }
     const currentPath = this.getCurrentPath();
     const currentData = {
       ...currentPath,
-      pathData: getPathNames(pattern, currentPath.path) || {}
+      pathData: getPathNames(currentPath.path, pattern) || {}
     } as RouterContextData;
     this._routerData = currentData;
     this._routerItem = item;
@@ -230,7 +230,7 @@ export default class SlRouter extends LitElement {
           await item.afterCreate(el, currentData, item);
         }
       });
-      this.afterRouter ? this.afterRouter(item, this.lastRouterItem) : undefined;
+      this.afterRouter ? this.afterRouter({ item: item, data: this.routerData }, this.lastRouterItem ? { item: this.lastRouterItem, data: this.lastRouterData } : undefined) : undefined;
       emit(this, SlRouter.HASH_EVENT_AFTER);
     });
   }
@@ -252,10 +252,15 @@ export default class SlRouter extends LitElement {
       const matchItems = matchResult.items;
       const pattern = matchResult.url;
       const item = matchItems[matchItems.length - 1];
+      const currentPath = this.getCurrentPath();
+      const currentData = {
+        ...currentPath,
+        pathData: getPathNames(currentPath.path, pattern) || {}
+      } as RouterContextData;
       this.beforeRouter
-        ? this.beforeRouter(item, this.lastRouterItem, async () => {
-          this.excuteRouterComponenent(matchItems, pattern);
-        })
+        ? this.beforeRouter({ item: item, data: currentData }, this.routerItem ? { item: this.routerItem, data: this.routerData } : undefined, async () => {
+            this.excuteRouterComponenent(matchItems, pattern);
+          })
         : this.excuteRouterComponenent(matchItems, pattern);
     } else {
       emit(this, 'not-found');
@@ -264,7 +269,6 @@ export default class SlRouter extends LitElement {
   /**取消导航 */
   disconnectedCallback() {
     super.disconnectedCallback();
-    window.removeEventListener('load', this.routerChangeHanlder);
     window.removeEventListener('hashchange', this.routerChangeHanlder);
     delete routerCache[this.name];
   }

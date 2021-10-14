@@ -3,8 +3,8 @@ import { restoreFromLocalCache, restoreTableDefault } from './components/table/t
 import { onEvent } from './utilities/common';
 declare global {
   interface Window {
-    css: typeof css,
-    LitElement: typeof LitElement,
+    css: typeof css;
+    LitElement: typeof LitElement;
     html: typeof html;
     onEvent: typeof onEvent;
     LitRender: typeof render;

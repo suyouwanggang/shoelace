@@ -5,10 +5,10 @@
 A description of the component goes here.
 
 ```html preview
-<sl-router></sl-router>
+ <iframe src='/assets/examples/routerIframe.html' style='width:100%;height:300px;'></iframe>
 ```
-
 ## Examples
+   
 
 ### First Example
 
