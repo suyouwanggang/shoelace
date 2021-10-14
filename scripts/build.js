@@ -1,79 +1,78 @@
-//
-// Builds the project. To spin up a dev server, pass the --serve flag.
-//
 import browserSync from 'browser-sync';
 import chalk from 'chalk';
 import commandLineArgs from 'command-line-args';
 import copy from 'recursive-copy';
 import del from 'del';
 import esbuild from 'esbuild';
+import fs from 'fs';
 import getPort from 'get-port';
 import glob from 'globby';
+import mkdirp from 'mkdirp';
+import path from 'path';
+import { URL } from 'url';
 import { execSync } from 'child_process';
 import { listCssPlugin } from './esbuild-plugin-lit-css.js';
 const build = esbuild.build;
 const bs = browserSync.create();
-const { dev } = commandLineArgs({ name: 'dev', type: Boolean });
-del.sync('./dist');
-try {
-  //  execSync('npx tsc -p ./ttsconfig.json', { declaration: true });
 
-  if (!dev) execSync('npx tsc', { stdio: 'inherit' }); // for type declarations
-  execSync('node scripts/make-metadata.js', { stdio: 'inherit' });
-  execSync('node scripts/make-search.js', { stdio: 'inherit' });
-  execSync('node scripts/make-vscode-data.js', { stdio: 'inherit' });
-  execSync('node scripts/make-css.js', { stdio: 'inherit' });
-  execSync('node scripts/make-icons.js', { stdio: 'inherit' });
-} catch (err) {
-  console.error(chalk.red(err));
-  process.exit(1);
-}
+const { bundle, dir, serve, types } = commandLineArgs([
+  { name: 'dir', type: String, defaultValue: 'dist' },
+  { name: 'serve', type: Boolean },
+  { name: 'bundle', type: Boolean },
+  { name: 'types', type: Boolean }
+]);
+
+const __dirname = new URL('.', import.meta.url).pathname;
+const rootDir = path.dirname(__dirname);
+const outdir = path.relative(rootDir, dir);
+
+del.sync(outdir);
+mkdirp.sync(outdir);
 
 (async () => {
-  const entryPoints = [
-    // The whole shebang dist
-    './src/shoelace.ts',
-    // Components
-    ...(await glob('./src/components/**/!(*.(style|test)).ts')),
-    // Public utilities
-    ...(await glob('./src/utilities/**/!(*.(style|test)).ts')),
-    // Theme stylesheets
-    ...(await glob('./src/themes/**/!(*.test).ts'))
-  ];
-  const resouces = [...(await glob('./src/resources/!(*.(style|test)).ts'))];
-  const resouceResult = await esbuild.build({
-    format: 'esm',
-    target: 'es2017',
-    entryPoints: resouces,
-    outdir: './dist/resources',
-    chunkNames: '[name]',
-    incremental: dev,
-    define: {
-      // Popper.js expects this to be set
-      'process.env.NODE_ENV': '"production"'
-    },
-    bundle: true,
-    splitting: false,
-    plugins: [listCssPlugin({ filter: /\.lit\.css$/, specifier: 'lit', tag: 'css', uglify: true })]
-  });
+  try {
+    if (types) execSync(`tsc --project . --outdir "${outdir}"`, { stdio: 'inherit' });
+    execSync(`node scripts/make-metadata.js --outdir "${outdir}"`, { stdio: 'inherit' });
+    execSync(`node scripts/make-search.js --outdir "${outdir}"`, { stdio: 'inherit' });
+    execSync(`node scripts/make-vscode-data.js --outdir "${outdir}"`, { stdio: 'inherit' });
+    execSync(`node scripts/make-css.js --outdir "${outdir}"`, { stdio: 'inherit' });
+    execSync(`node scripts/make-icons.js --outdir "${outdir}"`, { stdio: 'inherit' });
+  } catch (err) {
+    console.error(chalk.red(err));
+    process.exit(1);
+  }
+
   const buildResult = await esbuild
     .build({
       format: 'esm',
       target: 'es2017',
-      entryPoints,
-      outdir: './dist',
+      entryPoints: [
+        // The whole shebang
+        './src/shoelace.ts',
+        // Components
+        ...(await glob('./src/components/**/!(*.(style|test)).ts')),
+        // Public utilities
+        ...(await glob('./src/utilities/**/!(*.(style|test)).ts')),
+        // Theme stylesheets
+        ...(await glob('./src/themes/**/!(*.test).ts'))
+      ],
+      outdir,
       chunkNames: 'chunks/[name].[hash]',
-      incremental: dev,
-      loader: {
-        '.png': 'dataurl',
-        '.svg': 'text',
-        '.css': 'text'
-      },
+      incremental: serve,
       define: {
         // Popper.js expects this to be set
         'process.env.NODE_ENV': '"production"'
       },
       bundle: true,
+      //
+      // We don't bundle certain dependencies in the production build. This ensures the dist ships with bare module
+      // specifiers, allowing end users to optimize better. jsDelivr understands this if you add /+esm to the URL. Note
+      // that we can't bundle packages that don't ship ESM. https://github.com/jsdelivr/jsdelivr/issues/18263
+      //
+      // We still bundle for the dev environment and the docs build since we don't use a CDN for those. Once import maps
+      // are better supported, we can adjust for that and use the same build again. https://caniuse.com/import-maps
+      //
+      external: bundle ? undefined : ['@popperjs/core', '@shoelace-style/animations', 'lit', 'qr-creator'],
       splitting: true,
       plugins: [listCssPlugin({ filter: /\.litcss$/, specifier: 'lit', tag: 'css', uglify: true })]
     })
@@ -82,16 +81,10 @@ try {
       process.exit(1);
     });
 
-  // Create the docs distribution by copying dist into the docs folder. This is what powers the website. It doesn't need
-  // to exist in dev because Browser Sync routes it virtually.
-  await del('./docs/dist');
-  if (!dev) {
-    await Promise.all([copy('./dist', './docs/dist')]);
-  }
+  console.log(chalk.green(`The build has been generated at ${outdir} 📦\n`));
 
-  console.log(chalk.green('The build has finished! 📦\n'));
-
-  if (dev) {
+  // Dev server
+  if (serve) {
     const port = await getPort({
       port: getPort.makeRange(4000, 4999)
     });
@@ -109,10 +102,7 @@ try {
       single: true,
       ghostMode: false,
       server: {
-        baseDir: 'docs',
-        routes: {
-          '/dist': './dist'
-        }
+        baseDir: 'docs'
       }
     });
 
@@ -125,7 +115,7 @@ try {
         .then(async () => {
           // Rebuild stylesheets when a theme file changes
           if (/^src\/themes/.test(filename)) {
-            execSync('node scripts/make-css.js', { stdio: 'inherit' });
+            execSync(`node scripts/make-css.js --outdir "${outdir}"`, { stdio: 'inherit' });
           }
         })
         .then(() => {
@@ -133,18 +123,9 @@ try {
           if (/(\.css|\.styles\.ts)$/.test(filename)) {
             return;
           }
-          console.log(`make-css change - ${filename}`);
-          execSync('node scripts/make-css.js', { stdio: 'inherit' });
-          execSync('node scripts/make-metadata.js', { stdio: 'inherit' });
+
+          execSync(`node scripts/make-metadata.js --outdir "${outdir}"`, { stdio: 'inherit' });
         })
-        .then(() => bs.reload())
-        .catch(err => console.error(chalk.red(err)));
-    });
-    bs.watch(['src/resources/!(*.test).*']).on('change', async filename => {
-      console.log(`resource file changed - ${filename}`);
-      resouceResult
-        // Rebuild and reload
-        .rebuild()
         .then(() => bs.reload())
         .catch(err => console.error(chalk.red(err)));
     });
@@ -152,11 +133,11 @@ try {
     // Reload without rebuilding when the docs change
     bs.watch(['docs/**/*.md']).on('change', filename => {
       console.log(`Docs file changed - ${filename}`);
-      execSync('node scripts/make-search.js', { stdio: 'inherit' });
+      execSync(`node scripts/make-search.js --outdir "${outdir}"`, { stdio: 'inherit' });
       bs.reload();
     });
-
-    // Cleanup on exit
-    process.on('SIGTERM', () => buildResult.rebuild.dispose());
   }
+
+  // Cleanup on exit
+  process.on('SIGTERM', () => buildResult.rebuild.dispose());
 })();

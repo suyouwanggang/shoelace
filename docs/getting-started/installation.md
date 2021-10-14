@@ -8,7 +8,7 @@ The easiest way to install Shoelace is with the CDN. Just add the following tags
 
 ```html
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@%VERSION%/dist/themes/light.css">
-<script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@%VERSION%/dist/shoelace.js"></script>
+<script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@%VERSION%/dist/shoelace.js/+esm"></script>
 ```
 
 ### Dark Theme
@@ -17,7 +17,7 @@ If you prefer to use the dark theme instead, use this. Note the `sl-theme-dark` 
 
 ```html
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@%VERSION%/dist/themes/light.css">
-<script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@%VERSION%/dist/shoelace.js"></script>
+<script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@%VERSION%/dist/shoelace.js/+esm"></script>
 ```
 
 ### Light & Dark Theme
@@ -29,7 +29,7 @@ If you want to load the light or dark theme based on the user's `prefers-color-s
 <link rel="stylesheet" media="(prefers-color-scheme:dark)"
       href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@%VERSION%/dist/themes/dark.css"
       onload="document.documentElement.classList.add('sl-theme-dark');">
-<script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@%VERSION%/dist/shoelace.js"></script>
+<script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@%VERSION%/dist/shoelace.js/+esm"></script>
 ```
 
 Now you can [start using Shoelace!](/getting-started/usage)
@@ -79,7 +79,7 @@ However, if you're [cherry picking](#cherry-picking) or [bundling](#bundling) Sh
 
 The previous approach is the _easiest_ way to load Shoelace, but easy isn't always efficient. You'll incur the full size of the library even if you only use a handful of components. This is convenient for prototyping, but may result in longer load times in production. To improve this, you can cherry pick the components you need.
 
-Cherry picking can be done from your local install or [directly from the CDN](https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@%VERSION%/). This will limit the number of files the browser has to download and reduce the amount of bytes being transferred. The disadvantage is that you need to load and register each component manually.
+Cherry picking can be done from your local install or [directly from the CDN](https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@%VERSION%/). This will limit the number of files the browser has to download and reduce the amount of bytes being transferred. The disadvantage is that you need to load component manually.
 
 Here's an example that loads only the button component. Again, if you're not using a module resolver, you'll need to adjust the path to point to the folder Shoelace is in.
 
