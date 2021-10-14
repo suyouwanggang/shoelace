@@ -109,7 +109,7 @@
                   ${
                     method.parameters?.length
                       ? `
-                        <code>${escapeHtml(method.parameters.map(param => `${param.name}: ${param.type&& param.type.text?param.type.text:''}`).join(', '))}</code>
+                        <code>${escapeHtml(method.parameters.map(param => `${param.name}: ${param.type && param.type.text ? param.type.text : ''}`).join(', '))}</code>
                       `
                       : '-'
                   }

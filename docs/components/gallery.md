@@ -17,38 +17,21 @@ Responsive and flexible carousel component with thumbnail support .
 <script>
     let galleryDiv=document.querySelector('#galleryDiv');
     let groupDIV=document.querySelector('#groupDIV');
-    galleryDiv.images=['https://raw.githubusercontent.com/xiaolin/react-image-gallery/master/static/4v.jpg',
- 'https://raw.githubusercontent.com/xiaolin/react-image-gallery/master/static/1.jpg',
- 'https://raw.githubusercontent.com/xiaolin/react-image-gallery/master/static/2.jpg',
- 'https://raw.githubusercontent.com/xiaolin/react-image-gallery/master/static/3.jpg',
- 'https://raw.githubusercontent.com/xiaolin/react-image-gallery/master/static/4.jpg',
- 'https://raw.githubusercontent.com/xiaolin/react-image-gallery/master/static/5.jpg',
- 'https://raw.githubusercontent.com/xiaolin/react-image-gallery/master/static/6.jpg',
- 'https://raw.githubusercontent.com/xiaolin/react-image-gallery/master/static/7.jpg',
- 'https://raw.githubusercontent.com/xiaolin/react-image-gallery/master/static/8.jpg',
- 'https://raw.githubusercontent.com/xiaolin/react-image-gallery/master/static/9.jpg',
- 'https://raw.githubusercontent.com/xiaolin/react-image-gallery/master/static/10.jpg',
- 'https://raw.githubusercontent.com/xiaolin/react-image-gallery/master/static/11.jpg'];
+    const images=[];
+    for(let i=0;i<11;i++){
+        images.push(`https://primefaces.org/primeng/showcase/assets/showcase/images/galleria/galleria${i+1}.jpg`);
+    }
+   galleryDiv.images=images;
+   const thumb_images=[];
+   for(let i=0;i<11;i++){
+       thumb_images.push(`https://primefaces.org/primeng/showcase/assets/showcase/images/galleria/galleria${i+1}s.jpg`);
+   }
+   galleryDiv.thumb_images=thumb_images;
 
-    galleryDiv.thumb_images=['https://raw.githubusercontent.com/xiaolin/react-image-gallery/master/static/1t.jpg',
-'https://raw.githubusercontent.com/xiaolin/react-image-gallery/master/static/2t.jpg',
-'https://raw.githubusercontent.com/xiaolin/react-image-gallery/master/static/3t.jpg',
-'https://raw.githubusercontent.com/xiaolin/react-image-gallery/master/static/4t.jpg',
- 'https://raw.githubusercontent.com/xiaolin/react-image-gallery/master/static/5t.jpg',
- 'https://raw.githubusercontent.com/xiaolin/react-image-gallery/master/static/6t.jpg',
- 'https://raw.githubusercontent.com/xiaolin/react-image-gallery/master/static/7t.jpg',
- 'https://raw.githubusercontent.com/xiaolin/react-image-gallery/master/static/8t.jpg',
-'https://raw.githubusercontent.com/xiaolin/react-image-gallery/master/static/9t.jpg',
- 'https://raw.githubusercontent.com/xiaolin/react-image-gallery/master/static/10t.jpg',
-'https://raw.githubusercontent.com/xiaolin/react-image-gallery/master/static/11t.jpg'];
-
-//   galleryDiv.images=galleryDiv.images.slice(0,4); 
-//   galleryDiv.thumb_images=galleryDiv.thumb_images.slice(0,4); 
-
-galleryDiv.image_datas=galleryDiv.images;
-// galleryDiv.imageRender=(image,index)=>{
-//     return html`<span> ${image} </span>`;
-// };
+    galleryDiv.image_datas=galleryDiv.images;
+    // galleryDiv.imageRender=(image,index)=>{
+    //     return html`<span> ${image} </span>`;
+    // };
 groupDIV.querySelectorAll('sl-button').forEach(item=>{
     item.addEventListener('click',(event)=>{
         galleryDiv.thumbPosition=event.target.textContent;
