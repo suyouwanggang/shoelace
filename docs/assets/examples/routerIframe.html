@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>SlRouter component.</title>
+    <link rel="stylesheet" href="/dist/themes/light.css" />
+    <script type="module" src="/dist/shoelace.js"></script>
+  </head>
+  <body>
+    <div id="routerApp">
+      <a target="_blank" href="/assets/examples/routerIframe.html">独立窗口打开</a><br />
+      <sl-router-link src="/a1">/al</sl-router-link><br />
+      <sl-router-link src="/a1/1">/al/1</sl-router-link><br />
+      <sl-router-link src="/a1/2">/al/2</sl-router-link><br />
+      <sl-router-link src="/b1">/bl</sl-router-link><br />
+      <sl-router-link src="/a1">/al</sl-router-link><br />
+      <sl-router id="sl-routerDIV"></sl-router>
+    </div>
+  </body>
+  <script type="module">
+    import { getRouterByName } from '/dist/components/router/router.js';
+    import { CryptoHashResovle } from '/dist/components/router/cryptoHashResovle.js';
+    const router = document.querySelector('#sl-routerDIV');
+    router.pathResovle = CryptoHashResovle;
+    router.beforeRouter = (to, from, next) => {
+      console.log('before', 'to', to, 'from', from);
+      next();
+    };
+    router.afterRouter = (to, from) => {
+      console.log('after', 'to', to, 'from', from);
+    };
+    router.routers = [
+      {
+        path: '/',
+        import: '/dist/components/router/router-link.js',
+        component: function () {
+          const el = document.createElement('div');
+          el.textContent = 'Default';
+          return el;
+        }
+      },
+      {
+        path: '/a1',
+        component: 'sl-a1',
+        children: [
+          {
+            path: '/:id',
+            component: function () {
+              const el = document.createElement('sl-a1');
+              el.textContent = 'id=' + router.routerData.pathData.id;
+              return el;
+            }
+          }
+        ]
+      },
+      {
+        path: '/b1',
+        component: 'sl-b1'
+      }
+    ];
+    class A extends LitElement {
+      render() {
+        const router = getRouterByName();
+        return html`<div>sl-a1:${JSON.stringify(router.routerData)}<slolt><slot></div>`;
+      }
+    }
+    customElements.define('sl-a1', A);
+    class B extends LitElement {
+      render() {
+        const router = getRouterByName();
+        return html`<div>
+          sl-b1:${JSON.stringify(router.routerData)}
+          <sl-router-link src="/a1">/a1 &nbsp;</sl-router-link>
+          <sl-router-link src="/a1/2320">/a1/2320 &nbsp;</sl-router-link>
+        </div> `;
+      }
+    }
+    customElements.define('sl-b1', B);
+  </script>
+</html>
