@@ -2,7 +2,8 @@
 // This script generates stylesheets from all *.styles.ts files in src/themes
 //
 import chalk from 'chalk';
-import commandLineArgs from 'command-line-args';import fs from 'fs/promises';
+import commandLineArgs from 'command-line-args';
+import fs from 'fs/promises';
 import glob from 'globby';
 import mkdirp from 'mkdirp';
 import path from 'path';
@@ -39,8 +40,8 @@ try {
       process.exit(1);
     }
     const filename = path.basename(file).replace('.styles.ts', '.css');
- 	  const formattedStyles = prettier.format(stripComments(css), { parser: 'css' }) + (filename == 'light.css' ? cssArray : '');
-    const outfile = path.join(themesDir, filename);    
+    const formattedStyles = prettier.format(stripComments(css), { parser: 'css' }) + (filename == 'light.css' ? cssArray : '');
+    const outfile = path.join(themesDir, filename);
     await fs.writeFile(outfile, formattedStyles, 'utf8');
   });
 } catch (err) {

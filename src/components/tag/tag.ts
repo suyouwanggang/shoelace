@@ -69,17 +69,7 @@ export default class SlTag extends LitElement {
           <slot></slot>
         </span>
 
-        ${this.removable
-          ? html`
-              <sl-icon-button
-                exportparts="base:remove-button"
-                name="x"
-                library="system"
-                class="tag__remove"
-                @click=${this.handleRemoveClick}
-              ></sl-icon-button>
-            `
-          : ''}
+        ${this.removable ? html` <sl-icon-button exportparts="base:remove-button" name="x" library="system" class="tag__remove" @click=${this.handleRemoveClick}></sl-icon-button> ` : ''}
       </span>
     `;
   }
