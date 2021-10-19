@@ -179,9 +179,7 @@ export default class SlRange extends LitElement {
   }
 
   syncProgress(percent: number) {
-    this.input.style.background = `linear-gradient(to right, var(--track-color-active) 0%, var(--track-color-active) ${
-      percent * 100
-    }%, var(--track-color-inactive) ${percent * 100}%, var(--track-color-inactive) 100%)`;
+    this.input.style.background = `linear-gradient(to right, var(--track-color-active) 0%, var(--track-color-active) ${percent * 100}%, var(--track-color-inactive) ${percent * 100}%, var(--track-color-inactive) 100%)`;
   }
 
   syncTooltip(percent: number) {
@@ -249,9 +247,7 @@ export default class SlRange extends LitElement {
             @focus=${this.handleFocus}
             @blur=${this.handleBlur}
           />
-          ${this.tooltip !== 'none' && !this.disabled
-            ? html` <output part="tooltip" class="range__tooltip"> ${this.tooltipFormatter(this.value)} </output> `
-            : ''}
+          ${this.tooltip !== 'none' && !this.disabled ? html` <output part="tooltip" class="range__tooltip"> ${this.tooltipFormatter(this.value)} </output> ` : ''}
         </div>
       `
     );

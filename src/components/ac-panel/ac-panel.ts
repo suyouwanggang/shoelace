@@ -30,7 +30,7 @@ import styles from './ac-panel.styles';
 @customElement('sl-ac-panel')
 export default class SlAcPanel extends LitElement {
   static styles = styles;
-  static ANIMATE_duration = 300;
+  static ANIMATE_duration = 500;
 
   @property({ type: Boolean, reflect: true }) active = false;
   @property({ type: String, reflect: true }) key: string;
@@ -61,11 +61,11 @@ export default class SlAcPanel extends LitElement {
       cancelable: true
     });
     if (!event.defaultPrevented) {
-      // const oldActive=panel.activeTab;
       panel.setTabToActive(tab, !tab.active);
       await panel.updateComplete;
       this.contentElement.style.display = 'block';
       const currentHeight = parseInt(getCssValue(this.contentElement, 'height'));
+
       this.contentElement.getAnimations().forEach(animateItem => animateItem.cancel());
       let thisAnimate = animateTo(this.contentElement, shimKeyframesHeightAuto(this.active ? animate_show : animate_hide, currentHeight), {
         duration: SlAcPanel.ANIMATE_duration,

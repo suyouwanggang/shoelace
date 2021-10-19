@@ -9,10 +9,10 @@ import SlCheckbox from '../checkbox/checkbox';
 import styles from './transfer.styles';
 import { live } from 'lit/directives/live.js';
 type TransferItem = {
-  id: string | number; /**主键 */
-  name: string;/**名称 */
-  [key: string]: unknown;/**其他自定义的选项 */
-}
+  id: string | number /**主键 */;
+  name: string /**名称 */;
+  [key: string]: unknown /**其他自定义的选项 */;
+};
 
 /**
  * @since 2.0
@@ -96,7 +96,6 @@ export default class SlTransfer extends LitElement {
   /** 自定义过滤渲染内容： 函数接收 direction:'source'|'target' 返回渲染内容 */
   @property({ attribute: false, reflect: false, type: Object }) filterTemplate: (direction: 'source' | 'target') => TemplateResult<1>;
 
-
   /** 自定义Title 渲染： 如果是数组，则为左右Title ,如果是函数， 则接收'source'|'target' 返回渲染内容 */
   @property({ attribute: false, reflect: false }) titleTemplate: string[] | ((direct: 'source' | 'target') => TemplateResult<1>);
 
@@ -111,7 +110,6 @@ export default class SlTransfer extends LitElement {
 
   /**选中项发生改变时的回调函数  */
   @property({ attribute: false, reflect: false }) onSelectChange: (sourceSelectedKeys: string[], targetSelectedKeys: string[]) => boolean;
-
 
   private renderFilter(direction: 'source' | 'target') {
     return this.filterTemplate ? this.filterTemplate(direction) : html`<sl-input></sl-input>`;
@@ -130,12 +128,15 @@ export default class SlTransfer extends LitElement {
   }
   protected renderContent(direction: 'source' | 'target') {
     const items = direction == 'source' ? this.sourceDataList : this.targetDataList;
-    const result = items.map((item) => {
-      return html`<li class='render-item' part='render-item'>
-          <sl-checkbox  .checked=${live(direction == 'source' ? this.sourceTempSelectedKeys && this.sourceTempSelectedKeys.includes(item.id) : this.targetTempSelectedKeys && this.targetTempSelectedKeys.includes(item.id))}  @sl-change=${(event: Event) => this.processSelectItem(event, item, direction)} >
-            <span class='render-item-label' > ${this.renderItem ? this.renderItem(item) : item.name} </span>
+    const result = items.map(item => {
+      return html`<li class="render-item" part="render-item">
+        <sl-checkbox
+          .checked=${live(direction == 'source' ? this.sourceTempSelectedKeys && this.sourceTempSelectedKeys.includes(item.id) : this.targetTempSelectedKeys && this.targetTempSelectedKeys.includes(item.id))}
+          @sl-change=${(event: Event) => this.processSelectItem(event, item, direction)}
+        >
+          <span class="render-item-label"> ${this.renderItem ? this.renderItem(item) : item.name} </span>
         </sl-checkbox>
-     </li>`;
+      </li>`;
     });
     return result;
   }

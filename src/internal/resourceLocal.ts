@@ -3,8 +3,8 @@ import { addEvent } from '../utilities/common';
 import { resouce_changeEvent } from '../utilities/getResouce';
 
 export default function resourceLocal() {
-  return function (target: any) {
-    (target as typeof ReactiveElement).addInitializer((element: ReactiveElement) => {
+  return function (target: typeof ReactiveElement) {
+    target.addInitializer((element: ReactiveElement) => {
       let result: {
         dispose: () => void;
       };

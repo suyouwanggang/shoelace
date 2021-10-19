@@ -20,9 +20,7 @@ describe('<sl-progress-ring>', () => {
     let base: HTMLDivElement;
 
     before(async () => {
-      el = await fixture<SlProgressRing>(
-        html`<sl-progress-ring title="Titled Progress Ring" value="25"></sl-progress-ring>`
-      );
+      el = await fixture<SlProgressRing>(html`<sl-progress-ring title="Titled Progress Ring" value="25"></sl-progress-ring>`);
       base = el.shadowRoot?.querySelector('[part="base"]') as HTMLDivElement;
     });
 
@@ -41,9 +39,7 @@ describe('<sl-progress-ring>', () => {
 
   describe('when provided a ariaLabel, and value parameter', async () => {
     before(async () => {
-      el = await fixture<SlProgressRing>(
-        html`<sl-progress-ring ariaLabel="Labelled Progress Ring" value="25"></sl-progress-ring>`
-      );
+      el = await fixture<SlProgressRing>(html`<sl-progress-ring ariaLabel="Labelled Progress Ring" value="25"></sl-progress-ring>`);
     });
 
     it('should render a component that passes accessibility test.', async () => {

@@ -93,18 +93,10 @@ export default class SlAnimatedImage extends LitElement {
 
         ${this.isLoaded
           ? html`
-              <img
-                class="animated-image__frozen"
-                src=${this.frozenFrame}
-                alt=${this.alt}
-                aria-hidden=${this.play ? 'true' : 'false'}
-                @click=${this.handleClick}
-              />
+              <img class="animated-image__frozen" src=${this.frozenFrame} alt=${this.alt} aria-hidden=${this.play ? 'true' : 'false'} @click=${this.handleClick} />
 
               <div part="control-box" class="animated-image__control-box">
-                ${this.play
-                  ? html`<sl-icon part="pause-icon" name="pause-fill" library="system"></sl-icon>`
-                  : html`<sl-icon part="play-icon" name="play-fill" library="system"></sl-icon>`}
+                ${this.play ? html`<sl-icon part="pause-icon" name="pause-fill" library="system"></sl-icon>` : html`<sl-icon part="play-icon" name="play-fill" library="system"></sl-icon>`}
               </div>
             `
           : ''}

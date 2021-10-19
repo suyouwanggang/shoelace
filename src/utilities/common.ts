@@ -85,20 +85,21 @@ function addEvent(node: EventTarget, eventType: string, hanlder: EventListenerOb
 function cloneUtils(node: Element, deepClone: boolean = true) {
   const cloneNode = node.cloneNode(deepClone) as Element;
 
-  const iteratorNode = (old: Element, newNode: Element) => {
-    if (deepClone) {
-      const old_children = old.children;
-      if (old_children) {
-        const new_children = newNode.children;
-        for (let i = 0, j = old_children.length; i < j; i++) {
-          iteratorNode(old_children[i], new_children[i]);
-        }
-      }
-    }
-  };
-  iteratorNode(node, cloneNode);
+  // const iteratorNode = (old: Element, newNode: Element) => {
+  //   if (deepClone) {
+  //     const old_children = old.children;
+  //     if (old_children) {
+  //       const new_children = newNode.children;
+  //       for (let i = 0, j = old_children.length; i < j; i++) {
+  //         iteratorNode(old_children[i], new_children[i]);
+  //       }
+  //     }
+  //   }
+  // };
+  // iteratorNode(node, cloneNode);
   return cloneNode;
 }
+
 /**
  * 获取所有直接节点
  * @param node

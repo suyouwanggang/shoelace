@@ -101,9 +101,14 @@ export const restoreFromLocalCache = (table: SlTable) => {
     return;
   }
   let key = getTableCacheKey(table.cacheKey, false) as string;
-  let cache = getLocalCache(key) as TableCacheType;
-  if (cache) {
-    restoreFormTableCache(table, cache);
+  try {
+    let cache = getLocalCache(key) as TableCacheType;
+    if (cache) {
+      restoreFormTableCache(table, cache);
+    }
+  } catch (error) {
+    console.log('cache key= ' + key + 'value is not valid');
+    console.error(error);
   }
 };
 export const saveAsDefaultTableCache = (table: SlTable) => {

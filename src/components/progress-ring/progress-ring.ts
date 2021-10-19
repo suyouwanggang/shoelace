@@ -50,16 +50,7 @@ export default class SlProgressRing extends LitElement {
 
   render() {
     return html`
-      <div
-        part="base"
-        class="progress-ring"
-        role="progressbar"
-        aria-label=${ifDefined(this.label)}
-        aria-valuemin="0"
-        aria-valuemax="100"
-        aria-valuenow="${this.value}"
-        style="--percentage: ${this.value / 100}"
-      >
+      <div part="base" class="progress-ring" role="progressbar" aria-label=${ifDefined(this.label)} aria-valuemin="0" aria-valuemax="100" aria-valuenow="${this.value}" style="--percentage: ${this.value / 100}">
         <svg class="progress-ring__image">
           <circle class="progress-ring__track"></circle>
           <circle class="progress-ring__indicator" style="stroke-dashoffset: ${this.indicatorOffset}"></circle>
