@@ -52,6 +52,9 @@
   - [Textarea](/components/textarea)
   - [Tooltip](/components/tooltip)
   - [Ripple](/components/ripple)
+  <!--plop:component-->
+  
+- Special Component
   - [Org Tree](/components/org-tree)
   - [Steps](/components/steps)
   - [Scroll](/components/scroll)
@@ -69,10 +72,9 @@
   - [Table](/components/table)
   - [TreeTable](/components/treeTable)
   - [EditTable](/components/tableEdit)
-  <!--plop:component-->
-
 - Utilities
   - [Router](/components/router)
+  - [Animated-image](/components/animated-image)
   - [Animation](/components/animation)
   - [Format Bytes](/components/format-bytes)
   - [Format Date](/components/format-date)

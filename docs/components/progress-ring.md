@@ -20,10 +20,10 @@ Use the `--size` custom property to set the diameter of the progress ring.
 
 ### Track Width
 
-Use the `track-width` attribute to set the width of the progress ring's track.
+Use the `--track-width` custom property to set the width of the progress ring's track.
 
 ```html preview
-<sl-progress-ring value="50" stroke-width="10"></sl-progress-ring>
+<sl-progress-ring value="50" style="--track-width: 10px;"></sl-progress-ring>
 ```
 
 ### Colors
@@ -42,10 +42,18 @@ To change the color, use the `--track-color` and `--indicator-color` custom prop
 
 ### Labels
 
+Use the `label` attribute to label the progress ring and tell assistive devices how to announce it.
+
+```html preview
+<sl-progress-ring value="50" label="Upload progress"></sl-progress-ring>
+```
+
+### Showing Values
+
 Use the default slot to show a label.
 
 ```html preview
-<sl-progress-ring value="50" class="progress-ring-labels" style="margin-bottom: .5rem;">50%</sl-progress-ring>
+<sl-progress-ring value="50" class="progress-ring-values" style="margin-bottom: .5rem;">50%</sl-progress-ring>
 
 <br>
 
@@ -53,7 +61,7 @@ Use the default slot to show a label.
 <sl-button circle><sl-icon name="plus"></sl-icon></sl-button>
 
 <script>
-  const progressRing = document.querySelector('.progress-ring-labels');
+  const progressRing = document.querySelector('.progress-ring-values');
   const subtractButton = progressRing.nextElementSibling.nextElementSibling;
   const addButton = subtractButton.nextElementSibling;
 

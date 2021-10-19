@@ -179,17 +179,21 @@ export default class SlRange extends LitElement {
   }
 
   syncProgress(percent: number) {
-    this.input.style.background = `linear-gradient(to right, var(--track-color-active) 0%, var(--track-color-active) ${percent * 100}%, var(--track-color-inactive) ${percent * 100}%, var(--track-color-inactive) 100%)`;
+    this.input.style.background = `linear-gradient(to right, var(--track-color-active) 0%, var(--track-color-active) ${
+      percent * 100
+    }%, var(--track-color-inactive) ${percent * 100}%, var(--track-color-inactive) 100%)`;
   }
 
   syncTooltip(percent: number) {
-    const inputWidth = this.input.offsetWidth;
-    const tooltipWidth = this.output.offsetWidth;
-    const thumbSize = getComputedStyle(this.input).getPropertyValue('--thumb-size');
-    const x = `calc(${inputWidth * percent}px - calc(calc(${percent} * ${thumbSize}) - calc(${thumbSize} / 2)))`;
+    if (this.output) {
+      const inputWidth = this.input.offsetWidth;
+      const tooltipWidth = this.output.offsetWidth;
+      const thumbSize = getComputedStyle(this.input).getPropertyValue('--thumb-size');
+      const x = `calc(${inputWidth * percent}px - calc(calc(${percent} * ${thumbSize}) - calc(${thumbSize} / 2)))`;
 
-    this.output.style.transform = `translateX(${x})`;
-    this.output.style.marginLeft = `-${tooltipWidth / 2}px`;
+      this.output.style.transform = `translateX(${x})`;
+      this.output.style.marginLeft = `-${tooltipWidth / 2}px`;
+    }
   }
 
   render() {
@@ -245,7 +249,9 @@ export default class SlRange extends LitElement {
             @focus=${this.handleFocus}
             @blur=${this.handleBlur}
           />
-          ${this.tooltip !== 'none' ? html` <output part="tooltip" class="range__tooltip"> ${this.tooltipFormatter(this.value)} </output> ` : ''}
+          ${this.tooltip !== 'none' && !this.disabled
+            ? html` <output part="tooltip" class="range__tooltip"> ${this.tooltipFormatter(this.value)} </output> `
+            : ''}
         </div>
       `
     );

@@ -1,5 +1,6 @@
 import { LitElement, html } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import styles from './progress-ring.styles';
 
 /**
@@ -27,6 +28,9 @@ export default class SlProgressRing extends LitElement {
   /** The current progress, 0 to 100. */
   @property({ type: Number, reflect: true }) value = 0;
 
+  /** The progress ring's aria label. */
+  @property() label = 'Progress'; // TODO - i18n
+
   updated(changedProps: Map<string, any>) {
     super.updated(changedProps);
 
@@ -46,7 +50,16 @@ export default class SlProgressRing extends LitElement {
 
   render() {
     return html`
-      <div part="base" class="progress-ring" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${this.value}" style="--percentage: ${this.value / 100}">
+      <div
+        part="base"
+        class="progress-ring"
+        role="progressbar"
+        aria-label=${ifDefined(this.label)}
+        aria-valuemin="0"
+        aria-valuemax="100"
+        aria-valuenow="${this.value}"
+        style="--percentage: ${this.value / 100}"
+      >
         <svg class="progress-ring__image">
           <circle class="progress-ring__track"></circle>
           <circle class="progress-ring__indicator" style="stroke-dashoffset: ${this.indicatorOffset}"></circle>
