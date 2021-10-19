@@ -50,8 +50,8 @@
   - [Tab Panel](/components/tab-panel)
   - [Tag](/components/tag)
   - [Textarea](/components/textarea)
-  - [Tooltip](/components/tooltip)
-  - [Ripple](/components/ripple)
+  - [Tooltip](/components/tooltip)  
+  - [Transfer](/components/transfer)
   <!--plop:component-->
   
 - Special Component
@@ -76,6 +76,7 @@
   - [Router](/components/router)
   - [Animated-image](/components/animated-image)
   - [Animation](/components/animation)
+  - [Ripple](/components/ripple)
   - [Format Bytes](/components/format-bytes)
   - [Format Date](/components/format-date)
   - [Format Number](/components/format-number)

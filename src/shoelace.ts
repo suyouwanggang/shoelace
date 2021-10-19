@@ -71,6 +71,7 @@ export { default as SlColumn } from './components/column/column';
 export { default as SlTable } from './components/table/table';
 export { default as SlRouter } from './components/router/router';
 export { default as SlRouterLink } from './components/router/router-link';
+export { default as SlTransfer } from './components/transfer/transfer';
 /* plop:component */
 
 // Utilities
