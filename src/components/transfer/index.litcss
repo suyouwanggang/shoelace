@@ -31,6 +31,7 @@ div[part=base]{
             }
             sl-scroll[part=base-source-body-content],sl-scroll[part=base-target-body-content]{
                 flex: auto;
+                max-width: var(--list-width,300px);
                 margin: 0;
                 padding: 0;
                 overflow: auto;

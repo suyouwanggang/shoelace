@@ -115,27 +115,32 @@ export default class SlTransfer extends LitElement {
     return this.filterTemplate ? this.filterTemplate(direction) : html`<sl-input></sl-input>`;
   }
   private processSelectItem(event: Event, item: TransferItem, direction: 'source' | 'target') {
-    const el = event.target as SlCheckbox;
-    if (el.checked) {
-      direction == 'source' ? this.sourceTempSelectedKeys.push(item.id) : this.targetTempSelectedKeys.push(item.id);
-    } else {
+    const li = event.currentTarget as HTMLElement;
+    const el = li.querySelector('sl-checkbox') as SlCheckbox;
+    el.click();
+    requestAnimationFrame(() => {
       const array = direction == 'source' ? this.sourceTempSelectedKeys : this.targetTempSelectedKeys;
-      let index = array.indexOf(item.id);
-      if (index >= 0) {
-        array.splice(index, 1);
+      if (el.checked) {
+        let index = array.indexOf(item.id);
+        if (index < 0) {
+          array.push(item.id);
+        }
+      } else {
+        let index = array.indexOf(item.id);
+        if (index >= 0) {
+          array.splice(index, 1);
+        }
       }
-    }
+    })
+
   }
   protected renderContent(direction: 'source' | 'target') {
     const items = direction == 'source' ? this.sourceDataList : this.targetDataList;
     const result = items.map(item => {
-      return html`<li class="render-item" part="render-item">
-        <sl-checkbox
-          .checked=${live(direction == 'source' ? this.sourceTempSelectedKeys && this.sourceTempSelectedKeys.includes(item.id) : this.targetTempSelectedKeys && this.targetTempSelectedKeys.includes(item.id))}
-          @sl-change=${(event: Event) => this.processSelectItem(event, item, direction)}
-        >
-          <span class="render-item-label"> ${this.renderItem ? this.renderItem(item) : item.name} </span>
+      return html`<li class="render-item" part="render-item"  @click=${(event: Event) => this.processSelectItem(event, item, direction)}>
+        <sl-checkbox .checked=${live(direction == 'source' ? this.sourceTempSelectedKeys && this.sourceTempSelectedKeys.includes(item.id) : this.targetTempSelectedKeys && this.targetTempSelectedKeys.includes(item.id))}   >
         </sl-checkbox>
+        <span class="render-item-label"> ${this.renderItem ? this.renderItem(item) : item.name} </span>
       </li>`;
     });
     return result;
