@@ -5,40 +5,50 @@
 div[part=base]{
     display: flex;
     position: relative;
-    div[part=base-source],div[part=base-target]{
+    div[part=container]{
         display: flex;
         flex-direction: column;
-        border: 1px solid #d9d9d9;
+        border: 1px solid rgb(var(--sl-input-border-color));
         border-radius: 2px;
 
-        div[part=base-source-header],div[part=base-target-header]{
+        div[part=header]{
             display: flex;
             align-items: center;
             padding: 8px 12px 9px;
             border-bottom: 1px solid #f0f0f0;
             border-radius: 2px 2px 0 0;
         }
-        div[part=base-source-body],div[part=base-target-body]{
+        div[part=body]{
             display: flex;
             flex: auto;
-            min-width: var(--body-width,300px);
             flex-direction: column;
             overflow: hidden;
-            div[part=base-source-body-search],div[part=base-target-body-search]{
+            div[part=search]{
                 position: relative;
                 flex: none;
                 padding: 12px;
             }
-            sl-scroll[part=base-source-body-content],sl-scroll[part=base-target-body-content]{
+            div[part=body-content]{
                 flex: auto;
-                max-width: var(--list-width,300px);
+                position: relative;
+                width: var(--list-width,300px);
                 margin: 0;
                 padding: 0;
                 overflow: auto;
                 list-style: none;
+                >sl-scroll{
+                    height: 100%;
+                }
             }
-
-            
+            .emptyData{
+                position: absolute;
+                top: 50%;
+                width: 100%;
+                padding-top: 0;
+                color: rgba(0,0,0,.25);
+                text-align: center;
+                transform: translateY(-50%);
+            }
         }
 
     }
@@ -54,15 +64,33 @@ div[part=base]{
 
 
     .render-item{
+        cursor: pointer;
         display: flex;
         align-items: center;
-        padding: 6px 12px;
+        padding: 4px 12px;
         transition: all .3s;
+        sl-checkbox[part='render-checkbox'] {
+            margin-right:6px;
+        }
+        &:hover{
+            background-color: rgb(var(--sl-color-primary-50));
+            color: rgb(var(--sl-color-primary-700));
+        }
         .render-item-label{
             flex: auto;
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis; 
         }
+    }
+    .table{
+       height: 100%;
+    }
+    .table::part(base), .table::part(scroll-div){
+        height: 100%;
+    }
+
+    .table::part(table) , .table::part(table)::after{
+        border-left: none;
     }
 }

@@ -8,6 +8,7 @@ const resouce = {
     prev: 'Prev',
     next: 'Next'
   },
+  seachTransfer: 'search....',
   noData: 'No Data!',
   date: {
     showHeaderStr: function (date: Date, mode: 'year' | 'month' | 'date') {

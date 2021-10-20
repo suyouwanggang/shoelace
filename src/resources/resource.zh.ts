@@ -8,6 +8,7 @@ const resouce = {
     prev: '上一页',
     next: '下一页'
   },
+  seachTransfer: '请输入搜索内容',
   noData: '没有任何数据',
   date: {
     showHeaderStr: function (date: Date, mode: 'year' | 'month' | 'date') {
