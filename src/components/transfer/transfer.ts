@@ -21,12 +21,12 @@ type TransferItem = {
   [key: string]: unknown /**其他自定义的选项 */;
 };
 
-const defaultTransfilter = (item: TransferItem, value: string,) => {
+const defaultTransfilter = (item: TransferItem, value: string) => {
   if (value == null || value == '' || value.trim() == '' || typeof item.name == 'undefined') {
     return true;
   }
   return item.name.includes(value);
-}
+};
 /**
  * @since 2.0
  * @status experimental
@@ -45,7 +45,7 @@ const defaultTransfilter = (item: TransferItem, value: string,) => {
  * @csspart slInput - The component's filter slInput.
  * @csspart input - The component's filter slInput's input.
  * @csspart header - The component's source,target header wraper.
- * 
+ *
  *
  * @cssproperty --example - An example CSS custom property.
  */
@@ -60,7 +60,6 @@ export default class SlTransfer extends LitElement {
   /**数据项自定渲染 */
   @property({ attribute: false, reflect: false }) renderItem: (item: TransferItem, direction: 'source' | 'target') => TemplateResult<1>;
 
-
   /** 操作过程左侧当前选中的数据项ID */
   @state() private sourceTempSelectedKeys: Array<string | number> = [];
 
@@ -72,7 +71,6 @@ export default class SlTransfer extends LitElement {
 
   /** 是否禁用选择 */
   @property({ type: Boolean }) disabled: boolean = false;
-
 
   private cacheDataSource = new Map<string | number, TransferItem>();
 
@@ -93,7 +91,6 @@ export default class SlTransfer extends LitElement {
     }
     return result;
   }
-
 
   get sourceDataList() {
     const result: TransferItem[] = [];
@@ -125,12 +122,12 @@ export default class SlTransfer extends LitElement {
   protected runFilterMethod() {
     let list = this.targetDataList;
     if (!this.disableFilter && this.targetSearchValue && this.filterMethod) {
-      list = list.filter((item) => this.filterMethod(item, ...this.targetSearchValue));
+      list = list.filter(item => this.filterMethod(item, ...this.targetSearchValue));
     }
     this.filterTargetDataList = list;
     list = this.sourceDataList;
     if (!this.disableFilter && this.sourceSearchValue && this.filterMethod) {
-      list = list.filter((item) => this.filterMethod(item, ...this.sourceSearchValue));
+      list = list.filter(item => this.filterMethod(item, ...this.sourceSearchValue));
     }
     this.filterSourceDataList = list;
   }
@@ -138,7 +135,6 @@ export default class SlTransfer extends LitElement {
   @property({ type: Boolean, attribute: 'disable-filter' }) disableFilter: boolean;
   /** 过滤Input 的placeholder，如果是字符串，则作用于source,target,如果是数组，则第一个作用左边，第二个作用于右边  */
   @property() filterPlaceholder: string | string[];
-
 
   /** 自定义Title 渲染： 如果是数组，则为左右Title ,如果是函数， 则接收'source'|'target' 返回渲染内容 */
   @property({ attribute: false, reflect: false }) titleTemplate: string[] | ((direct: 'source' | 'target') => TemplateResult<1>);
@@ -156,8 +152,11 @@ export default class SlTransfer extends LitElement {
   @property({ attribute: false, reflect: false }) onSelectChange: (sourceSelectedKeys: string[], targetSelectedKeys: string[]) => boolean;
 
   private renderFilter(_direction: 'source' | 'target') {
-    const placeholder = typeof this.filterPlaceholder != 'undefined' ? (isArray(this.filterPlaceholder) ? this.filterPlaceholder[_direction == 'source' ? 0 : 1] : this.filterPlaceholder) : getResouceValue('seachTransfer') as string;
-    return html`<sl-input direction=${_direction} size='small' @sl-input=${(event: Event) => this.doFilterInputHandler(event, _direction)} placeholder=${placeholder} exportparts='base:slInput,input:input'  clearable><sl-icon slot='suffix' name='search'></sl-icon></sl-input>`;
+    const placeholder =
+      typeof this.filterPlaceholder != 'undefined' ? (isArray(this.filterPlaceholder) ? this.filterPlaceholder[_direction == 'source' ? 0 : 1] : this.filterPlaceholder) : (getResouceValue('seachTransfer') as string);
+    return html`<sl-input direction=${_direction} size="small" @sl-input=${(event: Event) => this.doFilterInputHandler(event, _direction)} placeholder=${placeholder} exportparts="base:slInput,input:input" clearable
+      ><sl-icon slot="suffix" name="search"></sl-icon
+    ></sl-input>`;
   }
   @state() protected sourceSearchValue: unknown[] = [];
   @state() protected targetSearchValue: unknown[] = [];
@@ -183,9 +182,9 @@ export default class SlTransfer extends LitElement {
         source: this.sourceSearchValue[0],
         target: this.targetSearchValue[0],
         sourceSearchValue: this.sourceSearchValue,
-        targetSearchValue: this.targetSearchValue,
+        targetSearchValue: this.targetSearchValue
       }
-    })
+    });
   }
   protected processSelectItem(event: Event, item: TransferItem, direction: 'source' | 'target') {
     const li = event.currentTarget as HTMLElement;
@@ -204,9 +203,9 @@ export default class SlTransfer extends LitElement {
       emit(this, 'sl-transfer-change', {
         detail: {
           'sourceSelectedKeys:': this.sourceTempSelectedKeys,
-          'targetSelectedKeys': this.targetTempSelectedKeys,
+          targetSelectedKeys: this.targetTempSelectedKeys
         }
-      })
+      });
     });
   }
   private sourceScrollRef = createRef<SlScroll>();
@@ -242,18 +241,22 @@ export default class SlTransfer extends LitElement {
   protected renderContent(direction: 'source' | 'target') {
     const items = direction == 'source' ? this.filterSourceDataList : this.filterTargetDataList;
     if (this.tableTemplate != undefined) {
-      direction == 'source' ? this.sourceTable.dataSource = items : this.targetTable.dataSource = items;
+      direction == 'source' ? (this.sourceTable.dataSource = items) : (this.targetTable.dataSource = items);
       return html`${direction == 'source' ? this.sourceTable : this.targetTable}`;
     }
     const result = items.map(item => {
       return html`<li class="render-item" part="render-item" @click=${(event: Event) => this.processSelectItem(event, item, direction)}>
-        <sl-checkbox  part='render-checkbox' .shape=${'circle'} .checked=${live(direction == 'source' ? this.sourceTempSelectedKeys && this.sourceTempSelectedKeys.includes(item.id) : this.targetTempSelectedKeys && this.targetTempSelectedKeys.includes(item.id))}>
+        <sl-checkbox
+          part="render-checkbox"
+          .shape=${'circle'}
+          .checked=${live(direction == 'source' ? this.sourceTempSelectedKeys && this.sourceTempSelectedKeys.includes(item.id) : this.targetTempSelectedKeys && this.targetTempSelectedKeys.includes(item.id))}
+        >
         </sl-checkbox>
-        <div class="render-item-label"> ${this.renderItem ? this.renderItem(item, direction) : item.name} </div>
+        <div class="render-item-label">${this.renderItem ? this.renderItem(item, direction) : item.name}</div>
       </li>`;
     });
     if (!items || items.length == 0) {
-      return html`<div slot=${direction + '-empty'} class='emptyData'>${getResouceValue('noData')}</div>`;
+      return html`<div slot=${direction + '-empty'} class="emptyData">${getResouceValue('noData')}</div>`;
     } else {
       return html`<sl-scroll ${ref(direction == 'source' ? this.sourceScrollRef : this.targetScrollRef)}>${result}</sl-scroll>`;
     }
@@ -263,7 +266,7 @@ export default class SlTransfer extends LitElement {
       <div part='container' class='source' >
         <div part='header'></div>
         <div part='body'>
-          ${!this.disableFilter ? html`<div part='search'>${this.renderFilter('source')}</div>` : nothing}
+          ${!this.disableFilter ? html`<div part="search">${this.renderFilter('source')}</div>` : nothing}
           <div part='body-content'>${this.renderContent('source')}</div>
         </div>
       </div>
@@ -271,7 +274,7 @@ export default class SlTransfer extends LitElement {
       <div part='container' class='target'>
         <div part='header'></div>
         <div part='body'>
-            ${!this.disableFilter ? html`<div part='search'>${this.renderFilter('target')}</div>` : nothing}
+            ${!this.disableFilter ? html`<div part="search">${this.renderFilter('target')}</div>` : nothing}
             <div part='body-content'>${this.renderContent('target')}</div>
         </div>
         </div>

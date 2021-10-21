@@ -40,7 +40,6 @@
     "test:watch": "web-test-runner \"src/**/*.test.ts\" --node-resolve --puppeteer --watch"
   },
   "dependencies": {
-    "@lit-labs/virtualizer": "^0.6.0",
     "@popperjs/core": "^2.7.0",
     "@shoelace-style/animations": "^1.1.0",
     "color": "^3.1.3",
@@ -52,7 +51,6 @@
   },
   "devDependencies": {
     "@custom-elements-manifest/analyzer": "^0.4.12",
-    "@lit/ts-transformers": "^1.0.2",
     "@open-wc/testing": "^2.5.33",
     "@rollup/plugin-typescript": "^8.2.5",
     "@types/color": "^3.0.1",
@@ -72,12 +70,10 @@
     "del": "^6.0.0",
     "download": "^8.0.0",
     "esbuild": "^0.12.4",
-    "esbuild-plugin-babel": "^0.2.3",
     "front-matter": "^4.0.2",
     "get-port": "^5.1.1",
     "globby": "^11.0.4",
     "husky": "^4.3.8",
-    "ink-docstrap": "^0.5.4",
     "lunr": "^2.3.9",
     "mkdirp": "^0.5.5",
     "node-sass": "^6.0.1",
@@ -85,17 +81,14 @@
     "prettier": "^2.2.1",
     "prismjs-themes": "^2.0.0",
     "recursive-copy": "^2.0.11",
-    "sass": "^1.38.0",
+    "sass": "^1.42.1",
     "sinon": "^11.1.1",
     "string-to-template-literal": "^2.0.0",
     "strip-css-comments": "^4.1.0",
     "tslib": "^2.2.0",
-    "ttypescript": "^1.5.12",
-    "typedoc": "^0.21.5",
     "typescript": "^4.2.4",
     "uglifycss": "^0.0.29",
-    "wait-on": "^5.2.1",
-    "web-component-analyzer": "^1.1.6"
+    "wait-on": "^5.2.1"
   },
   "husky": {
     "hooks": {

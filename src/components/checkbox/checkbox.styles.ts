@@ -54,8 +54,8 @@ export default css`
     color: rgb(var(--sl-color-neutral-0));
     transition: var(--sl-transition-fast) border-color, var(--sl-transition-fast) background-color, var(--sl-transition-fast) color, var(--sl-transition-fast) box-shadow;
   }
-  .checkbox__control[shape=circle]{
-    border-radius:50%;
+  .checkbox__control[shape='circle'] {
+    border-radius: 50%;
   }
   .checkbox__input {
     position: absolute;
