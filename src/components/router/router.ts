@@ -259,8 +259,8 @@ export default class SlRouter extends LitElement {
       } as RouterContextData;
       this.beforeRouter
         ? this.beforeRouter({ item: item, data: currentData }, this.routerItem ? { item: this.routerItem, data: this.routerData } : undefined, async () => {
-          this.excuteRouterComponenent(matchItems, pattern);
-        })
+            this.excuteRouterComponenent(matchItems, pattern);
+          })
         : this.excuteRouterComponenent(matchItems, pattern);
     } else {
       emit(this, 'not-found');

@@ -54,8 +54,6 @@ export type RouterItem = {
      router.afterRouter = (to, from) => {
       console.log('after', 'to', to, 'from', from);
     };
-
-
  ``` 
  
  ### 导航到特定路由
