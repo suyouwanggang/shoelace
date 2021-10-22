@@ -1,6 +1,10 @@
 import { emit } from '../internal/event';
 import resouceZh from '../resources/resource.zh';
 let currentLocal = 'zh';
+type ResouceType = typeof resouceZh;
+/**
+ * 全局 资源改变事件监听..
+ */
 const resouce_changeEvent = `window-resouce-change-event`;
 /**
  * 设置组件语言
@@ -22,14 +26,17 @@ async function setLocal(locale: string) {
     }
   });
 }
-const map = { zh: resouceZh } as any;
+type ResouceMapType = {
+  [key in string]: ResouceType;
+}
+const resourceMap: ResouceMapType = { zh: resouceZh };
 async function loaderLocal(locale: string) {
-  if (map[locale]) {
-    return map[locale];
+  if (resourceMap[locale]) {
+    return resourceMap[locale] as ResouceType;
   }
   return import(`../resources/resource.${locale}.js`).then(ret => {
-    map[locale] = ret.default;
-    return ret.default;
+    resourceMap[locale] = ret.default as ResouceType;
+    return resourceMap[locale];
   });
 }
 /**
@@ -61,11 +68,11 @@ function getResouceValue(keys: string): any {
     return resultMap.get(keys);
   }
   let array = keys.split('.');
-  let obj = map[getLocal()];
+  let obj = resourceMap[getLocal()];
   if (!obj) {
     obj = resouceZh;
   }
-  let result = obj;
+  let result = obj as any;
   for (let k of array) {
     result = result[k];
   }

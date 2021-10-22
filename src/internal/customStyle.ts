@@ -9,12 +9,12 @@
 //  }
 //
 
-import { LitElement } from 'lit';
+import { LitElement, ReactiveElement } from 'lit';
 export function customStyle() {
   const key = 'customStyle';
   const keyCustomStyle = Symbol('keyCustomStyle');
   const keyName = Symbol('customStyle');
-  return (protoOrDescriptor: any) => {
+  return (protoOrDescriptor: typeof ReactiveElement) => {
     Object.defineProperty(protoOrDescriptor.prototype, key, {
       configurable: true,
       enumerable: true,

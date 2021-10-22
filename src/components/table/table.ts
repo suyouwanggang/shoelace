@@ -5,6 +5,7 @@ import { ref } from 'lit/directives/ref.js';
 import { StyleInfo, styleMap } from 'lit/directives/style-map.js';
 import { customStyle } from '../../internal/customStyle';
 import { emit } from '../../internal/event';
+import resourceLocal from '../../internal/resourceLocal';
 import { spread, SpreadResult } from '../../internal/spread';
 import { watch } from '../../internal/watch';
 import { watchProps } from '../../internal/watchProps';
@@ -107,6 +108,7 @@ let componentID = 0;
  * @cssproperty --sl-table-td-bottom-width -1px，定义表格单元格底侧的线条宽度
  *
  */
+@resourceLocal()
 @customStyle()
 @customElement('sl-table')
 export default class SlTable extends LitElement {
@@ -393,7 +395,7 @@ export default class SlTable extends LitElement {
         }
       }
       if (!isNaN(right)) {
-        for (let i = columnSize - 1, j = 0; j < right && i >= 0; ) {
+        for (let i = columnSize - 1, j = 0; j < right && i >= 0;) {
           let col = this.tdRenderColumns[i];
           while (col != null && col.tagName.toLowerCase() == 'sl-column') {
             style += this.caculateFixedColumnStyle(col, tableRect, false);
@@ -441,16 +443,16 @@ export default class SlTable extends LitElement {
     const trTemplates = (rowColumn: SlColumn[], rowIndex: number) => {
       return html`<tr .columns=${rowColumn}>
         ${rowColumn.map((column, index) => {
-          const cache = getColumnCacheData(column);
-          const context: CellHeadContext = {
-            column: column,
-            colIndex: index,
-            rowspan: cache.rowspan as number,
-            colspan: cache.colspan as number,
-            colRowIndex: rowIndex
-          };
-          return renderThColTemplate(context, table);
-        })}
+        const cache = getColumnCacheData(column);
+        const context: CellHeadContext = {
+          column: column,
+          colIndex: index,
+          rowspan: cache.rowspan as number,
+          colspan: cache.colspan as number,
+          colRowIndex: rowIndex
+        };
+        return renderThColTemplate(context, table);
+      })}
       </tr>`;
     };
     return this.theadRows.map((items, index) => trTemplates(items, index));
@@ -710,8 +712,8 @@ export default class SlTable extends LitElement {
       rowList.push(
         html`<tr
             ${ref(el => {
-              setRowContext(el as HTMLTableRowElement, rowContext);
-            })}
+          setRowContext(el as HTMLTableRowElement, rowContext);
+        })}
             .rowData=${rowData}
             style=${styleMap(trStyle)}
             class=${classMap(trClassObject)}
@@ -764,7 +766,7 @@ export default class SlTable extends LitElement {
   }
   private _renderDataSourceRows() {
     if (this.innerDataSource) {
-      return this.enableVirtualScroll ? this._virtualRenderTbodyRows() : this._renderRowDataBetween(0, this.innerDataSource.length);
+      return this.enableVirtualScroll && this.innerDataSource.length > 20 ? this._virtualRenderTbodyRows() : this._renderRowDataBetween(0, this.innerDataSource.length);
     }
     return nothing;
   }
