@@ -1,6 +1,7 @@
 .DS_Store
 .cache
 dist
+docs/dist
 docs/search.json
 examples
 node_modules
