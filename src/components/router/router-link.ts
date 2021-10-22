@@ -11,14 +11,18 @@ import { getRouterByName } from './router';
  */
 @customElement('sl-router-link')
 export default class SlRouterLink extends LitElement {
+  /** 设置导航urlpattern */
   @property()
   src: string;
+  /**是否为外部导航 */
   @property({ attribute: false })
   external: boolean = false;
 
+  /**匹配SlRouter 路由，如果未指定则等同default */
   @property({ attribute: false })
   routerName: string;
 
+  /** 导航要提交的参数或者路径数据 */
   @property({ type: Object, attribute: false })
   data: PathNameResult;
   render() {

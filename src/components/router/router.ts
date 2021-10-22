@@ -83,7 +83,7 @@ export default class SlRouter extends LitElement {
     super.connectedCallback();
     window.addEventListener('hashchange', this.routerChangeHanlder);
   }
-  /** before Router */
+  /**  Router 守护 */
   beforeRouter: (to: { item: RouterItem; data: RouterContextData }, from: { item: RouterItem; data: RouterContextData } | undefined, next: () => void) => void;
   /** after Router */
   afterRouter: (to: { item: RouterItem; data: RouterContextData }, from: { item: RouterItem; data: RouterContextData } | undefined) => void;
@@ -259,8 +259,8 @@ export default class SlRouter extends LitElement {
       } as RouterContextData;
       this.beforeRouter
         ? this.beforeRouter({ item: item, data: currentData }, this.routerItem ? { item: this.routerItem, data: this.routerData } : undefined, async () => {
-            this.excuteRouterComponenent(matchItems, pattern);
-          })
+          this.excuteRouterComponenent(matchItems, pattern);
+        })
         : this.excuteRouterComponenent(matchItems, pattern);
     } else {
       emit(this, 'not-found');
