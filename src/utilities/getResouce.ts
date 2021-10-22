@@ -10,25 +10,27 @@ const resouce_changeEvent = `window-resouce-change-event`;
  * 设置组件语言
  * @param locale
  */
-async function setLocal(locale: string) {
+async function setLocal(locale: string, loaderback?: (data: any) => void) {
   if (!getSuppurtLocals().includes(locale)) {
     throw new Error(`不支持的组件语言!支持的语言有${getSuppurtLocals().join(',')}`);
   }
-  loaderLocal(locale).then(() => {
-    //console.log('load resource ==='+locale);
-    if (locale != currentLocal) {
-      currentLocal = locale;
-      emit(window, resouce_changeEvent, {
-        detail: {
-          new: locale
-        }
-      });
-    }
-  });
+  const localData = await loaderLocal(locale);
+  if (loaderback) {
+    loaderback(localData);
+  }
+  if (locale != currentLocal) {
+    currentLocal = locale;
+    emit(window, resouce_changeEvent, {
+      detail: {
+        new: locale
+      }
+    });
+  }
+  return localData;
 }
 type ResouceMapType = {
   [key in string]: ResouceType;
-}
+};
 const resourceMap: ResouceMapType = { zh: resouceZh };
 async function loaderLocal(locale: string) {
   if (resourceMap[locale]) {
