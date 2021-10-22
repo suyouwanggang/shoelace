@@ -15,7 +15,7 @@
 Designed in New Hampshire by [Cory LaViska](https://twitter.com/claviska).
 </div>
 <div class="splash-end">
-<img class="splash-image" src="/assets/images/undraw-content-team.svg" alt="Cartoon of people assembling components while standing on a giant laptop.">
+<img class="splash-image" src="assets/images/undraw-content-team.svg" alt="Cartoon of people assembling components while standing on a giant laptop.">
 </div>
 </div>
 
@@ -79,11 +79,11 @@ Whether you use Shoelace as a starting point for your organization's design syst
 
 Shoelace is tested in the latest two versions of the following browsers.
 
-<img src="/assets/images/chrome.png" alt="Chrome" width="64" height="64">
-<img src="/assets/images/edge.png" alt="Edge" width="64" height="64">
-<img src="/assets/images/firefox.png" alt="Firefox" width="64" height="64">
-<img src="/assets/images/opera.png" alt="Opera" width="64" height="64">
-<img src="/assets/images/safari.png" alt="Safari" width="64" height="64">
+<img src="assets/images/chrome.png" alt="Chrome" width="64" height="64">
+<img src="assets/images/edge.png" alt="Edge" width="64" height="64">
+<img src="assets/images/firefox.png" alt="Firefox" width="64" height="64">
+<img src="assets/images/opera.png" alt="Opera" width="64" height="64">
+<img src="assets/images/safari.png" alt="Safari" width="64" height="64">
 
 Critical bug fixes in earlier versions will be addressed based on their severity and impact.
 
