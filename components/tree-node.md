@@ -62,7 +62,7 @@
          console.trace('当前点击的tree-node',el);
          console.log(event.detail.node.nodeData.value);
      })
-  const request = fetch('/assets/examples/tree-node-demo.json').then(response=>response.json()).then((json)=>{
+  const request = fetch(document.location.pathname+'/assets/examples/tree-node-demo.json').then(response=>response.json()).then((json)=>{
     rootNode.nodeData={
         value:'中国',
         children:json

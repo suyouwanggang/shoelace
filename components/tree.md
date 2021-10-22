@@ -112,7 +112,7 @@ Tree 组件: 最重要的是定义数据源`rootNodeData`，渲染函数 `nodeRe
      treeDiv.addEventListener('sl-tree-checkKeys-change',(event)=>{
          document.querySelector('#checkTreeValue').textContent=JSON.stringify(treeDiv.checkedKeys);
      })
-  const request = fetch('/assets/examples/tree-node-demo.json').then(response=>response.json()).then((json)=>{
+  const request = fetch(document.location.pathname+'/assets/examples/tree-node-demo.json').then(response=>response.json()).then((json)=>{
     treeDiv.rootNodeData={
         value:'中国',
         disable:true,
