@@ -248,7 +248,7 @@
           if (page.url.includes('utilities/')) icon = 'wrench';
           if (page.url.includes('tutorials/')) icon = 'joystick';
 
-          a.href = $docsify.routerMode === 'hash' ? `/#/${page.url}` : `/${page.url}`;
+          a.href =document.location.pathname+( $docsify.routerMode === 'hash' ? `/#/${page.url}` : `/${page.url}`);
           a.innerHTML = `
             <div class="site-search__result-icon">
               <sl-icon name="${icon}" aria-hidden="true"></sl-icon>

@@ -15,7 +15,7 @@ Designed in New Hampshire by [Cory LaViska](https://twitter.com/claviska).
 
 Documentation: [shoelace.style](https://shoelace.style)
 
-Source: [github.com/shoelace-style/shoelace](https://github.com/shoelace-style/shoelace)
+Source: [github.com/shoelace-style/shoelace](https://github.com/suyouwanggang/shoelace)
 
 Twitter: [@shoelace_style](https://twitter.com/shoelace_style)
 
