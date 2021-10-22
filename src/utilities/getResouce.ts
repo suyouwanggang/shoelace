@@ -10,20 +10,20 @@ const resouce_changeEvent = `window-resouce-change-event`;
  * 设置组件语言
  * @param locale
  */
-async function setLocal(locale: string, loaderback?: (data: any) => void) {
+async function setLocal(locale: string, loadOtherResouce?: (data: any) => void) {
   if (!getSuppurtLocals().includes(locale)) {
     throw new Error(`不支持的组件语言!支持的语言有${getSuppurtLocals().join(',')}`);
   }
   const localData = await loaderLocal(locale);
-  if (loaderback) {
-    loaderback(localData);
+  if (loadOtherResouce) {
+    loadOtherResouce(localData);
   }
   if (locale != currentLocal) {
     currentLocal = locale;
     emit(window, resouce_changeEvent, {
       detail: {
         local: locale,
-        data: localData,
+        data: localData
       }
     });
   }
