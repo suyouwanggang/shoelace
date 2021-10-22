@@ -5,7 +5,7 @@
 A description of the component goes here.
 
 ```html preview
- <iframe src='/assets/examples/routerIframe.html' style='width:100%;height:300px;'></iframe>
+ <iframe src='assets/examples/routerIframe.html' style='width:100%;height:300px;'></iframe>
 ```
 
    
@@ -43,7 +43,7 @@ export type RouterItem = {
  ```  
  ### 路由导航加密 和守护
  ```javascript
-     import { CryptoHashResovle } from '/dist/components/router/cryptoHashResovle.js';
+     import { CryptoHashResovle } from 'dist/components/router/cryptoHashResovle.js';
     router.pathResovle = CryptoHashResovle; //加密导航路径
 
      //to,from 路由obj:{item:RouterItem, data:RouterContextData}
