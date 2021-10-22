@@ -11,8 +11,8 @@ const resouce_changeEvent = `window-resouce-change-event`;
  * @param locale
  */
 async function setLocal(locale: string, loadOtherResouce?: (data: any) => void) {
-  if (!getSuppurtLocals().includes(locale)) {
-    throw new Error(`不支持的组件语言!支持的语言有${getSuppurtLocals().join(',')}`);
+  if (!getSupportLocals().includes(locale)) {
+    throw new Error(`不支持的组件语言!支持的语言有${getSupportLocals().join(',')}`);
   }
   const localData = await loaderLocal(locale);
   if (loadOtherResouce) {
@@ -49,12 +49,16 @@ async function loaderLocal(locale: string) {
 function getLocal() {
   return currentLocal;
 }
+const supportLocals = ['zh', 'en'];
 /**
  * 获取组件支持的语言列表
  * @returns
  */
-function getSuppurtLocals() {
-  return ['zh', 'en'];
+function getSupportLocals() {
+  return supportLocals;
+}
+function setSupportLocals(...locale: string[]) {
+  supportLocals.push(...locale);
 }
 
 const resultCache: {
@@ -87,4 +91,4 @@ function getResouceValue(keys: string): any {
   return result;
 }
 (window as any).setLocal = setLocal;
-export { setLocal, getLocal, getSuppurtLocals, getResouceValue, resouce_changeEvent };
+export { setLocal, getLocal, getSupportLocals, setSupportLocals, getResouceValue, resouce_changeEvent };
