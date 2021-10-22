@@ -495,7 +495,6 @@
     hook.doneEach(function () {
       const content = document.querySelector('.content');
       const tables = [...content.querySelectorAll('table')];
-
       tables.map(table => {
         table.outerHTML = `
           <div class="table-wrapper">

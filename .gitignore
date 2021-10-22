@@ -1,6 +1,5 @@
 .DS_Store
 .cache
-docs/dist
 dist
 docs/search.json
 examples
@@ -8,4 +7,4 @@ node_modules
 /jsdoc
 /out
 /types
-/docs
+
