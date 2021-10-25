@@ -57,7 +57,7 @@ mkdirp.sync(outdir);
         // Theme stylesheets
         ...(await glob('./src/themes/**/!(*.test).ts'))
       ],
-      outdir:  outdir,
+      outdir: outdir,
       chunkNames: 'chunks/[name].[hash]',
       incremental: serve,
       define: {
