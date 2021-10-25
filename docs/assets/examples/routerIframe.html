@@ -19,9 +19,9 @@
     </div>
   </body>
   <script type="module">
-    const host=window.location.host;
-    if(host=='suyouwanggang.github.io'){
-      document.querySelector('#targetA').href='/shoelace/assets/examples/routerIframe.html';
+    const host = window.location.host;
+    if (host == 'suyouwanggang.github.io') {
+      document.querySelector('#targetA').href = '/shoelace/assets/examples/routerIframe.html';
     }
     import '../../dist/shoelace.js';
     import { getRouterByName } from '../../dist/components/router/router.js';
@@ -62,22 +62,23 @@
       {
         path: '/b1',
         component: 'sl-b1'
-      },{
-        path:'/c1',
-        component:function(){
-          const div= document.createElement('div');
+      },
+      {
+        path: '/c1',
+        component: function () {
+          const div = document.createElement('div');
           div.appendChild(document.createTextNode('/c1'));
           return div;
         },
-        children:[
+        children: [
           {
-          path:'/sub',
-          component:function(){
-            const div= document.createElement('div');
-            div.appendChild(document.createTextNode('/sub'));
-            return div;
+            path: '/sub',
+            component: function () {
+              const div = document.createElement('div');
+              div.appendChild(document.createTextNode('/sub'));
+              return div;
+            }
           }
-        }
         ]
       }
     ];
