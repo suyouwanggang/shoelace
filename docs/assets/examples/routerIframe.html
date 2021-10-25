@@ -7,16 +7,22 @@
   </head>
   <body>
     <div id="routerApp">
-      <a target="_blank" href="/assets/examples/routerIframe.html">独立窗口打开</a><br />
+      <a target="_blank" id="targetA" href="/assets/examples/routerIframe.html">独立窗口打开</a><br />
       <sl-router-link src="/a1">/al</sl-router-link><br />
       <sl-router-link src="/a1/1">/al/1</sl-router-link><br />
       <sl-router-link src="/a1/2">/al/2</sl-router-link><br />
       <sl-router-link src="/b1">/bl</sl-router-link><br />
       <sl-router-link src="/a1">/al</sl-router-link><br />
+      <sl-router-link src="/c1">/c1</sl-router-link><br />
+      <sl-router-link src="/c1/sub">/c1/sub</sl-router-link><br />
       <sl-router id="sl-routerDIV"></sl-router>
     </div>
   </body>
   <script type="module">
+    const host=document.loaction.hostname;
+    if(host=='suyouwanggang.github.io'){
+      document.querySelector('#targetA')='/shoelace/assets/examples/routerIframe.html';
+    }
     import '../../dist/shoelace.js';
     import { getRouterByName } from '../../dist/components/router/router.js';
     import { CryptoHashResovle } from '../../dist/components/router/cryptoHashResovle.js';
@@ -32,7 +38,7 @@
     router.routers = [
       {
         path: '/',
-        import: '/dist/components/router/router-link.js',
+        import: '../../dist/components/router/router-link.js',
         component: function () {
           const el = document.createElement('div');
           el.textContent = 'Default';
@@ -56,6 +62,23 @@
       {
         path: '/b1',
         component: 'sl-b1'
+      },{
+        path:'/c1',
+        component:function(){
+          const div= document.createElement('div');
+          div.appendChild(document.createTextNode('/c1'));
+          return div;
+        },
+        children:[
+          {
+          path:'/sub',
+          component:function(){
+            const div= document.createElement('div');
+            div.appendChild(document.createTextNode('/sub'));
+            return div;
+          }
+        }
+        ]
       }
     ];
     class A extends LitElement {

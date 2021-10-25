@@ -63,10 +63,6 @@ export default class SlRouter extends LitElement {
   /**设置路由路径 */
   @property({ attribute: false, reflect: false })
   routers: RouterItem[];
-  @watch('routers', { waitUntilFirstUpdate: true })
-  watchRoutersChange() {
-    this.routerChangeHanlder();
-  }
   constructor() {
     super();
     routerCache[this.name] = this;
@@ -78,6 +74,7 @@ export default class SlRouter extends LitElement {
   }
   firstUpdated(map: PropertyValues) {
     super.firstUpdated(map);
+    this.routerChangeHanlder();
   }
   connectedCallback() {
     super.connectedCallback();
@@ -259,8 +256,8 @@ export default class SlRouter extends LitElement {
       } as RouterContextData;
       this.beforeRouter
         ? this.beforeRouter({ item: item, data: currentData }, this.routerItem ? { item: this.routerItem, data: this.routerData } : undefined, async () => {
-            this.excuteRouterComponenent(matchItems, pattern);
-          })
+          this.excuteRouterComponenent(matchItems, pattern);
+        })
         : this.excuteRouterComponenent(matchItems, pattern);
     } else {
       emit(this, 'not-found');

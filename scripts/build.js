@@ -25,6 +25,7 @@ const { bundle, dir, serve, types } = commandLineArgs([
 const outdir = dir;
 
 del.sync(outdir);
+del.sync('/docs/dist');
 mkdirp.sync(outdir);
 
 (async () => {
@@ -56,7 +57,7 @@ mkdirp.sync(outdir);
         // Theme stylesheets
         ...(await glob('./src/themes/**/!(*.test).ts'))
       ],
-      outdir,
+      outdir:bundle?'/docs/dist':outdir,
       chunkNames: 'chunks/[name].[hash]',
       incremental: serve,
       define: {
@@ -104,7 +105,7 @@ mkdirp.sync(outdir);
       server: {
         baseDir: 'docs',
         routes: {
-          '/dist': './dist'
+          '/dist':'./dist'
         }
       }
     });

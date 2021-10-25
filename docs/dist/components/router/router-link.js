@@ -1,7 +1,7 @@
 import {
   SlRouterLink
-} from "../../chunks/chunk.GGABLVMI.js";
-import "../../chunks/chunk.OURQ2I47.js";
+} from "../../chunks/chunk.CFWDEFFB.js";
+import "../../chunks/chunk.CG47SMS5.js";
 import "../../chunks/chunk.Y7OE5YUP.js";
 import "../../chunks/chunk.3SJG5WV3.js";
 import "../../chunks/chunk.BD26TKS4.js";
