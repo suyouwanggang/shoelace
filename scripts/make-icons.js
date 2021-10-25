@@ -14,7 +14,7 @@ import { stat, readFile, writeFile } from 'fs/promises';
 import glob from 'globby';
 import path from 'path';
 
-const { outdir ,bundle} = commandLineArgs({ name: 'outdir', type: String },{ name: 'bundle', type: Boolean });
+const { outdir, bundle } = commandLineArgs({ name: 'outdir', type: String }, { name: 'bundle', type: Boolean });
 const iconDir = path.join(outdir, '/assets/icons');
 
 const iconPackageData = JSON.parse(readFileSync('./node_modules/bootstrap-icons/package.json', 'utf8'));
@@ -39,9 +39,6 @@ let numIcons = 0;
     del.sync([iconDir]);
     await mkdirp(iconDir);
     await Promise.all([copy(`${srcPath}/icons`, iconDir), copy(`${srcPath}/LICENSE.md`, path.join(iconDir, 'LICENSE.md')), copy(`${srcPath}/bootstrap-icons.svg`, './docs/assets/icons/sprite.svg', { overwrite: true })]);
-    if(bundle){
-      await Promise.all([copy(`${srcPath}/icons`, path.join('/docs/dist/assets/icons')), copy(`${srcPath}/LICENSE.md`, path.join('/docs/dist/assets/icons', 'LICENSE.md'))]);
-    }
     // Generate metadata
     console.log(`Generating icon metadata`);
     const files = await glob(`${srcPath}/docs/content/icons/**/*.md`);
