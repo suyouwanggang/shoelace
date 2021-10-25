@@ -2,6 +2,7 @@
 *.md
 .cache
 .github
+search.json
 *.litcss.style.ts
 dist
 docs/*.md
