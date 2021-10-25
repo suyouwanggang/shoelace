@@ -490,7 +490,7 @@ If you want to change the icons Shoelace uses internally, you can register an ic
 
 <!-- Supporting scripts and styles for the search utility -->
 <script>
-  fetch('/dist/assets/icons/icons.json')
+  fetch('dist/assets/icons/icons.json')
     .then(res => res.json())  
     .then(icons => {
       const container = document.querySelector('.icon-search');
