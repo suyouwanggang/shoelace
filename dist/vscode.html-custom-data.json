@@ -1,0 +1,2803 @@
+{
+  "tags": [
+    {
+      "attributes": [
+        {
+          "name": "active"
+        },
+        {
+          "name": "key"
+        },
+        {
+          "name": "header"
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "open",
+          "description": "Indicates whether or not the alert is open. You can use this in lieu of the show/hide methods."
+        },
+        {
+          "name": "closable",
+          "description": "Makes the alert closable."
+        },
+        {
+          "name": "type",
+          "description": "The type of alert.",
+          "values": [
+            {
+              "name": "primary"
+            },
+            {
+              "name": "success"
+            },
+            {
+              "name": "neutral"
+            },
+            {
+              "name": "warning"
+            },
+            {
+              "name": "danger"
+            }
+          ]
+        },
+        {
+          "name": "duration",
+          "description": "The length of time, in milliseconds, the alert will show before closing itself. If the user interacts with\nthe alert before it closes (e.g. moves the mouse over it), the timer will restart. Defaults to `Infinity`."
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "src",
+          "description": "The image's src attribute."
+        },
+        {
+          "name": "alt",
+          "description": "The image's alt attribute."
+        },
+        {
+          "name": "play",
+          "description": "When set, the image will animate. Otherwise, it will be paused."
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "name",
+          "description": "The name of the built-in animation to use. For custom animations, use the `keyframes` prop."
+        },
+        {
+          "name": "play",
+          "description": "Plays the animation. When omitted, the animation will be paused. This prop will be automatically removed when the\nanimation finishes or gets canceled."
+        },
+        {
+          "name": "delay",
+          "description": "The number of milliseconds to delay the start of the animation."
+        },
+        {
+          "name": "direction",
+          "description": "Determines the direction of playback as well as the behavior when reaching the end of an iteration."
+        },
+        {
+          "name": "duration",
+          "description": "The number of milliseconds each iteration of the animation takes to complete."
+        },
+        {
+          "name": "easing",
+          "description": "The easing function to use for the animation. This can be a Shoelace easing function or a custom easing function\nsuch as `cubic-bezier(0, 1, .76, 1.14)`."
+        },
+        {
+          "name": "end-delay",
+          "description": "The number of milliseconds to delay after the active period of an animation sequence."
+        },
+        {
+          "name": "fill",
+          "description": "Sets how the animation applies styles to its target before and after its execution."
+        },
+        {
+          "name": "iterations",
+          "description": "The number of iterations to run before the animation completes. Defaults to `Infinity`, which loops."
+        },
+        {
+          "name": "iteration-start",
+          "description": "The offset at which to start the animation, usually between 0 (start) and 1 (end)."
+        },
+        {
+          "name": "playback-rate",
+          "description": "Sets the animation's playback rate. The default is `1`, which plays the animation at a normal speed. Setting this\nto `2`, for example, will double the animation's speed. A negative value can be used to reverse the animation. This\nvalue can be changed without causing the animation to restart."
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "image",
+          "description": "The image source to use for the avatar."
+        },
+        {
+          "name": "alt",
+          "description": "Alternative text for the image."
+        },
+        {
+          "name": "initials",
+          "description": "Initials to use as a fallback when no image is available (1-2 characters max recommended)."
+        },
+        {
+          "name": "shape",
+          "description": "The shape of the avatar.",
+          "values": [
+            {
+              "name": "circle"
+            },
+            {
+              "name": "square"
+            },
+            {
+              "name": "rounded"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "type",
+          "description": "The badge's type.",
+          "values": [
+            {
+              "name": "primary"
+            },
+            {
+              "name": "success"
+            },
+            {
+              "name": "neutral"
+            },
+            {
+              "name": "warning"
+            },
+            {
+              "name": "danger"
+            }
+          ]
+        },
+        {
+          "name": "pill",
+          "description": "Draws a pill-style badge with rounded edges."
+        },
+        {
+          "name": "pulse",
+          "description": "Makes the badge pulsate to draw attention."
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "label",
+          "description": "The label to use for the breadcrumb control. This will not be shown, but it will be announced by screen readers and\nother assistive devices."
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "href",
+          "description": "Optional URL to direct the user to when the breadcrumb item is activated. When set, a link will be rendered\ninternally. When unset, a button will be rendered instead."
+        },
+        {
+          "name": "target",
+          "description": "Tells the browser where to open the link. Only used when `href` is set.",
+          "values": [
+            {
+              "name": "_blank"
+            },
+            {
+              "name": "_parent"
+            },
+            {
+              "name": "_self"
+            },
+            {
+              "name": "_top"
+            }
+          ]
+        },
+        {
+          "name": "rel",
+          "description": "The `rel` attribute to use on the link. Only used when `href` is set."
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "type",
+          "description": "The button's type.",
+          "values": [
+            {
+              "name": "default"
+            },
+            {
+              "name": "primary"
+            },
+            {
+              "name": "success"
+            },
+            {
+              "name": "neutral"
+            },
+            {
+              "name": "warning"
+            },
+            {
+              "name": "danger"
+            },
+            {
+              "name": "text"
+            }
+          ]
+        },
+        {
+          "name": "size",
+          "description": "The button's size.",
+          "values": [
+            {
+              "name": "small"
+            },
+            {
+              "name": "medium"
+            },
+            {
+              "name": "large"
+            }
+          ]
+        },
+        {
+          "name": "caret",
+          "description": "Draws the button with a caret for use with dropdowns, popovers, etc."
+        },
+        {
+          "name": "rippleed",
+          "description": "default ripple animate enabled , false remove ripple animate"
+        },
+        {
+          "name": "disabled"
+        },
+        {
+          "name": "loading",
+          "description": "Draws the button in a loading state."
+        },
+        {
+          "name": "outline",
+          "description": "Draws an outlined button."
+        },
+        {
+          "name": "pill",
+          "description": "Draws a pill-style button with rounded edges."
+        },
+        {
+          "name": "circle",
+          "description": "Draws a circle button."
+        },
+        {
+          "name": "submit",
+          "description": "Indicates if activating the button should submit the form. Ignored when `href` is set."
+        },
+        {
+          "name": "name",
+          "description": "An optional name for the button. Ignored when `href` is set."
+        },
+        {
+          "name": "value",
+          "description": "An optional value for the button. Ignored when `href` is set."
+        },
+        {
+          "name": "href",
+          "description": "When set, the underlying button will be rendered as an `<a>` with this `href` instead of a `<button>`."
+        },
+        {
+          "name": "target",
+          "description": "Tells the browser where to open the link. Only used when `href` is set.",
+          "values": [
+            {
+              "name": "_blank"
+            },
+            {
+              "name": "_parent"
+            },
+            {
+              "name": "_self"
+            },
+            {
+              "name": "_top"
+            }
+          ]
+        },
+        {
+          "name": "download",
+          "description": "Tells the browser to download the linked file as this filename. Only used when `href` is set."
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "label",
+          "description": "A label to use for the button group's `aria-label` attribute."
+        }
+      ]
+    },
+    {},
+    {
+      "attributes": [
+        {
+          "name": "name",
+          "description": "The checkbox's name attribute."
+        },
+        {
+          "name": "value",
+          "description": "The checkbox's value attribute."
+        },
+        {
+          "name": "disabled",
+          "description": "Disables the checkbox."
+        },
+        {
+          "name": "required",
+          "description": "Makes the checkbox a required field."
+        },
+        {
+          "name": "checked",
+          "description": "Draws the checkbox in a checked state."
+        },
+        {
+          "name": "indeterminate",
+          "description": "Draws the checkbox in an indeterminate state."
+        },
+        {
+          "name": "invalid",
+          "description": "This will be true when the control is in an invalid state. Validity is determined by the `required` prop."
+        },
+        {
+          "name": "type",
+          "values": [
+            {
+              "name": "primary"
+            },
+            {
+              "name": "success"
+            },
+            {
+              "name": "danger"
+            },
+            {
+              "name": "warning"
+            },
+            {
+              "name": "neutral"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "multi",
+          "description": "是否允许打开多个"
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "value",
+          "description": "The current color."
+        },
+        {
+          "name": "format",
+          "description": "The format to use for the display value. If opacity is enabled, these will translate to HEXA, RGBA, and HSLA\nrespectively. The color picker will always accept user input in any format (including CSS color names) and convert\nit to the desired format.",
+          "values": [
+            {
+              "name": "hex"
+            },
+            {
+              "name": "rgb"
+            },
+            {
+              "name": "hsl"
+            }
+          ]
+        },
+        {
+          "name": "inline",
+          "description": "Renders the color picker inline rather than inside a dropdown."
+        },
+        {
+          "name": "size",
+          "description": "Determines the size of the color picker's trigger. This has no effect on inline color pickers.",
+          "values": [
+            {
+              "name": "small"
+            },
+            {
+              "name": "medium"
+            },
+            {
+              "name": "large"
+            }
+          ]
+        },
+        {
+          "name": "no-format-toggle",
+          "description": "Removes the format toggle."
+        },
+        {
+          "name": "name",
+          "description": "The input's name attribute."
+        },
+        {
+          "name": "disabled",
+          "description": "Disables the color picker."
+        },
+        {
+          "name": "invalid",
+          "description": "This will be true when the control is in an invalid state. Validity is determined by the `setCustomValidity()`\nmethod using the browser's constraint validation API."
+        },
+        {
+          "name": "hoist",
+          "description": "Enable this option to prevent the panel from being clipped when the component is placed inside a container with\n`overflow: auto|scroll`."
+        },
+        {
+          "name": "opacity",
+          "description": "Whether to show the opacity slider."
+        },
+        {
+          "name": "uppercase",
+          "description": "By default, the value will be set in lowercase. Set this to true to set it in uppercase instead."
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "hidden",
+          "description": "是否隐藏此列"
+        },
+        {
+          "name": "field",
+          "description": "列所对应的字段，在同一个table 中应该唯一，此会作为rowData 的key，支持\".\" 作为分隔符"
+        },
+        {
+          "name": "label",
+          "description": "列所对应的label，默认th 就是显示此label"
+        },
+        {
+          "name": "col-align",
+          "description": "列所对应表头TH 的水平对齐方式",
+          "values": [
+            {
+              "name": "left"
+            },
+            {
+              "name": "center"
+            },
+            {
+              "name": "right"
+            }
+          ]
+        },
+        {
+          "name": "col-valign",
+          "description": "列所对应表头TH 的垂直对齐方式",
+          "values": [
+            {
+              "name": "top"
+            },
+            {
+              "name": "middle"
+            },
+            {
+              "name": "bottom"
+            }
+          ]
+        },
+        {
+          "name": "align",
+          "description": "列所对应的TD 的水平对齐方式",
+          "values": [
+            {
+              "name": "left"
+            },
+            {
+              "name": "center"
+            },
+            {
+              "name": "right"
+            }
+          ]
+        },
+        {
+          "name": "valign",
+          "description": "列所对应的TD 的垂直对齐方式",
+          "values": [
+            {
+              "name": "top"
+            },
+            {
+              "name": "middle"
+            },
+            {
+              "name": "bottom"
+            }
+          ]
+        },
+        {
+          "name": "sort-able",
+          "description": "列是否支持排序"
+        },
+        {
+          "name": "resize-able",
+          "description": "是否支持拖动列的宽度"
+        },
+        {
+          "name": "width",
+          "description": "列宽"
+        },
+        {
+          "name": "min-width",
+          "description": "最小列宽"
+        },
+        {
+          "name": "max-width",
+          "description": "最大列宽"
+        },
+        {
+          "name": "uniqueID",
+          "description": "初始化自动生成唯一ID"
+        },
+        {
+          "name": "order",
+          "description": "顺序:越小越靠前"
+        },
+        {
+          "name": "type",
+          "description": "列的类型，指定类型的列，有特定的渲染，例如index,checkbox,radio,或者会影响列的edit模式",
+          "values": [
+            {
+              "name": "index"
+            },
+            {
+              "name": "checkbox"
+            },
+            {
+              "name": "radio"
+            },
+            {
+              "name": "date"
+            },
+            {
+              "name": "date-month"
+            },
+            {
+              "name": "date-year"
+            }
+          ]
+        },
+        {
+          "name": "inputMaxLength",
+          "description": "编辑器 input,textarea 最大输入长度"
+        },
+        {
+          "name": "inputMinLength",
+          "description": "编辑器 input,textarea 最小输入长度"
+        },
+        {
+          "name": "editRequired",
+          "description": "编辑器 是否是必填的 待实现"
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "placement",
+          "description": "The preferred placement of the dropdown panel. Note that the actual placement may vary as needed to keep the panel\ninside of the viewport.",
+          "values": [
+            {
+              "name": "top"
+            },
+            {
+              "name": "top-start"
+            },
+            {
+              "name": "top-end"
+            },
+            {
+              "name": "bottom"
+            },
+            {
+              "name": "bottom-start"
+            },
+            {
+              "name": "bottom-end"
+            },
+            {
+              "name": "right"
+            },
+            {
+              "name": "right-start"
+            },
+            {
+              "name": "right-end"
+            },
+            {
+              "name": "left"
+            },
+            {
+              "name": "left-start"
+            },
+            {
+              "name": "left-end"
+            }
+          ]
+        },
+        {
+          "name": "readonly",
+          "description": "Makes the input readonly."
+        },
+        {
+          "name": "clearable"
+        },
+        {
+          "name": "placeholder"
+        },
+        {
+          "name": "size",
+          "description": "set input size",
+          "values": [
+            {
+              "name": "small"
+            },
+            {
+              "name": "medium"
+            },
+            {
+              "name": "large"
+            }
+          ]
+        },
+        {
+          "name": "disabled",
+          "description": "Disables the input."
+        },
+        {
+          "name": "pill",
+          "description": "Draws a pill-style button with rounded edges."
+        },
+        {
+          "name": "immediate",
+          "description": "if true,  select a date ,close the dropDown"
+        },
+        {
+          "name": "value",
+          "description": "选中日期 ,格式：2018，2018-02, 2018/01， 2018/02/02 ,2018-01-02"
+        },
+        {
+          "name": "mode",
+          "description": "选择模式，年，月，日",
+          "values": [
+            {
+              "name": "year"
+            },
+            {
+              "name": "month"
+            },
+            {
+              "name": "date"
+            }
+          ]
+        },
+        {
+          "name": "block",
+          "description": "display  as  block div"
+        },
+        {
+          "name": "invalid"
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "value",
+          "description": "选中日期 ,格式：2018，2018-02, 2018/01， 2018/02/02 ,2018-01-02"
+        },
+        {
+          "name": "mode",
+          "description": "选择模式，年，月，日",
+          "values": [
+            {
+              "name": "year"
+            },
+            {
+              "name": "month"
+            },
+            {
+              "name": "date"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "open",
+          "description": "Indicates whether or not the details is open. You can use this in lieu of the show/hide methods."
+        },
+        {
+          "name": "summary",
+          "description": "The summary to show in the details header. If you need to display HTML, use the `summary` slot instead."
+        },
+        {
+          "name": "disabled",
+          "description": "Disables the details so it can't be toggled."
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "open",
+          "description": "Indicates whether or not the dialog is open. You can use this in lieu of the show/hide methods."
+        },
+        {
+          "name": "label",
+          "description": "The dialog's label as displayed in the header. You should always include a relevant label even when using\n`no-header`, as it is required for proper accessibility."
+        },
+        {
+          "name": "no-header",
+          "description": "Disables the header. This will also remove the default close button, so please ensure you provide an easy,\naccessible way for users to dismiss the dialog."
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "vertical",
+          "description": "Draws the divider in a vertical orientation."
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "open",
+          "description": "Indicates whether or not the drawer is open. You can use this in lieu of the show/hide methods."
+        },
+        {
+          "name": "label",
+          "description": "The drawer's label as displayed in the header. You should always include a relevant label even when using\n`no-header`, as it is required for proper accessibility."
+        },
+        {
+          "name": "placement",
+          "description": "The direction from which the drawer will open.",
+          "values": [
+            {
+              "name": "top"
+            },
+            {
+              "name": "end"
+            },
+            {
+              "name": "bottom"
+            },
+            {
+              "name": "start"
+            }
+          ]
+        },
+        {
+          "name": "contained",
+          "description": "By default, the drawer slides out of its containing block (usually the viewport). To make the drawer slide out of\nits parent element, set this prop and add `position: relative` to the parent."
+        },
+        {
+          "name": "no-header",
+          "description": "Removes the header. This will also remove the default close button, so please ensure you provide an easy,\naccessible way for users to dismiss the drawer."
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "open",
+          "description": "Indicates whether or not the dropdown is open. You can use this in lieu of the show/hide methods."
+        },
+        {
+          "name": "placement",
+          "description": "The preferred placement of the dropdown panel. Note that the actual placement may vary as needed to keep the panel\ninside of the viewport.",
+          "values": [
+            {
+              "name": "top"
+            },
+            {
+              "name": "top-start"
+            },
+            {
+              "name": "top-end"
+            },
+            {
+              "name": "bottom"
+            },
+            {
+              "name": "bottom-start"
+            },
+            {
+              "name": "bottom-end"
+            },
+            {
+              "name": "right"
+            },
+            {
+              "name": "right-start"
+            },
+            {
+              "name": "right-end"
+            },
+            {
+              "name": "left"
+            },
+            {
+              "name": "left-start"
+            },
+            {
+              "name": "left-end"
+            }
+          ]
+        },
+        {
+          "name": "disabled",
+          "description": "Disables the dropdown so the panel will not open."
+        },
+        {
+          "name": "stay-open-on-select",
+          "description": "By default, the dropdown is closed when an item is selected. This attribute will keep it open instead. Useful for\ncontrols that allow multiple selections."
+        },
+        {
+          "name": "distance",
+          "description": "The distance in pixels from which to offset the panel away from its trigger."
+        },
+        {
+          "name": "skidding",
+          "description": "The distance in pixels from which to offset the panel along its trigger."
+        },
+        {
+          "name": "hoist",
+          "description": "Enable this option to prevent the panel from being clipped when the component is placed inside a container with\n`overflow: auto|scroll`."
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "novalidate",
+          "description": "Prevent the form from validating inputs before submitting."
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "value",
+          "description": "The number to format in bytes."
+        },
+        {
+          "name": "unit",
+          "description": "The unit to display.",
+          "values": [
+            {
+              "name": "bytes"
+            },
+            {
+              "name": "bits"
+            }
+          ]
+        },
+        {
+          "name": "locale",
+          "description": "The locale to use when formatting the number."
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "date",
+          "description": "The date/time to format. If not set, the current date and time will be used."
+        },
+        {
+          "name": "locale",
+          "description": "The locale to use when formatting the date/time."
+        },
+        {
+          "name": "weekday",
+          "description": "The format for displaying the weekday.",
+          "values": [
+            {
+              "name": "narrow"
+            },
+            {
+              "name": "short"
+            },
+            {
+              "name": "long"
+            }
+          ]
+        },
+        {
+          "name": "era",
+          "description": "The format for displaying the era.",
+          "values": [
+            {
+              "name": "narrow"
+            },
+            {
+              "name": "short"
+            },
+            {
+              "name": "long"
+            }
+          ]
+        },
+        {
+          "name": "year",
+          "description": "The format for displaying the year.",
+          "values": [
+            {
+              "name": "numeric"
+            },
+            {
+              "name": "2-digit"
+            }
+          ]
+        },
+        {
+          "name": "month",
+          "description": "The format for displaying the month.",
+          "values": [
+            {
+              "name": "numeric"
+            },
+            {
+              "name": "2-digit"
+            },
+            {
+              "name": "narrow"
+            },
+            {
+              "name": "short"
+            },
+            {
+              "name": "long"
+            }
+          ]
+        },
+        {
+          "name": "day",
+          "description": "The format for displaying the day.",
+          "values": [
+            {
+              "name": "numeric"
+            },
+            {
+              "name": "2-digit"
+            }
+          ]
+        },
+        {
+          "name": "hour",
+          "description": "The format for displaying the hour.",
+          "values": [
+            {
+              "name": "numeric"
+            },
+            {
+              "name": "2-digit"
+            }
+          ]
+        },
+        {
+          "name": "minute",
+          "description": "The format for displaying the minute.",
+          "values": [
+            {
+              "name": "numeric"
+            },
+            {
+              "name": "2-digit"
+            }
+          ]
+        },
+        {
+          "name": "second",
+          "description": "The format for displaying the second.",
+          "values": [
+            {
+              "name": "numeric"
+            },
+            {
+              "name": "2-digit"
+            }
+          ]
+        },
+        {
+          "name": "time-zone-name",
+          "description": "The format for displaying the time.",
+          "values": [
+            {
+              "name": "short"
+            },
+            {
+              "name": "long"
+            }
+          ]
+        },
+        {
+          "name": "time-zone",
+          "description": "The time zone to express the time in."
+        },
+        {
+          "name": "hour-format",
+          "description": "When set, 24 hour time will always be used.",
+          "values": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "12"
+            },
+            {
+              "name": "24"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "value",
+          "description": "The number to format."
+        },
+        {
+          "name": "locale",
+          "description": "The locale to use when formatting the number."
+        },
+        {
+          "name": "type",
+          "description": "The formatting style to use.",
+          "values": [
+            {
+              "name": "currency"
+            },
+            {
+              "name": "decimal"
+            },
+            {
+              "name": "percent"
+            }
+          ]
+        },
+        {
+          "name": "no-grouping",
+          "description": "Turns off grouping separators."
+        },
+        {
+          "name": "currency",
+          "description": "The currency to use when formatting. Must be an ISO 4217 currency code such as `USD` or `EUR`."
+        },
+        {
+          "name": "currency-display",
+          "description": "How to display the currency.",
+          "values": [
+            {
+              "name": "symbol"
+            },
+            {
+              "name": "narrowSymbol"
+            },
+            {
+              "name": "code"
+            },
+            {
+              "name": "name"
+            }
+          ]
+        },
+        {
+          "name": "minimum-integer-digits",
+          "description": "The minimum number of integer digits to use. Possible values are 1 - 21."
+        },
+        {
+          "name": "minimum-fraction-digits",
+          "description": "The minimum number of fraction digits to use. Possible values are 0 - 20."
+        },
+        {
+          "name": "maximum-fraction-digits",
+          "description": "The maximum number of fraction digits to use. Possible values are 0 - 20."
+        },
+        {
+          "name": "minimum-significant-digits",
+          "description": "The minimum number of significant digits to use. Possible values are 1 - 21."
+        },
+        {
+          "name": "maximum-significant-digits",
+          "description": "The maximum number of significant digits to use,. Possible values are 1 - 21."
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "images",
+          "description": "图片路径."
+        },
+        {
+          "name": "thumb_images",
+          "description": "缩略图图片路径，如果不设置，默认为images"
+        },
+        {
+          "name": "currentIndex"
+        },
+        {
+          "name": "thumb-position",
+          "description": "缩略图显示位置",
+          "values": [
+            {
+              "name": "bottom"
+            },
+            {
+              "name": "left"
+            },
+            {
+              "name": "top"
+            },
+            {
+              "name": "right"
+            }
+          ]
+        },
+        {
+          "name": "image_datas",
+          "description": "图片对于其他其他数据"
+        },
+        {
+          "name": "imageRender",
+          "description": "当前图片自定义显示"
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "name",
+          "description": "The name of the icon to draw."
+        },
+        {
+          "name": "src",
+          "description": "An external URL of an SVG file."
+        },
+        {
+          "name": "label",
+          "description": "An alternative description to use for accessibility. If omitted, the name or src will be used to generate it."
+        },
+        {
+          "name": "library",
+          "description": "The name of a registered custom icon library."
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "name",
+          "description": "The name of the icon to draw."
+        },
+        {
+          "name": "library",
+          "description": "The name of a registered custom icon library."
+        },
+        {
+          "name": "src",
+          "description": "An external URL of an SVG file."
+        },
+        {
+          "name": "href",
+          "description": "When set, the underlying button will be rendered as an `<a>` with this `href` instead of a `<button>`."
+        },
+        {
+          "name": "target",
+          "description": "Tells the browser where to open the link. Only used when `href` is set.",
+          "values": [
+            {
+              "name": "_blank"
+            },
+            {
+              "name": "_parent"
+            },
+            {
+              "name": "_self"
+            },
+            {
+              "name": "_top"
+            }
+          ]
+        },
+        {
+          "name": "download",
+          "description": "Tells the browser to download the linked file as this filename. Only used when `href` is set."
+        },
+        {
+          "name": "label",
+          "description": "A description that gets read by screen readers and other assistive devices. For optimal accessibility, you should\nalways include a label that describes what the icon button does."
+        },
+        {
+          "name": "disabled",
+          "description": "Disables the button."
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "position",
+          "description": "The position of the divider as a percentage."
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "src",
+          "description": "The location of the HTML file to include."
+        },
+        {
+          "name": "mode",
+          "description": "The fetch mode to use.",
+          "values": [
+            {
+              "name": "cors"
+            },
+            {
+              "name": "no-cors"
+            },
+            {
+              "name": "same-origin"
+            }
+          ]
+        },
+        {
+          "name": "allow-scripts",
+          "description": "Allows included scripts to be executed. You must ensure the content you're including is trusted, otherwise this\noption can lead to XSS vulnerabilities in your app!"
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "type",
+          "description": "The input's type.",
+          "values": [
+            {
+              "name": "date"
+            },
+            {
+              "name": "email"
+            },
+            {
+              "name": "number"
+            },
+            {
+              "name": "password"
+            },
+            {
+              "name": "search"
+            },
+            {
+              "name": "tel"
+            },
+            {
+              "name": "text"
+            },
+            {
+              "name": "url"
+            }
+          ]
+        },
+        {
+          "name": "size",
+          "description": "The input's size.",
+          "values": [
+            {
+              "name": "small"
+            },
+            {
+              "name": "medium"
+            },
+            {
+              "name": "large"
+            }
+          ]
+        },
+        {
+          "name": "name",
+          "description": "The input's name attribute."
+        },
+        {
+          "name": "value",
+          "description": "The input's value attribute."
+        },
+        {
+          "name": "filled",
+          "description": "Draws a filled input."
+        },
+        {
+          "name": "pill",
+          "description": "Draws a pill-style input with rounded edges."
+        },
+        {
+          "name": "label",
+          "description": "The input's label. Alternatively, you can use the label slot."
+        },
+        {
+          "name": "help-text",
+          "description": "The input's help text. Alternatively, you can use the help-text slot."
+        },
+        {
+          "name": "clearable",
+          "description": "Adds a clear button when the input is populated."
+        },
+        {
+          "name": "toggle-password",
+          "description": "Adds a password toggle button to password inputs."
+        },
+        {
+          "name": "placeholder",
+          "description": "The input's placeholder text."
+        },
+        {
+          "name": "disabled",
+          "description": "Disables the input."
+        },
+        {
+          "name": "readonly",
+          "description": "Makes the input readonly."
+        },
+        {
+          "name": "minlength",
+          "description": "The minimum length of input that will be considered valid."
+        },
+        {
+          "name": "maxlength",
+          "description": "The maximum length of input that will be considered valid."
+        },
+        {
+          "name": "min",
+          "description": "The input's minimum value."
+        },
+        {
+          "name": "max",
+          "description": "The input's maximum value."
+        },
+        {
+          "name": "step",
+          "description": "The input's step attribute."
+        },
+        {
+          "name": "pattern",
+          "description": "A pattern to validate input against."
+        },
+        {
+          "name": "required",
+          "description": "Makes the input a required field."
+        },
+        {
+          "name": "invalid",
+          "description": "This will be true when the control is in an invalid state. Validity is determined by props such as `type`,\n`required`, `minlength`, `maxlength`, and `pattern` using the browser's constraint validation API."
+        },
+        {
+          "name": "autocapitalize",
+          "description": "The input's autocaptialize attribute.",
+          "values": [
+            {
+              "name": "off"
+            },
+            {
+              "name": "none"
+            },
+            {
+              "name": "on"
+            },
+            {
+              "name": "sentences"
+            },
+            {
+              "name": "words"
+            },
+            {
+              "name": "characters"
+            }
+          ]
+        },
+        {
+          "name": "autocorrect",
+          "description": "The input's autocorrect attribute."
+        },
+        {
+          "name": "autocomplete",
+          "description": "The input's autocomplete attribute."
+        },
+        {
+          "name": "autofocus",
+          "description": "The input's autofocus attribute."
+        },
+        {
+          "name": "spellcheck",
+          "description": "Enables spell checking on the input."
+        },
+        {
+          "name": "inputmode",
+          "description": "The input's inputmode attribute.",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "text"
+            },
+            {
+              "name": "decimal"
+            },
+            {
+              "name": "numeric"
+            },
+            {
+              "name": "tel"
+            },
+            {
+              "name": "search"
+            },
+            {
+              "name": "email"
+            },
+            {
+              "name": "url"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "row",
+          "description": "是否按照行进行Flex row布局"
+        },
+        {
+          "name": "column",
+          "description": "是否按照列进行Flex column布局"
+        },
+        {
+          "name": "center",
+          "description": "是否 主轴，次轴都居中"
+        },
+        {
+          "name": "expand",
+          "description": "是否扩展剩余空间"
+        },
+        {
+          "name": "main",
+          "description": "主轴子项对齐方式",
+          "values": [
+            {
+              "name": "start"
+            },
+            {
+              "name": "end"
+            },
+            {
+              "name": "center"
+            },
+            {
+              "name": "space-between"
+            },
+            {
+              "name": "space-around"
+            },
+            {
+              "name": "space-evenly"
+            }
+          ]
+        },
+        {
+          "name": "cross",
+          "description": "次轴子项对齐方式",
+          "values": [
+            {
+              "name": "start"
+            },
+            {
+              "name": "end"
+            },
+            {
+              "name": "center"
+            },
+            {
+              "name": "baseline"
+            },
+            {
+              "name": "stretch"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "mdsrc",
+          "description": "mdsrc markdown resource"
+        },
+        {
+          "name": "markdown",
+          "description": "the markdown string"
+        }
+      ]
+    },
+    {},
+    {
+      "attributes": [
+        {
+          "name": "checked",
+          "description": "Draws the item in a checked state."
+        },
+        {
+          "name": "value",
+          "description": "A unique value to store in the menu item. This can be used as a way to identify menu items when selected."
+        },
+        {
+          "name": "disabled",
+          "description": "Draws the menu item in a disabled state."
+        },
+        {
+          "name": "highlight",
+          "description": "hightlight this menu-item"
+        }
+      ]
+    },
+    {},
+    {
+      "attributes": [
+        {
+          "name": "attr",
+          "description": "Watches for changes to attributes. If empty, all changes will be reported. To watch only specific attributes,\nseparate them by a space."
+        },
+        {
+          "name": "attr-old-value",
+          "description": "Indicates whether or not the attribute's previous value should be recorded when monitoring changes."
+        },
+        {
+          "name": "char-data",
+          "description": "Watches for changes to the character data contained within the node."
+        },
+        {
+          "name": "char-data-old-value",
+          "description": "Indicates whether or not the previous value of the node's text should be recorded."
+        },
+        {
+          "name": "child-list",
+          "description": "Watches for the addition or removal of new child nodes."
+        },
+        {
+          "name": "disabled",
+          "description": "Disables the observer."
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "nodeData",
+          "description": "节点数据"
+        },
+        {
+          "name": "collapsable",
+          "description": "节点是否允许收缩"
+        },
+        {
+          "name": "styleClass",
+          "description": "组织架构节点自定义样式"
+        },
+        {
+          "name": "expanded",
+          "description": "节点是展开，还是收拢，默认是展开"
+        },
+        {
+          "name": "nodeRender",
+          "description": "节点自定义渲染"
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "rootData",
+          "description": "组织架构节点数据"
+        },
+        {
+          "name": "center",
+          "description": "是否居中"
+        },
+        {
+          "name": "horizontal",
+          "description": "是否是水平布局 组织架构"
+        },
+        {
+          "name": "nodeRender"
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "value",
+          "description": "当前页"
+        },
+        {
+          "name": "page-size",
+          "description": "分页大小"
+        },
+        {
+          "name": "show-size-change",
+          "description": "是否调整 分页大小 组件"
+        },
+        {
+          "name": "show-page-change",
+          "description": "是否允许直接调整第几页"
+        },
+        {
+          "name": "simple",
+          "description": "是否允许 简化分页模式"
+        },
+        {
+          "name": "align",
+          "description": "布局对齐方式",
+          "values": [
+            {
+              "name": "left"
+            },
+            {
+              "name": "right"
+            },
+            {
+              "name": "center"
+            }
+          ]
+        },
+        {
+          "name": "total",
+          "description": "总数大小"
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "value",
+          "description": "The current progress, 0 to 100."
+        },
+        {
+          "name": "indeterminate",
+          "description": "When true, percentage is ignored, the label is hidden, and the progress bar is drawn in an indeterminate state."
+        },
+        {
+          "name": "label",
+          "description": "The progress bar's aria label."
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "value",
+          "description": "The current progress, 0 to 100."
+        },
+        {
+          "name": "label",
+          "description": "The progress ring's aria label."
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "value",
+          "description": "The QR code's value."
+        },
+        {
+          "name": "label",
+          "description": "The label used when screen readers announce the code. If unspecified, the value will be used."
+        },
+        {
+          "name": "size",
+          "description": "The size of the code's overall square in pixels."
+        },
+        {
+          "name": "fill",
+          "description": "The fill color. This can be any valid CSS color, but not a CSS custom property."
+        },
+        {
+          "name": "background",
+          "description": "The background color. This can be any valid CSS color or `transparent`, but not a CSS custom property."
+        },
+        {
+          "name": "radius",
+          "description": "The edge radius of each module. Must be between 0 and 0.5."
+        },
+        {
+          "name": "error-correction",
+          "description": "The level of error correction to use.",
+          "values": [
+            {
+              "name": "L"
+            },
+            {
+              "name": "M"
+            },
+            {
+              "name": "Q"
+            },
+            {
+              "name": "H"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "name",
+          "description": "The radio's name attribute."
+        },
+        {
+          "name": "value",
+          "description": "The radio's value attribute."
+        },
+        {
+          "name": "disabled",
+          "description": "Disables the radio."
+        },
+        {
+          "name": "checked",
+          "description": "Draws the radio in a checked state."
+        },
+        {
+          "name": "invalid",
+          "description": "This will be true when the control is in an invalid state. Validity in range inputs is determined by the message\nprovided by the `setCustomValidity` method."
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "label",
+          "description": "The radio group label. Required for proper accessibility. Alternatively, you can use the label slot."
+        },
+        {
+          "name": "fieldset",
+          "description": "Shows the fieldset and legend that surrounds the radio group."
+        },
+        {
+          "name": "value",
+          "description": "选中值"
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "name",
+          "description": "The input's name attribute."
+        },
+        {
+          "name": "value",
+          "description": "The input's value attribute."
+        },
+        {
+          "name": "label",
+          "description": "The range's label. Alternatively, you can use the label slot."
+        },
+        {
+          "name": "help-text",
+          "description": "The range's help text. Alternatively, you can use the help-text slot."
+        },
+        {
+          "name": "disabled",
+          "description": "Disables the input."
+        },
+        {
+          "name": "invalid",
+          "description": "This will be true when the control is in an invalid state. Validity in range inputs is determined by the message\nprovided by the `setCustomValidity` method."
+        },
+        {
+          "name": "min",
+          "description": "The input's min attribute."
+        },
+        {
+          "name": "max",
+          "description": "The input's max attribute."
+        },
+        {
+          "name": "step",
+          "description": "The input's step attribute."
+        },
+        {
+          "name": "tooltip",
+          "description": "The preferred placedment of the tooltip.",
+          "values": [
+            {
+              "name": "top"
+            },
+            {
+              "name": "bottom"
+            },
+            {
+              "name": "none"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "value",
+          "description": "The current rating."
+        },
+        {
+          "name": "max",
+          "description": "The highest rating to show."
+        },
+        {
+          "name": "precision",
+          "description": "The minimum increment value allowed by the control."
+        },
+        {
+          "name": "readonly",
+          "description": "Makes the rating readonly."
+        },
+        {
+          "name": "disabled",
+          "description": "Disables the rating."
+        },
+        {
+          "name": "getSymbol",
+          "description": "The name of the icon to display as the symbol."
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "date",
+          "description": "The date from which to calculate time from."
+        },
+        {
+          "name": "locale",
+          "description": "The locale to use when formatting the number."
+        },
+        {
+          "name": "format",
+          "description": "The formatting style to use.",
+          "values": [
+            {
+              "name": "long"
+            },
+            {
+              "name": "short"
+            },
+            {
+              "name": "narrow"
+            }
+          ]
+        },
+        {
+          "name": "numeric",
+          "description": "When `auto`, values such as \"yesterday\" and \"tomorrow\" will be shown when possible. When `always`, values such as\n\"1 day ago\" and \"in 1 day\" will be shown.",
+          "values": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "auto"
+            }
+          ]
+        },
+        {
+          "name": "sync",
+          "description": "Keep the displayed value up to date as time passes."
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "disabled",
+          "description": "Disables the observer."
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "aspect-ratio",
+          "description": "The aspect ratio of the embedded media in the format of `width:height`, e.g. `16:9`, `4:3`, or `1:1`. Ratios not in\nthis format will be ignored."
+        },
+        {
+          "name": "fit",
+          "description": "Determines how content will be resized to fit its container.",
+          "values": [
+            {
+              "name": "cover"
+            },
+            {
+              "name": "contain"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "unbounded",
+          "description": "Makes the ripple visible outside the bounds."
+        },
+        {
+          "name": "centered",
+          "description": "Makes ripple appear from the center."
+        },
+        {
+          "name": "overlay",
+          "description": "Overlays the ripple."
+        },
+        {
+          "name": "disabled",
+          "description": "Disables the ripple."
+        },
+        {
+          "name": "focusable",
+          "description": "Allows focusin to spawn a ripple."
+        },
+        {
+          "name": "autoRelease",
+          "description": "Releases the ripple after it has been spawned."
+        },
+        {
+          "name": "initialDuration",
+          "description": "Initial animation duration."
+        },
+        {
+          "name": "releaseDuration",
+          "description": "Fade out animation duration."
+        },
+        {
+          "name": "role",
+          "description": "Role of the ripple."
+        },
+        {
+          "name": "target",
+          "description": "Target for the spawn ripple events."
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "src",
+          "description": "设置导航urlpattern"
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "name",
+          "description": "设置路由名称"
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "span",
+          "description": "占多少列"
+        },
+        {
+          "name": "row",
+          "description": "占多少行"
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "columns",
+          "description": "grid等分多少列"
+        },
+        {
+          "name": "grap",
+          "description": "grid 单元格的间距"
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "overflow-x",
+          "description": "hidden,则水平滚动条永远隐藏，否则根据内容自动显示隐藏"
+        },
+        {
+          "name": "overflow-y",
+          "description": "hidden,则竖直滚动条隐藏，，否则根据内容自动显示隐藏"
+        },
+        {
+          "name": "keyEnable",
+          "description": "是否允许 键盘 上下左右按键滚动"
+        },
+        {
+          "name": "scroll-bar-width",
+          "description": "滚动条宽度"
+        },
+        {
+          "name": "scroll-bar-out-width",
+          "description": "滚动条 容器宽度，必须大与 滚动条宽度"
+        },
+        {
+          "name": "throttTime",
+          "description": "事件节流时间"
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "multiple",
+          "description": "Enables multiselect. With this enabled, value will be an array."
+        },
+        {
+          "name": "max-tags-visible",
+          "description": "The maximum number of tags to show when `multiple` is true. After the maximum, \"+n\" will be shown to indicate the\nnumber of additional items that are selected. Set to -1 to remove the limit."
+        },
+        {
+          "name": "disabled",
+          "description": "Disables the select control."
+        },
+        {
+          "name": "name",
+          "description": "The select's name."
+        },
+        {
+          "name": "placeholder",
+          "description": "The select's placeholder text."
+        },
+        {
+          "name": "size",
+          "description": "The select's size.",
+          "values": [
+            {
+              "name": "small"
+            },
+            {
+              "name": "medium"
+            },
+            {
+              "name": "large"
+            }
+          ]
+        },
+        {
+          "name": "hoist",
+          "description": "Enable this option to prevent the panel from being clipped when the component is placed inside a container with\n`overflow: auto|scroll`."
+        },
+        {
+          "name": "value",
+          "description": "The value of the control. This will be a string or an array depending on `multiple`."
+        },
+        {
+          "name": "filled",
+          "description": "Draws a filled select."
+        },
+        {
+          "name": "pill",
+          "description": "Draws a pill-style select with rounded edges."
+        },
+        {
+          "name": "label",
+          "description": "The select's label. Alternatively, you can use the label slot."
+        },
+        {
+          "name": "help-text",
+          "description": "The select's help text. Alternatively, you can use the help-text slot."
+        },
+        {
+          "name": "required",
+          "description": "The select's required attribute."
+        },
+        {
+          "name": "clearable",
+          "description": "Adds a clear button when the select is populated."
+        },
+        {
+          "name": "invalid",
+          "description": "This will be true when the control is in an invalid state. Validity is determined by the `required` prop."
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "effect",
+          "description": "Determines which effect the skeleton will use.",
+          "values": [
+            {
+              "name": "pulse"
+            },
+            {
+              "name": "sheen"
+            },
+            {
+              "name": "none"
+            }
+          ]
+        }
+      ]
+    },
+    {},
+    {
+      "attributes": [
+        {
+          "name": "splitType",
+          "description": "Split 切割位置.",
+          "values": [
+            {
+              "name": "left"
+            },
+            {
+              "name": "right"
+            },
+            {
+              "name": "top"
+            },
+            {
+              "name": "bottom"
+            }
+          ]
+        },
+        {
+          "name": "split-able",
+          "description": "是否允许拖动改变位置"
+        },
+        {
+          "name": "min-size",
+          "description": "分隔允许的最小位置"
+        },
+        {
+          "name": "max-size"
+        },
+        {
+          "name": "border",
+          "description": "整体是否显示边框"
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "icon",
+          "description": "图标"
+        },
+        {
+          "name": "description",
+          "description": "描述"
+        },
+        {
+          "name": "title",
+          "description": "标题"
+        },
+        {
+          "name": "index",
+          "description": "顺序号"
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "current",
+          "description": "当前步骤，默认从0"
+        },
+        {
+          "name": "vertical",
+          "description": "是否为竖直"
+        },
+        {
+          "name": "startIndex",
+          "description": "起始节点显示 序号，默认为1"
+        },
+        {
+          "name": "size",
+          "description": "进度点 圆圈大小",
+          "values": [
+            {
+              "name": "small"
+            },
+            {
+              "name": "mid"
+            },
+            {
+              "name": "larger"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "name",
+          "description": "The switch's name attribute."
+        },
+        {
+          "name": "value",
+          "description": "The switch's value attribute."
+        },
+        {
+          "name": "disabled",
+          "description": "Disables the switch."
+        },
+        {
+          "name": "required",
+          "description": "Makes the switch a required field."
+        },
+        {
+          "name": "checked",
+          "description": "Draws the switch in a checked state."
+        },
+        {
+          "name": "invalid",
+          "description": "This will be true when the control is in an invalid state. Validity is determined by the `required` prop."
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "panel",
+          "description": "The name of the tab panel the tab will control. The panel must be located in the same tab group."
+        },
+        {
+          "name": "active",
+          "description": "Draws the tab in an active state."
+        },
+        {
+          "name": "closable",
+          "description": "Makes the tab closable and shows a close icon."
+        },
+        {
+          "name": "disabled",
+          "description": "Draws the tab in a disabled state."
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "placement",
+          "description": "The placement of the tabs.",
+          "values": [
+            {
+              "name": "top"
+            },
+            {
+              "name": "bottom"
+            },
+            {
+              "name": "start"
+            },
+            {
+              "name": "end"
+            }
+          ]
+        },
+        {
+          "name": "activation",
+          "description": "When set to auto, navigating tabs with the arrow keys will instantly show the corresponding tab panel. When set to\nmanual, the tab will receive focus but will not show until the user presses spacebar or enter.",
+          "values": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "manual"
+            }
+          ]
+        },
+        {
+          "name": "no-scroll-controls",
+          "description": "Disables the scroll arrows that appear when tabs overflow."
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "name",
+          "description": "The tab panel's name."
+        },
+        {
+          "name": "active",
+          "description": "When true, the tab panel will be shown."
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "border",
+          "description": "table 是否显示border"
+        },
+        {
+          "name": "customRenderFooter",
+          "description": "渲染tfooter 此方法接收所有的列，返回footer 组成的tr template list"
+        },
+        {
+          "name": "cache-key",
+          "description": "table 前端缓存ID"
+        },
+        {
+          "name": "tableMaxHeight",
+          "description": "table 容器最大高度"
+        },
+        {
+          "name": "tableMinHeight",
+          "description": "table 容器最小高度"
+        },
+        {
+          "name": "tableHeight",
+          "description": "table 容器高度，支持类似 css  \"100% - 40px\" 或者“ 100vh - 30px ”"
+        },
+        {
+          "name": "tableLayoutFixed",
+          "description": "是否表格 是 table-layout ：fixed"
+        },
+        {
+          "name": "treeNodeNoWrap",
+          "description": "true, 则TreeNode 列，不会换行"
+        },
+        {
+          "name": "treeLoadingNodeMethod",
+          "description": "加载TreeNode 子数据，接收参数nodeData,parentData"
+        },
+        {
+          "name": "checkPropField",
+          "description": "定义列 type='checkbox','radio'时起作用， 定义checkbox 列绑定的属性 ，如果不指定，则Table checkbox列 绑定值就是rowData 本身"
+        },
+        {
+          "name": "checkDisablePropField",
+          "description": "定义列 type='checkbox','radio'时起作用， 确定列 checkbx/radio Disable属性,或者一个函数接收rowData ，确定rowData checkbox 列是否可以选择 如果不指定，则此列checkbox 所有的都可以勾选"
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "type",
+          "description": "The tag's type.",
+          "values": [
+            {
+              "name": "primary"
+            },
+            {
+              "name": "success"
+            },
+            {
+              "name": "neutral"
+            },
+            {
+              "name": "warning"
+            },
+            {
+              "name": "danger"
+            },
+            {
+              "name": "text"
+            }
+          ]
+        },
+        {
+          "name": "size",
+          "description": "The tag's size.",
+          "values": [
+            {
+              "name": "small"
+            },
+            {
+              "name": "medium"
+            },
+            {
+              "name": "large"
+            }
+          ]
+        },
+        {
+          "name": "pill",
+          "description": "Draws a pill-style tag with rounded edges."
+        },
+        {
+          "name": "removable",
+          "description": "Makes the tag removable."
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "size",
+          "description": "The textarea's size.",
+          "values": [
+            {
+              "name": "small"
+            },
+            {
+              "name": "medium"
+            },
+            {
+              "name": "large"
+            }
+          ]
+        },
+        {
+          "name": "name",
+          "description": "The textarea's name attribute."
+        },
+        {
+          "name": "value",
+          "description": "The textarea's value attribute."
+        },
+        {
+          "name": "filled",
+          "description": "Draws a filled textarea."
+        },
+        {
+          "name": "label",
+          "description": "The textarea's label. Alternatively, you can use the label slot."
+        },
+        {
+          "name": "help-text",
+          "description": "The textarea's help text. Alternatively, you can use the help-text slot."
+        },
+        {
+          "name": "placeholder",
+          "description": "The textarea's placeholder text."
+        },
+        {
+          "name": "rows",
+          "description": "The number of rows to display by default."
+        },
+        {
+          "name": "resize",
+          "description": "Controls how the textarea can be resized.",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "vertical"
+            },
+            {
+              "name": "auto"
+            }
+          ]
+        },
+        {
+          "name": "disabled",
+          "description": "Disables the textarea."
+        },
+        {
+          "name": "readonly",
+          "description": "Makes the textarea readonly."
+        },
+        {
+          "name": "minlength",
+          "description": "The minimum length of input that will be considered valid."
+        },
+        {
+          "name": "maxlength",
+          "description": "The maximum length of input that will be considered valid."
+        },
+        {
+          "name": "pattern",
+          "description": "A pattern to validate input against."
+        },
+        {
+          "name": "required",
+          "description": "Makes the textarea a required field."
+        },
+        {
+          "name": "invalid",
+          "description": "This will be true when the control is in an invalid state. Validity is determined by props such as `type`,\n`required`, `minlength`, and `maxlength` using the browser's constraint validation API."
+        },
+        {
+          "name": "autocapitalize",
+          "description": "The textarea's autocaptialize attribute.",
+          "values": [
+            {
+              "name": "off"
+            },
+            {
+              "name": "none"
+            },
+            {
+              "name": "on"
+            },
+            {
+              "name": "sentences"
+            },
+            {
+              "name": "words"
+            },
+            {
+              "name": "characters"
+            },
+            {
+              "name": "off"
+            },
+            {
+              "name": "none"
+            },
+            {
+              "name": "on"
+            },
+            {
+              "name": "sentences"
+            },
+            {
+              "name": "words"
+            },
+            {
+              "name": "characters"
+            }
+          ]
+        },
+        {
+          "name": "autocorrect",
+          "description": "The textarea's autocorrect attribute."
+        },
+        {
+          "name": "autocomplete",
+          "description": "The textarea's autocomplete attribute."
+        },
+        {
+          "name": "autofocus",
+          "description": "The textarea's autofocus attribute."
+        },
+        {
+          "name": "spellcheck",
+          "description": "Enables spell checking on the textarea."
+        },
+        {
+          "name": "inputmode",
+          "description": "The textarea's inputmode attribute.",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "text"
+            },
+            {
+              "name": "decimal"
+            },
+            {
+              "name": "numeric"
+            },
+            {
+              "name": "tel"
+            },
+            {
+              "name": "search"
+            },
+            {
+              "name": "email"
+            },
+            {
+              "name": "url"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "content",
+          "description": "The tooltip's content. Alternatively, you can use the content slot."
+        },
+        {
+          "name": "placement",
+          "description": "The preferred placement of the tooltip. Note that the actual placement may vary as needed to keep the tooltip\ninside of the viewport.",
+          "values": [
+            {
+              "name": "top"
+            },
+            {
+              "name": "top-start"
+            },
+            {
+              "name": "top-end"
+            },
+            {
+              "name": "right"
+            },
+            {
+              "name": "right-start"
+            },
+            {
+              "name": "right-end"
+            },
+            {
+              "name": "bottom"
+            },
+            {
+              "name": "bottom-start"
+            },
+            {
+              "name": "bottom-end"
+            },
+            {
+              "name": "left"
+            },
+            {
+              "name": "left-start"
+            },
+            {
+              "name": "left-end"
+            }
+          ]
+        },
+        {
+          "name": "type",
+          "description": "tooltip theme type .",
+          "values": [
+            {
+              "name": "default"
+            },
+            {
+              "name": "primary"
+            },
+            {
+              "name": "success"
+            },
+            {
+              "name": "warning"
+            },
+            {
+              "name": "danger"
+            }
+          ]
+        },
+        {
+          "name": "disabled",
+          "description": "Disables the tooltip so it won't show when triggered."
+        },
+        {
+          "name": "distance",
+          "description": "The distance in pixels from which to offset the tooltip away from its target."
+        },
+        {
+          "name": "open",
+          "description": "Indicates whether or not the tooltip is open. You can use this in lieu of the show/hide methods."
+        },
+        {
+          "name": "skidding",
+          "description": "The distance in pixels from which to offset the tooltip along its target."
+        },
+        {
+          "name": "trigger",
+          "description": "Controls how the tooltip is activated. Possible options include `click`, `hover`, `focus`, and `manual`. Multiple\noptions can be passed by separating them with a space. When manual is used, the tooltip must be activated\nprogrammatically."
+        },
+        {
+          "name": "hoist",
+          "description": "Enable this option to prevent the tooltip from being clipped when the component is placed inside a container with\n`overflow: auto|hidden|scroll`."
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "disabled",
+          "description": "是否禁用选择"
+        },
+        {
+          "name": "disable-filter",
+          "description": "是否关闭过滤"
+        },
+        {
+          "name": "filterPlaceholder",
+          "description": "过滤Input 的placeholder，如果是字符串，则作用于source,target,如果是数组，则第一个作用左边，第二个作用于右边"
+        },
+        {
+          "name": "showSelectAll",
+          "description": "是否显示全选按钮"
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "selectMode",
+          "description": "tree 选中方式 selectMode：支持的值为：check, radio,single,none （none,表示不支持选中,single)",
+          "values": [
+            {
+              "name": "check"
+            },
+            {
+              "name": "radio"
+            },
+            {
+              "name": "single"
+            },
+            {
+              "name": "none"
+            }
+          ]
+        },
+        {
+          "name": "include_root",
+          "description": "是否显示根节点"
+        },
+        {
+          "name": "check_casecade",
+          "description": "当selectMode='check', 选中的时候是否支持级联选择（选中上级，下级自动选中）"
+        },
+        {
+          "name": "check_off_casecade",
+          "description": "当selectMode='check', 取消某个节点选中，下级节点是否也级联不选中"
+        },
+        {
+          "name": "loading",
+          "description": "设置是加载状态"
+        },
+        {
+          "name": "filter-input-placeholder",
+          "description": "树内置过滤input 的placeHolder"
+        },
+        {
+          "name": "enable-filter",
+          "description": "是否支持过滤"
+        }
+      ]
+    },
+    {}
+  ]
+}

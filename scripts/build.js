@@ -57,7 +57,7 @@ mkdirp.sync(outdir);
         // Theme stylesheets
         ...(await glob('./src/themes/**/!(*.test).ts'))
       ],
-      outdir:bundle?'/docs/dist':outdir,
+      outdir: bundle ? '/docs/dist' : outdir,
       chunkNames: 'chunks/[name].[hash]',
       incremental: serve,
       define: {
@@ -105,7 +105,7 @@ mkdirp.sync(outdir);
       server: {
         baseDir: 'docs',
         routes: {
-          '/dist':'./dist'
+          '/dist': './dist'
         }
       }
     });

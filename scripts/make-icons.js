@@ -14,7 +14,7 @@ import { stat, readFile, writeFile } from 'fs/promises';
 import glob from 'globby';
 import path from 'path';
 
-const { outdir } = commandLineArgs({ name: 'outdir', type: String });
+const { outdir ,bundle} = commandLineArgs({ name: 'outdir', type: String },{ name: 'bundle', type: Boolean });
 const iconDir = path.join(outdir, '/assets/icons');
 
 const iconPackageData = JSON.parse(readFileSync('./node_modules/bootstrap-icons/package.json', 'utf8'));
@@ -25,7 +25,6 @@ let numIcons = 0;
     const version = iconPackageData.version;
     const srcPath = `./.cache/icons/icons-${version}`;
     const url = `https://github.com/twbs/icons/archive/v${version}.zip`;
-
     try {
       await stat(`${srcPath}/LICENSE.md`);
       console.log('Generating icons from cache');
@@ -37,10 +36,12 @@ let numIcons = 0;
 
     // Copy icons
     console.log(`Copying icons and license`);
-    await del([iconDir]);
+    del.sync([iconDir]);
     await mkdirp(iconDir);
     await Promise.all([copy(`${srcPath}/icons`, iconDir), copy(`${srcPath}/LICENSE.md`, path.join(iconDir, 'LICENSE.md')), copy(`${srcPath}/bootstrap-icons.svg`, './docs/assets/icons/sprite.svg', { overwrite: true })]);
-
+    if(bundle){
+      await Promise.all([copy(`${srcPath}/icons`, path.join('/docs/dist/assets/icons')), copy(`${srcPath}/LICENSE.md`, path.join('/docs/dist/assets/icons', 'LICENSE.md'))]);
+    }
     // Generate metadata
     console.log(`Generating icon metadata`);
     const files = await glob(`${srcPath}/docs/content/icons/**/*.md`);
