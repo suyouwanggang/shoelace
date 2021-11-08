@@ -3,6 +3,19 @@
     {
       "attributes": [
         {
+          "name": "active"
+        },
+        {
+          "name": "key"
+        },
+        {
+          "name": "header"
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
           "name": "open",
           "description": "Indicates whether or not the alert is open. You can use this in lieu of the show/hide methods."
         },
@@ -34,19 +47,6 @@
         {
           "name": "duration",
           "description": "The length of time, in milliseconds, the alert will show before closing itself. If the user interacts with\nthe alert before it closes (e.g. moves the mouse over it), the timer will restart. Defaults to `Infinity`."
-        }
-      ]
-    },
-    {
-      "attributes": [
-        {
-          "name": "active"
-        },
-        {
-          "name": "key"
-        },
-        {
-          "name": "header"
         }
       ]
     },
@@ -404,7 +404,7 @@
         },
         {
           "name": "format",
-          "description": "The format to use for the display value. If opacity is enabled, these will translate to HEXA, RGBA, and HSLA\nrespectively. The color picker will always accept user input in any format (including CSS color names) and convert\nit to the desired format.",
+          "description": "The format to use for the display value. If opacity is enabled, these will translate to HEXA, RGBA, and HSLA\r\nrespectively. The color picker will always accept user input in any format (including CSS color names) and convert\r\nit to the desired format.",
           "values": [
             {
               "name": "hex"
@@ -450,11 +450,11 @@
         },
         {
           "name": "invalid",
-          "description": "This will be true when the control is in an invalid state. Validity is determined by the `setCustomValidity()`\nmethod using the browser's constraint validation API."
+          "description": "This will be true when the control is in an invalid state. Validity is determined by the `setCustomValidity()`\r\nmethod using the browser's constraint validation API."
         },
         {
           "name": "hoist",
-          "description": "Enable this option to prevent the panel from being clipped when the component is placed inside a container with\n`overflow: auto|scroll`."
+          "description": "Enable this option to prevent the panel from being clipped when the component is placed inside a container with\r\n`overflow: auto|scroll`."
         },
         {
           "name": "opacity",
@@ -1412,7 +1412,7 @@
         },
         {
           "name": "invalid",
-          "description": "This will be true when the control is in an invalid state. Validity is determined by props such as `type`,\n`required`, `minlength`, `maxlength`, and `pattern` using the browser's constraint validation API."
+          "description": "This will be true when the control is in an invalid state. Validity is determined by props such as `type`,\r\n`required`, `minlength`, `maxlength`, and `pattern` using the browser's constraint validation API."
         },
         {
           "name": "autocapitalize",
@@ -1589,7 +1589,7 @@
       "attributes": [
         {
           "name": "attr",
-          "description": "Watches for changes to attributes. If empty, all changes will be reported. To watch only specific attributes,\nseparate them by a space."
+          "description": "Watches for changes to attributes. If set to *, all changes will be reported. To watch only specific attributes,\r\nseparate them by a space, e.g. \"class id title\"."
         },
         {
           "name": "attr-old-value",
@@ -1837,7 +1837,7 @@
         },
         {
           "name": "invalid",
-          "description": "This will be true when the control is in an invalid state. Validity in range inputs is determined by the message\nprovided by the `setCustomValidity` method."
+          "description": "This will be true when the control is in an invalid state. Validity in range inputs is determined by the message\r\nprovided by the `setCustomValidity` method."
         },
         {
           "name": "min",
@@ -1951,7 +1951,7 @@
       "attributes": [
         {
           "name": "aspect-ratio",
-          "description": "The aspect ratio of the embedded media in the format of `width:height`, e.g. `16:9`, `4:3`, or `1:1`. Ratios not in\nthis format will be ignored."
+          "description": "The aspect ratio of the embedded media in the format of `width:height`, e.g. `16:9`, `4:3`, or `1:1`. Ratios not in\r\nthis format will be ignored."
         },
         {
           "name": "fit",
@@ -2087,7 +2087,7 @@
         },
         {
           "name": "max-tags-visible",
-          "description": "The maximum number of tags to show when `multiple` is true. After the maximum, \"+n\" will be shown to indicate the\nnumber of additional items that are selected. Set to -1 to remove the limit."
+          "description": "The maximum number of tags to show when `multiple` is true. After the maximum, \"+n\" will be shown to indicate the\r\nnumber of additional items that are selected. Set to -1 to remove the limit."
         },
         {
           "name": "disabled",
@@ -2118,7 +2118,7 @@
         },
         {
           "name": "hoist",
-          "description": "Enable this option to prevent the panel from being clipped when the component is placed inside a container with\n`overflow: auto|scroll`."
+          "description": "Enable this option to prevent the panel from being clipped when the component is placed inside a container with\r\n`overflow: auto|scroll`."
         },
         {
           "name": "value",

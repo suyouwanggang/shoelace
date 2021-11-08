@@ -1,5 +1,6 @@
 import fs from 'fs';
-import * as commentParser from 'comment-parser';
+import commentParser from 'comment-parser';
+import pascalCase from 'pascal-case';
 
 const packageData = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
 const { name, description, version, author, homepage, license } = packageData;
@@ -9,7 +10,7 @@ export default {
   globs: ['src/components/**/*.ts'],
   exclude: ['**/*.test.ts'],
   plugins: [
-    // Append package dataclea
+    // Append package data
     {
       name: 'shoelace-package-data',
       packageLinkPhase({ customElementsManifest, context }) {
@@ -21,8 +22,10 @@ export default {
     {
       name: 'shoelace-custom-tags',
       analyzePhase({ ts, node, moduleDoc, context }) {
+       
         switch (node.kind) {
           case ts.SyntaxKind.ClassDeclaration:
+
             const className = node.name.getText();
             const classDoc = moduleDoc?.declarations?.find(declaration => declaration.name === className);
             const customTags = ['animation', 'dependency', 'since', 'status'];
@@ -37,10 +40,8 @@ export default {
                 }
               });
             });
+
             const parsed = commentParser.parse(customComments + '\n */');
-            if (!parsed || !parsed[0] || !parsed[0].tags) {
-              return;
-            }
             parsed[0].tags?.map(t => {
               switch (t.tag) {
                 // Animations
@@ -81,6 +82,23 @@ export default {
                   });
               }
             });
+        }
+      }
+    },
+
+    {
+      name: 'shoelace-react-event-names',
+      analyzePhase({ ts, node, moduleDoc, context }) {
+        switch (node.kind) {
+          case ts.SyntaxKind.ClassDeclaration:
+            const className = node.name.getText();
+            const classDoc = moduleDoc?.declarations?.find(declaration => declaration.name === className);
+
+            if (classDoc?.events) {
+              classDoc.events.map(event => {
+                event.reactName = `on${pascalCase(event.name)}`;
+              });
+            }
         }
       }
     }

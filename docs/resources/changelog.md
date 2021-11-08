@@ -6,6 +6,25 @@ Components with the <sl-badge type="warning" pill>Experimental</sl-badge> badge 
 
 _During the beta period, these restrictions may be relaxed in the event of a mission-critical bug._ 🐛
 
+## 2.0.0-beta.60
+
+- Added React examples and CodePen links to all components
+- Changed the `attr` in experimental `<sl-mutation-observer>` to require `"*"` instead of `""` to target all attributes
+- Fixed a bug in `<sl-progress-bar>` where the `label` attribute didn't set the label
+- Fixed a bug in `<sl-rating>` that caused disabled and readonly controls to transition on hover
+- The `panel` property of `<sl-tab>` is now reflected
+- The `name` property of `<sl-tab-panel>` is now reflected
+
+## 2.0.0-beta.59
+
+- Added React wrappers as first-class citizens
+- Added eye dropper to `<sl-color-picker>` when the browser supports the [EyeDropper API](https://wicg.github.io/eyedropper-api/)
+- Fixed a bug in `<sl-button-group>` where buttons groups with only one button would have an incorrect border radius
+- Improved the `<sl-color-picker>` trigger's border in dark mode
+- Switched clearable icon from `x-circle` to `x-circle-fill` to make it easier to recognize
+- Updated to Bootstrap Icons to 1.7.0
+- Updated to Lit 2.0.2
+
 ## 2.0.0-beta.58
 
 This version once again restores the bundled distribution because the unbundled + CDN approach is currently confusing and [not working properly](https://github.com/shoelace-style/shoelace/issues/559#issuecomment-949662331). Unbundling the few dependencies Shoelace has is still a goal of the project, but [this jsDelivr bug](https://github.com/jsdelivr/jsdelivr/issues/18337) needs to be resolved before we can achieve it.

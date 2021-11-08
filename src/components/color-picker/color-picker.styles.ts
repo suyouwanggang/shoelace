@@ -175,11 +175,14 @@ export default css`
     flex: 1 1 auto;
   }
 
+  .color-picker__user-input sl-button-group {
+    margin-left: var(--sl-spacing-small);
+  }
+
   .color-picker__user-input sl-button {
     min-width: 3.25rem;
     max-width: 3.25rem;
     font-size: 1rem;
-    margin-left: var(--sl-spacing-small);
   }
 
   .color-picker__swatches {
@@ -281,7 +284,7 @@ export default css`
     height: 100%;
     border-radius: inherit;
     background-color: currentColor;
-    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25);
+    box-shadow: inset 0 0 0 1px rgb(var(--sl-color-neutral-1000) / 25%);
     transition: inherit;
   }
 

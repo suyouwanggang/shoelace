@@ -7,7 +7,7 @@ import {
   stripExtraTrailingSlash,
   toQueryString
 } from "../../chunks/chunk.Y7OE5YUP.js";
-import "../../chunks/chunk.THXBF3MO.js";
+import "../../chunks/chunk.QRXTBWFL.js";
 export {
   defaultResove,
   getPathNames,

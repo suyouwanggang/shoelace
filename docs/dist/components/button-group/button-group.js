@@ -1,11 +1,10 @@
 import {
-  SlButtonGroup
-} from "../../chunks/chunk.TKYQNAXX.js";
-import "../../chunks/chunk.UPAIH3QI.js";
-import "../../chunks/chunk.DIDDF23Y.js";
-import "../../chunks/chunk.UA53BYGW.js";
-import "../../chunks/chunk.AXN6W67E.js";
-import "../../chunks/chunk.THXBF3MO.js";
+  button_group_default
+} from "../../chunks/chunk.USJEHS7F.js";
+import "../../chunks/chunk.P6HXIBIO.js";
+import "../../chunks/chunk.OPP7P5NL.js";
+import "../../chunks/chunk.HHQFDLZX.js";
+import "../../chunks/chunk.QRXTBWFL.js";
 export {
-  SlButtonGroup as default
+  button_group_default as default
 };

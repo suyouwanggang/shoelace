@@ -104,7 +104,7 @@ export default class SlSelect extends LitElement {
   @property({ type: Boolean }) hoist = false;
 
   /** The value of the control. This will be a string or an array depending on `multiple`. */
-  @property({}) value: string | number | Array<string | number>;
+  @property() value: string | number | Array<string | number> = '';
 
   /** Draws a filled select. */
   @property({ type: Boolean, reflect: true }) filled = false;
@@ -171,7 +171,7 @@ export default class SlSelect extends LitElement {
 
   getValueAsArray() {
     // Single selects use '' as an empty selection value, so convert this to [] for an empty multi select
-    if (this.multiple && this.value == '') {
+    if (this.multiple && this.value === '') {
       return [];
     }
 
@@ -285,9 +285,11 @@ export default class SlSelect extends LitElement {
         (this.value as Array<string | number>).push(item.value);
       }
       this.value = [...(this.value as Array<string | number>)];
+
     } else {
       this.value = item.value;
     }
+
     this.syncItemsFromValue();
   }
 
@@ -307,7 +309,7 @@ export default class SlSelect extends LitElement {
   handleMultipleChange() {
     // Cast to array | string based on `this.multiple`
     const value = this.getValueAsArray();
-    this.value = this.multiple ? value : value[0];
+    this.value = this.multiple ? value : value[0] || '';
     this.syncItemsFromValue();
   }
 
@@ -389,12 +391,12 @@ export default class SlSelect extends LitElement {
             @click=${this.handleTagInteraction}
             @keydown=${this.handleTagInteraction}
             @sl-remove=${(event: CustomEvent) => {
-              event.stopPropagation();
-              if (!this.disabled) {
-                item.checked = false;
-                this.syncValueFromItems();
-              }
-            }}
+            event.stopPropagation();
+            if (!this.disabled) {
+              item.checked = false;
+              this.syncValueFromItems();
+            }
+          }}
           >
             ${this.getItemLabel(item)}
           </sl-tag>
@@ -405,7 +407,9 @@ export default class SlSelect extends LitElement {
         const total = this.displayTags.length;
         this.displayLabel = '';
         this.displayTags = this.displayTags.slice(0, this.maxTagsVisible);
-        this.displayTags.push(html` <sl-tag exportparts="base:tag" type="neutral" size=${this.size}> +${total - this.maxTagsVisible} </sl-tag> `);
+        this.displayTags.push(html`
+          <sl-tag exportparts="base:tag" type="neutral" size=${this.size}> +${total - this.maxTagsVisible} </sl-tag>
+        `);
       }
     } else {
       const checkedItem = items.filter(item => item.value === value[0])[0];
@@ -426,16 +430,10 @@ export default class SlSelect extends LitElement {
       this.value = checkedValues.length > 0 ? checkedValues[0] : '';
     }
   }
-  focus(option: FocusOptions) {
-    this.updateComplete.then(() => {
-      const input = this.renderRoot.querySelector(`div#${this.inputId}`) as HTMLElement;
-      if (input) {
-        input.focus(option);
-      }
-    });
-  }
+
   render() {
     const hasSelection = this.multiple ? (this.value as Array<string | number>)?.length > 0 : this.value !== '';
+
     return renderFormControl(
       {
         inputId: this.inputId,
@@ -456,23 +454,23 @@ export default class SlSelect extends LitElement {
           .containingElement=${this}
           ?disabled=${this.disabled}
           class=${classMap({
-            select: true,
-            'select--open': this.isOpen,
-            'select--empty': Array.isArray(this.value) ? this.value.length === 0 : this.value == '',
-            'select--focused': this.hasFocus,
-            'select--clearable': this.clearable,
-            'select--disabled': this.disabled,
-            'select--multiple': this.multiple,
-            'select--standard': !this.filled,
-            'select--filled': this.filled,
-            'select--has-tags': this.multiple && this.displayTags.length > 0,
-            'select--placeholder-visible': this.displayLabel === '',
-            'select--small': this.size === 'small',
-            'select--medium': this.size === 'medium',
-            'select--large': this.size === 'large',
-            'select--pill': this.pill,
-            'select--invalid': this.invalid
-          })}
+        select: true,
+        'select--open': this.isOpen,
+        'select--empty': this.getValueAsArray()?.length === 0,
+        'select--focused': this.hasFocus,
+        'select--clearable': this.clearable,
+        'select--disabled': this.disabled,
+        'select--multiple': this.multiple,
+        'select--standard': !this.filled,
+        'select--filled': this.filled,
+        'select--has-tags': this.multiple && this.displayTags.length > 0,
+        'select--placeholder-visible': this.displayLabel === '',
+        'select--small': this.size === 'small',
+        'select--medium': this.size === 'medium',
+        'select--large': this.size === 'large',
+        'select--pill': this.pill,
+        'select--invalid': this.invalid
+      })}
           @sl-show=${this.handleMenuShow}
           @sl-hide=${this.handleMenuHide}
         >
@@ -483,15 +481,15 @@ export default class SlSelect extends LitElement {
             class="select__control"
             role="combobox"
             aria-labelledby=${ifDefined(
-              getLabelledBy({
-                label: this.label,
-                labelId: this.labelId,
-                hasLabelSlot: this.hasLabelSlot,
-                helpText: this.helpText,
-                helpTextId: this.helpTextId,
-                hasHelpTextSlot: this.hasHelpTextSlot
-              })
-            )}
+        getLabelledBy({
+          label: this.label,
+          labelId: this.labelId,
+          hasLabelSlot: this.hasLabelSlot,
+          helpText: this.helpText,
+          helpTextId: this.helpTextId,
+          hasHelpTextSlot: this.hasHelpTextSlot
+        })
+      )}
             aria-haspopup="true"
             aria-expanded=${this.isOpen ? 'true' : 'false'}
             tabindex=${this.disabled ? '-1' : '0'}
@@ -503,11 +501,24 @@ export default class SlSelect extends LitElement {
               <slot name="prefix"></slot>
             </span>
 
-            <div part="select_label" class="select__label">${this.displayTags.length ? html` <span part="tags" class="select__tags"> ${this.displayTags} </span> ` : this.displayLabel || this.placeholder}</div>
+            <div class="select__label">
+              ${this.displayTags.length
+          ? html` <span part="tags" class="select__tags"> ${this.displayTags} </span> `
+          : this.displayLabel || this.placeholder}
+            </div>
 
             ${this.clearable && hasSelection
-              ? html` <sl-icon-button exportparts="base:clear-button" class="select__clear" name="x-circle" library="system" @click=${this.handleClearClick} tabindex="-1"></sl-icon-button> `
-              : ''}
+          ? html`
+                  <sl-icon-button
+                    exportparts="base:clear-button"
+                    class="select__clear"
+                    name="x-circle-fill"
+                    library="system"
+                    @click=${this.handleClearClick}
+                    tabindex="-1"
+                  ></sl-icon-button>
+                `
+          : ''}
 
             <span part="suffix" class="select__suffix">
               <slot name="suffix"></slot>
@@ -519,7 +530,13 @@ export default class SlSelect extends LitElement {
 
             <!-- The hidden input tricks the browser's built-in validation so it works as expected. We use an input
             instead of a select because, otherwise, iOS will show a list of options during validation. -->
-            <input class="select__hidden-select" aria-hidden="true" ?required=${this.required} .value=${hasSelection ? '1' : ''} tabindex="-1" />
+            <input
+              class="select__hidden-select"
+              aria-hidden="true"
+              ?required=${this.required}
+              .value=${hasSelection ? '1' : ''}
+              tabindex="-1"
+            />
           </div>
 
           <sl-menu part="menu" class="select__menu" @sl-select=${this.handleMenuSelect}>

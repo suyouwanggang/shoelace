@@ -1,5 +1,15 @@
 [
   {
+    "name": "123",
+    "title": 123,
+    "categories": [
+      "Typography"
+    ],
+    "tags": [
+      "numbers"
+    ]
+  },
+  {
     "name": "activity",
     "title": "Activity",
     "categories": [
@@ -279,7 +289,9 @@
       "turn",
       "around",
       "round",
-      "rotate"
+      "rotate",
+      "refresh",
+      "reload"
     ]
   },
   {
@@ -1408,6 +1420,28 @@
     ]
   },
   {
+    "name": "bandaid-fill",
+    "title": "Bandaid fill",
+    "categories": [
+      "Real World"
+    ],
+    "tags": [
+      "bandage",
+      "health"
+    ]
+  },
+  {
+    "name": "bandaid",
+    "title": "Bandaid",
+    "categories": [
+      "Real World"
+    ],
+    "tags": [
+      "bandage",
+      "health"
+    ]
+  },
+  {
     "name": "bank",
     "title": "Bank",
     "categories": [
@@ -1768,6 +1802,26 @@
     ]
   },
   {
+    "name": "bluetooth",
+    "title": "Bluetooth",
+    "categories": [
+      "Brand"
+    ],
+    "tags": [
+      "wireless"
+    ]
+  },
+  {
+    "name": "body-text",
+    "title": "Body text",
+    "categories": [
+      "Typography"
+    ],
+    "tags": [
+      "content"
+    ]
+  },
+  {
     "name": "book-fill",
     "title": "Book fill",
     "categories": [
@@ -2035,6 +2089,26 @@
     ],
     "tags": [
       "shelf"
+    ]
+  },
+  {
+    "name": "boombox-fill",
+    "title": "Boombox fill",
+    "categories": [
+      "Real World"
+    ],
+    "tags": [
+      "music"
+    ]
+  },
+  {
+    "name": "boombox",
+    "title": "Boombox",
+    "categories": [
+      "Real World"
+    ],
+    "tags": [
+      "music"
     ]
   },
   {
@@ -2414,6 +2488,12 @@
       "package",
       "cube"
     ]
+  },
+  {
+    "name": "boxes",
+    "title": "Boxes",
+    "categories": null,
+    "tags": null
   },
   {
     "name": "braces",
@@ -5072,16 +5152,6 @@
     ]
   },
   {
-    "name": "cloud-haze-1",
-    "title": "Cloud haze 1",
-    "categories": [
-      "Weather"
-    ],
-    "tags": [
-      "smog"
-    ]
-  },
-  {
     "name": "cloud-haze-fill",
     "title": "Cloud haze fill",
     "categories": [
@@ -5104,6 +5174,16 @@
   {
     "name": "cloud-haze2-fill",
     "title": "Cloud haze2 fill",
+    "categories": [
+      "Weather"
+    ],
+    "tags": [
+      "smog"
+    ]
+  },
+  {
+    "name": "cloud-haze2",
+    "title": "Cloud haze2",
     "categories": [
       "Weather"
     ],
@@ -5938,6 +6018,50 @@
     ]
   },
   {
+    "name": "device-hdd-fill",
+    "title": "Device HDD fill",
+    "categories": [
+      "Devices"
+    ],
+    "tags": [
+      "drive",
+      "hard drive"
+    ]
+  },
+  {
+    "name": "device-hdd",
+    "title": "Device HDD",
+    "categories": [
+      "Devices"
+    ],
+    "tags": [
+      "drive",
+      "hard drive"
+    ]
+  },
+  {
+    "name": "device-ssd-fill",
+    "title": "Device SSD fill",
+    "categories": [
+      "Devices"
+    ],
+    "tags": [
+      "solid state",
+      "drive"
+    ]
+  },
+  {
+    "name": "device-ssd",
+    "title": "Device SSD",
+    "categories": [
+      "Devices"
+    ],
+    "tags": [
+      "solid state",
+      "drive"
+    ]
+  },
+  {
     "name": "diagram-2-fill",
     "title": "Diagram 2 fill",
     "categories": [
@@ -6251,6 +6375,28 @@
     ]
   },
   {
+    "name": "displayport-fill",
+    "title": "DisplayPort fill",
+    "categories": [
+      "Devices"
+    ],
+    "tags": [
+      "video",
+      "input"
+    ]
+  },
+  {
+    "name": "displayport",
+    "title": "DisplayPort",
+    "categories": [
+      "Devices"
+    ],
+    "tags": [
+      "video",
+      "input"
+    ]
+  },
+  {
     "name": "distribute-horizontal",
     "title": "Distribute horizontal",
     "categories": [
@@ -6343,6 +6489,30 @@
     ]
   },
   {
+    "name": "dpad-fill",
+    "title": "Dpad fill",
+    "categories": [
+      "Entertainment"
+    ],
+    "tags": [
+      "gaming",
+      "controller",
+      "direction"
+    ]
+  },
+  {
+    "name": "dpad",
+    "title": "Dpad",
+    "categories": [
+      "Entertainment"
+    ],
+    "tags": [
+      "gaming",
+      "controller",
+      "direction"
+    ]
+  },
+  {
     "name": "dribbble",
     "title": "Dribbble",
     "categories": [
@@ -6389,6 +6559,30 @@
       "paint",
       "ink",
       "liquid"
+    ]
+  },
+  {
+    "name": "ear-fill",
+    "title": "Ear fill",
+    "categories": [
+      "Real World"
+    ],
+    "tags": [
+      "hearing",
+      "sound",
+      "listen"
+    ]
+  },
+  {
+    "name": "ear",
+    "title": "Ear",
+    "categories": [
+      "Real World"
+    ],
+    "tags": [
+      "hearing",
+      "sound",
+      "listen"
     ]
   },
   {
@@ -6778,6 +6972,84 @@
     ]
   },
   {
+    "name": "envelope-check-fill",
+    "title": "Envelope check fill",
+    "categories": [
+      "Communications"
+    ],
+    "tags": [
+      "email",
+      "message",
+      "mail",
+      "letter"
+    ]
+  },
+  {
+    "name": "envelope-check",
+    "title": "Envelope check",
+    "categories": [
+      "Communications"
+    ],
+    "tags": [
+      "email",
+      "message",
+      "mail",
+      "letter"
+    ]
+  },
+  {
+    "name": "envelope-dash-fill",
+    "title": "Envelope dash fill",
+    "categories": [
+      "Communications"
+    ],
+    "tags": [
+      "email",
+      "message",
+      "mail",
+      "letter"
+    ]
+  },
+  {
+    "name": "envelope-dash",
+    "title": "Envelope dash",
+    "categories": [
+      "Communications"
+    ],
+    "tags": [
+      "email",
+      "message",
+      "mail",
+      "letter"
+    ]
+  },
+  {
+    "name": "envelope-exclamation-fill",
+    "title": "Envelope exclamation fill",
+    "categories": [
+      "Communications"
+    ],
+    "tags": [
+      "email",
+      "message",
+      "mail",
+      "letter"
+    ]
+  },
+  {
+    "name": "envelope-exclamation",
+    "title": "Envelope exclamation",
+    "categories": [
+      "Communications"
+    ],
+    "tags": [
+      "email",
+      "message",
+      "mail",
+      "letter"
+    ]
+  },
+  {
     "name": "envelope-fill",
     "title": "Envelope fill",
     "categories": [
@@ -6806,6 +7078,84 @@
   {
     "name": "envelope-open",
     "title": "Envelope open",
+    "categories": [
+      "Communications"
+    ],
+    "tags": [
+      "email",
+      "message",
+      "mail",
+      "letter"
+    ]
+  },
+  {
+    "name": "envelope-plus-fill",
+    "title": "Envelope plus fill",
+    "categories": [
+      "Communications"
+    ],
+    "tags": [
+      "email",
+      "message",
+      "mail",
+      "letter"
+    ]
+  },
+  {
+    "name": "envelope-plus",
+    "title": "Envelope plus",
+    "categories": [
+      "Communications"
+    ],
+    "tags": [
+      "email",
+      "message",
+      "mail",
+      "letter"
+    ]
+  },
+  {
+    "name": "envelope-slash-fill",
+    "title": "Envelope slash fill",
+    "categories": [
+      "Communications"
+    ],
+    "tags": [
+      "email",
+      "message",
+      "mail",
+      "letter"
+    ]
+  },
+  {
+    "name": "envelope-slash",
+    "title": "Envelope slash",
+    "categories": [
+      "Communications"
+    ],
+    "tags": [
+      "email",
+      "message",
+      "mail",
+      "letter"
+    ]
+  },
+  {
+    "name": "envelope-x-fill",
+    "title": "Envelope x fill",
+    "categories": [
+      "Communications"
+    ],
+    "tags": [
+      "email",
+      "message",
+      "mail",
+      "letter"
+    ]
+  },
+  {
+    "name": "envelope-x",
+    "title": "Envelope x",
     "categories": [
       "Communications"
     ],
@@ -6849,6 +7199,19 @@
     "tags": [
       "erase",
       "remove"
+    ]
+  },
+  {
+    "name": "ethernet",
+    "title": "Ethernet",
+    "categories": [
+      "Devices"
+    ],
+    "tags": [
+      "internet",
+      "connection",
+      "port",
+      "plug"
     ]
   },
   {
@@ -6995,6 +7358,22 @@
       "merge",
       "layers"
     ]
+  },
+  {
+    "name": "explicit-fill",
+    "title": "Explicit fill",
+    "categories": [
+      "Badges"
+    ],
+    "tags": null
+  },
+  {
+    "name": "explicit",
+    "title": "Explicit",
+    "categories": [
+      "Badges"
+    ],
+    "tags": null
   },
   {
     "name": "eye-fill",
@@ -9253,6 +9632,19 @@
     ]
   },
   {
+    "name": "git",
+    "title": "Git",
+    "categories": [
+      "Brand"
+    ],
+    "tags": [
+      "version control",
+      "vcs",
+      "github",
+      "version"
+    ]
+  },
+  {
     "name": "github",
     "title": "GitHub",
     "categories": [
@@ -9298,6 +9690,18 @@
     "tags": [
       "social",
       "search"
+    ]
+  },
+  {
+    "name": "gpu-card",
+    "title": "GPU card",
+    "categories": [
+      "Devices"
+    ],
+    "tags": [
+      "video",
+      "output",
+      "graphics"
     ]
   },
   {
@@ -9736,6 +10140,28 @@
     ]
   },
   {
+    "name": "hdmi-fill",
+    "title": "HDMI fill",
+    "categories": [
+      "Devices"
+    ],
+    "tags": [
+      "video",
+      "input"
+    ]
+  },
+  {
+    "name": "hdmi",
+    "title": "HDMI",
+    "categories": [
+      "Devices"
+    ],
+    "tags": [
+      "video",
+      "input"
+    ]
+  },
+  {
     "name": "headphones",
     "title": "Headphones",
     "categories": [
@@ -10085,6 +10511,16 @@
       "mail",
       "email",
       "letter tray"
+    ]
+  },
+  {
+    "name": "infinity",
+    "title": "Infinity",
+    "categories": [
+      "Typography"
+    ],
+    "tags": [
+      "infinite"
     ]
   },
   {
@@ -10917,6 +11353,30 @@
     ]
   },
   {
+    "name": "list-columns-reverse",
+    "title": "List columns reverse",
+    "categories": [
+      "Typography"
+    ],
+    "tags": [
+      "text",
+      "type",
+      "alignment"
+    ]
+  },
+  {
+    "name": "list-columns",
+    "title": "List columns",
+    "categories": [
+      "Typography"
+    ],
+    "tags": [
+      "text",
+      "type",
+      "alignment"
+    ]
+  },
+  {
     "name": "list-nested",
     "title": "List nested",
     "categories": [
@@ -11162,6 +11622,16 @@
     ]
   },
   {
+    "name": "memory",
+    "title": "Memory",
+    "categories": [
+      "Devices"
+    ],
+    "tags": [
+      "ram"
+    ]
+  },
+  {
     "name": "menu-app-fill",
     "title": "Menu app fill",
     "categories": [
@@ -11286,6 +11756,17 @@
     ]
   },
   {
+    "name": "meta",
+    "title": "Meta",
+    "categories": [
+      "Brand"
+    ],
+    "tags": [
+      "facebook",
+      "fb"
+    ]
+  },
+  {
     "name": "mic-fill",
     "title": "Mic fill",
     "categories": [
@@ -11379,6 +11860,28 @@
     ]
   },
   {
+    "name": "modem-fill",
+    "title": "Modem fill",
+    "categories": [
+      "Devices"
+    ],
+    "tags": [
+      "internet",
+      "cable"
+    ]
+  },
+  {
+    "name": "modem",
+    "title": "Modem",
+    "categories": [
+      "Devices"
+    ],
+    "tags": [
+      "internet",
+      "cable"
+    ]
+  },
+  {
     "name": "moisture",
     "title": "Moisture",
     "categories": [
@@ -11432,6 +11935,52 @@
       "lunar",
       "weather",
       "night"
+    ]
+  },
+  {
+    "name": "mortarboard-fill",
+    "title": "Mortorboard fill",
+    "categories": [
+      "Real World"
+    ],
+    "tags": [
+      "graduation",
+      "cap"
+    ]
+  },
+  {
+    "name": "mortarboard",
+    "title": "Mortorboard",
+    "categories": [
+      "Real World"
+    ],
+    "tags": [
+      "graduation",
+      "cap"
+    ]
+  },
+  {
+    "name": "motherboard-fill",
+    "title": "Motherboard fill",
+    "categories": [
+      "Devices"
+    ],
+    "tags": [
+      "mobo",
+      "computer",
+      "hardware"
+    ]
+  },
+  {
+    "name": "motherboard",
+    "title": "Motherboard",
+    "categories": [
+      "Devices"
+    ],
+    "tags": [
+      "mobo",
+      "computer",
+      "hardware"
     ]
   },
   {
@@ -11575,6 +12124,16 @@
     ]
   },
   {
+    "name": "nintendo-switch",
+    "title": "Nintendo Switch",
+    "categories": [
+      "Brand"
+    ],
+    "tags": [
+      "gaming"
+    ]
+  },
+  {
     "name": "node-minus-fill",
     "title": "Node minus fill",
     "categories": [
@@ -11683,6 +12242,30 @@
     "tags": [
       "shape",
       "polygon"
+    ]
+  },
+  {
+    "name": "optical-audio-fill",
+    "title": "Optical audio fill",
+    "categories": [
+      "Devices"
+    ],
+    "tags": [
+      "port",
+      "plug",
+      "sound"
+    ]
+  },
+  {
+    "name": "optical-audio",
+    "title": "Optical audio",
+    "categories": [
+      "Devices"
+    ],
+    "tags": [
+      "port",
+      "plug",
+      "sound"
     ]
   },
   {
@@ -11956,6 +12539,65 @@
     ],
     "tags": [
       "social"
+    ]
+  },
+  {
+    "name": "pc-display-horizontal",
+    "title": "PC display horizontal",
+    "categories": [
+      "Devices"
+    ],
+    "tags": [
+      "computer",
+      "workstation",
+      "desktop"
+    ]
+  },
+  {
+    "name": "pc-display",
+    "title": "PC display",
+    "categories": [
+      "Devices"
+    ],
+    "tags": [
+      "computer",
+      "workstation",
+      "desktop"
+    ]
+  },
+  {
+    "name": "pc-horizontal",
+    "title": "PC horizontal",
+    "categories": [
+      "Devices"
+    ],
+    "tags": [
+      "computer",
+      "workstation",
+      "desktop"
+    ]
+  },
+  {
+    "name": "pc",
+    "title": "PC",
+    "categories": [
+      "Devices"
+    ],
+    "tags": [
+      "computer",
+      "workstation",
+      "desktop"
+    ]
+  },
+  {
+    "name": "pci-card",
+    "title": "PCI card",
+    "categories": [
+      "Devices"
+    ],
+    "tags": [
+      "card",
+      "expansion"
     ]
   },
   {
@@ -12725,6 +13367,17 @@
     ]
   },
   {
+    "name": "playstation",
+    "title": "Playstation",
+    "categories": [
+      "Brand"
+    ],
+    "tags": [
+      "sony",
+      "gaming"
+    ]
+  },
+  {
     "name": "plug-fill",
     "title": "Plug fill",
     "categories": [
@@ -12788,6 +13441,18 @@
     "tags": [
       "add",
       "new"
+    ]
+  },
+  {
+    "name": "plus-slash-minus",
+    "title": "Plus slash minus",
+    "categories": [
+      "Typography"
+    ],
+    "tags": [
+      "difference",
+      "add",
+      "subtract"
     ]
   },
   {
@@ -12866,6 +13531,30 @@
     ]
   },
   {
+    "name": "projector-fill",
+    "title": "Projector fill",
+    "categories": [
+      "Devices"
+    ],
+    "tags": [
+      "projection",
+      "present",
+      "screen"
+    ]
+  },
+  {
+    "name": "projector",
+    "title": "Projector",
+    "categories": [
+      "Devices"
+    ],
+    "tags": [
+      "projection",
+      "present",
+      "screen"
+    ]
+  },
+  {
     "name": "puzzle-fill",
     "title": "Puzzle fill",
     "categories": [
@@ -12885,6 +13574,26 @@
     "tags": [
       "puzzle",
       "piece"
+    ]
+  },
+  {
+    "name": "qr-code-scan",
+    "title": "QR code scan",
+    "categories": [
+      "Communications"
+    ],
+    "tags": [
+      "scan"
+    ]
+  },
+  {
+    "name": "qr-code",
+    "title": "QR code",
+    "categories": [
+      "Communications"
+    ],
+    "tags": [
+      "scan"
     ]
   },
   {
@@ -12985,6 +13694,28 @@
     ],
     "tags": [
       "help"
+    ]
+  },
+  {
+    "name": "quora",
+    "title": "Quora",
+    "categories": [
+      "Brand"
+    ],
+    "tags": [
+      "social"
+    ]
+  },
+  {
+    "name": "quote",
+    "title": "Quote",
+    "categories": [
+      "Typography"
+    ],
+    "tags": [
+      "blockquote",
+      "quotes",
+      "quotation"
     ]
   },
   {
@@ -13270,6 +14001,40 @@
     ]
   },
   {
+    "name": "robot",
+    "title": "Robot",
+    "categories": [
+      "Devices"
+    ],
+    "tags": [
+      "bot"
+    ]
+  },
+  {
+    "name": "router-fill",
+    "title": "Router fill",
+    "categories": [
+      "Devices"
+    ],
+    "tags": [
+      "wifi",
+      "internet",
+      "wireless"
+    ]
+  },
+  {
+    "name": "router",
+    "title": "Router",
+    "categories": [
+      "Devices"
+    ],
+    "tags": [
+      "wifi",
+      "internet",
+      "wireless"
+    ]
+  },
+  {
     "name": "rss-fill",
     "title": "RSS fill",
     "categories": [
@@ -13466,6 +14231,174 @@
       "tabbed",
       "app",
       "ui"
+    ]
+  },
+  {
+    "name": "send-check-fill",
+    "title": "Send check fill",
+    "categories": [
+      "Communications"
+    ],
+    "tags": [
+      "message",
+      "sending",
+      "sent"
+    ]
+  },
+  {
+    "name": "send-check",
+    "title": "Send check",
+    "categories": [
+      "Communications"
+    ],
+    "tags": [
+      "message",
+      "sending",
+      "sent"
+    ]
+  },
+  {
+    "name": "send-dash-fill",
+    "title": "Send dash fill",
+    "categories": [
+      "Communications"
+    ],
+    "tags": [
+      "message",
+      "sending",
+      "sent"
+    ]
+  },
+  {
+    "name": "send-dash",
+    "title": "Send dash",
+    "categories": [
+      "Communications"
+    ],
+    "tags": [
+      "message",
+      "sending",
+      "sent"
+    ]
+  },
+  {
+    "name": "send-exclamation-fill",
+    "title": "Send exclamation fill",
+    "categories": [
+      "Communications"
+    ],
+    "tags": [
+      "message",
+      "sending",
+      "sent"
+    ]
+  },
+  {
+    "name": "send-exclamation",
+    "title": "Send exclamation",
+    "categories": [
+      "Communications"
+    ],
+    "tags": [
+      "message",
+      "sending",
+      "sent"
+    ]
+  },
+  {
+    "name": "send-fill",
+    "title": "Send fill",
+    "categories": [
+      "Communications"
+    ],
+    "tags": [
+      "message",
+      "sending",
+      "sent"
+    ]
+  },
+  {
+    "name": "send-plus-fill",
+    "title": "Send plus fill",
+    "categories": [
+      "Communications"
+    ],
+    "tags": [
+      "message",
+      "sending",
+      "sent"
+    ]
+  },
+  {
+    "name": "send-plus",
+    "title": "Send plus",
+    "categories": [
+      "Communications"
+    ],
+    "tags": [
+      "message",
+      "sending",
+      "sent"
+    ]
+  },
+  {
+    "name": "send-slash-fill",
+    "title": "Send slash fill",
+    "categories": [
+      "Communications"
+    ],
+    "tags": [
+      "message",
+      "sending",
+      "sent"
+    ]
+  },
+  {
+    "name": "send-slash",
+    "title": "Send slash",
+    "categories": [
+      "Communications"
+    ],
+    "tags": [
+      "message",
+      "sending",
+      "sent"
+    ]
+  },
+  {
+    "name": "send-x-fill",
+    "title": "Send x fill",
+    "categories": [
+      "Communications"
+    ],
+    "tags": [
+      "message",
+      "sending",
+      "sent"
+    ]
+  },
+  {
+    "name": "send-x",
+    "title": "Send x",
+    "categories": [
+      "Communications"
+    ],
+    "tags": [
+      "message",
+      "sending",
+      "sent"
+    ]
+  },
+  {
+    "name": "send",
+    "title": "Send",
+    "categories": [
+      "Communications"
+    ],
+    "tags": [
+      "message",
+      "sending",
+      "sent"
     ]
   },
   {
@@ -14650,6 +15583,16 @@
     ]
   },
   {
+    "name": "steam",
+    "title": "Steam",
+    "categories": [
+      "Brand"
+    ],
+    "tags": [
+      "gaming"
+    ]
+  },
+  {
     "name": "stickies-fill",
     "title": "Stickies fill",
     "categories": [
@@ -15332,8 +16275,44 @@
     ]
   },
   {
+    "name": "terminal-dash",
+    "title": "Terminal dash",
+    "categories": [
+      "Apps"
+    ],
+    "tags": [
+      "command-line",
+      "cli",
+      "command-prompt"
+    ]
+  },
+  {
     "name": "terminal-fill",
     "title": "Terminal fill",
+    "categories": [
+      "Apps"
+    ],
+    "tags": [
+      "command-line",
+      "cli",
+      "command-prompt"
+    ]
+  },
+  {
+    "name": "terminal-plus",
+    "title": "Terminal plus",
+    "categories": [
+      "Apps"
+    ],
+    "tags": [
+      "command-line",
+      "cli",
+      "command-prompt"
+    ]
+  },
+  {
+    "name": "terminal-split",
+    "title": "Terminal split",
     "categories": [
       "Apps"
     ],
@@ -15561,6 +16540,102 @@
       "overflow",
       "menu"
     ]
+  },
+  {
+    "name": "thunderbolt-fill",
+    "title": "Thunderbolt fill",
+    "categories": [
+      "Devices"
+    ],
+    "tags": [
+      "plug",
+      "port"
+    ]
+  },
+  {
+    "name": "thunderbolt",
+    "title": "Thunderbolt",
+    "categories": [
+      "Devices"
+    ],
+    "tags": [
+      "plug",
+      "port"
+    ]
+  },
+  {
+    "name": "ticket-detailed-fill",
+    "title": "Ticket detailed fill",
+    "categories": [
+      "Real World"
+    ],
+    "tags": [
+      "tickets",
+      "admission"
+    ]
+  },
+  {
+    "name": "ticket-detailed",
+    "title": "Ticket detailed",
+    "categories": [
+      "Real World"
+    ],
+    "tags": [
+      "tickets",
+      "admission"
+    ]
+  },
+  {
+    "name": "ticket-fill",
+    "title": "Ticket fill",
+    "categories": [
+      "Real World"
+    ],
+    "tags": [
+      "tickets",
+      "admission"
+    ]
+  },
+  {
+    "name": "ticket-perferated-fill",
+    "title": "Ticket perferated fill",
+    "categories": [
+      "Real World"
+    ],
+    "tags": [
+      "tickets",
+      "admission"
+    ]
+  },
+  {
+    "name": "ticket-perferated",
+    "title": "Ticket perferated",
+    "categories": [
+      "Real World"
+    ],
+    "tags": [
+      "tickets",
+      "admission"
+    ]
+  },
+  {
+    "name": "ticket",
+    "title": "Ticket",
+    "categories": [
+      "Real World"
+    ],
+    "tags": [
+      "tickets",
+      "admission"
+    ]
+  },
+  {
+    "name": "tiktok",
+    "title": "Tiktok",
+    "categories": [
+      "Brand"
+    ],
+    "tags": null
   },
   {
     "name": "toggle-off",
@@ -16109,6 +17184,135 @@
     ]
   },
   {
+    "name": "usb-c-fill",
+    "title": "USB C fill",
+    "categories": [
+      "Devices"
+    ],
+    "tags": [
+      "port",
+      "plug"
+    ]
+  },
+  {
+    "name": "usb-c",
+    "title": "USB C",
+    "categories": [
+      "Devices"
+    ],
+    "tags": [
+      "port",
+      "plug"
+    ]
+  },
+  {
+    "name": "usb-drive-fill",
+    "title": "USB drive fill",
+    "categories": [
+      "Devices"
+    ],
+    "tags": [
+      "thumb-drive"
+    ]
+  },
+  {
+    "name": "usb-drive",
+    "title": "USB drive",
+    "categories": [
+      "Devices"
+    ],
+    "tags": [
+      "thumb-drive"
+    ]
+  },
+  {
+    "name": "usb-fill",
+    "title": "USB fill",
+    "categories": [
+      "Devices"
+    ],
+    "tags": [
+      "port",
+      "plug"
+    ]
+  },
+  {
+    "name": "usb-micro-fill",
+    "title": "USB micro fill",
+    "categories": [
+      "Devices"
+    ],
+    "tags": [
+      "port",
+      "plug"
+    ]
+  },
+  {
+    "name": "usb-micro",
+    "title": "USB micro",
+    "categories": [
+      "Devices"
+    ],
+    "tags": [
+      "port",
+      "plug"
+    ]
+  },
+  {
+    "name": "usb-mini-fill",
+    "title": "USB mini fill",
+    "categories": [
+      "Devices"
+    ],
+    "tags": [
+      "port",
+      "plug"
+    ]
+  },
+  {
+    "name": "usb-mini",
+    "title": "USB mini",
+    "categories": [
+      "Devices"
+    ],
+    "tags": [
+      "port",
+      "plug"
+    ]
+  },
+  {
+    "name": "usb-plug-fill",
+    "title": "USB plug fill",
+    "categories": [
+      "Devices"
+    ],
+    "tags": null
+  },
+  {
+    "name": "usb-plug",
+    "title": "USB plug",
+    "categories": [
+      "Devices"
+    ],
+    "tags": null
+  },
+  {
+    "name": "usb-symbol",
+    "title": "USB symbol",
+    "categories": [
+      "Devices"
+    ],
+    "tags": null
+  },
+  {
+    "name": "usb",
+    "title": "USB",
+    "categories": [
+      "Devices"
+    ],
+    "tags": null
+  },
+  {
     "name": "vector-pen",
     "title": "Vector pen",
     "categories": [
@@ -16459,6 +17663,30 @@
     ]
   },
   {
+    "name": "window-dash",
+    "title": "Window dash",
+    "categories": [
+      "Apps"
+    ],
+    "tags": [
+      "application",
+      "desktop",
+      "app"
+    ]
+  },
+  {
+    "name": "window-desktop",
+    "title": "Window desktop",
+    "categories": [
+      "Apps"
+    ],
+    "tags": [
+      "application",
+      "desktop",
+      "app"
+    ]
+  },
+  {
     "name": "window-dock",
     "title": "Window dock",
     "categories": [
@@ -16471,6 +17699,30 @@
     ]
   },
   {
+    "name": "window-fullscreen",
+    "title": "Window fullscreen",
+    "categories": [
+      "Apps"
+    ],
+    "tags": [
+      "application",
+      "desktop",
+      "app"
+    ]
+  },
+  {
+    "name": "window-plus",
+    "title": "Window plus",
+    "categories": [
+      "Apps"
+    ],
+    "tags": [
+      "application",
+      "desktop",
+      "app"
+    ]
+  },
+  {
     "name": "window-sidebar",
     "title": "Window sidebar",
     "categories": [
@@ -16479,6 +17731,43 @@
     "tags": [
       "application",
       "desktop"
+    ]
+  },
+  {
+    "name": "window-split",
+    "title": "Window split",
+    "categories": [
+      "Apps"
+    ],
+    "tags": [
+      "application",
+      "desktop",
+      "app"
+    ]
+  },
+  {
+    "name": "window-stack",
+    "title": "Window stack",
+    "categories": [
+      "Apps"
+    ],
+    "tags": [
+      "application",
+      "desktop",
+      "app",
+      "windows"
+    ]
+  },
+  {
+    "name": "window-x",
+    "title": "Window x",
+    "categories": [
+      "Apps"
+    ],
+    "tags": [
+      "application",
+      "desktop",
+      "app"
     ]
   },
   {
@@ -16682,6 +17971,17 @@
       "cancel",
       "close",
       "exit"
+    ]
+  },
+  {
+    "name": "xbox",
+    "title": "Xbox",
+    "categories": [
+      "Brand"
+    ],
+    "tags": [
+      "microsoft",
+      "gaming"
     ]
   },
   {

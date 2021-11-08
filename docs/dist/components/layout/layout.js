@@ -1,12 +1,11 @@
 import {
-  SlLayout
-} from "../../chunks/chunk.VGSQWQLN.js";
-import "../../chunks/chunk.7Z556U7Z.js";
+  layout_default
+} from "../../chunks/chunk.ELFFPRLT.js";
 import "../../chunks/chunk.OSQIKTTV.js";
-import "../../chunks/chunk.DIDDF23Y.js";
-import "../../chunks/chunk.UA53BYGW.js";
-import "../../chunks/chunk.AXN6W67E.js";
-import "../../chunks/chunk.THXBF3MO.js";
+import "../../chunks/chunk.P6HXIBIO.js";
+import "../../chunks/chunk.OPP7P5NL.js";
+import "../../chunks/chunk.HHQFDLZX.js";
+import "../../chunks/chunk.QRXTBWFL.js";
 export {
-  SlLayout as default
+  layout_default as default
 };

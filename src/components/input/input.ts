@@ -343,7 +343,7 @@ export default class SlInput extends LitElement {
             ? html`
                 <button part="clear-button" class="input__clear" type="button" @click=${this.handleClearClick} tabindex="-1">
                   <slot name="clear-icon">
-                    <sl-icon name="x-circle" library="system"></sl-icon>
+                    <sl-icon name="x-circle-fill" library="system"></sl-icon>
                   </slot>
                 </button>
               `

@@ -1,10 +1,10 @@
 import {
-  SlRelativeTime
-} from "../../chunks/chunk.7H4IFUFQ.js";
+  relative_time_default
+} from "../../chunks/chunk.Y2DIGEQD.js";
 import "../../chunks/chunk.BD26TKS4.js";
-import "../../chunks/chunk.DIDDF23Y.js";
-import "../../chunks/chunk.AXN6W67E.js";
-import "../../chunks/chunk.THXBF3MO.js";
+import "../../chunks/chunk.OPP7P5NL.js";
+import "../../chunks/chunk.HHQFDLZX.js";
+import "../../chunks/chunk.QRXTBWFL.js";
 export {
-  SlRelativeTime as default
+  relative_time_default as default
 };

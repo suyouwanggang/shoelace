@@ -1,9 +1,9 @@
 import {
-  SlFormatBytes
-} from "../../chunks/chunk.DT2R4I7W.js";
-import "../../chunks/chunk.DIDDF23Y.js";
-import "../../chunks/chunk.AXN6W67E.js";
-import "../../chunks/chunk.THXBF3MO.js";
+  format_bytes_default
+} from "../../chunks/chunk.AWNXKW4U.js";
+import "../../chunks/chunk.OPP7P5NL.js";
+import "../../chunks/chunk.HHQFDLZX.js";
+import "../../chunks/chunk.QRXTBWFL.js";
 export {
-  SlFormatBytes as default
+  format_bytes_default as default
 };

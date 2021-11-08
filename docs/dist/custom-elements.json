@@ -4,274 +4,6 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "src/components/alert/alert.styles.ts",
-      "declarations": [],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "module": "src/components/alert/alert.styles.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/components/alert/alert.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "",
-          "name": "SlAlert",
-          "cssProperties": [
-            {
-              "description": "The alert's box shadow.",
-              "name": "--box-shadow"
-            }
-          ],
-          "cssParts": [
-            {
-              "description": "The component's base wrapper.",
-              "name": "base"
-            },
-            {
-              "description": "The container that wraps the alert icon.",
-              "name": "icon"
-            },
-            {
-              "description": "The alert message.",
-              "name": "message"
-            },
-            {
-              "description": "The close button.",
-              "name": "close-button"
-            }
-          ],
-          "slots": [
-            {
-              "description": "The alert's content.",
-              "name": ""
-            },
-            {
-              "description": "An icon to show in the alert.",
-              "name": "icon"
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "autoHideTimeout",
-              "type": {
-                "text": "any"
-              },
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "base",
-              "type": {
-                "text": "HTMLElement"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "open",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Indicates whether or not the alert is open. You can use this in lieu of the show/hide methods.",
-              "attribute": "open",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "closable",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Makes the alert closable.",
-              "attribute": "closable",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "type",
-              "type": {
-                "text": "'primary' | 'success' | 'neutral' | 'warning' | 'danger'"
-              },
-              "default": "'primary'",
-              "description": "The type of alert.",
-              "attribute": "type",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "duration",
-              "type": {
-                "text": "number"
-              },
-              "default": "Infinity",
-              "description": "The length of time, in milliseconds, the alert will show before closing itself. If the user interacts with\nthe alert before it closes (e.g. moves the mouse over it), the timer will restart. Defaults to `Infinity`.",
-              "attribute": "duration"
-            },
-            {
-              "kind": "method",
-              "name": "show",
-              "description": "Shows the alert."
-            },
-            {
-              "kind": "method",
-              "name": "hide",
-              "description": "Hides the alert"
-            },
-            {
-              "kind": "method",
-              "name": "toast",
-              "parameters": [
-                {
-                  "name": "stack",
-                  "default": "'top-right'",
-                  "type": {
-                    "text": "StackPosition"
-                  }
-                }
-              ],
-              "description": "Displays the alert as a toast notification. This will move the alert out of its position in the DOM and, when\ndismissed, it will be removed from the DOM completely. By storing a reference to the alert, you can reuse it by\ncalling this method again. The returned promise will resolve after the alert is hidden."
-            },
-            {
-              "kind": "method",
-              "name": "restartAutoHide"
-            },
-            {
-              "kind": "method",
-              "name": "handleCloseClick"
-            },
-            {
-              "kind": "method",
-              "name": "handleMouseMove"
-            },
-            {
-              "kind": "method",
-              "name": "handleOpenChange"
-            },
-            {
-              "kind": "method",
-              "name": "handleDurationChange"
-            },
-            {
-              "kind": "field",
-              "name": "notify",
-              "static": true,
-              "default": "notify",
-              "description": "发送全局message 消息"
-            }
-          ],
-          "events": [
-            {
-              "description": "Emitted when the alert opens.",
-              "name": "sl-show"
-            },
-            {
-              "description": "Emitted after the alert opens and all animations are complete.",
-              "name": "sl-after-show"
-            },
-            {
-              "description": "Emitted when the alert closes.",
-              "name": "sl-hide"
-            },
-            {
-              "description": "Emitted after the alert closes and all animations are complete.",
-              "name": "sl-after-hide"
-            }
-          ],
-          "attributes": [
-            {
-              "name": "open",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Indicates whether or not the alert is open. You can use this in lieu of the show/hide methods.",
-              "fieldName": "open"
-            },
-            {
-              "name": "closable",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Makes the alert closable.",
-              "fieldName": "closable"
-            },
-            {
-              "name": "type",
-              "type": {
-                "text": "'primary' | 'success' | 'neutral' | 'warning' | 'danger'"
-              },
-              "default": "'primary'",
-              "description": "The type of alert.",
-              "fieldName": "type"
-            },
-            {
-              "name": "duration",
-              "type": {
-                "text": "number"
-              },
-              "default": "Infinity",
-              "description": "The length of time, in milliseconds, the alert will show before closing itself. If the user interacts with\nthe alert before it closes (e.g. moves the mouse over it), the timer will restart. Defaults to `Infinity`.",
-              "resolveInitializer": {
-                "module": "src/components/alert/alert.ts"
-              },
-              "fieldName": "duration"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "since": "2.0",
-          "status": "stable",
-          "dependencies": [
-            "sl-icon-button"
-          ],
-          "animations": [
-            {
-              "name": "alert.show",
-              "description": "The animation to use when showing the alert."
-            },
-            {
-              "name": "alert.hide",
-              "description": "The animation to use when hiding the alert."
-            }
-          ],
-          "tagName": "sl-alert",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "name": "SlAlert",
-            "module": "src/components/alert/alert.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "sl-alert",
-          "declaration": {
-            "name": "SlAlert",
-            "module": "src/components/alert/alert.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
       "path": "src/components/ac-panel/ac-panel.styles.ts",
       "declarations": [],
       "exports": [
@@ -474,6 +206,278 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/components/alert/alert.styles.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "module": "src/components/alert/alert.styles.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/alert/alert.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "SlAlert",
+          "cssProperties": [
+            {
+              "description": "The alert's box shadow.",
+              "name": "--box-shadow"
+            }
+          ],
+          "cssParts": [
+            {
+              "description": "The component's base wrapper.",
+              "name": "base"
+            },
+            {
+              "description": "The container that wraps the alert icon.",
+              "name": "icon"
+            },
+            {
+              "description": "The alert message.",
+              "name": "message"
+            },
+            {
+              "description": "The close button.",
+              "name": "close-button"
+            }
+          ],
+          "slots": [
+            {
+              "description": "The alert's content.",
+              "name": ""
+            },
+            {
+              "description": "An icon to show in the alert.",
+              "name": "icon"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "autoHideTimeout",
+              "type": {
+                "text": "any"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "base",
+              "type": {
+                "text": "HTMLElement"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Indicates whether or not the alert is open. You can use this in lieu of the show/hide methods.",
+              "attribute": "open",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "closable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Makes the alert closable.",
+              "attribute": "closable",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "type",
+              "type": {
+                "text": "'primary' | 'success' | 'neutral' | 'warning' | 'danger'"
+              },
+              "default": "'primary'",
+              "description": "The type of alert.",
+              "attribute": "type",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "duration",
+              "type": {
+                "text": "number"
+              },
+              "default": "Infinity",
+              "description": "The length of time, in milliseconds, the alert will show before closing itself. If the user interacts with\nthe alert before it closes (e.g. moves the mouse over it), the timer will restart. Defaults to `Infinity`.",
+              "attribute": "duration"
+            },
+            {
+              "kind": "method",
+              "name": "show",
+              "description": "Shows the alert."
+            },
+            {
+              "kind": "method",
+              "name": "hide",
+              "description": "Hides the alert"
+            },
+            {
+              "kind": "method",
+              "name": "toast",
+              "parameters": [
+                {
+                  "name": "stack",
+                  "default": "'top-right'",
+                  "type": {
+                    "text": "StackPosition"
+                  }
+                }
+              ],
+              "description": "Displays the alert as a toast notification. This will move the alert out of its position in the DOM and, when\ndismissed, it will be removed from the DOM completely. By storing a reference to the alert, you can reuse it by\ncalling this method again. The returned promise will resolve after the alert is hidden."
+            },
+            {
+              "kind": "method",
+              "name": "restartAutoHide"
+            },
+            {
+              "kind": "method",
+              "name": "handleCloseClick"
+            },
+            {
+              "kind": "method",
+              "name": "handleMouseMove"
+            },
+            {
+              "kind": "method",
+              "name": "handleOpenChange"
+            },
+            {
+              "kind": "method",
+              "name": "handleDurationChange"
+            },
+            {
+              "kind": "field",
+              "name": "notify",
+              "static": true,
+              "default": "notify",
+              "description": "发送全局message 消息"
+            }
+          ],
+          "events": [
+            {
+              "description": "Emitted when the alert opens.",
+              "name": "sl-show",
+              "reactName": "onSlShow"
+            },
+            {
+              "description": "Emitted after the alert opens and all animations are complete.",
+              "name": "sl-after-show",
+              "reactName": "onSlAfterShow"
+            },
+            {
+              "description": "Emitted when the alert closes.",
+              "name": "sl-hide",
+              "reactName": "onSlHide"
+            },
+            {
+              "description": "Emitted after the alert closes and all animations are complete.",
+              "name": "sl-after-hide",
+              "reactName": "onSlAfterHide"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Indicates whether or not the alert is open. You can use this in lieu of the show/hide methods.",
+              "fieldName": "open"
+            },
+            {
+              "name": "closable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Makes the alert closable.",
+              "fieldName": "closable"
+            },
+            {
+              "name": "type",
+              "type": {
+                "text": "'primary' | 'success' | 'neutral' | 'warning' | 'danger'"
+              },
+              "default": "'primary'",
+              "description": "The type of alert.",
+              "fieldName": "type"
+            },
+            {
+              "name": "duration",
+              "type": {
+                "text": "number"
+              },
+              "default": "Infinity",
+              "description": "The length of time, in milliseconds, the alert will show before closing itself. If the user interacts with\nthe alert before it closes (e.g. moves the mouse over it), the timer will restart. Defaults to `Infinity`.",
+              "resolveInitializer": {
+                "module": "src/components/alert/alert.ts"
+              },
+              "fieldName": "duration"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "since": "2.0",
+          "status": "stable",
+          "dependencies": [
+            "sl-icon-button"
+          ],
+          "animations": [
+            {
+              "name": "alert.show",
+              "description": "The animation to use when showing the alert."
+            },
+            {
+              "name": "alert.hide",
+              "description": "The animation to use when hiding the alert."
+            }
+          ],
+          "tagName": "sl-alert",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "SlAlert",
+            "module": "src/components/alert/alert.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "sl-alert",
+          "declaration": {
+            "name": "SlAlert",
+            "module": "src/components/alert/alert.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/components/animated-image/animated-image.styles.ts",
       "declarations": [],
       "exports": [
@@ -579,11 +583,13 @@
           "events": [
             {
               "description": "Emitted when the image loads successfully.",
-              "name": "sl-load"
+              "name": "sl-load",
+              "reactName": "onSlLoad"
             },
             {
               "description": "Emitted when the image fails to load.",
-              "name": "sl-error"
+              "name": "sl-error",
+              "reactName": "onSlError"
             }
           ],
           "attributes": [
@@ -870,15 +876,18 @@
           "events": [
             {
               "description": "Emitted when the animation is canceled.",
-              "name": "sl-cancel"
+              "name": "sl-cancel",
+              "reactName": "onSlCancel"
             },
             {
               "description": "Emitted when the animation finishes.",
-              "name": "sl-finish"
+              "name": "sl-finish",
+              "reactName": "onSlFinish"
             },
             {
               "description": "Emitted when the animation starts or restarts.",
-              "name": "sl-start"
+              "name": "sl-start",
+              "reactName": "onSlStart"
             }
           ],
           "attributes": [
@@ -1947,11 +1956,13 @@
           "events": [
             {
               "description": "Emitted when the button loses focus.",
-              "name": "sl-blur"
+              "name": "sl-blur",
+              "reactName": "onSlBlur"
             },
             {
               "description": "Emitted when the button gains focus.",
-              "name": "sl-focus"
+              "name": "sl-focus",
+              "reactName": "onSlFocus"
             }
           ],
           "attributes": [
@@ -2660,19 +2671,23 @@
           "events": [
             {
               "description": "Emitted when the control loses focus.",
-              "name": "sl-blur"
+              "name": "sl-blur",
+              "reactName": "onSlBlur"
             },
             {
               "description": "Emitted when the control's checked state changes.",
-              "name": "sl-change"
+              "name": "sl-change",
+              "reactName": "onSlChange"
             },
             {
               "description": "Emitted before  the control's checked state changes,user can cancel default.",
-              "name": "sl-before-change"
+              "name": "sl-before-change",
+              "reactName": "onSlBeforeChange"
             },
             {
               "description": "Emitted when the control gains focus.",
-              "name": "sl-focus"
+              "name": "sl-focus",
+              "reactName": "onSlFocus"
             }
           ],
           "attributes": [
@@ -2913,14 +2928,16 @@
                 "text": "{tab:SlAcPanel}"
               },
               "description": "Emitted before a panel active change.",
-              "name": "sl-before-tab-change"
+              "name": "sl-before-tab-change",
+              "reactName": "onSlBeforeTabChange"
             },
             {
               "type": {
                 "text": "{tab:SlAcPanel}"
               },
               "description": "Emitted when a panel active changed.",
-              "name": "sl-tab-change"
+              "name": "sl-tab-change",
+              "reactName": "onSlTabChange"
             }
           ],
           "attributes": [
@@ -3065,6 +3082,10 @@
             },
             {
               "description": "The toggle format button's base.",
+              "name": "eye-dropper-button"
+            },
+            {
+              "description": "The toggle format button's base.",
               "name": "format-button"
             }
           ],
@@ -3169,7 +3190,7 @@
                 "text": "'hex' | 'rgb' | 'hsl'"
               },
               "default": "'hex'",
-              "description": "The format to use for the display value. If opacity is enabled, these will translate to HEXA, RGBA, and HSLA\nrespectively. The color picker will always accept user input in any format (including CSS color names) and convert\nit to the desired format.",
+              "description": "The format to use for the display value. If opacity is enabled, these will translate to HEXA, RGBA, and HSLA\r\nrespectively. The color picker will always accept user input in any format (including CSS color names) and convert\r\nit to the desired format.",
               "attribute": "format"
             },
             {
@@ -3231,7 +3252,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "This will be true when the control is in an invalid state. Validity is determined by the `setCustomValidity()`\nmethod using the browser's constraint validation API.",
+              "description": "This will be true when the control is in an invalid state. Validity is determined by the `setCustomValidity()`\r\nmethod using the browser's constraint validation API.",
               "attribute": "invalid",
               "reflects": true
             },
@@ -3242,7 +3263,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Enable this option to prevent the panel from being clipped when the component is placed inside a container with\n`overflow: auto|scroll`.",
+              "description": "Enable this option to prevent the panel from being clipped when the component is placed inside a container with\r\n`overflow: auto|scroll`.",
               "attribute": "hoist"
             },
             {
@@ -3271,8 +3292,8 @@
               "type": {
                 "text": "string[]"
               },
-              "default": "['#d0021b', '#f5a623', '#f8e71c', '#8b572a', '#7ed321', '#417505', '#bd10e0', '#9013fe', '#4a90e2', '#50e3c2', '#b8e986', '#000', '#444', '#888', '#ccc', '#fff']",
-              "description": "An array of predefined color swatches to display. Can include any format the color picker can parse, including\nHEX(A), RGB(A), HSL(A), and CSS color names."
+              "default": "[\r\n    '#d0021b',\r\n    '#f5a623',\r\n    '#f8e71c',\r\n    '#8b572a',\r\n    '#7ed321',\r\n    '#417505',\r\n    '#bd10e0',\r\n    '#9013fe',\r\n    '#4a90e2',\r\n    '#50e3c2',\r\n    '#b8e986',\r\n    '#000',\r\n    '#444',\r\n    '#888',\r\n    '#ccc',\r\n    '#fff'\r\n  ]",
+              "description": "An array of predefined color swatches to display. Can include any format the color picker can parse, including\r\nHEX(A), RGB(A), HSL(A), and CSS color names."
             },
             {
               "kind": "method",
@@ -3492,6 +3513,10 @@
             },
             {
               "kind": "method",
+              "name": "handleEyeDropper"
+            },
+            {
+              "kind": "method",
               "name": "handleFormatChange"
             },
             {
@@ -3520,7 +3545,8 @@
           "events": [
             {
               "description": "Emitted when the color picker's value changes.",
-              "name": "sl-change"
+              "name": "sl-change",
+              "reactName": "onSlChange"
             }
           ],
           "attributes": [
@@ -3539,7 +3565,7 @@
                 "text": "'hex' | 'rgb' | 'hsl'"
               },
               "default": "'hex'",
-              "description": "The format to use for the display value. If opacity is enabled, these will translate to HEXA, RGBA, and HSLA\nrespectively. The color picker will always accept user input in any format (including CSS color names) and convert\nit to the desired format.",
+              "description": "The format to use for the display value. If opacity is enabled, these will translate to HEXA, RGBA, and HSLA\r\nrespectively. The color picker will always accept user input in any format (including CSS color names) and convert\r\nit to the desired format.",
               "fieldName": "format"
             },
             {
@@ -3593,7 +3619,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "This will be true when the control is in an invalid state. Validity is determined by the `setCustomValidity()`\nmethod using the browser's constraint validation API.",
+              "description": "This will be true when the control is in an invalid state. Validity is determined by the `setCustomValidity()`\r\nmethod using the browser's constraint validation API.",
               "fieldName": "invalid"
             },
             {
@@ -3602,7 +3628,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Enable this option to prevent the panel from being clipped when the component is placed inside a container with\n`overflow: auto|scroll`.",
+              "description": "Enable this option to prevent the panel from being clipped when the component is placed inside a container with\r\n`overflow: auto|scroll`.",
               "fieldName": "hoist"
             },
             {
@@ -3632,6 +3658,7 @@
           "status": "stable",
           "dependencies": [
             "sl-button",
+            "sl-button-group",
             "sl-dropdown",
             "sl-input"
           ],
@@ -4228,7 +4255,7 @@
               "kind": "field",
               "name": "value",
               "type": {
-                "text": "string | undefined"
+                "text": "string"
               },
               "description": "选中日期 ,格式：2018，2018-02, 2018/01， 2018/02/02 ,2018-01-02",
               "attribute": "value"
@@ -4247,7 +4274,7 @@
               "kind": "field",
               "name": "min",
               "type": {
-                "text": "string | number | undefined"
+                "text": "string | number"
               },
               "description": "最小值"
             },
@@ -4255,7 +4282,7 @@
               "kind": "field",
               "name": "max",
               "type": {
-                "text": "string | number | undefined"
+                "text": "string | number"
               },
               "description": "最大值"
             },
@@ -4300,7 +4327,7 @@
               "kind": "field",
               "name": "valueDate",
               "type": {
-                "text": "Date | undefined"
+                "text": "Date"
               },
               "description": "内部 value 所对应的日期"
             },
@@ -4371,7 +4398,8 @@
           "events": [
             {
               "description": "Emitted when date change  .",
-              "name": "sl-date-change"
+              "name": "sl-date-change",
+              "reactName": "onSlDateChange"
             }
           ],
           "attributes": [
@@ -4447,7 +4475,7 @@
             {
               "name": "value",
               "type": {
-                "text": "string | undefined"
+                "text": "string"
               },
               "description": "选中日期 ,格式：2018，2018-02, 2018/01， 2018/02/02 ,2018-01-02",
               "fieldName": "value"
@@ -4586,7 +4614,7 @@
               "kind": "field",
               "name": "value",
               "type": {
-                "text": "string | undefined"
+                "text": "string"
               },
               "description": "选中日期 ,格式：2018，2018-02, 2018/01， 2018/02/02 ,2018-01-02",
               "attribute": "value"
@@ -4605,7 +4633,7 @@
               "kind": "field",
               "name": "min",
               "type": {
-                "text": "string | number | undefined"
+                "text": "string | number"
               },
               "description": "最小值"
             },
@@ -4613,7 +4641,7 @@
               "kind": "field",
               "name": "max",
               "type": {
-                "text": "string | number | undefined"
+                "text": "string | number"
               },
               "description": "最大值"
             },
@@ -4648,7 +4676,7 @@
               "kind": "field",
               "name": "valueDate",
               "type": {
-                "text": "Date | undefined"
+                "text": "Date"
               },
               "description": "内部 value 所对应的日期"
             },
@@ -4731,14 +4759,15 @@
           "events": [
             {
               "description": "Emitted when a date select.",
-              "name": "sl-date-select"
+              "name": "sl-date-select",
+              "reactName": "onSlDateSelect"
             }
           ],
           "attributes": [
             {
               "name": "value",
               "type": {
-                "text": "string | undefined"
+                "text": "string"
               },
               "description": "选中日期 ,格式：2018，2018-02, 2018/01， 2018/02/02 ,2018-01-02",
               "fieldName": "value"
@@ -4929,19 +4958,23 @@
           "events": [
             {
               "description": "Emitted when the details opens.",
-              "name": "sl-show"
+              "name": "sl-show",
+              "reactName": "onSlShow"
             },
             {
               "description": "Emitted after the details opens and all animations are complete.",
-              "name": "sl-after-show"
+              "name": "sl-after-show",
+              "reactName": "onSlAfterShow"
             },
             {
               "description": "Emitted when the details closes.",
-              "name": "sl-hide"
+              "name": "sl-hide",
+              "reactName": "onSlHide"
             },
             {
               "description": "Emitted after the details closes and all animations are complete.",
-              "name": "sl-after-hide"
+              "name": "sl-after-hide",
+              "reactName": "onSlAfterHide"
             }
           ],
           "attributes": [
@@ -5227,27 +5260,33 @@
           "events": [
             {
               "description": "Emitted when the dialog opens.",
-              "name": "sl-show"
+              "name": "sl-show",
+              "reactName": "onSlShow"
             },
             {
               "description": "Emitted after the dialog opens and all animations are complete.",
-              "name": "sl-after-show"
+              "name": "sl-after-show",
+              "reactName": "onSlAfterShow"
             },
             {
               "description": "Emitted when the dialog closes.",
-              "name": "sl-hide"
+              "name": "sl-hide",
+              "reactName": "onSlHide"
             },
             {
               "description": "Emitted after the dialog closes and all animations are complete.",
-              "name": "sl-after-hide"
+              "name": "sl-after-hide",
+              "reactName": "onSlAfterHide"
             },
             {
               "description": "Emitted when the dialog opens and the panel gains focus. Calling `event.preventDefault()` will prevent focus and allow you to set it on a different element in the dialog, such as an input or button.",
-              "name": "sl-initial-focus"
+              "name": "sl-initial-focus",
+              "reactName": "onSlInitialFocus"
             },
             {
               "description": "Emitted when the user attempts to close the dialog by clicking the close button, clicking the overlay, or pressing the escape key. Calling `event.preventDefault()` will prevent the dialog from closing. Avoid using this unless closing the dialog will result in destructive behavior such as data loss.",
-              "name": "sl-request-close"
+              "name": "sl-request-close",
+              "reactName": "onSlRequestClose"
             }
           ],
           "attributes": [
@@ -5667,27 +5706,33 @@
           "events": [
             {
               "description": "Emitted when the drawer opens.",
-              "name": "sl-show"
+              "name": "sl-show",
+              "reactName": "onSlShow"
             },
             {
               "description": "Emitted after the drawer opens and all animations are complete.",
-              "name": "sl-after-show"
+              "name": "sl-after-show",
+              "reactName": "onSlAfterShow"
             },
             {
               "description": "Emitted when the drawer closes.",
-              "name": "sl-hide"
+              "name": "sl-hide",
+              "reactName": "onSlHide"
             },
             {
               "description": "Emitted after the drawer closes and all animations are complete.",
-              "name": "sl-after-hide"
+              "name": "sl-after-hide",
+              "reactName": "onSlAfterHide"
             },
             {
               "description": "Emitted when the drawer opens and the panel gains focus. Calling `event.preventDefault()` will prevent focus and allow you to set it on a different element in the drawer, such as an input or button.",
-              "name": "sl-initial-focus"
+              "name": "sl-initial-focus",
+              "reactName": "onSlInitialFocus"
             },
             {
               "description": "Emitted when the user attempts to close the drawer by clicking the close button, clicking the overlay, or pressing the escape key. Calling `event.preventDefault()` will prevent the drawer from closing. Avoid using this unless closing the drawer will result in destructive behavior such as data loss.",
-              "name": "sl-request-close"
+              "name": "sl-request-close",
+              "reactName": "onSlRequestClose"
             }
           ],
           "attributes": [
@@ -6096,19 +6141,23 @@
           "events": [
             {
               "description": "Emitted when the dropdown opens.",
-              "name": "sl-show"
+              "name": "sl-show",
+              "reactName": "onSlShow"
             },
             {
               "description": "Emitted after the dropdown opens and all animations are complete.",
-              "name": "sl-after-show"
+              "name": "sl-after-show",
+              "reactName": "onSlAfterShow"
             },
             {
               "description": "Emitted when the dropdown closes.",
-              "name": "sl-hide"
+              "name": "sl-hide",
+              "reactName": "onSlHide"
             },
             {
               "description": "Emitted after the dropdown closes and all animations are complete.",
-              "name": "sl-after-hide"
+              "name": "sl-after-hide",
+              "reactName": "onSlAfterHide"
             }
           ],
           "attributes": [
@@ -6340,7 +6389,8 @@
                 "text": "{ formData: FormData, formControls: [] }"
               },
               "description": "Emitted when the form is submitted. This event will not be emitted if any form control inside of it is in an invalid state, unless the form has the `novalidate` attribute. Note that there is never a need to prevent this event, since it doen't send a GET or POST request like native forms. To \"prevent\" submission, use a conditional around the XHR request you use to submit the form's data with.",
-              "name": "sl-submit"
+              "name": "sl-submit",
+              "reactName": "onSlSubmit"
             }
           ],
           "attributes": [
@@ -7069,7 +7119,7 @@
               "kind": "field",
               "name": "thumb_images",
               "type": {
-                "text": "Array<string> | undefined"
+                "text": "Array<string>"
               },
               "description": "缩略图图片路径，如果不设置，默认为images",
               "attribute": "thumb_images"
@@ -7107,7 +7157,7 @@
               "kind": "field",
               "name": "imageRender",
               "type": {
-                "text": "(this: SlGallery, image_data: unknown, index: number) => TemplateResult<1> | undefined"
+                "text": "(this: SlGallery, image_data: unknown, index: number) => TemplateResult<1>"
               },
               "description": "当前图片自定义显示",
               "attribute": "imageRender"
@@ -7152,7 +7202,7 @@
               "kind": "field",
               "name": "_intervalTimeID",
               "type": {
-                "text": "number | undefined"
+                "text": "number"
               },
               "privacy": "private"
             },
@@ -7200,7 +7250,7 @@
               "kind": "field",
               "name": "_windowKeyHander",
               "type": {
-                "text": "DisposeObject | undefined"
+                "text": "DisposeObject"
               },
               "privacy": "private"
             },
@@ -7295,28 +7345,32 @@
                 "text": "{value:number,toValue:number}"
               },
               "description": "Emitted when before change the current image index .",
-              "name": "sl-gallery-before-change"
+              "name": "sl-gallery-before-change",
+              "reactName": "onSlGalleryBeforeChange"
             },
             {
               "type": {
                 "text": "{value:number}"
               },
               "description": "Emitted current image index changed.",
-              "name": "sl-gallery-change"
+              "name": "sl-gallery-change",
+              "reactName": "onSlGalleryChange"
             },
             {
               "type": {
                 "text": "{image:Image}"
               },
               "description": "Emitted  image load.",
-              "name": "sl-gallery-image-load"
+              "name": "sl-gallery-image-load",
+              "reactName": "onSlGalleryImageLoad"
             },
             {
               "type": {
                 "text": "{image:Image}"
               },
               "description": "Emitted  image click.",
-              "name": "sl-gallery-image-click"
+              "name": "sl-gallery-image-click",
+              "reactName": "onSlGalleryImageClick"
             }
           ],
           "attributes": [
@@ -7331,7 +7385,7 @@
             {
               "name": "thumb_images",
               "type": {
-                "text": "Array<string> | undefined"
+                "text": "Array<string>"
               },
               "description": "缩略图图片路径，如果不设置，默认为images",
               "fieldName": "thumb_images"
@@ -7365,7 +7419,7 @@
             {
               "name": "imageRender",
               "type": {
-                "text": "(this: SlGallery, image_data: unknown, index: number) => TemplateResult<1> | undefined"
+                "text": "(this: SlGallery, image_data: unknown, index: number) => TemplateResult<1>"
               },
               "description": "当前图片自定义显示",
               "fieldName": "imageRender"
@@ -7501,14 +7555,16 @@
           "events": [
             {
               "description": "Emitted when the icon has loaded.",
-              "name": "sl-load"
+              "name": "sl-load",
+              "reactName": "onSlLoad"
             },
             {
               "type": {
                 "text": "{ status: number }"
               },
               "description": "Emitted when the icon fails to load due to an error.",
-              "name": "sl-error"
+              "name": "sl-error",
+              "reactName": "onSlError"
             }
           ],
           "attributes": [
@@ -7609,7 +7665,7 @@
           "type": {
             "text": "IconLibrary"
           },
-          "default": "{\n  name: 'system',\n  resolver: (name: keyof typeof icons) => {\n    if (icons[name]) {\n      return `data:image/svg+xml,${encodeURIComponent(icons[name])}`;\n    } else {\n      return '';\n    }\n  }\n}"
+          "default": "{\r\n  name: 'system',\r\n  resolver: (name: keyof typeof icons) => {\r\n    if (icons[name]) {\r\n      return `data:image/svg+xml,${encodeURIComponent(icons[name])}`;\r\n    } else {\r\n      return '';\r\n    }\r\n  }\r\n}"
         }
       ],
       "exports": [
@@ -8104,7 +8160,8 @@
           "events": [
             {
               "description": "Emitted when the position changes.",
-              "name": "sl-change"
+              "name": "sl-change",
+              "reactName": "onSlChange"
             }
           ],
           "attributes": [
@@ -8222,14 +8279,16 @@
           "events": [
             {
               "description": "Emitted when the included file is loaded.",
-              "name": "sl-load"
+              "name": "sl-load",
+              "reactName": "onSlLoad"
             },
             {
               "type": {
                 "text": "{ status: number }"
               },
               "description": "Emitted when the included file fails to load due to an error.",
-              "name": "sl-error"
+              "name": "sl-error",
+              "reactName": "onSlError"
             }
           ],
           "attributes": [
@@ -8681,7 +8740,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "This will be true when the control is in an invalid state. Validity is determined by props such as `type`,\n`required`, `minlength`, `maxlength`, and `pattern` using the browser's constraint validation API.",
+              "description": "This will be true when the control is in an invalid state. Validity is determined by props such as `type`,\r\n`required`, `minlength`, `maxlength`, and `pattern` using the browser's constraint validation API.",
               "attribute": "invalid",
               "reflects": true
             },
@@ -8891,23 +8950,28 @@
           "events": [
             {
               "description": "Emitted when the control's value changes.",
-              "name": "sl-change"
+              "name": "sl-change",
+              "reactName": "onSlChange"
             },
             {
               "description": "Emitted when the clear button is activated.",
-              "name": "sl-clear"
+              "name": "sl-clear",
+              "reactName": "onSlClear"
             },
             {
               "description": "Emitted when the control receives input.",
-              "name": "sl-input"
+              "name": "sl-input",
+              "reactName": "onSlInput"
             },
             {
               "description": "Emitted when the control gains focus.",
-              "name": "sl-focus"
+              "name": "sl-focus",
+              "reactName": "onSlFocus"
             },
             {
               "description": "Emitted when the control loses focus.",
-              "name": "sl-blur"
+              "name": "sl-blur",
+              "reactName": "onSlBlur"
             }
           ],
           "attributes": [
@@ -9088,7 +9152,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "This will be true when the control is in an invalid state. Validity is determined by props such as `type`,\n`required`, `minlength`, `maxlength`, and `pattern` using the browser's constraint validation API.",
+              "description": "This will be true when the control is in an invalid state. Validity is determined by props such as `type`,\r\n`required`, `minlength`, `maxlength`, and `pattern` using the browser's constraint validation API.",
               "fieldName": "invalid"
             },
             {
@@ -9660,7 +9724,8 @@
                 "text": "{ item: SlMenuItem }"
               },
               "description": "Emitted when a menu item is selected.",
-              "name": "sl-select"
+              "name": "sl-select",
+              "reactName": "onSlSelect"
             }
           ],
           "superclass": {
@@ -9983,7 +10048,7 @@
               "type": {
                 "text": "string"
               },
-              "description": "Watches for changes to attributes. If empty, all changes will be reported. To watch only specific attributes,\nseparate them by a space.",
+              "description": "Watches for changes to attributes. If set to *, all changes will be reported. To watch only specific attributes,\r\nseparate them by a space, e.g. \"class id title\".",
               "attribute": "attr",
               "reflects": true
             },
@@ -10074,7 +10139,8 @@
           "events": [
             {
               "description": "Emitted when a mutation occurs.",
-              "name": "sl-mutation"
+              "name": "sl-mutation",
+              "reactName": "onSlMutation"
             }
           ],
           "attributes": [
@@ -10083,7 +10149,7 @@
               "type": {
                 "text": "string"
               },
-              "description": "Watches for changes to attributes. If empty, all changes will be reported. To watch only specific attributes,\nseparate them by a space.",
+              "description": "Watches for changes to attributes. If set to *, all changes will be reported. To watch only specific attributes,\r\nseparate them by a space, e.g. \"class id title\".",
               "fieldName": "attr"
             },
             {
@@ -10315,15 +10381,18 @@
           "events": [
             {
               "description": "{data:any} - click node Data Element .",
-              "name": "sl-node-click"
+              "name": "sl-node-click",
+              "reactName": "onSlNodeClick"
             },
             {
               "description": "{data:any} - toogle node Element .",
-              "name": "sl-node-toogle"
+              "name": "sl-node-toogle",
+              "reactName": "onSlNodeToogle"
             },
             {
               "description": "{data:any} -before toogle node Element .",
-              "name": "sl-node-before-toogle"
+              "name": "sl-node-before-toogle",
+              "reactName": "onSlNodeBeforeToogle"
             }
           ],
           "attributes": [
@@ -10524,14 +10593,16 @@
                 "text": "{ node: SlOrgNode,nodeData:OrgNodeDataType }"
               },
               "description": "Emitted when node click.",
-              "name": "sl-org-tree-node-click"
+              "name": "sl-org-tree-node-click",
+              "reactName": "onSlOrgTreeNodeClick"
             },
             {
               "type": {
                 "text": "{ node: SlOrgNode,nodeData:OrgNodeDataType }"
               },
               "description": "Emitted when node toogle changed.",
-              "name": "sl-org-tree-node-toogle"
+              "name": "sl-org-tree-node-toogle",
+              "reactName": "onSlOrgTreeNodeToogle"
             }
           ],
           "attributes": [
@@ -10815,11 +10886,13 @@
           "events": [
             {
               "description": "Emitted when current page changed   .",
-              "name": "sl-page-change"
+              "name": "sl-page-change",
+              "reactName": "onSlPageChange"
             },
             {
               "description": "Emitted before  page changed,use can defaultPrevented ,then sl-page-change can not be emit    .",
-              "name": "sl-page-before-change"
+              "name": "sl-page-before-change",
+              "reactName": "onSlPageBeforeChange"
             }
           ],
           "attributes": [
@@ -11643,15 +11716,18 @@
           "events": [
             {
               "description": "Emitted when the control loses focus.",
-              "name": "sl-blur"
+              "name": "sl-blur",
+              "reactName": "onSlBlur"
             },
             {
               "description": "Emitted when the control's checked state changes.",
-              "name": "sl-change"
+              "name": "sl-change",
+              "reactName": "onSlChange"
             },
             {
               "description": "Emitted when the control gains focus.",
-              "name": "sl-focus"
+              "name": "sl-focus",
+              "reactName": "onSlFocus"
             }
           ],
           "attributes": [
@@ -11831,7 +11907,8 @@
           "events": [
             {
               "description": "Emitted when the radio selected changed.",
-              "name": "sl-check-change"
+              "name": "sl-check-change",
+              "reactName": "onSlCheckChange"
             }
           ],
           "attributes": [
@@ -11928,11 +12005,11 @@
             },
             {
               "description": "The of the portion of the track that represents the remaining value.",
-              "name": "--track-color-inactive:"
+              "name": "--track-color-inactive"
             },
             {
               "description": "The height of the track.",
-              "name": "--track-height:"
+              "name": "--track-height"
             }
           ],
           "cssParts": [
@@ -12094,7 +12171,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "This will be true when the control is in an invalid state. Validity in range inputs is determined by the message\nprovided by the `setCustomValidity` method.",
+              "description": "This will be true when the control is in an invalid state. Validity in range inputs is determined by the message\r\nprovided by the `setCustomValidity` method.",
               "attribute": "invalid",
               "reflects": true
             },
@@ -12189,6 +12266,10 @@
             },
             {
               "kind": "method",
+              "name": "handleValueChange"
+            },
+            {
+              "kind": "method",
               "name": "handleDisabledChange"
             },
             {
@@ -12239,15 +12320,18 @@
           "events": [
             {
               "description": "Emitted when the control's value changes.",
-              "name": "sl-change"
+              "name": "sl-change",
+              "reactName": "onSlChange"
             },
             {
               "description": "Emitted when the control loses focus.",
-              "name": "sl-blur"
+              "name": "sl-blur",
+              "reactName": "onSlBlur"
             },
             {
               "description": "Emitted when the control gains focus.",
-              "name": "sl-focus"
+              "name": "sl-focus",
+              "reactName": "onSlFocus"
             }
           ],
           "attributes": [
@@ -12302,7 +12386,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "This will be true when the control is in an invalid state. Validity in range inputs is determined by the message\nprovided by the `setCustomValidity` method.",
+              "description": "This will be true when the control is in an invalid state. Validity in range inputs is determined by the message\r\nprovided by the `setCustomValidity` method.",
               "fieldName": "invalid"
             },
             {
@@ -12676,7 +12760,8 @@
           "events": [
             {
               "description": "Emitted when the rating's value changes.",
-              "name": "sl-change"
+              "name": "sl-change",
+              "reactName": "onSlChange"
             }
           ],
           "attributes": [
@@ -13018,7 +13103,8 @@
                 "text": "{ entries: ResizeObserverEntry[] }"
               },
               "description": "Emitted when the element is resized.",
-              "name": "sl-resize"
+              "name": "sl-resize",
+              "reactName": "onSlResize"
             }
           ],
           "attributes": [
@@ -13097,7 +13183,7 @@
                 "text": "string"
               },
               "default": "'16:9'",
-              "description": "The aspect ratio of the embedded media in the format of `width:height`, e.g. `16:9`, `4:3`, or `1:1`. Ratios not in\nthis format will be ignored.",
+              "description": "The aspect ratio of the embedded media in the format of `width:height`, e.g. `16:9`, `4:3`, or `1:1`. Ratios not in\r\nthis format will be ignored.",
               "attribute": "aspect-ratio"
             },
             {
@@ -13118,7 +13204,7 @@
                 "text": "string"
               },
               "default": "'16:9'",
-              "description": "The aspect ratio of the embedded media in the format of `width:height`, e.g. `16:9`, `4:3`, or `1:1`. Ratios not in\nthis format will be ignored.",
+              "description": "The aspect ratio of the embedded media in the format of `width:height`, e.g. `16:9`, `4:3`, or `1:1`. Ratios not in\r\nthis format will be ignored.",
               "fieldName": "aspectRatio"
             },
             {
@@ -13462,7 +13548,8 @@
           "events": [
             {
               "description": "Emitted when ripple effect end",
-              "name": "sl-ripple-end"
+              "name": "sl-ripple-end",
+              "reactName": "onSlRippleEnd"
             }
           ],
           "attributes": [
@@ -13906,7 +13993,8 @@
           "events": [
             {
               "description": "emit before router",
-              "name": "sl-router-link-before"
+              "name": "sl-router-link-before",
+              "reactName": "onSlRouterLinkBefore"
             }
           ],
           "attributes": [
@@ -14189,19 +14277,23 @@
           "events": [
             {
               "description": "emit before router,user can prevent router",
-              "name": "hash-router-before"
+              "name": "hash-router-before",
+              "reactName": "onHashRouterBefore"
             },
             {
               "description": "emit after router",
-              "name": "hash-router-after"
+              "name": "hash-router-after",
+              "reactName": "onHashRouterAfter"
             },
             {
               "description": "emit when router is prevented",
-              "name": "hash-prevented"
+              "name": "hash-prevented",
+              "reactName": "onHashPrevented"
             },
             {
               "description": "emit when router not found",
-              "name": "not-found"
+              "name": "not-found",
+              "reactName": "onNotFound"
             }
           ],
           "attributes": [
@@ -14770,7 +14862,7 @@
               "kind": "field",
               "name": "_yDispatchMethod",
               "type": {
-                "text": "(oldValue: number, newValue: number) => void | undefined"
+                "text": "(oldValue: number, newValue: number) => void"
               },
               "privacy": "private"
             },
@@ -14778,7 +14870,7 @@
               "kind": "field",
               "name": "_xDispatchMethod",
               "type": {
-                "text": "(oldValue: number, newValue: number) => void | undefined"
+                "text": "(oldValue: number, newValue: number) => void"
               },
               "privacy": "private"
             },
@@ -14816,7 +14908,7 @@
               "kind": "field",
               "name": "_scrollDispatchMethod",
               "type": {
-                "text": "() => void | undefined"
+                "text": "() => void"
               },
               "privacy": "private"
             },
@@ -14945,39 +15037,45 @@
                 "text": "{scrollLeft:number,scrollTop:number,value:number}"
               },
               "description": "Emitted when scroll y bar .",
-              "name": "sl-scroll-y"
+              "name": "sl-scroll-y",
+              "reactName": "onSlScrollY"
             },
             {
               "type": {
                 "text": "{scrollLeft:number,scrollTop:number,value:number}"
               },
               "description": "Emitted when scroll x bar .",
-              "name": "sl-scroll-x"
+              "name": "sl-scroll-x",
+              "reactName": "onSlScrollX"
             },
             {
               "type": {
                 "text": "{scrollLeft:number,scrollTop:number}"
               },
               "description": "Emitted when scroll y bar to end .",
-              "name": "sl-scroll-y-end"
+              "name": "sl-scroll-y-end",
+              "reactName": "onSlScrollYEnd"
             },
             {
               "type": {
                 "text": "{scrollLeft:number,scrollTop:number}"
               },
               "description": "Emitted when scroll x bar to end .",
-              "name": "sl-scroll-x-end"
+              "name": "sl-scroll-x-end",
+              "reactName": "onSlScrollXEnd"
             },
             {
               "type": {
                 "text": "{scrollLeft:number,scrollTop:number}"
               },
               "description": "Emitted when scroll  bar change .",
-              "name": "sl-scroll-change"
+              "name": "sl-scroll-change",
+              "reactName": "onSlScrollChange"
             },
             {
               "description": "Emitted when component size  change",
-              "name": "resize"
+              "name": "resize",
+              "reactName": "onResize"
             }
           ],
           "attributes": [
@@ -15289,7 +15387,7 @@
                 "text": "number"
               },
               "default": "3",
-              "description": "The maximum number of tags to show when `multiple` is true. After the maximum, \"+n\" will be shown to indicate the\nnumber of additional items that are selected. Set to -1 to remove the limit.",
+              "description": "The maximum number of tags to show when `multiple` is true. After the maximum, \"+n\" will be shown to indicate the\r\nnumber of additional items that are selected. Set to -1 to remove the limit.",
               "attribute": "max-tags-visible"
             },
             {
@@ -15340,7 +15438,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Enable this option to prevent the panel from being clipped when the component is placed inside a container with\n`overflow: auto|scroll`.",
+              "description": "Enable this option to prevent the panel from being clipped when the component is placed inside a container with\r\n`overflow: auto|scroll`.",
               "attribute": "hoist"
             },
             {
@@ -15349,6 +15447,7 @@
               "type": {
                 "text": "string | number | Array<string | number>"
               },
+              "default": "''",
               "description": "The value of the control. This will be a string or an array depending on `multiple`.",
               "attribute": "value"
             },
@@ -15557,36 +15656,28 @@
             {
               "kind": "method",
               "name": "syncValueFromItems"
-            },
-            {
-              "kind": "method",
-              "name": "focus",
-              "parameters": [
-                {
-                  "name": "option",
-                  "type": {
-                    "text": "FocusOptions"
-                  }
-                }
-              ]
             }
           ],
           "events": [
             {
               "description": "Emitted when the clear button is activated.",
-              "name": "sl-clear"
+              "name": "sl-clear",
+              "reactName": "onSlClear"
             },
             {
               "description": "Emitted when the control's value changes.",
-              "name": "sl-change"
+              "name": "sl-change",
+              "reactName": "onSlChange"
             },
             {
               "description": "Emitted when the control gains focus.",
-              "name": "sl-focus"
+              "name": "sl-focus",
+              "reactName": "onSlFocus"
             },
             {
               "description": "Emitted when the control loses focus.",
-              "name": "sl-blur"
+              "name": "sl-blur",
+              "reactName": "onSlBlur"
             }
           ],
           "attributes": [
@@ -15605,7 +15696,7 @@
                 "text": "number"
               },
               "default": "3",
-              "description": "The maximum number of tags to show when `multiple` is true. After the maximum, \"+n\" will be shown to indicate the\nnumber of additional items that are selected. Set to -1 to remove the limit.",
+              "description": "The maximum number of tags to show when `multiple` is true. After the maximum, \"+n\" will be shown to indicate the\r\nnumber of additional items that are selected. Set to -1 to remove the limit.",
               "fieldName": "maxTagsVisible"
             },
             {
@@ -15650,7 +15741,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Enable this option to prevent the panel from being clipped when the component is placed inside a container with\n`overflow: auto|scroll`.",
+              "description": "Enable this option to prevent the panel from being clipped when the component is placed inside a container with\r\n`overflow: auto|scroll`.",
               "fieldName": "hoist"
             },
             {
@@ -15658,6 +15749,7 @@
               "type": {
                 "text": "string | number | Array<string | number>"
               },
+              "default": "''",
               "description": "The value of the control. This will be a string or an array depending on `multiple`.",
               "fieldName": "value"
             },
@@ -16014,7 +16106,7 @@
               "kind": "field",
               "name": "minSize",
               "type": {
-                "text": "number | undefined"
+                "text": "number"
               },
               "description": "分隔允许的最小位置",
               "attribute": "min-size",
@@ -16024,7 +16116,7 @@
               "kind": "field",
               "name": "maxSize",
               "type": {
-                "text": "number | undefined"
+                "text": "number"
               },
               "attribute": "max-size",
               "reflects": true
@@ -16064,7 +16156,8 @@
                 "text": "{size:number}"
               },
               "description": "Emitted when split value .",
-              "name": "sl-splitter-change"
+              "name": "sl-splitter-change",
+              "reactName": "onSlSplitterChange"
             }
           ],
           "attributes": [
@@ -16089,7 +16182,7 @@
             {
               "name": "min-size",
               "type": {
-                "text": "number | undefined"
+                "text": "number"
               },
               "description": "分隔允许的最小位置",
               "fieldName": "minSize"
@@ -16097,7 +16190,7 @@
             {
               "name": "max-size",
               "type": {
-                "text": "number | undefined"
+                "text": "number"
               },
               "fieldName": "maxSize"
             },
@@ -16272,7 +16365,8 @@
           "events": [
             {
               "description": "Emitted as an example.",
-              "name": "sl-event-name"
+              "name": "sl-event-name",
+              "reactName": "onSlEventName"
             }
           ],
           "attributes": [
@@ -16442,7 +16536,8 @@
           "events": [
             {
               "description": "Emitted as current step change.",
-              "name": "sl-change"
+              "name": "sl-change",
+              "reactName": "onSlChange"
             }
           ],
           "attributes": [
@@ -16743,15 +16838,18 @@
           "events": [
             {
               "description": "Emitted when the control loses focus.",
-              "name": "sl-blur"
+              "name": "sl-blur",
+              "reactName": "onSlBlur"
             },
             {
               "description": "Emitted when the control's checked state changes.",
-              "name": "sl-change"
+              "name": "sl-change",
+              "reactName": "onSlChange"
             },
             {
               "description": "Emitted when the control gains focus.",
-              "name": "sl-focus"
+              "name": "sl-focus",
+              "reactName": "onSlFocus"
             }
           ],
           "attributes": [
@@ -16897,7 +16995,8 @@
               },
               "default": "''",
               "description": "The name of the tab panel the tab will control. The panel must be located in the same tab group.",
-              "attribute": "panel"
+              "attribute": "panel",
+              "reflects": true
             },
             {
               "kind": "field",
@@ -16958,7 +17057,8 @@
           "events": [
             {
               "description": "Emitted when the tab is closable and the close button is activated.",
-              "name": "sl-close"
+              "name": "sl-close",
+              "reactName": "onSlClose"
             }
           ],
           "attributes": [
@@ -17322,14 +17422,16 @@
                 "text": "{ name: String }"
               },
               "description": "Emitted when a tab is shown.",
-              "name": "sl-tab-show"
+              "name": "sl-tab-show",
+              "reactName": "onSlTabShow"
             },
             {
               "type": {
                 "text": "{ name: String }"
               },
               "description": "Emitted when a tab is hidden.",
-              "name": "sl-tab-hide"
+              "name": "sl-tab-hide",
+              "reactName": "onSlTabHide"
             }
           ],
           "attributes": [
@@ -17448,7 +17550,8 @@
               },
               "default": "''",
               "description": "The tab panel's name.",
-              "attribute": "name"
+              "attribute": "name",
+              "reflects": true
             },
             {
               "kind": "field",
@@ -18134,7 +18237,7 @@
               "kind": "field",
               "name": "sortValue",
               "type": {
-                "text": "SortValue | Array<SortValue> | undefined"
+                "text": "SortValue | Array<SortValue>"
               },
               "description": "表格当前排序值"
             },
@@ -18142,7 +18245,7 @@
               "kind": "field",
               "name": "treeConfig",
               "type": {
-                "text": "TreeConfig | undefined"
+                "text": "TreeConfig"
               }
             },
             {
@@ -18667,7 +18770,7 @@
               "kind": "field",
               "name": "currentEditCell",
               "type": {
-                "text": "{ column: SlColumn; rowData: any } | undefined"
+                "text": "{ column: SlColumn; rowData: any }"
               },
               "description": "当前编辑的单元格"
             },
@@ -18953,147 +19056,168 @@
           "events": [
             {
               "description": "Emitted table resize.",
-              "name": "sl-table-resize"
+              "name": "sl-table-resize",
+              "reactName": "onSlTableResize"
             },
             {
               "type": {
                 "text": "{div:HTMLDIVElement}"
               },
               "description": "Emitted scroll table.滚动事件",
-              "name": "sl-table-scroll"
+              "name": "sl-table-scroll",
+              "reactName": "onSlTableScroll"
             },
             {
               "type": {
                 "text": "{column:SLColumn,sortValue:当前排序值}"
               },
               "description": "Emitted table column sort. 排序事件",
-              "name": "sl-table-sort"
+              "name": "sl-table-sort",
+              "reactName": "onSlTableSort"
             },
             {
               "type": {
                 "text": "{column:SLColumn,sortValue:排序前值}"
               },
               "description": "Emitted before table column sort. 排序事件",
-              "name": "sl-table-before-sort"
+              "name": "sl-table-before-sort",
+              "reactName": "onSlTableBeforeSort"
             },
             {
               "type": {
                 "text": "{column:SLColumn,change:改变的宽度}"
               },
               "description": "Emitted table column width change by drag. 拖动列事件",
-              "name": "sl-table-column-resize"
+              "name": "sl-table-column-resize",
+              "reactName": "onSlTableColumnResize"
             },
             {
               "type": {
                 "text": "{dom:HTMLElement,context:CellContext}"
               },
               "description": "Emitted before table tree node to open   . tree 事件",
-              "name": "sl-tree-node-before-open"
+              "name": "sl-tree-node-before-open",
+              "reactName": "onSlTreeNodeBeforeOpen"
             },
             {
               "type": {
                 "text": "{dom:HTMLElement,context:CellContext}"
               },
               "description": "Emitted before table tree node to close  . tree 事件",
-              "name": "sl-tree-node-before-close"
+              "name": "sl-tree-node-before-close",
+              "reactName": "onSlTreeNodeBeforeClose"
             },
             {
               "type": {
                 "text": "{dom:HTMLElement,context:CellContext}"
               },
               "description": "Emitted before table tbody td node state toogle  . tree 事件",
-              "name": "sl-tree-node-before-toogle"
+              "name": "sl-tree-node-before-toogle",
+              "reactName": "onSlTreeNodeBeforeToogle"
             },
             {
               "type": {
                 "text": "{dom:HTMLElement,context:CellContext}"
               },
               "description": "Emitted after table tbody td node state toogle  . tree 事件",
-              "name": "sl-tree-node-open"
+              "name": "sl-tree-node-open",
+              "reactName": "onSlTreeNodeOpen"
             },
             {
               "type": {
                 "text": "{dom:HTMLElement,context:CellContext}"
               },
               "description": "Emitted after table tbody td node state toogle  .tree 事件",
-              "name": "sl-tree-node-toogle"
+              "name": "sl-tree-node-toogle",
+              "reactName": "onSlTreeNodeToogle"
             },
             {
               "type": {
                 "text": "{dom:HTMLElement,context:CellContext}"
               },
               "description": "after table tree node lazy load children end  .tree load 事件",
-              "name": "sl-tree-node-loaded"
+              "name": "sl-tree-node-loaded",
+              "reactName": "onSlTreeNodeLoaded"
             },
             {
               "type": {
                 "text": "{dom:HTMLElement,context:CellContext}"
               },
               "description": "Emitted after table tbody td node state toogle  .tree 事件 //tbody 行，tbody tr 事件",
-              "name": "sl-tree-node-load-error"
+              "name": "sl-tree-node-load-error",
+              "reactName": "onSlTreeNodeLoadError"
             },
             {
               "type": {
                 "text": "{row:TR,context:RowContext}"
               },
               "description": "Emitted table tbody tr trigger normalEvent .support normalEvent event [click,dblclick,keydown,keypress,mousedown,mouseenter,mouseleave,mousemove,mouseout,mouseover,mouseup]  . //tbody 行，tbody tr td 事件",
-              "name": "sl-table-tr-${normalEvent}"
+              "name": "sl-table-tr-${normalEvent}",
+              "reactName": "onSlTableTrNormalEvent"
             },
             {
               "type": {
                 "text": "{row:TR,td:TD,context:CellContext}"
               },
               "description": "Emitted table tbody td trigger normalEvent.  support normalEvent  event [click,dblclick,keydown,keypress,mousedown,mouseenter,mouseleave,mousemove,mouseout,mouseover,mouseup].",
-              "name": "sl-table-td-${normalEvent}"
+              "name": "sl-table-td-${normalEvent}",
+              "reactName": "onSlTableTdNormalEvent"
             },
             {
               "type": {
                 "text": "{td:TD,dom:HTMLElement,context:CellContext,value:any}"
               },
               "description": "当Table 组件内置 cell edit 数据发生变化,时触发.",
-              "name": "sl-table-cell-edit-commit"
+              "name": "sl-table-cell-edit-commit",
+              "reactName": "onSlTableCellEditCommit"
             },
             {
               "type": {
                 "text": "{td:TD,context:CellContext}"
               },
               "description": "Emitted  before when table  edit cell  change .",
-              "name": "sl-table-cell-edit-before-change-"
+              "name": "sl-table-cell-edit-before-change-",
+              "reactName": "onSlTableCellEditBeforeChange"
             },
             {
               "type": {
                 "text": "{td:TD,dom:HTMLElement,context:CellContext}"
               },
               "description": "当单元格开始进入编辑状态（此时cell还没变成编辑状态，可以取消阻止事件）",
-              "name": "sl-cell-edit-start"
+              "name": "sl-cell-edit-start",
+              "reactName": "onSlCellEditStart"
             },
             {
               "type": {
                 "text": "{td:TD,dom:HTMLElement,context:CellContext}"
               },
               "description": "当单元格进入了编辑状态时触发 //EIDT 发生顺序（sl-table-cell-edit-before-change->sl-cell-edit-start->sl-table-cell-edit-active) //表格 checkbox 控制",
-              "name": "sl-cell-edit-active"
+              "name": "sl-cell-edit-active",
+              "reactName": "onSlCellEditActive"
             },
             {
               "type": {
                 "text": "{checkbox:SlCheckbox,context:CellContext }"
               },
               "description": "Emitted  before  tbody checkbox check will change .",
-              "name": "sl-table-check-before-change"
+              "name": "sl-table-check-before-change",
+              "reactName": "onSlTableCheckBeforeChange"
             },
             {
               "type": {
                 "text": "{checkbox:SlCheckbox,context:CellContext }"
               },
               "description": "Emitted  before when column checkbox will change .",
-              "name": "sl-table-check-head-before-change"
+              "name": "sl-table-check-head-before-change",
+              "reactName": "onSlTableCheckHeadBeforeChange"
             },
             {
               "type": {
                 "text": "{value:Array<any> }"
               },
               "description": "Emitted  after  tbody checkbox check  changed.",
-              "name": "sl-table-check-change"
+              "name": "sl-table-check-change",
+              "reactName": "onSlTableCheckChange"
             }
           ],
           "attributes": [
@@ -20005,7 +20129,8 @@
           "events": [
             {
               "description": "Emitted when the remove button is activated.",
-              "name": "sl-remove"
+              "name": "sl-remove",
+              "reactName": "onSlRemove"
             }
           ],
           "attributes": [
@@ -20561,19 +20686,23 @@
           "events": [
             {
               "description": "Emitted when the control's value changes.",
-              "name": "sl-change"
+              "name": "sl-change",
+              "reactName": "onSlChange"
             },
             {
               "description": "Emitted when the control receives input.",
-              "name": "sl-input"
+              "name": "sl-input",
+              "reactName": "onSlInput"
             },
             {
               "description": "Emitted when the control gains focus.",
-              "name": "sl-focus"
+              "name": "sl-focus",
+              "reactName": "onSlFocus"
             },
             {
               "description": "Emitted when the control loses focus.",
-              "name": "sl-blur"
+              "name": "sl-blur",
+              "reactName": "onSlBlur"
             }
           ],
           "attributes": [
@@ -21073,19 +21202,23 @@
           "events": [
             {
               "description": "Emitted when the tooltip begins to show.",
-              "name": "sl-show"
+              "name": "sl-show",
+              "reactName": "onSlShow"
             },
             {
               "description": "Emitted after the tooltip has shown and all animations are complete.",
-              "name": "sl-after-show"
+              "name": "sl-after-show",
+              "reactName": "onSlAfterShow"
             },
             {
               "description": "Emitted when the tooltip begins to hide.",
-              "name": "sl-hide"
+              "name": "sl-hide",
+              "reactName": "onSlHide"
             },
             {
               "description": "Emitted after the tooltip has hidden and all animations are complete.",
-              "name": "sl-after-hide"
+              "name": "sl-after-hide",
+              "reactName": "onSlAfterHide"
             }
           ],
           "attributes": [
@@ -21595,14 +21728,16 @@
                 "text": "{sourceSearchValue:string[],targetSearchValue:string[]}"
               },
               "description": "Emitted as filter value change.",
-              "name": "sl-filter-change"
+              "name": "sl-filter-change",
+              "reactName": "onSlFilterChange"
             },
             {
               "type": {
                 "text": "{sourceSelectedKeys:string[]|number,targetSelectedKeys:string[]|number}"
               },
               "description": "当选中项发生变化的时候触发.",
-              "name": "sl-transfer-change"
+              "name": "sl-transfer-change",
+              "reactName": "onSlTransferChange"
             }
           ],
           "attributes": [
@@ -21806,7 +21941,7 @@
               "kind": "field",
               "name": "checkedKeys",
               "type": {
-                "text": "unknown | Array<unknown> | undefined"
+                "text": "unknown | Array<unknown>"
               },
               "description": "树已经选中的节点，如果是多选，则为选中节点的ID值组成的数组，否则为选中节点的ID"
             },
@@ -21865,7 +22000,7 @@
               "kind": "field",
               "name": "rootNodeData",
               "type": {
-                "text": "TreeNodeData | undefined"
+                "text": "TreeNodeData"
               },
               "description": "根节点数据源"
             },
@@ -21873,7 +22008,7 @@
               "kind": "field",
               "name": "renderRootNodeData",
               "type": {
-                "text": "TreeNodeData | undefined"
+                "text": "TreeNodeData"
               },
               "description": "实际渲染的根节点数据"
             },
@@ -21881,7 +22016,7 @@
               "kind": "field",
               "name": "nodeCacheMap",
               "type": {
-                "text": "WeakMap<TreeNodeData, TreeNodeData> | undefined"
+                "text": "WeakMap<TreeNodeData, TreeNodeData>"
               },
               "description": "存储过滤后的 节点数据的映射关系 ，key:过滤后的节点，value:原始的节点"
             },
@@ -21889,7 +22024,7 @@
               "kind": "field",
               "name": "nodeFilterCacheMap",
               "type": {
-                "text": "WeakMap<TreeNodeData, TreeNodeData> | undefined"
+                "text": "WeakMap<TreeNodeData, TreeNodeData>"
               },
               "description": "存储过滤后的 节点数据的映射关系 ，key:原始数据，value:过滤后产生的数据"
             },
@@ -21897,7 +22032,7 @@
               "kind": "field",
               "name": "matchFilterNodeSet",
               "type": {
-                "text": "Set<TreeNodeData> | undefined"
+                "text": "Set<TreeNodeData>"
               },
               "description": "存储 过滤后真实匹配的TreeNodeData"
             },
@@ -22067,6 +22202,14 @@
                 }
               ],
               "description": "获取 DOM 最近的TreeNode:"
+            },
+            {
+              "kind": "field",
+              "name": "handerCheckEvent"
+            },
+            {
+              "kind": "field",
+              "name": "handerRadioEvent"
             }
           ],
           "events": [
@@ -22075,56 +22218,64 @@
                 "text": "{node: SlTreeNode,nodeData: TreeNodeData, parentData:TreeNodeData}"
               },
               "description": "Emitted when tree-node-click.",
-              "name": "sl-tree-node-click"
+              "name": "sl-tree-node-click",
+              "reactName": "onSlTreeNodeClick"
             },
             {
               "type": {
                 "text": "{node: SlTreeNode,nodeData: TreeNodeData, parentData:TreeNodeData}"
               },
               "description": "Emitted when tree-node-state changed.",
-              "name": "sl-tree-node-toogle"
+              "name": "sl-tree-node-toogle",
+              "reactName": "onSlTreeNodeToogle"
             },
             {
               "type": {
                 "text": "{node: SlTreeNode,nodeData: TreeNodeData, parentData:TreeNodeData}"
               },
               "description": "Emitted before tree-node-state change.",
-              "name": "sl-tree-node-before-toogle"
+              "name": "sl-tree-node-before-toogle",
+              "reactName": "onSlTreeNodeBeforeToogle"
             },
             {
               "type": {
                 "text": "{node: SlTreeNode,nodeData: TreeNodeData, parentData:TreeNodeData}"
               },
               "description": "Emitted when tree-node-state change to opened.",
-              "name": "sl-tree-node-open"
+              "name": "sl-tree-node-open",
+              "reactName": "onSlTreeNodeOpen"
             },
             {
               "type": {
                 "text": "{node: SlTreeNode,nodeData: TreeNodeData, parentData:TreeNodeData}"
               },
               "description": "Emitted when tree-node-state change closed.",
-              "name": "sl-tree-node-close"
+              "name": "sl-tree-node-close",
+              "reactName": "onSlTreeNodeClose"
             },
             {
               "type": {
                 "text": "{node: SlTreeNode,nodeData: TreeNodeData, parentData:TreeNodeData}"
               },
               "description": "Emitted before tree-node-state to open.",
-              "name": "sl-tree-node-before-open"
+              "name": "sl-tree-node-before-open",
+              "reactName": "onSlTreeNodeBeforeOpen"
             },
             {
               "type": {
                 "text": "{node: SlTreeNode,nodeData: TreeNodeData, parentData:TreeNodeData}"
               },
               "description": "Emitted before tree-node-state to close.",
-              "name": "sl-tree-node-before-close"
+              "name": "sl-tree-node-before-close",
+              "reactName": "onSlTreeNodeBeforeClose"
             },
             {
               "type": {
                 "text": "{node:SlTreeNode,checkKeyKeys:checkKeyKeys }"
               },
               "description": "Emitted after tree select node change .",
-              "name": "sl-tree-node-select-change"
+              "name": "sl-tree-node-select-change",
+              "reactName": "onSlTreeNodeSelectChange"
             }
           ],
           "attributes": [
@@ -22491,7 +22642,7 @@
               "kind": "field",
               "name": "nodeData",
               "type": {
-                "text": "TreeNodeData | undefined"
+                "text": "TreeNodeData"
               },
               "description": "节点数据源"
             },
@@ -22520,7 +22671,7 @@
               "kind": "field",
               "name": "parentNodeData",
               "type": {
-                "text": "TreeNodeData | undefined"
+                "text": "TreeNodeData"
               },
               "description": "父节点数据"
             },
@@ -22658,49 +22809,56 @@
                 "text": "{nodeData:TreeNodeData,node:SlTreeNode}"
               },
               "description": "Emitted when node name click.",
-              "name": "sl-node-click"
+              "name": "sl-node-click",
+              "reactName": "onSlNodeClick"
             },
             {
               "type": {
                 "text": "{nodeData:TreeNodeData,node:SlTreeNode}"
               },
               "description": "Emitted before node open .",
-              "name": "sl-node-before-open"
+              "name": "sl-node-before-open",
+              "reactName": "onSlNodeBeforeOpen"
             },
             {
               "type": {
                 "text": "{nodeData:TreeNodeData,node:SlTreeNode}"
               },
               "description": "Emitted before node close .",
-              "name": "sl-node-before-close"
+              "name": "sl-node-before-close",
+              "reactName": "onSlNodeBeforeClose"
             },
             {
               "type": {
                 "text": "{nodeData:TreeNodeData,node:SlTreeNode}"
               },
               "description": "Emitted before node state change :open or close.",
-              "name": "sl-node-before-toogle"
+              "name": "sl-node-before-toogle",
+              "reactName": "onSlNodeBeforeToogle"
             },
             {
               "type": {
                 "text": "{nodeData:TreeNodeData,node:SlTreeNode}"
               },
               "description": "Emitted after node state close.",
-              "name": "sl-node-close"
+              "name": "sl-node-close",
+              "reactName": "onSlNodeClose"
             },
             {
               "type": {
                 "text": "{nodeData:TreeNodeData,node:SlTreeNode}"
               },
               "description": "Emitted after node state opened.",
-              "name": "sl-node-open"
+              "name": "sl-node-open",
+              "reactName": "onSlNodeOpen"
             },
             {
               "type": {
                 "text": "{nodeData:TreeNodeData,node:SlTreeNode}"
               },
               "description": "Emitted when node state toogle.",
-              "name": "sl-node-toogle"
+              "name": "sl-node-toogle",
+              "reactName": "onSlNodeToogle"
             }
           ],
           "superclass": {
@@ -22739,7 +22897,7 @@
   "package": {
     "name": "@shoelace-style/shoelace",
     "description": "A forward-thinking library of web components.",
-    "version": "2.0.0-beta.57",
+    "version": "2.0.0-beta.60",
     "author": "Cory LaViska",
     "homepage": "https://github.com/shoelace-style/shoelace",
     "license": "MIT"

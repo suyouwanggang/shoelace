@@ -13,15 +13,19 @@ import color from 'color';
 import styles from './color-picker.styles';
 
 import '../button/button';
+import '../button-group/button-group';
 import '../dropdown/dropdown';
 import '../icon/icon';
 import '../input/input';
+
+const hasEyeDropper = 'EyeDropper' in window;
 
 /**
  * @since 2.0
  * @status stable
  *
  * @dependency sl-button
+ * @dependency sl-button-group
  * @dependency sl-dropdown
  * @dependency sl-input
  *
@@ -39,6 +43,7 @@ import '../input/input';
  * @csspart slider-handle - Hue and opacity slider handles.
  * @csspart preview - The preview color.
  * @csspart input - The text input.
+ * @csspart eye-dropper-button - The toggle format button's base.
  * @csspart format-button - The toggle format button's base.
  *
  * @cssproperty --grid-width - The width of the color grid.
@@ -112,7 +117,24 @@ export default class SlColorPicker extends LitElement {
    * An array of predefined color swatches to display. Can include any format the color picker can parse, including
    * HEX(A), RGB(A), HSL(A), and CSS color names.
    */
-  @property({ attribute: false }) swatches: string[] = ['#d0021b', '#f5a623', '#f8e71c', '#8b572a', '#7ed321', '#417505', '#bd10e0', '#9013fe', '#4a90e2', '#50e3c2', '#b8e986', '#000', '#444', '#888', '#ccc', '#fff'];
+  @property({ attribute: false }) swatches: string[] = [
+    '#d0021b',
+    '#f5a623',
+    '#f8e71c',
+    '#8b572a',
+    '#7ed321',
+    '#417505',
+    '#bd10e0',
+    '#9013fe',
+    '#4a90e2',
+    '#50e3c2',
+    '#b8e986',
+    '#000',
+    '#444',
+    '#888',
+    '#ccc',
+    '#fff'
+  ];
 
   connectedCallback() {
     super.connectedCallback();
@@ -128,7 +150,9 @@ export default class SlColorPicker extends LitElement {
 
   /** Returns the current value as a string in the specified format. */
   getFormattedValue(format: 'hex' | 'hexa' | 'rgb' | 'rgba' | 'hsl' | 'hsla' = 'hex') {
-    const currentColor = this.parseColor(`hsla(${this.hue}, ${this.saturation}%, ${this.lightness}%, ${this.alpha / 100})`);
+    const currentColor = this.parseColor(
+      `hsla(${this.hue}, ${this.saturation}%, ${this.lightness}%, ${this.alpha / 100})`
+    );
 
     if (!currentColor) {
       return '';
@@ -185,7 +209,9 @@ export default class SlColorPicker extends LitElement {
 
     // Show copied animation
     this.previewButton.classList.add('color-picker__preview-color--copied');
-    this.previewButton.addEventListener('animationend', () => this.previewButton.classList.remove('color-picker__preview-color--copied'));
+    this.previewButton.addEventListener('animationend', () =>
+      this.previewButton.classList.remove('color-picker__preview-color--copied')
+    );
   }
 
   handleFormatToggle() {
@@ -468,7 +494,11 @@ export default class SlColorPicker extends LitElement {
         s: hsl.s,
         l: hsl.l,
         a: hsl.a,
-        string: this.setLetterCase(`hsla(${Math.round(hsl.h)}, ${Math.round(hsl.s)}%, ${Math.round(hsl.l)}%, ${Number(hsl.a.toFixed(2).toString())})`)
+        string: this.setLetterCase(
+          `hsla(${Math.round(hsl.h)}, ${Math.round(hsl.s)}%, ${Math.round(hsl.l)}%, ${Number(
+            hsl.a.toFixed(2).toString()
+          )})`
+        )
       },
       rgb: {
         r: rgb.r,
@@ -481,7 +511,11 @@ export default class SlColorPicker extends LitElement {
         g: rgb.g,
         b: rgb.b,
         a: rgb.a,
-        string: this.setLetterCase(`rgba(${Math.round(rgb.r)}, ${Math.round(rgb.g)}, ${Math.round(rgb.b)}, ${Number(rgb.a.toFixed(2).toString())})`)
+        string: this.setLetterCase(
+          `rgba(${Math.round(rgb.r)}, ${Math.round(rgb.g)}, ${Math.round(rgb.b)}, ${Number(
+            rgb.a.toFixed(2).toString()
+          )})`
+        )
       },
       hex: this.setLetterCase(`#${hex.r}${hex.g}${hex.b}`),
       hexa: this.setLetterCase(`#${hex.r}${hex.g}${hex.b}${hex.a}`)
@@ -511,7 +545,9 @@ export default class SlColorPicker extends LitElement {
   }
 
   async syncValues() {
-    const currentColor = this.parseColor(`hsla(${this.hue}, ${this.saturation}%, ${this.lightness}%, ${this.alpha / 100})`);
+    const currentColor = this.parseColor(
+      `hsla(${this.hue}, ${this.saturation}%, ${this.lightness}%, ${this.alpha / 100})`
+    );
 
     if (!currentColor) {
       return;
@@ -537,6 +573,22 @@ export default class SlColorPicker extends LitElement {
 
   handleAfterHide() {
     this.previewButton.classList.remove('color-picker__preview-color--copied');
+  }
+
+  handleEyeDropper() {
+    if (!hasEyeDropper) {
+      return;
+    }
+
+    // @ts-ignore
+    const eyeDropper = new EyeDropper();
+
+    eyeDropper
+      .open()
+      .then((colorSelectionResult: any) => this.setColor(colorSelectionResult.sRGBHex))
+      .catch(() => {
+        // The user canceled, do nothing
+      });
   }
 
   @watch('format')
@@ -575,6 +627,7 @@ export default class SlColorPicker extends LitElement {
     const x = this.saturation;
     const y = 100 - this.lightness;
 
+    // TODO - i18n for format, copy, and eye dropper buttons
     const colorPicker = html`
       <div
         part="base"
@@ -585,7 +638,13 @@ export default class SlColorPicker extends LitElement {
         })}
         aria-disabled=${this.disabled ? 'true' : 'false'}
       >
-        <div part="grid" class="color-picker__grid" style=${styleMap({ backgroundColor: `hsl(${this.hue}deg, 100%, 50%)` })} @mousedown=${this.handleGridDrag} @touchstart=${this.handleGridDrag}>
+        <div
+          part="grid"
+          class="color-picker__grid"
+          style=${styleMap({ backgroundColor: `hsl(${this.hue}deg, 100%, 50%)` })}
+          @mousedown=${this.handleGridDrag}
+          @touchstart=${this.handleGridDrag}
+        >
           <span
             part="grid-handle"
             class="color-picker__grid-handle"
@@ -596,7 +655,9 @@ export default class SlColorPicker extends LitElement {
             })}
             role="slider"
             aria-label="HSL"
-            aria-valuetext=${`hsl(${Math.round(this.hue)}, ${Math.round(this.saturation)}%, ${Math.round(this.lightness)}%)`}
+            aria-valuetext=${`hsl(${Math.round(this.hue)}, ${Math.round(this.saturation)}%, ${Math.round(
+              this.lightness
+            )}%)`}
             tabindex=${ifDefined(this.disabled ? undefined : '0')}
             @keydown=${this.handleGridKeyDown}
           ></span>
@@ -604,7 +665,12 @@ export default class SlColorPicker extends LitElement {
 
         <div class="color-picker__controls">
           <div class="color-picker__sliders">
-            <div part="slider hue-slider" class="color-picker__hue color-picker__slider" @mousedown=${this.handleHueDrag} @touchstart=${this.handleHueDrag}>
+            <div
+              part="slider hue-slider"
+              class="color-picker__hue color-picker__slider"
+              @mousedown=${this.handleHueDrag}
+              @touchstart=${this.handleHueDrag}
+            >
               <span
                 part="slider-handle"
                 class="color-picker__slider-handle"
@@ -624,7 +690,12 @@ export default class SlColorPicker extends LitElement {
 
             ${this.opacity
               ? html`
-                  <div part="slider opacity-slider" class="color-picker__alpha color-picker__slider color-picker__transparent-bg" @mousedown="${this.handleAlphaDrag}" @touchstart="${this.handleAlphaDrag}">
+                  <div
+                    part="slider opacity-slider"
+                    class="color-picker__alpha color-picker__slider color-picker__transparent-bg"
+                    @mousedown="${this.handleAlphaDrag}"
+                    @touchstart="${this.handleAlphaDrag}"
+                  >
                     <div
                       class="color-picker__alpha-gradient"
                       style=${styleMap({
@@ -659,6 +730,7 @@ export default class SlColorPicker extends LitElement {
             type="button"
             part="preview"
             class="color-picker__preview color-picker__transparent-bg"
+            aria-label="Copy"
             style=${styleMap({
               '--preview-color': `hsla(${this.hue}deg, ${this.saturation}%, ${this.lightness}%, ${this.alpha / 100})`
             })}
@@ -681,7 +753,26 @@ export default class SlColorPicker extends LitElement {
             @sl-change=${this.handleInputChange}
           ></sl-input>
 
-          ${!this.noFormatToggle ? html` <sl-button exportparts="base:format-button" @click=${this.handleFormatToggle}> ${this.setLetterCase(this.format)} </sl-button> ` : ''}
+          <sl-button-group>
+            ${!this.noFormatToggle
+              ? html`
+                  <sl-button
+                    aria-label="Change format"
+                    exportparts="base:format-button"
+                    @click=${this.handleFormatToggle}
+                  >
+                    ${this.setLetterCase(this.format)}
+                  </sl-button>
+                `
+              : ''}
+            ${hasEyeDropper
+              ? html`
+                  <sl-button exportparts="base:eye-dropper-button" @click=${this.handleEyeDropper}>
+                    <sl-icon library="system" name="eyedropper" label="Select a color from the screen"></sl-icon>
+                  </sl-button>
+                `
+              : ''}
+          </sl-button-group>
         </div>
 
         ${this.swatches
@@ -696,7 +787,8 @@ export default class SlColorPicker extends LitElement {
                       role="button"
                       aria-label=${swatch}
                       @click=${() => !this.disabled && this.setColor(swatch)}
-                      @keydown=${(event: KeyboardEvent) => !this.disabled && event.key === 'Enter' && this.setColor(swatch)}
+                      @keydown=${(event: KeyboardEvent) =>
+                        !this.disabled && event.key === 'Enter' && this.setColor(swatch)}
                     >
                       <div class="color-picker__swatch-color" style=${styleMap({ backgroundColor: swatch })}></div>
                     </div>
@@ -715,7 +807,14 @@ export default class SlColorPicker extends LitElement {
 
     // Render as a dropdown
     return html`
-      <sl-dropdown class="color-dropdown" aria-disabled=${this.disabled ? 'true' : 'false'} .containing-element=${this} ?disabled=${this.disabled} ?hoist=${this.hoist} @sl-after-hide=${this.handleAfterHide}>
+      <sl-dropdown
+        class="color-dropdown"
+        aria-disabled=${this.disabled ? 'true' : 'false'}
+        .containing-element=${this}
+        ?disabled=${this.disabled}
+        ?hoist=${this.hoist}
+        @sl-after-hide=${this.handleAfterHide}
+      >
         <button
           part="trigger"
           slot="trigger"

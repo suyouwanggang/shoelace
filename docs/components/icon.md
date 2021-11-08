@@ -40,6 +40,7 @@ Icons are sized relative to the current font size. To change their size, set the
   <sl-icon name="battery-charging"></sl-icon>
   <sl-icon name="bell"></sl-icon>
   <sl-icon name="clock"></sl-icon>
+  <sl-icon name="cloud"></sl-icon>
   <sl-icon name="download"></sl-icon>
   <sl-icon name="file-earmark"></sl-icon>
   <sl-icon name="flag"></sl-icon>
@@ -50,8 +51,32 @@ Icons are sized relative to the current font size. To change their size, set the
   <sl-icon name="search"></sl-icon>
   <sl-icon name="star"></sl-icon>
   <sl-icon name="trash"></sl-icon>
-  <sl-icon name="x-circle"></sl-icon>
 </div>
+```
+
+```jsx react
+import { SlIcon } from '@shoelace-style/shoelace/dist/react';
+
+const App = () => (
+  <div style={{ fontSize: '32px' }}>
+    <SlIcon name="exclamation-triangle" />
+    <SlIcon name="archive" />
+    <SlIcon name="battery-charging" />
+    <SlIcon name="bell" />
+    <SlIcon name="clock" />
+    <SlIcon name="cloud" />
+    <SlIcon name="download" />
+    <SlIcon name="file-earmark" />
+    <SlIcon name="flag" />
+    <SlIcon name="heart" />
+    <SlIcon name="image" />
+    <SlIcon name="lightning" />
+    <SlIcon name="mic" />
+    <SlIcon name="search" />
+    <SlIcon name="star" />
+    <SlIcon name="trash" />
+  </div>  
+);
 ```
 
 ### Custom Icons
@@ -59,7 +84,16 @@ Icons are sized relative to the current font size. To change their size, set the
 Custom icons can be loaded individually with the `src` attribute. Only SVGs on a local or CORS-enabled endpoint are supported. If you're using more than one custom icon, it might make sense to register a [custom icon library](#icon-libraries).
 
 ```html preview
-<sl-icon src="assets/images/shoe.svg" style="font-size: 8rem;"></sl-icon>
+<sl-icon src="https://shoelace.style/assets/images/shoe.svg" style="font-size: 8rem;"></sl-icon>
+```
+
+
+```jsx react
+import { SlIcon } from '@shoelace-style/shoelace/dist/react';
+
+const App = () => (
+  <SlIcon src="https://shoelace.style/assets/images/shoe.svg" style={{ fontSize: '8rem' }}></SlIcon>
+);
 ```
 
 ## Icon Libraries
@@ -490,7 +524,7 @@ If you want to change the icons Shoelace uses internally, you can register an ic
 
 <!-- Supporting scripts and styles for the search utility -->
 <script>
-  fetch('dist/assets/icons/icons.json')
+  fetch('/dist/assets/icons/icons.json')
     .then(res => res.json())  
     .then(icons => {
       const container = document.querySelector('.icon-search');
@@ -509,7 +543,7 @@ If you want to change the icons Shoelace uses internally, you can register an ic
         item.setAttribute('data-name', i.name);
         item.setAttribute('data-terms', [i.name, i.title, ...(i.tags || []), ...(i.categories || [])].join(' '));
         item.innerHTML = `
-          <svg width="1em" height="1em">
+          <svg width="1em" height="1em" fill="currentColor">
             <use xlink:href="/assets/icons/sprite.svg#${i.name}"></use>
           </svg>      
         `;

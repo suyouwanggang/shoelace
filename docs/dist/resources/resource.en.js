@@ -1,4 +1,4 @@
-import "../chunks/chunk.THXBF3MO.js";
+import "../chunks/chunk.QRXTBWFL.js";
 
 // src/resources/resource.en.ts
 var resouce = {

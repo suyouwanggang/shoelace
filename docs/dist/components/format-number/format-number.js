@@ -1,9 +1,9 @@
 import {
-  SlFormatNumber
-} from "../../chunks/chunk.QTE2PJWF.js";
-import "../../chunks/chunk.DIDDF23Y.js";
-import "../../chunks/chunk.AXN6W67E.js";
-import "../../chunks/chunk.THXBF3MO.js";
+  format_number_default
+} from "../../chunks/chunk.Y6ED2J6F.js";
+import "../../chunks/chunk.OPP7P5NL.js";
+import "../../chunks/chunk.HHQFDLZX.js";
+import "../../chunks/chunk.QRXTBWFL.js";
 export {
-  SlFormatNumber as default
+  format_number_default as default
 };
