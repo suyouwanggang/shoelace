@@ -76,9 +76,7 @@ mkdirp.sync(outdir);
       //
       // We never bundle React or @lit-labs/react though!
       //
-      external: bundle
-        ? alwaysExternal
-        : [...alwaysExternal, '@popperjs/core', '@shoelace-style/animations', 'lit', 'qr-creator'],
+      external: bundle ? alwaysExternal : [...alwaysExternal, '@popperjs/core', '@shoelace-style/animations', 'lit', 'qr-creator'],
       splitting: true,
       plugins: [listCssPlugin({ filter: /\.litcss$/, specifier: 'lit', tag: 'css', uglify: true })]
     })

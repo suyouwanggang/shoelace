@@ -86,9 +86,7 @@
         <button
           type="button"
           title="Show React code"
-          class="code-block__button code-block__button--react ${
-            flavor === 'react' ? 'code-block__button--selected' : ''
-          }"
+          class="code-block__button code-block__button--react ${flavor === 'react' ? 'code-block__button--selected' : ''}"
         >
           React
         </button>
@@ -245,12 +243,8 @@
 
     // Update flavor buttons
     [...document.querySelectorAll('.code-block')].map(codeBlock => {
-      codeBlock
-        .querySelector('.code-block__button--html')
-        ?.classList.toggle('code-block__button--selected', flavor === 'html');
-      codeBlock
-        .querySelector('.code-block__button--react')
-        ?.classList.toggle('code-block__button--selected', flavor === 'react');
+      codeBlock.querySelector('.code-block__button--html')?.classList.toggle('code-block__button--selected', flavor === 'html');
+      codeBlock.querySelector('.code-block__button--react')?.classList.toggle('code-block__button--selected', flavor === 'react');
     });
   });
 
@@ -298,10 +292,7 @@
 
       // HTML templates
       if (!isReact) {
-        htmlTemplate =
-          `<script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@${version}/dist/shoelace.js"></script>\n` +
-          '\n' +
-          htmlExample;
+        htmlTemplate = `<script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@${version}/dist/shoelace.js"></script>\n` + '\n' + htmlExample;
         jsTemplate = '';
       }
 
@@ -323,13 +314,7 @@
       }
 
       // CSS templates
-      cssTemplate =
-        `@import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@${version}/dist/themes/light.css';\n` +
-        '\n' +
-        'body {\n' +
-        '  font: 16px sans-serif;\n' +
-        '  padding: 1rem;\n' +
-        '}';
+      cssTemplate = `@import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@${version}/dist/themes/light.css';\n` + '\n' + 'body {\n' + '  font: 16px sans-serif;\n' + '  padding: 1rem;\n' + '}';
 
       // Docs: https://blog.codepen.io/documentation/prefill/
       const data = {

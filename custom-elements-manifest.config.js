@@ -22,10 +22,8 @@ export default {
     {
       name: 'shoelace-custom-tags',
       analyzePhase({ ts, node, moduleDoc, context }) {
-       
         switch (node.kind) {
           case ts.SyntaxKind.ClassDeclaration:
-
             const className = node.name.getText();
             const classDoc = moduleDoc?.declarations?.find(declaration => declaration.name === className);
             const customTags = ['animation', 'dependency', 'since', 'status'];
