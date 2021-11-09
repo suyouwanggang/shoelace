@@ -66,7 +66,6 @@
       <thead>
         <tr>
           <th data-flavor="html">Name</th>
-          <th data-flavor="react">React Event</th>
           <th>Description</th>
           <th>Event Detail</th>
         </tr>
@@ -76,8 +75,9 @@
           .map(
             event => `
               <tr>
-                <td data-flavor="html"><code class="nowrap">${escapeHtml(event.name)}</code></td>
-                <td data-flavor="react"><code class="nowrap">${escapeHtml(event.reactName)}</code></td>
+                <td data-flavor="html"><code class="nowrap">${escapeHtml(event.name)}</code>
+               	 <br/>
+                  <code class="nowrap">${escapeHtml(event.reactName)}</code></td>
                 <td>${escapeHtml(event.description)}</td>
                 <td>${event.type?.text ? `<code>${escapeHtml(event.type?.text)}` : '-'}</td>
               </tr>
