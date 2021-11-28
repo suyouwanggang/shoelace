@@ -25,11 +25,10 @@ export default css`
     white-space: nowrap;
     vertical-align: middle;
     padding: 0;
-    transition: var(--sl-transition-fast) background-color, var(--sl-transition-fast) color,
-      var(--sl-transition-fast) border, var(--sl-transition-fast) box-shadow;
+    transition: var(--sl-transition-fast) background-color, var(--sl-transition-fast) color, var(--sl-transition-fast) border, var(--sl-transition-fast) box-shadow;
     cursor: inherit;
   }
- 
+
   .button::-moz-focus-inner {
     border: 0;
   }
@@ -618,8 +617,7 @@ export default css`
   }
 
   /* Add a visual separator between solid buttons */
-  :host(.sl-button-group__button:not(.sl-button-group__button--focus, .sl-button-group__button--first, [type='default']):not(:hover, :active, :focus))
-    .button:after {
+  :host(.sl-button-group__button:not(.sl-button-group__button--focus, .sl-button-group__button--first, [type='default']):not(:hover, :active, :focus)) .button:after {
     content: '';
     position: absolute;
     top: 0;

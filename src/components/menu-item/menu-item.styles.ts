@@ -85,5 +85,4 @@ export default css`
   .menu-item--checked .menu-item__check {
     visibility: visible;
   }
-  
 `;

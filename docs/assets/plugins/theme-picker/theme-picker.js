@@ -70,7 +70,7 @@
           event.preventDefault();
 
           setTheme(isDark() ? 'light' : 'dark');
- 		 show()
+          show();
         }
       });
 

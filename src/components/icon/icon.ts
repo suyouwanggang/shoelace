@@ -112,13 +112,7 @@ export default class SlIcon extends LitElement {
   render() {
     const hasLabel = typeof this.label === 'string' && this.label.length > 0;
 
-    return html` <div
-      part="base"
-      class="icon"
-      role=${ifDefined(hasLabel ? 'img' : undefined)}
-      aria-label=${ifDefined(hasLabel ? this.label : undefined)}
-      aria-hidden=${ifDefined(hasLabel ? undefined : 'true')}
-    >
+    return html` <div part="base" class="icon" role=${ifDefined(hasLabel ? 'img' : undefined)} aria-label=${ifDefined(hasLabel ? this.label : undefined)} aria-hidden=${ifDefined(hasLabel ? undefined : 'true')}>
       ${unsafeSVG(this.svg)}
     </div>`;
   }

@@ -8,7 +8,6 @@ import SlRipple from '../ripple/ripple';
 import '../spinner/spinner';
 import styles from './button.styles';
 
-
 /**
  * @since 2.0
  * @status stable
@@ -157,29 +156,29 @@ export default class SlButton extends LitElement {
             ref=${(el: HTMLLinkElement) => (this.button = el)}
             part="base"
             class=${classMap({
-        button: true,
-        'button--default': this.type === 'default',
-        'button--primary': this.type === 'primary',
-        'button--success': this.type === 'success',
-        'button--neutral': this.type === 'neutral',
-        'button--warning': this.type === 'warning',
-        'button--danger': this.type === 'danger',
-        'button--text': this.type === 'text',
-        'button--small': this.size === 'small',
-        'button--medium': this.size === 'medium',
-        'button--large': this.size === 'large',
-        'button--caret': this.caret,
-        'button--circle': this.circle,
-        'button--disabled': this.disabled,
-        'button--focused': this.hasFocus,
-        'button--loading': this.loading,
-        'button--standard': !this.outline,
-        'button--outline': this.outline,
-        'button--pill': this.pill,
-        'button--has-label': this.hasLabel,
-        'button--has-prefix': this.hasPrefix,
-        'button--has-suffix': this.hasSuffix
-      })}
+              button: true,
+              'button--default': this.type === 'default',
+              'button--primary': this.type === 'primary',
+              'button--success': this.type === 'success',
+              'button--neutral': this.type === 'neutral',
+              'button--warning': this.type === 'warning',
+              'button--danger': this.type === 'danger',
+              'button--text': this.type === 'text',
+              'button--small': this.size === 'small',
+              'button--medium': this.size === 'medium',
+              'button--large': this.size === 'large',
+              'button--caret': this.caret,
+              'button--circle': this.circle,
+              'button--disabled': this.disabled,
+              'button--focused': this.hasFocus,
+              'button--loading': this.loading,
+              'button--standard': !this.outline,
+              'button--outline': this.outline,
+              'button--pill': this.pill,
+              'button--has-label': this.hasLabel,
+              'button--has-prefix': this.hasPrefix,
+              'button--has-suffix': this.hasSuffix
+            })}
             href=${ifDefined(this.href)}
             target=${ifDefined(this.target)}
             download=${ifDefined(this.download)}
@@ -192,36 +191,36 @@ export default class SlButton extends LitElement {
             @click=${this.handleClick}
           >
             ${interior}
-            <sl-ripple id="ripple" centered overlay   ?disabled=${this.disabled || this.type == 'text' || !this.rippleed}></sl-ripple>
+            <sl-ripple id="ripple" centered overlay ?disabled=${this.disabled || this.type == 'text' || !this.rippleed}></sl-ripple>
           </a>
         `
       : html`
           <button
             part="base"
             class=${classMap({
-        button: true,
-        'button--default': this.type === 'default',
-        'button--primary': this.type === 'primary',
-        'button--success': this.type === 'success',
-        'button--neutral': this.type === 'neutral',
-        'button--warning': this.type === 'warning',
-        'button--danger': this.type === 'danger',
-        'button--text': this.type === 'text',
-        'button--small': this.size === 'small',
-        'button--medium': this.size === 'medium',
-        'button--large': this.size === 'large',
-        'button--caret': this.caret,
-        'button--circle': this.circle,
-        'button--disabled': this.disabled,
-        'button--focused': this.hasFocus,
-        'button--loading': this.loading,
-        'button--standard': !this.outline,
-        'button--outline': this.outline,
-        'button--pill': this.pill,
-        'button--has-label': this.hasLabel,
-        'button--has-prefix': this.hasPrefix,
-        'button--has-suffix': this.hasSuffix
-      })}
+              button: true,
+              'button--default': this.type === 'default',
+              'button--primary': this.type === 'primary',
+              'button--success': this.type === 'success',
+              'button--neutral': this.type === 'neutral',
+              'button--warning': this.type === 'warning',
+              'button--danger': this.type === 'danger',
+              'button--text': this.type === 'text',
+              'button--small': this.size === 'small',
+              'button--medium': this.size === 'medium',
+              'button--large': this.size === 'large',
+              'button--caret': this.caret,
+              'button--circle': this.circle,
+              'button--disabled': this.disabled,
+              'button--focused': this.hasFocus,
+              'button--loading': this.loading,
+              'button--standard': !this.outline,
+              'button--outline': this.outline,
+              'button--pill': this.pill,
+              'button--has-label': this.hasLabel,
+              'button--has-prefix': this.hasPrefix,
+              'button--has-suffix': this.hasSuffix
+            })}
             ?disabled=${this.disabled}
             type=${this.submit ? 'submit' : 'button'}
             name=${ifDefined(this.name)}
@@ -231,13 +230,12 @@ export default class SlButton extends LitElement {
             @click=${this.handleClick}
           >
             ${interior}
-            <sl-ripple id="ripple"  overlay  centered ?disabled=${this.disabled || this.type == 'text' || !this.rippleed}></sl-ripple>
+            <sl-ripple id="ripple" overlay centered ?disabled=${this.disabled || this.type == 'text' || !this.rippleed}></sl-ripple>
           </button>
-         
         `;
     return html`${buttonTemplate}`;
   }
-  @query("#ripple")
+  @query('#ripple')
   private ripple: SlRipple;
   firstUpdated(_map: PropertyValues) {
     this.ripple.target = this.button;

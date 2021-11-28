@@ -32,8 +32,7 @@ export default css`
     border-radius: 2px;
     background-color: var(--sl-input-background-color);
     color: var(--sl-color-neutral-0);
-    transition: var(--sl-transition-fast) border-color, var(--sl-transition-fast) background-color,
-      var(--sl-transition-fast) color, var(--sl-transition-fast) box-shadow;
+    transition: var(--sl-transition-fast) border-color, var(--sl-transition-fast) background-color, var(--sl-transition-fast) color, var(--sl-transition-fast) box-shadow;
   }
 
   .checkbox__input {
@@ -43,8 +42,8 @@ export default css`
     margin: 0;
     pointer-events: none;
   }
-  .checkbox__control[shape=circle]{
-    border-radius:50%;
+  .checkbox__control[shape='circle'] {
+    border-radius: 50%;
   }
   .checkbox__control .checkbox__icon {
     display: inline-flex;
@@ -64,9 +63,7 @@ export default css`
   }
 
   /* Focus */
-  .checkbox:not(.checkbox--checked):not(.checkbox--disabled)
-    .checkbox__input${focusVisibleSelector}
-    ~ .checkbox__control {
+  .checkbox:not(.checkbox--checked):not(.checkbox--disabled) .checkbox__input${focusVisibleSelector} ~ .checkbox__control {
     border-color: var(--sl-input-border-color-focus);
     background-color: var(--sl-input-background-color-focus);
     box-shadow: var(--sl-focus-ring);
@@ -87,9 +84,7 @@ export default css`
 
   /* Checked/indeterminate + focus */
   .checkbox.checkbox--checked:not(.checkbox--disabled) .checkbox__input${focusVisibleSelector} ~ .checkbox__control,
-  .checkbox.checkbox--indeterminate:not(.checkbox--disabled)
-    .checkbox__input${focusVisibleSelector}
-    ~ .checkbox__control {
+  .checkbox.checkbox--indeterminate:not(.checkbox--disabled) .checkbox__input${focusVisibleSelector} ~ .checkbox__control {
     border-color: var(--sl-color-primary-500);
     background-color: var(--sl-color-primary-500);
     box-shadow: var(--sl-focus-ring);
@@ -106,10 +101,10 @@ export default css`
     user-select: none;
   }
   .checkbox_label_hasSlot {
-    margin-left:6px;
+    margin-left: 6px;
   }
 
-  sl-ripple{
-    padding:3px;
+  sl-ripple {
+    padding: 3px;
   }
 `;

@@ -54,37 +54,36 @@ export default class SlMenuItem extends LitElement {
     this.setAttribute('aria-disabled', String(this.disabled));
   }
 
-  @query(".menu-item")
+  @query('.menu-item')
   private baseDiv: HTMLDivElement;
   render() {
     return html`
-        <div
-          part="base"
-          class=${classMap({
-      'menu-item': true,
-      'menu-item--checked': this.checked,
-      'menu-item--highlight': this.highlight,
-      'menu-item--disabled': this.disabled
-    })}
-        >
+      <div
+        part="base"
+        class=${classMap({
+          'menu-item': true,
+          'menu-item--checked': this.checked,
+          'menu-item--highlight': this.highlight,
+          'menu-item--disabled': this.disabled
+        })}
+      >
         <sl-ripple class="ripple-wrap" .target=${this.baseDiv} overlay ?disabled=${this.disabled || this.disableRipple}></sl-ripple>
-          <span part="checked-icon" class="menu-item__check">
-            <sl-icon name="check" library="system" aria-hidden="true"></sl-icon>
-          </span>
+        <span part="checked-icon" class="menu-item__check">
+          <sl-icon name="check" library="system" aria-hidden="true"></sl-icon>
+        </span>
 
-          <span part="prefix" class="menu-item__prefix">
-            <slot name="prefix"></slot>
-          </span>
+        <span part="prefix" class="menu-item__prefix">
+          <slot name="prefix"></slot>
+        </span>
 
-          <span part="label" class="menu-item__label">
-            <slot></slot>
-          </span>
+        <span part="label" class="menu-item__label">
+          <slot></slot>
+        </span>
 
-          <span part="suffix" class="menu-item__suffix">
-            <slot name="suffix"></slot>
-          </span>
-         
-        </div>
+        <span part="suffix" class="menu-item__suffix">
+          <slot name="suffix"></slot>
+        </span>
+      </div>
     `;
   }
 }

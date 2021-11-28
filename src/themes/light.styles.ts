@@ -521,6 +521,6 @@ export default css`
     --sl-z-index-tooltip: 1000;
 
     /***table 背景色 */
-    --sl-table-background-color: #FFF;
+    --sl-table-background-color: #fff;
   }
 `;

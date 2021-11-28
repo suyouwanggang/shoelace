@@ -40,34 +40,44 @@ export default css`
   }
 
   .alert--primary {
-    border-top-color: rgb(var(--sl-color-primary-600));  }
+    border-top-color: rgb(var(--sl-color-primary-600));
+  }
 
   .alert--primary .alert__icon {
-    color: rgb(var(--sl-color-primary-600));  }
+    color: rgb(var(--sl-color-primary-600));
+  }
 
   .alert--success {
-    border-top-color: rgb(var(--sl-color-success-600));  }
+    border-top-color: rgb(var(--sl-color-success-600));
+  }
 
   .alert--success .alert__icon {
-    color: rgb(var(--sl-color-success-600));  }
+    color: rgb(var(--sl-color-success-600));
+  }
 
   .alert--neutral {
-    border-top-color: rgb(var(--sl-color-neutral-600));  }
+    border-top-color: rgb(var(--sl-color-neutral-600));
+  }
 
   .alert--neutral .alert__icon {
-    color: rgb(var(--sl-color-neutral-600));  }
+    color: rgb(var(--sl-color-neutral-600));
+  }
 
   .alert--warning {
-    border-top-color: rgb(var(--sl-color-warning-600));  }
+    border-top-color: rgb(var(--sl-color-warning-600));
+  }
 
   .alert--warning .alert__icon {
-    color: rgb(var(--sl-color-warning-600));  }
+    color: rgb(var(--sl-color-warning-600));
+  }
 
   .alert--danger {
-    border-top-color: rgb(var(--sl-color-danger-600));  }
+    border-top-color: rgb(var(--sl-color-danger-600));
+  }
 
   .alert--danger .alert__icon {
-    color: rgb(var(--sl-color-danger-600));  }
+    color: rgb(var(--sl-color-danger-600));
+  }
 
   .alert__message {
     flex: 1 1 auto;

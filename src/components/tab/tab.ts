@@ -75,19 +75,7 @@ export default class SlTab extends LitElement {
         tabindex=${this.disabled || !this.active ? '-1' : '0'}
       >
         <slot></slot>
-        ${this.closable
-          ? html`
-              <sl-icon-button
-                name="x"
-                library="system"
-                label="Close"
-                exportparts="base:close-button"
-                class="tab__close-button"
-                @click=${this.handleCloseClick}
-                tabindex="-1"
-              ></sl-icon-button>
-            `
-          : ''}
+        ${this.closable ? html` <sl-icon-button name="x" library="system" label="Close" exportparts="base:close-button" class="tab__close-button" @click=${this.handleCloseClick} tabindex="-1"></sl-icon-button> ` : ''}
       </div>
     `;
   }

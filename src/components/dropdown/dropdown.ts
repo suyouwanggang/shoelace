@@ -399,14 +399,8 @@ export default class SlDropdown extends LitElement {
         <!-- Position the panel with a wrapper since the popover makes use of translate. This let's us add animations
         on the panel without interfering with the position. -->
         <div class="dropdown__positioner">
-			<div
-	            part="panel"
-	            class="dropdown__panel"
-	            role="menu"
-	            aria-hidden=${this.open ? 'false' : 'true'}
-	            aria-labelledby=${this.componentId}
-           >            
-			<slot></slot>
+          <div part="panel" class="dropdown__panel" role="menu" aria-hidden=${this.open ? 'false' : 'true'} aria-labelledby=${this.componentId}>
+            <slot></slot>
           </div>
         </div>
       </div>
