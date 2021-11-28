@@ -12,7 +12,12 @@ A description of the component goes here.
 <script>
     let markObj=document.querySelector('#markObj');
     let selectSelct=document.querySelector('#selectSelct');
-    markObj.mdsrc='/assets/prism-themes/vditor.md';
+    let host=window.location.host;
+    let mdsrc='';
+    if(host=='suyouwanggang.github.io'){
+        mdsrc='shoelace';
+    }
+    markObj.mdsrc=mdsrc+'/assets/prism-themes/vditor.md';
     const array=['vditor.md','components.md','More Documents.md','Change Log.md','Markdown Reference.md','README.md'];
     let str='';
     for(let file of array){
