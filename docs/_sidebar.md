@@ -12,6 +12,7 @@
 
 - Resources
   - [Community](/resources/community)
+  - [Accessibility](/resources/accessibility)
   - [Contributing](/resources/contributing)
   - [Changelog](/resources/changelog)
 
@@ -90,6 +91,7 @@
   - [Relative Time](/components/relative-time)
   - [Resize Observer](/components/resize-observer)
   - [Responsive Media](/components/responsive-media)
+  - [Visually Hidden](/components/visually-hidden)
 
 - Design Tokens
   - [Typography](/tokens/typography)

@@ -164,7 +164,7 @@ Table 组件
         let result= html`
             ${columns.map(c=>{
                 //注意列固定的原理 是 选择 td[uniqueid=${c.uniqueID}],自定义TFoot 的时候注意
-                return html`<td style='background-color:rgb(var(--sl-color-blue-gray-100));' uniqueid=${c.uniqueID} >${c.label}</td>`;
+                return html`<td style='background-color:var(--sl-color-neutral-50);' uniqueid=${c.uniqueID} >${c.label}</td>`;
             })}
         `;
         return html`<tr >${result}</tr><tr>${result}</tr>`;

@@ -7,99 +7,6 @@ Animate elements declaratively with nearly 100 baked-in presets, or roll your ow
 To animate an element, wrap it in `<sl-animation>` and set an animation `name`. The animation not start until you add the `play` attribute. Refer to the [properties table](#properties) for a list of all animation options.
 
 ```html preview
-<sl-radio-group id='changeRadio'>
-  <sl-radio value='show' checked>show/hide</sl-radio>
-  <sl-radio value='slideInRight'>slideInRight</sl-radio>
-  <sl-radio value='slideInUp'>slideInup</sl-radio>
-  <sl-radio value='slideInDown'>slideInDown</sl-radio>
-  <sl-radio value='bounceInUp'>bounceInUp</sl-radio>
-  <sl-radio value='bounceInRight'>bounceInRight</sl-radio>
-  <sl-radio value='backInRight'>backInRight</sl-radio>
-</sl-radio-group>
-<div id='animte_html'>
-</div>
-<script type='module'>
-   import {hide,show,doAnimate} from '/dist/shoelace.js';
-   let index=4;
-   var list=[{name:'1'},{name:'2'},{name:'3'}];
-   var actionName='show';
-   var current=null;
-   var isAdd=false;
-   var html=window.html;
-   document.querySelector('#changeRadio').addEventListener('click',(event)=>{
-       document.querySelectorAll('#changeRadio sl-radio').forEach(item=>{
-        if(item.checked){
-          actionName=item.value;
-        }
-      })
-      current=null;
-      console.log(actionName);
-      renderFun();
-   })
-   function RandomNum(Min, Max) {
-      var Range = Max - Min;
-      var Rand = Math.random();
-      var num = Min + Math.floor(Rand * Range); //舍去
-      return num;
-}
-    function deleteItem(item){
-        list.splice(list.indexOf(item),1);
-        current=null;
-        renderFun();
-    }
-    function addItem(){
-      isAdd=true;
-      let tempIndex=RandomNum(0,list.length-1)
-      list.splice(tempIndex,0,{name:index++});
-      current=list[tempIndex];
-       renderFun(()=>{
-         isAdd=false;
-       });
-    }
-    function renderFun(call){
-      var div=document.querySelector('#animte_html');
-      const template=list.map(item =>{ 
-          let action;
-          if(actionName=='show'&& current==item){action=isAdd?show():hide()};
-         if(actionName=='slideInRight'&&current==item){action=doAnimate({name:isAdd?'slideInRight':'slideOutRight'}) };
-         if(actionName=='slideInUp'&&current==item){action=doAnimate({name:isAdd?'slideInUp':'slideOutUp',duration:600}) };
-         if(actionName=='slideInDown'&&current==item){action=doAnimate({name:isAdd?'slideInDown':'slideOutDown',duration:600}) };
-         if(actionName=='bounceInUp'&&current==item){action=doAnimate({name:isAdd?'bounceInUp':'bounceOutUp',duration:300}) };
-         if(actionName=='bounceInRight'&&current==item){action=doAnimate({name:isAdd?'bounceInRight':'bounceOutRight',duration:600}) };
-         if(actionName=='backInRight'&&current==item){action=doAnimate({name:isAdd?'backInRight':'backOutRight',duration:600}) };
-      return html`<div class='item' ${action} ><span>${item.name}</span>
-       <sl-button @click=${()=>{current=item;isAdd=false;renderFun(()=>deleteItem(item))}}> <sl-icon name='trash'></sl-icon></sl-button</div>`});
-      const newTemplate=html`<sl-button  @click=${addItem}> <sl-icon name='plus'></sl-icon> </sl-button>`;
-      const divArray=html`${template}${newTemplate}`;
-      window.LitRender(divArray, div);
-      if(call){
-        call();
-      }
-    }
-    renderFun();
-</script>
-<style>
-  #changeRadio::part(base){
-    display:grid;
-    grid-template-columns: 200px 200px 200px 200px;
-  }
-    #animte_html{
-        width:300px;
-    }
- .item{
-    border-bottom:1px solid rgb(var(--sl-input-border-color));
-    display:flex;
-    padding:10px 4px;
-    margin: 5px;
-}
-  .item span{
-    flex:1;
-  }
-</style>
-```
-
-
-```html preview
 <div class="animation-overview">
   <sl-animation name="bounce" duration="2000" play><div class="box"></div></sl-animation>
   <sl-animation name="jello" duration="2000" play><div class="box"></div></sl-animation>
@@ -112,10 +19,37 @@ To animate an element, wrap it in `<sl-animation>` and set an animation `name`. 
     display: inline-block;
     width: 100px;
     height: 100px;
-    background-color: rgb(var(--sl-color-primary-500));
+    background-color: var(--sl-color-primary-600);
     margin: 1.5rem;
   }
 </style>
+```
+
+```jsx react
+import { SlAnimation } from '@shoelace-style/shoelace/dist/react';
+
+const css = `
+  .animation-overview .box {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    background-color: var(--sl-color-primary-600);
+    margin: 1.5rem;
+  }
+`;
+
+const App = () => (
+  <>
+    <div class="animation-overview">
+      <SlAnimation name="bounce" duration={2000} play><div class="box" /></SlAnimation>
+      <SlAnimation name="jello" duration={2000} play><div class="box" /></SlAnimation>
+      <SlAnimation name="heartBeat" duration={2000} play><div class="box" /></SlAnimation>
+      <SlAnimation name="flip" duration={2000} play><div class="box" /></SlAnimation>
+    </div>
+
+    <style>{css}</style> 
+  </>
+);
 ```
 
 ?> The animation will only be applied to the first child element found in `<sl-animation>`.
@@ -135,7 +69,7 @@ This example demonstrates all of the baked-in animations and easings. Animations
   <div class="controls">
     <sl-select label="Animation" value="bounce"></sl-select>
     <sl-select label="Easing" value="linear"></sl-select>
-    <sl-range min="0" max="2" step=".5" value="1"></sl-range>
+    <sl-input label="Playback Rate" type="number" min="0" max="2" step=".25" value="1"></sl-input>
   </div>
 </div>
 
@@ -146,7 +80,7 @@ This example demonstrates all of the baked-in animations and easings. Animations
   const animation = container.querySelector('sl-animation');
   const animationName = container.querySelector('.controls sl-select:nth-child(1)');
   const easingName = container.querySelector('.controls sl-select:nth-child(2)');
-  const playbackRate = container.querySelector('sl-range');
+  const playbackRate = container.querySelector('sl-input[type="number"]');
   const animations = getAnimationNames();
   const easings = getEasingNames();
 
@@ -168,15 +102,14 @@ This example demonstrates all of the baked-in animations and easings. Animations
 
   animationName.addEventListener('sl-change', () => animation.name = animationName.value);
   easingName.addEventListener('sl-change', () => animation.easing = easingName.value);
-  playbackRate.addEventListener('sl-change', () => animation.playbackRate = playbackRate.value);
-  playbackRate.tooltipFormatter = val => `Playback Rate = ${val}`;
+  playbackRate.addEventListener('sl-input', () => animation.playbackRate = playbackRate.value);
 </script>
 
 <style>
   .animation-sandbox .box {
     width: 100px;
     height: 100px;
-    background-color: rgb(var(--sl-color-primary-500));
+    background-color: var(--sl-color-primary-600);
   }
 
   .animation-sandbox .controls {
@@ -222,9 +155,66 @@ Use an [Intersection Observer](https://developer.mozilla.org/en-US/docs/Web/API/
     display: inline-block;
     width: 100px;
     height: 100px;
-    background-color: rgb(var(--sl-color-primary-500));
+    background-color: var(--sl-color-primary-600);
   }  
 </style>
+```
+
+```jsx react
+import { useEffect, useRef, useState } from 'react';
+import { SlAnimation } from '@shoelace-style/shoelace/dist/react';
+
+const css = `
+  .animation-scroll {
+    height: calc(100vh + 100px);
+  }
+
+  .animation-scroll .box {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    background-color: var(--sl-color-primary-600);
+  }
+`;
+
+const App = () => {
+  const animation = useRef(null);
+  const box = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          animation.current.play = true;
+        } else {
+          animation.current.play = false;
+          animation.current.currentTime = 0;
+        }
+      }
+    );
+
+    if (box.current) {
+      observer.observe(box.current);
+    }
+  }, [box]);
+
+  return (
+    <>
+      <div class="animation-scroll">
+        <SlAnimation
+          ref={animation}
+          name="jackInTheBox" 
+          duration={2000} 
+          iterations={1}
+        >
+          <div ref={box} class="box" />
+        </SlAnimation>
+      </div>
+
+      <style>{css}</style> 
+    </>
+  );
+};
 ```
 
 ### Custom Keyframe Formats
@@ -262,9 +252,53 @@ Supply your own [keyframe formats](https://developer.mozilla.org/en-US/docs/Web/
   .animation-keyframes .box {
     width: 100px;
     height: 100px;
-    background-color: rgb(var(--sl-color-primary-600));
+    background-color: var(--sl-color-primary-600);
   }
 </style>
+```
+
+```jsx react
+import { SlAnimation } from '@shoelace-style/shoelace/dist/react';
+
+const css = `
+  .animation-keyframes .box {
+    width: 100px;
+    height: 100px;
+    background-color: var(--sl-color-primary-600);
+  }
+`;
+
+const App = () => (
+  <>
+    <div class="animation-keyframes">
+      <SlAnimation 
+        easing="ease-in-out" 
+        duration={2000} 
+        play
+        keyframes={[
+          {
+            offset: 0,
+            easing: 'cubic-bezier(0.250, 0.460, 0.450, 0.940)',
+            fillMode: 'both',
+            transformOrigin: 'center center',
+            transform: 'rotate(0)'
+          },
+          {
+            offset: 1,
+            easing: 'cubic-bezier(0.250, 0.460, 0.450, 0.940)',
+            fillMode: 'both',
+            transformOrigin: 'center center',
+            transform: 'rotate(90deg)'
+          }
+        ]}
+      >
+        <div class="box" />
+      </SlAnimation>
+    </div>
+
+    <style>{css}</style> 
+  </>
+);
 ```
 
 ### Playing Animations on Demand
@@ -287,6 +321,31 @@ Animations won't play until you apply the `play` attribute. You can omit it init
     animation.play = true;
   });
 </script>
+```
+
+```jsx react
+import { useState } from 'react';
+import { SlAnimation, SlButton } from '@shoelace-style/shoelace/dist/react';
+
+const App = () => {
+  const [play, setPlay] = useState(false);
+
+  return (
+    <div class="animation-form">
+      <SlAnimation 
+        name="rubberBand" 
+        duration={1000} 
+        iterations={1} 
+        play={play}
+        onSlFinish={() => setPlay(false)}
+      >
+        <SlButton type="primary" onClick={() => setPlay(true)}>
+          Click me
+        </SlButton>
+      </SlAnimation>
+    </div>
+  );
+};
 ```
 
 [component-metadata:sl-animation]

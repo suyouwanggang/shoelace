@@ -1,8 +1,8 @@
 :host {
 	position: relative;
+	outline: none;
 	display: inline-flex;
 	align-items: center;
-	outline: none;
 	user-select: none;
 }
 /* Color */
@@ -20,12 +20,13 @@ $ripple-opacity: var(--ripple-opacity, 0.15);
 	left: 50%;
 	width: 100%;
 	height: 100%;
-
+	border-radius: inherit;
 	// Usually we want the ripple centered when overlayed
 	transform: translate(-50%, -50%);
 }
 
 .ripple {
+	
 	background: $ripple-color;
 	opacity: $ripple-opacity;
 	border-radius: 100%;

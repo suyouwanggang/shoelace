@@ -97,7 +97,6 @@ export default class SlTextarea extends LitElement {
 
   /** The textarea's autocaptialize attribute. */
   @property() autocapitalize: 'off' | 'none' | 'on' | 'sentences' | 'words' | 'characters' | 'off' | 'none' | 'on' | 'sentences' | 'words' | 'characters';
-
   /** The textarea's autocorrect attribute. */
   @property() autocorrect: string;
 
@@ -275,20 +274,20 @@ export default class SlTextarea extends LitElement {
         <div
           part="base"
           class=${classMap({
-            textarea: true,
-            'textarea--small': this.size === 'small',
-            'textarea--medium': this.size === 'medium',
-            'textarea--large': this.size === 'large',
-            'textarea--standard': !this.filled,
-            'textarea--filled': this.filled,
-            'textarea--disabled': this.disabled,
-            'textarea--focused': this.hasFocus,
-            'textarea--empty': this.value?.length === 0,
-            'textarea--invalid': this.invalid,
-            'textarea--resize-none': this.resize === 'none',
-            'textarea--resize-vertical': this.resize === 'vertical',
-            'textarea--resize-auto': this.resize === 'auto'
-          })}
+        textarea: true,
+        'textarea--small': this.size === 'small',
+        'textarea--medium': this.size === 'medium',
+        'textarea--large': this.size === 'large',
+        'textarea--standard': !this.filled,
+        'textarea--filled': this.filled,
+        'textarea--disabled': this.disabled,
+        'textarea--focused': this.hasFocus,
+        'textarea--empty': this.value?.length === 0,
+        'textarea--invalid': this.invalid,
+        'textarea--resize-none': this.resize === 'none',
+        'textarea--resize-vertical': this.resize === 'vertical',
+        'textarea--resize-auto': this.resize === 'auto'
+      })}
         >
           <textarea
             part="textarea"
@@ -309,15 +308,15 @@ export default class SlTextarea extends LitElement {
             spellcheck=${ifDefined(this.spellcheck)}
             inputmode=${ifDefined(this.inputmode)}
             aria-labelledby=${ifDefined(
-              getLabelledBy({
-                label: this.label,
-                labelId: this.labelId,
-                hasLabelSlot: this.hasLabelSlot,
-                helpText: this.helpText,
-                helpTextId: this.helpTextId,
-                hasHelpTextSlot: this.hasHelpTextSlot
-              })
-            )}
+        getLabelledBy({
+          label: this.label,
+          labelId: this.labelId,
+          hasLabelSlot: this.hasLabelSlot,
+          helpText: this.helpText,
+          helpTextId: this.helpTextId,
+          hasHelpTextSlot: this.hasHelpTextSlot
+        })
+      )}
             @change=${this.handleChange}
             @input=${this.handleInput}
             @focus=${this.handleFocus}

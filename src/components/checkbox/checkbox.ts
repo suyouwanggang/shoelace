@@ -143,12 +143,12 @@ export default class SlCheckbox extends LitElement {
       <label
         part="base"
         class=${classMap({
-          checkbox: true,
-          'checkbox--checked': this.checked,
-          'checkbox--disabled': this.disabled,
-          'checkbox--focused': this.hasFocus,
-          'checkbox--indeterminate': this.indeterminate
-        })}
+      checkbox: true,
+      'checkbox--checked': this.checked,
+      'checkbox--disabled': this.disabled,
+      'checkbox--focused': this.hasFocus,
+      'checkbox--indeterminate': this.indeterminate
+    })}
         for=${this.inputId}
       >
         <input
@@ -169,39 +169,39 @@ export default class SlCheckbox extends LitElement {
           @focus=${this.handleFocus}
         />
         <sl-ripple unbounded centered id=${this.inputId + '_ripple'} .disabled=${this.disabled}>
-          <span part="control" class="checkbox__control" shape=${this.shape}>
-            ${this.checked
-              ? html`
-                  <span part="checked-icon" class="checkbox__icon">
-                    <svg viewBox="0 0 16 16">
-                      <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round">
-                        <g stroke="currentColor" stroke-width="2">
-                          <g transform="translate(3.428571, 3.428571)">
-                            <path d="M0,5.71428571 L3.42857143,9.14285714"></path>
-                            <path d="M9.14285714,0 L3.42857143,9.14285714"></path>
-                          </g>
+        <span part="control" class="checkbox__control" shape=${this.shape}>
+          ${this.checked
+        ? html`
+                <span part="checked-icon" class="checkbox__icon">
+                  <svg viewBox="0 0 16 16">
+                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round">
+                      <g stroke="currentColor" stroke-width="2">
+                        <g transform="translate(3.428571, 3.428571)">
+                          <path d="M0,5.71428571 L3.42857143,9.14285714"></path>
+                          <path d="M9.14285714,0 L3.42857143,9.14285714"></path>
                         </g>
                       </g>
-                    </svg>
-                  </span>
-                `
-              : ''}
-            ${!this.checked && this.indeterminate
-              ? html`
-                  <span part="indeterminate-icon" class="checkbox__icon">
-                    <svg viewBox="0 0 16 16">
-                      <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round">
-                        <g stroke="currentColor" stroke-width="2">
-                          <g transform="translate(2.285714, 6.857143)">
-                            <path d="M10.2857143,1.14285714 L1.14285714,1.14285714"></path>
-                          </g>
+                    </g>
+                  </svg>
+                </span>
+              `
+        : ''}
+          ${!this.checked && this.indeterminate
+        ? html`
+                <span part="indeterminate-icon" class="checkbox__icon">
+                  <svg viewBox="0 0 16 16">
+                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round">
+                      <g stroke="currentColor" stroke-width="2">
+                        <g transform="translate(2.285714, 6.857143)">
+                          <path d="M10.2857143,1.14285714 L1.14285714,1.14285714"></path>
                         </g>
                       </g>
-                    </svg>
-                  </span>
-                `
-              : ''}
-          </span>
+                    </g>
+                  </svg>
+                </span>
+              `
+        : ''}
+        </span>
         </sl-ripple>
         <span part="label" id=${this.labelId} class="checkbox__label ${this.hasLabelSlot ? 'checkbox_label_hasSlot' : ''}">
           <slot @slotchange=${this.labelSlotChange}></slot>

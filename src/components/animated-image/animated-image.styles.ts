@@ -5,7 +5,7 @@ export default css`
   ${componentStyles}
 
   :host {
-    --control-box-size: 2.5rem;
+    --control-box-size: 3rem;
     --icon-size: calc(var(--control-box-size) * 0.625);
     display: inline-flex;
     position: relative;
@@ -33,10 +33,10 @@ export default css`
     height: var(--control-box-size);
     font-size: var(--icon-size);
     background: none;
-    border: none;
-    background-color: rgb(var(--sl-color-neutral-1000) / 50%);
+    border: solid 2px currentColor;
+    background-color: rgb(0 0 0 /50%);
     border-radius: var(--sl-border-radius-circle);
-    color: rgb(var(--sl-color-neutral-0));
+    color: white;
     pointer-events: none;
     transition: var(--sl-transition-fast) opacity;
   }

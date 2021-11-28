@@ -65,7 +65,7 @@
     table.innerHTML = `
       <thead>
         <tr>
-          <th data-flavor="html">Name</th>
+          <th data-flavor="rect">Name</th>
           <th>Description</th>
           <th>Event Detail</th>
         </tr>
@@ -75,9 +75,9 @@
           .map(
             event => `
               <tr>
-                <td data-flavor="html"><code class="nowrap">${escapeHtml(event.name)}</code>
-               	 <br/>
-                  <code class="nowrap">${escapeHtml(event.reactName)}</code></td>
+                <td data-flavor="rect">
+                <sl-tooltip content='reactName:${escapeHtml(event.reactName)}' ><code class="nowrap">${escapeHtml(event.name)}</code>
+                </sl-tooltip></td>
                 <td>${escapeHtml(event.description)}</td>
                 <td>${event.type?.text ? `<code>${escapeHtml(event.type?.text)}` : '-'}</td>
               </tr>
@@ -312,13 +312,13 @@
       buttons.classList.add('sidebar-buttons');
       buttons.innerHTML = `
         <sl-button size="small" class="repo-button repo-button--sponsor" href="https://github.com/sponsors/claviska" target="_blank">
-          <sl-icon name="heart"></sl-icon> Sponsor
+          <sl-icon slot="prefix" name="heart"></sl-icon> Sponsor
         </sl-button>
         <sl-button size="small" class="repo-button repo-button--github" href="https://github.com/shoelace-style/shoelace/stargazers" target="_blank">
-          <sl-icon name="github"></sl-icon> <span class="github-star-count">Star</span>
+          <sl-icon slot="prefix" name="github"></sl-icon> <span class="github-star-count">Star</span>
         </sl-button>
         <sl-button size="small" class="repo-button repo-button--twitter" href="https://twitter.com/shoelace_style" target="_blank">
-          <sl-icon name="twitter"></sl-icon> Follow
+          <sl-icon slot="prefix" name="twitter"></sl-icon> Follow
         </sl-button>
       `;
       target.appendChild(buttons);
@@ -396,12 +396,21 @@
             ## Importing
 
             <sl-tab-group>
-            <sl-tab slot="nav" panel="cdn">CDN</sl-tab>
+            <sl-tab slot="nav" panel="script">Script</sl-tab>
+            <sl-tab slot="nav" panel="import">Import</sl-tab>
             <sl-tab slot="nav" panel="bundler">Bundler</sl-tab>
             <sl-tab slot="nav" panel="react">React</sl-tab>
 
-            <sl-tab-panel name="cdn">\n
-            To cherry pick this component from [the CDN](https://www.jsdelivr.com/package/npm/@shoelace-style/shoelace):
+            <sl-tab-panel name="script">\n
+            To import this component from [the CDN](https://www.jsdelivr.com/package/npm/@shoelace-style/shoelace) using a script tag:
+
+            \`\`\`html
+            <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@${metadata.package.version}/${component.path}"></script>
+            \`\`\`
+            </sl-tab-panel>
+
+            <sl-tab-panel name="import">\n
+            To import this component from [the CDN](https://www.jsdelivr.com/package/npm/@shoelace-style/shoelace) using a JavaScript import:
 
             \`\`\`js
             import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@${metadata.package.version}/${component.path}';

@@ -2,7 +2,6 @@
     display: block;
     //必须设置为相对，此时table-header-div 绝对，竖直位置不会移动
     --sl-th-padding-size:12px 8px;
-    --sl-table-border-color:var(--sl-color-netural-200);
     --sl-table-border-color:var(--sl-color-neutral-200);
     --sl-table-header-bg-color:var(--sl-color-neutral-50);
     --sl-table-scroll-barWidth:16px;
@@ -10,18 +9,18 @@
     
     --sl-table-td-right-width:0px;
     --sl-table-td-bottom-width:1px;
-    --sl-table-stripe-color:var(--sl-color-blue-gray-50);
+    --sl-table-stripe-color:var(--sl-color-blue-50);
 }
 
 td,th{
-    background-color: rgb(var(--sl-table-background-color));
+    background-color: var(--sl-table-background-color);
 }
 .noBorder{
     border:none;
 }
 .tdBorder{
-    border-bottom: solid var(--sl-table-td-bottom-width) rgb(var(--sl-table-border-color));
-    border-right: solid var(--sl-table-td-right-width)  rgb(var(--sl-table-border-color));
+    border-bottom: solid var(--sl-table-td-bottom-width) var(--sl-table-border-color);
+    border-right: solid var(--sl-table-td-right-width)  var(--sl-table-border-color);
 }
 .cell{
     padding:var(--sl-th-padding-size);
@@ -49,13 +48,13 @@ table[part=table]{
         @extend .cell;
         @extend .tdBorder;
         font-weight: normal;
-        background-color: rgb(var(--sl-table-header-bg-color));
+        background-color: var(--sl-table-header-bg-color);
     }
 }
 :host([border]) table[part=table]{
     --sl-table-td-right-width:1px;
-    border-top:solid 1px rgb(var(--sl-table-border-color));
-    border-left:solid 1px rgb(var(--sl-table-border-color));
+    border-top:solid 1px var(--sl-table-border-color);
+    border-left:solid 1px var(--sl-table-border-color);
 
 
     &::before{
@@ -65,7 +64,7 @@ table[part=table]{
         z-index: 11;
         position: absolute;
         width:100%;
-        border-top:solid 1px rgb(var(--sl-table-border-color));
+        border-top:solid 1px var(--sl-table-border-color);
     }
     &::after{
         z-index: 11;
@@ -74,11 +73,11 @@ table[part=table]{
         left:0;
         position: absolute;
         height:100%;
-        border-left:solid 1px rgb(var(--sl-table-border-color));
+        border-left:solid 1px var(--sl-table-border-color);
     }
 }
 .stripe{
-    background-color: rgb(var(--sl-table-stripe-color));
+    background-color: var(--sl-table-stripe-color);
 }
 
 .sl-table-base {
@@ -146,7 +145,7 @@ th[align=right]{
     min-width: 12px;
     min-height: 12px;
     .current{
-        color:rgb(var(--sl-color-gray-700));
+        color:var(--sl-color-gray-700);
     }
     svg{
        width:1em;
@@ -167,7 +166,7 @@ th[align=right]{
         left:5px;
         width:1px;
         height: 100%;
-        border-left:solid 1px rgb(var(--sl-table-border-color));
+        border-left:solid 1px var(--sl-table-border-color);
     }
 }
 :host([border]) {

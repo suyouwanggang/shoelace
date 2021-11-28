@@ -399,8 +399,14 @@ export default class SlDropdown extends LitElement {
         <!-- Position the panel with a wrapper since the popover makes use of translate. This let's us add animations
         on the panel without interfering with the position. -->
         <div class="dropdown__positioner">
-          <div part="panel" class="dropdown__panel" role="menu" aria-hidden=${this.open ? 'false' : 'true'} aria-labelledby=${this.componentId}>
-            <slot></slot>
+			<div
+	            part="panel"
+	            class="dropdown__panel"
+	            role="menu"
+	            aria-hidden=${this.open ? 'false' : 'true'}
+	            aria-labelledby=${this.componentId}
+           >            
+			<slot></slot>
           </div>
         </div>
       </div>
@@ -413,7 +419,7 @@ setDefaultAnimation('dropdown.show', {
     { opacity: 0, transform: 'scale(0.9)' },
     { opacity: 1, transform: 'scale(1)' }
   ],
-  options: { duration: 150, easing: 'ease' }
+  options: { duration: 100, easing: 'ease' }
 });
 
 setDefaultAnimation('dropdown.hide', {
@@ -421,7 +427,7 @@ setDefaultAnimation('dropdown.hide', {
     { opacity: 1, transform: 'scale(1)' },
     { opacity: 0, transform: 'scale(0.9)' }
   ],
-  options: { duration: 150, easing: 'ease' }
+  options: { duration: 100, easing: 'ease' }
 });
 
 declare global {

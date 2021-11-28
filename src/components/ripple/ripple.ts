@@ -9,6 +9,10 @@ import { DisposeObject } from '../../utilities/resize.util';
 import styles from './ripple.styles';
 
 /**
+ * thanks weightless !see https://github.com/andreasbm/weightless/blob/master/src/lib/ripple/ripple.ts
+ * 
+ */
+/**
  * Base properties of the ripple. Used when showing a ripple.
  */
 export interface IRippleBaseProperties {
@@ -33,7 +37,7 @@ export interface IRippleProperties extends IRippleBaseProperties {
 /**
  * Configuration when showing a ripple.
  */
-export interface IRippleConfig extends IRippleBaseProperties {}
+export interface IRippleConfig extends IRippleBaseProperties { }
 
 /**
  * Base configuration for the ripple animation.
@@ -56,7 +60,7 @@ export const RIPPLE_INITIAL_DURATION = 350;
 export const RIPPLE_RELEASE_DURATION = 500;
 
 const DISPOSEOBJ = {
-  dispose() {}
+  dispose() { }
 };
 
 /**

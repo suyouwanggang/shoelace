@@ -6,6 +6,46 @@ Components with the <sl-badge type="warning" pill>Experimental</sl-badge> badge 
 
 _During the beta period, these restrictions may be relaxed in the event of a mission-critical bug._ 🐛
 
+## 2.0.0-beta.61
+
+This release improves the dark theme by shifting luminance in both directions, slightly condensing the spectrum. This results in richer colors in dark mode. It also reduces theme stylesheet sizes by eliminating superfluous gray palette variations.
+
+In [beta.48](#_200-beta48), I introduced a change to color tokens that allowed you to access alpha values at the expense of a verbose, non-standard syntax. After considering feedback from the community, I've decided to revert this change so the `rgb()` function is no longer required. Many users reported never using it for alpha, and even more reported having trouble remembering to use `rgb()` and that it was causing more harm than good.
+
+Furthermore, both Safari and Firefox have implemented [`color-mix()`](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/color-mix()) behind a flag, so access to alpha channels and other capabilities are coming to the browser soon.
+
+If you're using color tokens in your own stylesheet, simply remove the `rgb()` to update to this version. 
+
+```css
+.your-styles {
+  /* change this */
+  color: rgb(var(--sl-color-primary-500));
+
+  /* to this */
+  color: var(--sl-color-primary-500);
+}
+```
+
+Thank you for your help and patience with testing Shoelace. I promise, we're not far from a stable release!
+
+- 🚨 BREAKING: removed blue gray, cool gray, true gray, and warm gray color palettes
+- 🚨 BREAKING: removed `--sl-focus-ring-color`, and `--sl-focus-ring-alpha` (use `--sl-focus-ring` instead)
+- 🚨 BREAKING: removed `--sl-surface-base` and `--sl-surface-base-alt` tokens (use the neutral palette instead)
+- Added experimental `<sl-visually-hidden>` component
+- Added `clear-icon` slot to `<sl-select>` [#591](https://github.com/shoelace-style/shoelace/issues/591)
+- Fixed a bug in `<sl-progress-bar>` where the label would show in the default slot
+- Improved the dark theme palette so colors are bolder and don't appear washed out
+- Improved a11y of `<sl-avatar>` by representing it as an image with an `alt` [#579](https://github.com/shoelace-style/shoelace/issues/579)
+- Improved a11y of the scroll buttons in `<sl-tab-group>`
+- Improved a11y of the close button in `<sl-tab>`
+- Improved a11y of `<sl-tab-panel>` by removing an invalid `aria-selected` attribute [#579](https://github.com/shoelace-style/shoelace/issues/579)
+- Improved a11y of `<sl-icon>` by not using a variation of the `name` attribute for labels (use the `label` prop instead)
+- Moved `role` from the shadow root to the host element in `<sl-menu>`
+- Removed redundant `role="menu"` in `<sl-dropdown>`
+- Slightly faster animations for showing and hiding `<sl-dropdown>`
+- Updated to Bootstrap Icons to 1.7.1
+- Upgraded the status of `<sl-mutation-observer>` from experimental to stable
+
 ## 2.0.0-beta.60
 
 - Added React examples and CodePen links to all components
@@ -68,11 +108,11 @@ Shoelace doesn't have a lot of dependencies, but this release unbundles most of 
 ## 2.0.0-beta.53
 
 - 🚨 BREAKING: removed `<sl-menu-divider>` (use `<sl-divider>` instead)
-- 🚨 BREAKING: removed `percentage` attribute from `<sl-progress-bar>` and `<sl-progress-ring>` (use `value`) instead
+- 🚨 BREAKING: removed `percentage` attribute from `<sl-progress-bar>` and `<sl-progress-ring>` (use `value` instead)
 - 🚨 BREAKING: switched the default `type` of `<sl-tag>` from `primary` to `neutral`
 - Added the experimental `<sl-mutation-observer>` component
 - Added the `<sl-divider>` component
-- Added `--sl-surface-base` and `--sl-surface-base-alt` as early surface tokens to improve the appearance of alert, card, and panels in dark mode
+- Added `--sl-color-neutral-0` and `--sl-color-neutral-50` as early surface tokens to improve the appearance of alert, card, and panels in dark mode
 - Added the `--sl-panel-border-width` design token
 - Added missing background color to `<sl-details>`
 - Added the `--padding` custom property to `<sl-tab-panel>`
@@ -155,7 +195,7 @@ Previously, color tokens were in hexidecimal format. Now, Shoelace now uses an `
 ```css
 .example {
   /* rgb() is required now */
-  color: rgb(var(--sl-color-neutral-500));
+  color: var(--sl-color-neutral-500);
 }
 ```
 

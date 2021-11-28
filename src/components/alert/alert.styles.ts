@@ -15,8 +15,8 @@ export default css`
     position: relative;
     display: flex;
     align-items: stretch;
-    background-color: rgb(var(--sl-surface-base-alt));
-    border: solid var(--sl-panel-border-width) rgb(var(--sl-panel-border-color));
+    background-color: var(--sl-panel-background-color);
+    border: solid var(--sl-panel-border-width) var(--sl-panel-border-color);
     border-top-width: calc(var(--sl-panel-border-width) * 3);
     border-radius: var(--sl-border-radius-medium);
     box-shadow: var(--box-shadow);
@@ -24,7 +24,7 @@ export default css`
     font-size: var(--sl-font-size-small);
     font-weight: var(--sl-font-weight-normal);
     line-height: 1.6;
-    color: rgb(var(--sl-color-neutral-700));
+    color: var(--sl-color-neutral-700);
     margin: inherit;
   }
 
@@ -40,44 +40,34 @@ export default css`
   }
 
   .alert--primary {
-    border-top-color: rgb(var(--sl-color-primary-500));
-  }
+    border-top-color: rgb(var(--sl-color-primary-600));  }
 
   .alert--primary .alert__icon {
-    color: rgb(var(--sl-color-primary-500));
-  }
+    color: rgb(var(--sl-color-primary-600));  }
 
   .alert--success {
-    border-top-color: rgb(var(--sl-color-success-500));
-  }
+    border-top-color: rgb(var(--sl-color-success-600));  }
 
   .alert--success .alert__icon {
-    color: rgb(var(--sl-color-success-500));
-  }
+    color: rgb(var(--sl-color-success-600));  }
 
   .alert--neutral {
-    border-top-color: rgb(var(--sl-color-neutral-500));
-  }
+    border-top-color: rgb(var(--sl-color-neutral-600));  }
 
   .alert--neutral .alert__icon {
-    color: rgb(var(--sl-color-neutral-500));
-  }
+    color: rgb(var(--sl-color-neutral-600));  }
 
   .alert--warning {
-    border-top-color: rgb(var(--sl-color-warning-500));
-  }
+    border-top-color: rgb(var(--sl-color-warning-600));  }
 
   .alert--warning .alert__icon {
-    color: rgb(var(--sl-color-warning-500));
-  }
+    color: rgb(var(--sl-color-warning-600));  }
 
   .alert--danger {
-    border-top-color: rgb(var(--sl-color-danger-500));
-  }
+    border-top-color: rgb(var(--sl-color-danger-600));  }
 
   .alert--danger .alert__icon {
-    color: rgb(var(--sl-color-danger-500));
-  }
+    color: rgb(var(--sl-color-danger-600));  }
 
   .alert__message {
     flex: 1 1 auto;

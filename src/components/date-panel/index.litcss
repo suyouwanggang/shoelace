@@ -3,7 +3,7 @@
     --sl-date-panel-padding:1em;
     --sl-date-grid-gap:0.5em;
     --sl-date-hover-color: var(--sl-color-primary-500);
-    --sl-date-color: var(--sl-color-neutral-1000);
+    --sl-date-color: var(--sl-color-neutral-0);
 }
 svg{
     fill: currentColor;
@@ -14,7 +14,7 @@ svg{
     border: 0;
     padding: 0;
     outline: 0;
-    color: rgb(var(--sl-color-neutral-600));
+    color: var(--sl-color-neutral-600);
     border-radius: var(--borderRadius,.25em);
     transition: all .3s;
     display: inline-flex;
@@ -49,13 +49,13 @@ svg{
     }
 }
 .other{
-    color:rgb(var(--sl-color-gray-400));
+    color:var(--sl-color-gray-400);
     opacity: 0;
     pointer-events: none;
 }
 .current{
-    color: rgb(var(--sl-date-color));
-    background-color: rgb(var(--sl-date-hover-color));
+    color: var(--sl-date-color);
+    background-color: var(--sl-date-hover-color);
 }
 
  //按钮样式
@@ -73,8 +73,8 @@ svg{
     outline: 0;
     border: 0;
     &:hover{
-        color: rgb(var(--sl-date-color));
-        background-color: rgb(var(--sl-date-hover-color));
+        color: var(--sl-date-color);
+        background-color: var(--sl-date-hover-color);
     }
 }
 

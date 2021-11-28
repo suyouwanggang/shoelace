@@ -53,7 +53,7 @@ Table 组件
             width:80px;
             height:28px;
             outline:none;
-            border: solid var(--sl-input-border-width) rgb( var(--sl-input-border-color));
+            border: solid var(--sl-input-border-width)  var(--sl-input-border-color);
         }
     `;
     //监听上一次编辑的单元格

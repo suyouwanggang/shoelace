@@ -37,11 +37,15 @@ export default class SlMenuItem extends LitElement {
   /** Draws the menu item in a disabled state. */
   @property({ type: Boolean, reflect: true }) disabled = false;
 
+  /** disable ripple. */
+  @property({ type: Boolean, reflect: true }) disableRipple = false;
+
   /** hightlight this menu-item */
   @property({ type: Boolean, reflect: true }) highlight = false;
 
   firstUpdated() {
     this.setAttribute('role', 'menuitem');
+    this.requestUpdate();
   }
 
   @watchProps(['checked', 'disabled'])
@@ -50,18 +54,20 @@ export default class SlMenuItem extends LitElement {
     this.setAttribute('aria-disabled', String(this.disabled));
   }
 
+  @query(".menu-item")
+  private baseDiv: HTMLDivElement;
   render() {
     return html`
-      <sl-ripple class="ripple-wrap" ?disabled=${this.disabled}>
         <div
           part="base"
           class=${classMap({
-            'menu-item': true,
-            'menu-item--checked': this.checked,
-            'menu-item--highlight': this.highlight,
-            'menu-item--disabled': this.disabled
-          })}
+      'menu-item': true,
+      'menu-item--checked': this.checked,
+      'menu-item--highlight': this.highlight,
+      'menu-item--disabled': this.disabled
+    })}
         >
+        <sl-ripple class="ripple-wrap" .target=${this.baseDiv} overlay ?disabled=${this.disabled || this.disableRipple}></sl-ripple>
           <span part="checked-icon" class="menu-item__check">
             <sl-icon name="check" library="system" aria-hidden="true"></sl-icon>
           </span>
@@ -77,8 +83,8 @@ export default class SlMenuItem extends LitElement {
           <span part="suffix" class="menu-item__suffix">
             <slot name="suffix"></slot>
           </span>
+         
         </div>
-      </sl-ripple>
     `;
   }
 }

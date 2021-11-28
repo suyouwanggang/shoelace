@@ -6,7 +6,7 @@ import styles from './mutation-observer.styles';
 
 /**
  * @since 2.0
- * @status experimental
+ * @status stable
  *
  * @event sl-mutation - Emitted when a mutation occurs.
  *
@@ -19,8 +19,8 @@ export default class SlMutationObserver extends LitElement {
   private mutationObserver: MutationObserver;
 
   /**
-   * Watches for changes to attributes. If set to *, all changes will be reported. To watch only specific attributes,
-   * separate them by a space, e.g. "class id title".
+   * Watches for changes to attributes. To watch only specific attributes, separate them by a space, e.g.
+   * `class id title`. To watch all attributes, use `*`.
    */
   @property({ reflect: true }) attr: string;
 

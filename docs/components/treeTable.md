@@ -166,7 +166,7 @@ Table 组件启用TreeTable 懒加载 ,和虚拟滚动加载
     table2.stripe=true;//斑马线
     //虚拟滚动行高
     table2.virtualItemHeight=45;
-    table2.customStyle=`div.tdWrap{height:28px;overflow:hidden;}`;//控制单元高度
+    table2.customStyle=`div.tdWrap{height:28px;}`;//控制单元高度
     table2.dataSource=dateList;
     table2.fixedColumns=3;
     window.table2=table2;

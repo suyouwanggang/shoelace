@@ -6,8 +6,6 @@ export default css`
   ${componentStyles}
 
   :host {
-    --symbol-color: rgb(var(--sl-color-neutral-300));
-    --symbol-color-active: #ffbe00;
     --symbol-size: 1.2rem;
     --symbol-spacing: var(--sl-spacing-3x-small);
 

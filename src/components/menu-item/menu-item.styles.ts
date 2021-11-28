@@ -19,7 +19,7 @@ export default css`
     line-height: var(--sl-line-height-normal);
     letter-spacing: var(--sl-letter-spacing-normal);
     text-align: left;
-    color: rgb(var(--sl-color-neutral-700));
+    color: var(--sl-color-neutral-700);
     padding: var(--sl-spacing-2x-small) var(--sl-spacing-x-large);
     transition: var(--sl-transition-fast) fill;
     user-select: none;
@@ -29,13 +29,13 @@ export default css`
 
   .menu-item.menu-item--disabled {
     outline: none;
-    color: rgb(var(--sl-color-neutral-400));
+    color: var(--sl-color-neutral-400);
     cursor: not-allowed;
   }
   .menu-item.menu-item--highlight:not(.menu-item--disabled) {
     outline: none;
-    background-color: rgb(var(--sl-color-primary-600));
-    color: rgb(var(--sl-color-neutral-0));
+    background-color: var(--sl-color-primary-500);
+    color: var(--sl-color-neutral-0);
   }
   .menu-item .menu-item__label {
     flex: 1 1 auto;
@@ -85,8 +85,5 @@ export default css`
   .menu-item--checked .menu-item__check {
     visibility: visible;
   }
-
-  .ripple-wrap {
-    display: block;
-  }
+  
 `;
