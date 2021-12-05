@@ -8,6 +8,13 @@ const resouce = {
     prev: 'Prev',
     next: 'Next'
   },
+  transferSelectedFun: (selected: number, filterSize: number, _total: number) => {
+    let temp = filterSize > 0 ? ' items' : ' item';
+    return selected > 0 ? (selected + '/' + filterSize + temp) : filterSize + '' + temp;
+  },
+  transferSourceTitle: 'source',
+  transferTargetTitle: 'target',
+
   seachTransfer: 'search....',
   noData: 'No Data!',
   date: {

@@ -7,7 +7,7 @@ A description of the component goes here.
 ```html preview
 <sl-transfer id='transeferDIV' style='height:500px;--list-width:400px;' ></sl-transfer>
 <script>
-    const transfer=document.querySelector('#transeferDIV');
+    window.transfer=document.querySelector('#transeferDIV');
     //自定义搜索 placehold
     // transfer.filterPlaceholder=['请输入','a'];
     // transfer.filterPlaceholder='请输入名称';
@@ -25,7 +25,7 @@ A description of the component goes here.
         }
     }
     transfer.dataSource=dataSource;
-    transfer.targetSelectedKeys=targetSelectedKeys;
+    transfer.targetKeys=targetSelectedKeys;
 
     //自定义过滤
     transfer.filterMethod=(item,value)=>{

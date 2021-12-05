@@ -8,6 +8,11 @@ const resouce = {
     prev: '上一页',
     next: '下一页'
   },
+  transferSelectedFun: (selected: number, filterSize: number, _total: number) => {
+    return selected > 0 ? (selected + '/' + filterSize + ' 项') : (filterSize + ' 项');
+  },
+  transferSourceTitle: '来源',
+  transferTargetTitle: '目标',
   seachTransfer: '请输入搜索内容',
   noData: '没有任何数据',
   date: {
