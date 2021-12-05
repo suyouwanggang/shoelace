@@ -9,7 +9,7 @@ const resouce = {
     next: '下一页'
   },
   transferSelectedFun: (selected: number, filterSize: number, _total: number) => {
-    return selected > 0 ? (selected + '/' + filterSize + ' 项') : (filterSize + ' 项');
+    return selected > 0 ? selected + '/' + filterSize + ' 项' : filterSize + ' 项';
   },
   seachTransfer: '请输入搜索内容',
   noData: '没有任何数据',
