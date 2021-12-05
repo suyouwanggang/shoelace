@@ -10,7 +10,7 @@ const resouce = {
   },
   transferSelectedFun: (selected: number, filterSize: number, _total: number) => {
     let temp = filterSize > 0 ? ' items' : ' item';
-    return selected > 0 ? (selected + '/' + filterSize + temp) : filterSize + '' + temp;
+    return selected > 0 ? selected + '/' + filterSize + temp : filterSize + '' + temp;
   },
   transferSourceTitle: 'source',
   transferTargetTitle: 'target',

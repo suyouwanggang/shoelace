@@ -109,8 +109,6 @@ export default class SlTransfer extends LitElement {
     return result;
   }
 
-
-
   @watchProps(['dataSource', 'filterMethod', 'disableFilter', 'targetSearchValue', 'sourceSearchValue'])
   watchDataSourceChanged() {
     this.cacheDataSource.clear();
@@ -163,7 +161,6 @@ export default class SlTransfer extends LitElement {
   @property({ attribute: false })
   customFilterTemplate: (_direction: 'source' | 'target') => TemplateResult<1>;
 
-
   /**
    * 自定义 选中，总数说明
    */
@@ -210,7 +207,6 @@ export default class SlTransfer extends LitElement {
         targetSearchValue: this.targetSearchValue
       }
     });
-
   }
   protected processSelectItem(event: Event, item: TransferItem, direction: 'source' | 'target') {
     const li = event.currentTarget as HTMLElement;
@@ -226,7 +222,7 @@ export default class SlTransfer extends LitElement {
       } else if (!el.checked && index >= 0) {
         array.splice(index, 1);
       }
-      direction == 'source' ? this.sourceTempSelectedKeys = [...array] : this.targetTempSelectedKeys = [...array];
+      direction == 'source' ? (this.sourceTempSelectedKeys = [...array]) : (this.targetTempSelectedKeys = [...array]);
       this.dispatchTransferChange();
     });
   }
@@ -255,7 +251,7 @@ export default class SlTransfer extends LitElement {
     let scroll = event.target as SlScroll;
     emit(this, 'sl-scroll-item', {
       detail: { scroll, direction: direction }
-    })
+    });
   }
   @watch('tableTemplate')
   tableTemplateChange() {
@@ -301,7 +297,6 @@ export default class SlTransfer extends LitElement {
     }
   }
 
-
   public getTempSelecteDataList(direction: 'source' | 'target') {
     const item = direction == 'source' ? this.sourceDataList : this.targetDataList;
     const selectedKeys = direction == 'source' ? this.sourceTempSelectedKeys : this.targetTempSelectedKeys;
@@ -316,25 +311,35 @@ export default class SlTransfer extends LitElement {
       let checkbox = event.target as SlCheckbox;
       let checked = checkbox.checked;
       const selectedKeys = checked ? (direction == 'source' ? this.sourceTempSelectedKeys : this.targetTempSelectedKeys) : [];
-      item.forEach((item) => {
+      item.forEach(item => {
         let index = selectedKeys.indexOf(item.id);
         if (checked && index < 0) {
           selectedKeys.push(item.id);
         } else if (!checked) {
           selectedKeys.splice(index, 1);
         }
-      })
+      });
       if (direction == 'source') {
         this.sourceTempSelectedKeys = [...selectedKeys];
       } else {
         this.targetTempSelectedKeys = [...selectedKeys];
       }
-    }
+    };
 
-    const selectAllTemp = this.showSelectAll ? html`<sl-checkbox  .indeterminate=${item.length > 0 && selecteItems.length > 0 && selecteItems.length < item.length}  .checked=${item.length > 0 && item.length == selecteItems.length} part='selectAll' name='${direction}' @sl-change=${changeSelectAll}></sl-checkbox>` : '';
-    let titleHtml = this.titleTemplate ? isArray(this.titleTemplate) ? html`<span part='title'>${this.titleTemplate[direction == 'source' ? 0 : 1]}</span>` : this.titleTemplate(direction) : '';
-    const selectItemSizeHtml = this.customSelectedTiitleTemplate ? this.customSelectedTiitleTemplate(selecteItems.length, item.length, totalItem.length) : getResouceValue('transferSelectedFun')(selecteItems.length, item.length);
-    return html`${selectAllTemp}<span part='selecteItems-span'>${selectItemSizeHtml}</span>${titleHtml}`;
+    const selectAllTemp = this.showSelectAll
+      ? html`<sl-checkbox
+          .indeterminate=${item.length > 0 && selecteItems.length > 0 && selecteItems.length < item.length}
+          .checked=${item.length > 0 && item.length == selecteItems.length}
+          part="selectAll"
+          name="${direction}"
+          @sl-change=${changeSelectAll}
+        ></sl-checkbox>`
+      : '';
+    let titleHtml = this.titleTemplate ? (isArray(this.titleTemplate) ? html`<span part="title">${this.titleTemplate[direction == 'source' ? 0 : 1]}</span>` : this.titleTemplate(direction)) : '';
+    const selectItemSizeHtml = this.customSelectedTiitleTemplate
+      ? this.customSelectedTiitleTemplate(selecteItems.length, item.length, totalItem.length)
+      : getResouceValue('transferSelectedFun')(selecteItems.length, item.length);
+    return html`${selectAllTemp}<span part="selecteItems-span">${selectItemSizeHtml}</span>${titleHtml}`;
   }
   render() {
     return html`<div part='base'>
