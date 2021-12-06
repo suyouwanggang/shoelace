@@ -27,7 +27,7 @@ A description of the component goes here.
     selectSelct.innerHTML=str;
     selectSelct.value='vditor.md';
     selectSelct.addEventListener('sl-change',(event)=>{
-        markObj.mdsrc=`/assets/prism-themes/${event.target.value}`;
+        markObj.mdsrc=mdsrc+`/assets/prism-themes/${event.target.value}`;
     });
 </script>
 ```

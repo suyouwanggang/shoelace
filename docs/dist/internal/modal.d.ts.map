@@ -1,0 +1,1 @@
+{"version":3,"file":"modal.d.ts","sourceRoot":"","sources":["../../src/internal/modal.ts"],"names":[],"mappings":"AAIA,MAAM,CAAC,OAAO,OAAO,KAAK;IACxB,OAAO,EAAE,WAAW,CAAC;IACrB,YAAY,EAAE,SAAS,GAAG,UAAU,CAAa;gBAErC,OAAO,EAAE,WAAW;IAMhC,QAAQ;IAMR,UAAU;IAMV,QAAQ;IAKR,aAAa,CAAC,KAAK,EAAE,KAAK;IAc1B,aAAa,CAAC,KAAK,EAAE,aAAa;CAOnC"}
