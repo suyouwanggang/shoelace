@@ -1620,6 +1620,25 @@
     {
       "attributes": [
         {
+          "name": "rootData",
+          "description": "组织架构节点数据"
+        },
+        {
+          "name": "center",
+          "description": "是否居中"
+        },
+        {
+          "name": "horizontal",
+          "description": "是否是水平布局 组织架构"
+        },
+        {
+          "name": "nodeRender"
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
           "name": "nodeData",
           "description": "节点数据"
         },
@@ -1644,19 +1663,16 @@
     {
       "attributes": [
         {
-          "name": "rootData",
-          "description": "组织架构节点数据"
+          "name": "value",
+          "description": "The current progress, 0 to 100."
         },
         {
-          "name": "center",
-          "description": "是否居中"
+          "name": "indeterminate",
+          "description": "When true, percentage is ignored, the label is hidden, and the progress bar is drawn in an indeterminate state."
         },
         {
-          "name": "horizontal",
-          "description": "是否是水平布局 组织架构"
-        },
-        {
-          "name": "nodeRender"
+          "name": "label",
+          "description": "The progress bar's aria label."
         }
       ]
     },
@@ -1700,22 +1716,6 @@
         {
           "name": "total",
           "description": "总数大小"
-        }
-      ]
-    },
-    {
-      "attributes": [
-        {
-          "name": "value",
-          "description": "The current progress, 0 to 100."
-        },
-        {
-          "name": "indeterminate",
-          "description": "When true, percentage is ignored, the label is hidden, and the progress bar is drawn in an indeterminate state."
-        },
-        {
-          "name": "label",
-          "description": "The progress bar's aria label."
         }
       ]
     },
@@ -1974,6 +1974,46 @@
     {
       "attributes": [
         {
+          "name": "src",
+          "description": "设置导航urlpattern"
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "name",
+          "description": "设置路由名称"
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "span",
+          "description": "占多少列"
+        },
+        {
+          "name": "row",
+          "description": "占多少行"
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "columns",
+          "description": "grid等分多少列"
+        },
+        {
+          "name": "grap",
+          "description": "grid 单元格的间距"
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
           "name": "unbounded",
           "description": "Makes the ripple visible outside the bounds."
         },
@@ -2012,46 +2052,6 @@
         {
           "name": "target",
           "description": "Target for the spawn ripple events."
-        }
-      ]
-    },
-    {
-      "attributes": [
-        {
-          "name": "src",
-          "description": "设置导航urlpattern"
-        }
-      ]
-    },
-    {
-      "attributes": [
-        {
-          "name": "name",
-          "description": "设置路由名称"
-        }
-      ]
-    },
-    {
-      "attributes": [
-        {
-          "name": "span",
-          "description": "占多少列"
-        },
-        {
-          "name": "row",
-          "description": "占多少行"
-        }
-      ]
-    },
-    {
-      "attributes": [
-        {
-          "name": "columns",
-          "description": "grid等分多少列"
-        },
-        {
-          "name": "grap",
-          "description": "grid 单元格的间距"
         }
       ]
     },
@@ -2158,6 +2158,7 @@
         }
       ]
     },
+    {},
     {
       "attributes": [
         {
@@ -2177,7 +2178,26 @@
         }
       ]
     },
-    {},
+    {
+      "attributes": [
+        {
+          "name": "icon",
+          "description": "图标"
+        },
+        {
+          "name": "description",
+          "description": "描述"
+        },
+        {
+          "name": "title",
+          "description": "标题"
+        },
+        {
+          "name": "index",
+          "description": "顺序号"
+        }
+      ]
+    },
     {
       "attributes": [
         {
@@ -2218,26 +2238,6 @@
     {
       "attributes": [
         {
-          "name": "icon",
-          "description": "图标"
-        },
-        {
-          "name": "description",
-          "description": "描述"
-        },
-        {
-          "name": "title",
-          "description": "标题"
-        },
-        {
-          "name": "index",
-          "description": "顺序号"
-        }
-      ]
-    },
-    {
-      "attributes": [
-        {
           "name": "current",
           "description": "当前步骤，默认从0"
         },
@@ -2269,6 +2269,26 @@
     {
       "attributes": [
         {
+          "name": "panel",
+          "description": "The name of the tab panel the tab will control. The panel must be located in the same tab group."
+        },
+        {
+          "name": "active",
+          "description": "Draws the tab in an active state."
+        },
+        {
+          "name": "closable",
+          "description": "Makes the tab closable and shows a close icon."
+        },
+        {
+          "name": "disabled",
+          "description": "Draws the tab in a disabled state."
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
           "name": "name",
           "description": "The switch's name attribute."
         },
@@ -2291,26 +2311,6 @@
         {
           "name": "invalid",
           "description": "This will be true when the control is in an invalid state. Validity is determined by the `required` prop."
-        }
-      ]
-    },
-    {
-      "attributes": [
-        {
-          "name": "panel",
-          "description": "The name of the tab panel the tab will control. The panel must be located in the same tab group."
-        },
-        {
-          "name": "active",
-          "description": "Draws the tab in an active state."
-        },
-        {
-          "name": "closable",
-          "description": "Makes the tab closable and shows a close icon."
-        },
-        {
-          "name": "disabled",
-          "description": "Draws the tab in a disabled state."
         }
       ]
     },
@@ -2460,6 +2460,101 @@
         {
           "name": "removable",
           "description": "Makes the tag removable."
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "content",
+          "description": "The tooltip's content. Alternatively, you can use the content slot."
+        },
+        {
+          "name": "placement",
+          "description": "The preferred placement of the tooltip. Note that the actual placement may vary as needed to keep the tooltip\ninside of the viewport.",
+          "values": [
+            {
+              "name": "top"
+            },
+            {
+              "name": "top-start"
+            },
+            {
+              "name": "top-end"
+            },
+            {
+              "name": "right"
+            },
+            {
+              "name": "right-start"
+            },
+            {
+              "name": "right-end"
+            },
+            {
+              "name": "bottom"
+            },
+            {
+              "name": "bottom-start"
+            },
+            {
+              "name": "bottom-end"
+            },
+            {
+              "name": "left"
+            },
+            {
+              "name": "left-start"
+            },
+            {
+              "name": "left-end"
+            }
+          ]
+        },
+        {
+          "name": "type",
+          "description": "tooltip theme type .",
+          "values": [
+            {
+              "name": "default"
+            },
+            {
+              "name": "primary"
+            },
+            {
+              "name": "success"
+            },
+            {
+              "name": "warning"
+            },
+            {
+              "name": "danger"
+            }
+          ]
+        },
+        {
+          "name": "disabled",
+          "description": "Disables the tooltip so it won't show when triggered."
+        },
+        {
+          "name": "distance",
+          "description": "The distance in pixels from which to offset the tooltip away from its target."
+        },
+        {
+          "name": "open",
+          "description": "Indicates whether or not the tooltip is open. You can use this in lieu of the show/hide methods."
+        },
+        {
+          "name": "skidding",
+          "description": "The distance in pixels from which to offset the tooltip along its target."
+        },
+        {
+          "name": "trigger",
+          "description": "Controls how the tooltip is activated. Possible options include `click`, `hover`, `focus`, and `manual`. Multiple\noptions can be passed by separating them with a space. When manual is used, the tooltip must be activated\nprogrammatically."
+        },
+        {
+          "name": "hoist",
+          "description": "Enable this option to prevent the tooltip from being clipped when the component is placed inside a container with\n`overflow: auto|hidden|scroll`."
         }
       ]
     },
@@ -2644,101 +2739,6 @@
     {
       "attributes": [
         {
-          "name": "content",
-          "description": "The tooltip's content. Alternatively, you can use the content slot."
-        },
-        {
-          "name": "placement",
-          "description": "The preferred placement of the tooltip. Note that the actual placement may vary as needed to keep the tooltip\ninside of the viewport.",
-          "values": [
-            {
-              "name": "top"
-            },
-            {
-              "name": "top-start"
-            },
-            {
-              "name": "top-end"
-            },
-            {
-              "name": "right"
-            },
-            {
-              "name": "right-start"
-            },
-            {
-              "name": "right-end"
-            },
-            {
-              "name": "bottom"
-            },
-            {
-              "name": "bottom-start"
-            },
-            {
-              "name": "bottom-end"
-            },
-            {
-              "name": "left"
-            },
-            {
-              "name": "left-start"
-            },
-            {
-              "name": "left-end"
-            }
-          ]
-        },
-        {
-          "name": "type",
-          "description": "tooltip theme type .",
-          "values": [
-            {
-              "name": "default"
-            },
-            {
-              "name": "primary"
-            },
-            {
-              "name": "success"
-            },
-            {
-              "name": "warning"
-            },
-            {
-              "name": "danger"
-            }
-          ]
-        },
-        {
-          "name": "disabled",
-          "description": "Disables the tooltip so it won't show when triggered."
-        },
-        {
-          "name": "distance",
-          "description": "The distance in pixels from which to offset the tooltip away from its target."
-        },
-        {
-          "name": "open",
-          "description": "Indicates whether or not the tooltip is open. You can use this in lieu of the show/hide methods."
-        },
-        {
-          "name": "skidding",
-          "description": "The distance in pixels from which to offset the tooltip along its target."
-        },
-        {
-          "name": "trigger",
-          "description": "Controls how the tooltip is activated. Possible options include `click`, `hover`, `focus`, and `manual`. Multiple\noptions can be passed by separating them with a space. When manual is used, the tooltip must be activated\nprogrammatically."
-        },
-        {
-          "name": "hoist",
-          "description": "Enable this option to prevent the tooltip from being clipped when the component is placed inside a container with\n`overflow: auto|hidden|scroll`."
-        }
-      ]
-    },
-    {
-      "attributes": [
-        {
           "name": "targetKeys",
           "description": "右侧显示的数据集合 主键列表"
         },
@@ -2760,6 +2760,8 @@
         }
       ]
     },
+    {},
+    {},
     {
       "attributes": [
         {
@@ -2805,8 +2807,6 @@
           "description": "是否支持过滤"
         }
       ]
-    },
-    {},
-    {}
+    }
   ]
 }

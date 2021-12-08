@@ -1,6 +1,6 @@
 import {
   rating_default
-} from "./chunk.S3SYB5OE.js";
+} from "./chunk.J33FJDGP.js";
 
 // src/react/rating/index.ts
 import * as React from "react";

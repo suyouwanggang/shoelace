@@ -105,7 +105,7 @@ import {
 } from "./chunks/chunk.3CFQ7F3B.js";
 import {
   rating_default
-} from "./chunks/chunk.S3SYB5OE.js";
+} from "./chunks/chunk.J33FJDGP.js";
 import {
   relative_time_default
 } from "./chunks/chunk.NNXR4EOG.js";
