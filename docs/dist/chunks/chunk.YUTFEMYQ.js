@@ -626,6 +626,14 @@ var SlSelect = class extends s {
       this.value = checkedValues.length > 0 ? checkedValues[0] : "";
     }
   }
+  focus(option) {
+    this.updateComplete.then(() => {
+      const input = this.renderRoot.querySelector(`div#${this.inputId}`);
+      if (input) {
+        input.focus(option);
+      }
+    });
+  }
   render() {
     var _a;
     const hasSelection = this.multiple ? ((_a = this.value) == null ? void 0 : _a.length) > 0 : this.value !== "";

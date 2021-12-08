@@ -1,6 +1,6 @@
 import {
   resouce_changeEvent
-} from "./chunk.WXDRWAVK.js";
+} from "./chunk.QMW6TH5G.js";
 import {
   addEvent
 } from "./chunk.3SJG5WV3.js";

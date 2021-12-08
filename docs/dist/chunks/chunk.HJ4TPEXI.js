@@ -1,6 +1,6 @@
 import {
   table_default
-} from "./chunk.CD2MZMYS.js";
+} from "./chunk.DA77R3RF.js";
 
 // src/react/table/index.ts
 import * as React from "react";

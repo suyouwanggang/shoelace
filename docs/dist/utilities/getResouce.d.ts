@@ -3,7 +3,7 @@
  */
 declare const resouce_changeEvent = "window-resouce-change-event";
 /**
- * 设置组件语言
+ * 设置组件语言,通知加载自定义的语言资源
  * @param locale
  */
 declare function setLocal(locale: string, loadOtherResouce?: (data: any) => void): Promise<{

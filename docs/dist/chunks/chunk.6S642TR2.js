@@ -1,6 +1,6 @@
 import {
   select_default
-} from "./chunk.MVQUUQEQ.js";
+} from "./chunk.YUTFEMYQ.js";
 
 // src/react/select/index.ts
 import * as React from "react";

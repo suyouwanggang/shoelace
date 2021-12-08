@@ -15692,6 +15692,18 @@
             {
               "kind": "method",
               "name": "syncValueFromItems"
+            },
+            {
+              "kind": "method",
+              "name": "focus",
+              "parameters": [
+                {
+                  "name": "option",
+                  "type": {
+                    "text": "FocusOptions"
+                  }
+                }
+              ]
             }
           ],
           "events": [

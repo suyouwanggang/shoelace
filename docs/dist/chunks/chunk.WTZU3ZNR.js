@@ -1,6 +1,6 @@
 import {
   page_btn_default
-} from "./chunk.EH6NI3AZ.js";
+} from "./chunk.QWND6LQE.js";
 
 // src/react/page-btn/index.ts
 import * as React from "react";

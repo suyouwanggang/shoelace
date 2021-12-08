@@ -7,7 +7,7 @@ type ResouceType = typeof resouceZh;
  */
 const resouce_changeEvent = `window-resouce-change-event`;
 /**
- * 设置组件语言
+ * 设置组件语言,通知加载自定义的语言资源
  * @param locale
  */
 async function setLocal(locale: string, loadOtherResouce?: (data: any) => void) {
@@ -87,7 +87,9 @@ function getResouceValue(keys: string): any {
     resultMap = new Map<string, any>();
     resultCache[getLocal()] = resultMap;
   }
-  resultMap.set(keys, result);
+  if (result != undefined) {
+    resultMap.set(keys, result);
+  }
   return result;
 }
 (window as any).setLocal = setLocal;

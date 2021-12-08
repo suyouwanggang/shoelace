@@ -51,6 +51,7 @@
     "vditor": "^3.8.6"
   },
   "devDependencies": {
+	"express": "^4.17.1",
     "@custom-elements-manifest/analyzer": "^0.4.12",
     "@open-wc/testing": "^2.5.33",
     "@rollup/plugin-typescript": "^8.2.5",

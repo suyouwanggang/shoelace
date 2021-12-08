@@ -120,6 +120,7 @@ export default class SlSelect extends LitElement {
     resizeMenu(): void;
     syncItemsFromValue(): void;
     syncValueFromItems(): void;
+    focus(option: FocusOptions): void;
     render(): TemplateResult<1>;
 }
 declare global {

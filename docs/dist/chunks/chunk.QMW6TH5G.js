@@ -66,7 +66,9 @@ function getResouceValue(keys) {
     resultMap = new Map();
     resultCache[getLocal()] = resultMap;
   }
-  resultMap.set(keys, result);
+  if (result != void 0) {
+    resultMap.set(keys, result);
+  }
   return result;
 }
 window.setLocal = setLocal;

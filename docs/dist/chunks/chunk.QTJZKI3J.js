@@ -1,6 +1,6 @@
 import {
   transfer_default
-} from "./chunk.2OC3UTJI.js";
+} from "./chunk.XBEDWXV7.js";
 
 // src/react/transfer/index.ts
 import * as React from "react";

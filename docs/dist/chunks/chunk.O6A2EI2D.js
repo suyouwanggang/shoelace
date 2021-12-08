@@ -1,6 +1,6 @@
 import {
   date_panel_default
-} from "./chunk.DZXWHBKX.js";
+} from "./chunk.ISU2BKUL.js";
 
 // src/react/date-panel/index.ts
 import * as React from "react";

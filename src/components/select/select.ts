@@ -390,12 +390,12 @@ export default class SlSelect extends LitElement {
             @click=${this.handleTagInteraction}
             @keydown=${this.handleTagInteraction}
             @sl-remove=${(event: CustomEvent) => {
-              event.stopPropagation();
-              if (!this.disabled) {
-                item.checked = false;
-                this.syncValueFromItems();
-              }
-            }}
+            event.stopPropagation();
+            if (!this.disabled) {
+              item.checked = false;
+              this.syncValueFromItems();
+            }
+          }}
           >
             ${this.getItemLabel(item)}
           </sl-tag>
@@ -427,7 +427,14 @@ export default class SlSelect extends LitElement {
       this.value = checkedValues.length > 0 ? checkedValues[0] : '';
     }
   }
-
+  focus(option: FocusOptions) {
+    this.updateComplete.then(() => {
+      const input = this.renderRoot.querySelector(`div#${this.inputId}`) as HTMLLIElement;
+      if (input) {
+        input.focus(option);
+      }
+    })
+  }
   render() {
     const hasSelection = this.multiple ? (this.value as Array<string | number>)?.length > 0 : this.value !== '';
 
@@ -451,23 +458,23 @@ export default class SlSelect extends LitElement {
           .containingElement=${this}
           ?disabled=${this.disabled}
           class=${classMap({
-            select: true,
-            'select--open': this.isOpen,
-            'select--empty': this.value == '' || (isArray(this.value) && this.value.length === 0),
-            'select--focused': this.hasFocus,
-            'select--clearable': this.clearable,
-            'select--disabled': this.disabled,
-            'select--multiple': this.multiple,
-            'select--standard': !this.filled,
-            'select--filled': this.filled,
-            'select--has-tags': this.multiple && this.displayTags.length > 0,
-            'select--placeholder-visible': this.displayLabel === '',
-            'select--small': this.size === 'small',
-            'select--medium': this.size === 'medium',
-            'select--large': this.size === 'large',
-            'select--pill': this.pill,
-            'select--invalid': this.invalid
-          })}
+        select: true,
+        'select--open': this.isOpen,
+        'select--empty': this.value == '' || (isArray(this.value) && this.value.length === 0),
+        'select--focused': this.hasFocus,
+        'select--clearable': this.clearable,
+        'select--disabled': this.disabled,
+        'select--multiple': this.multiple,
+        'select--standard': !this.filled,
+        'select--filled': this.filled,
+        'select--has-tags': this.multiple && this.displayTags.length > 0,
+        'select--placeholder-visible': this.displayLabel === '',
+        'select--small': this.size === 'small',
+        'select--medium': this.size === 'medium',
+        'select--large': this.size === 'large',
+        'select--pill': this.pill,
+        'select--invalid': this.invalid
+      })}
           @sl-show=${this.handleMenuShow}
           @sl-hide=${this.handleMenuHide}
         >
@@ -478,15 +485,15 @@ export default class SlSelect extends LitElement {
             class="select__control"
             role="combobox"
             aria-labelledby=${ifDefined(
-              getLabelledBy({
-                label: this.label,
-                labelId: this.labelId,
-                hasLabelSlot: this.hasLabelSlot,
-                helpText: this.helpText,
-                helpTextId: this.helpTextId,
-                hasHelpTextSlot: this.hasHelpTextSlot
-              })
-            )}
+        getLabelledBy({
+          label: this.label,
+          labelId: this.labelId,
+          hasLabelSlot: this.hasLabelSlot,
+          helpText: this.helpText,
+          helpTextId: this.helpTextId,
+          hasHelpTextSlot: this.hasHelpTextSlot
+        })
+      )}
             aria-haspopup="true"
             aria-expanded=${this.isOpen ? 'true' : 'false'}
             tabindex=${this.disabled ? '-1' : '0'}
@@ -501,14 +508,14 @@ export default class SlSelect extends LitElement {
             <div class="select__label">${this.displayTags.length ? html` <span part="tags" class="select__tags"> ${this.displayTags} </span> ` : this.displayLabel || this.placeholder}</div>
 
             ${this.clearable && hasSelection
-              ? html`
+          ? html`
                   <button part="clear-button" class="select__clear" library="system" @click=${this.handleClearClick} tabindex="-1">
                     <slot name="clear-icon">
                       <sl-icon name="x-circle-fill" library="system"></sl-icon>
                     </slot>
                   </button>
                 `
-              : ''}
+          : ''}
 
             <span part="suffix" class="select__suffix">
               <slot name="suffix"></slot>
