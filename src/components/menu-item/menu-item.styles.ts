@@ -68,8 +68,8 @@ export default css`
   :host(:hover:not([aria-disabled='true'])) .menu-item,
   :host(${focusVisibleSelector}:not(.sl-focus-invisible):not([aria-disabled='true'])) .menu-item {
     outline: none;
-    background-color: rgb(var(--sl-color-primary-600));
-    color: rgb(var(--sl-color-neutral-0));
+    background-color: var(--sl-color-primary-600);
+    color: var(--sl-color-neutral-0);
   }
 
   .menu-item .menu-item__check {

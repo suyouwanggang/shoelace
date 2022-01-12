@@ -1,20 +1,17 @@
 import chalk from 'chalk';
-import commandLineArgs from 'command-line-args';
 import fs from 'fs';
 import del from 'del';
-import mkdirp from 'mkdirp';
 import path from 'path';
-import pascalCase from 'pascal-case';
+import { pascalCase } from 'pascal-case';
 import prettier from 'prettier';
 import prettierConfig from '../prettier.config.cjs';
-import { execSync } from 'child_process';
 import { getAllComponents } from './shared.js';
 
 const outdir = path.join('./src/react');
 
 // Clear build directory
 del.sync(outdir);
-mkdirp.sync(outdir);
+fs.mkdirSync(outdir, { recursive: true });
 
 // Fetch component metadata
 const metadata = JSON.parse(fs.readFileSync('./dist/custom-elements.json', 'utf8'));
@@ -31,7 +28,7 @@ components.map(component => {
   const componentFile = path.join(componentDir, 'index.ts');
   const importPath = component.modulePath.replace(/^src\//, '').replace(/\.ts$/, '');
 
-  mkdirp.sync(componentDir);
+  fs.mkdirSync(componentDir, { recursive: true });
 
   const events = (component.events || []).map(event => `${`on${pascalCase(event.name)}`}: '${event.name}'`).join(',\n');
 

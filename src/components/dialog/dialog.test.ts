@@ -1,3 +1,4 @@
+// cspell:dictionaries lorem-ipsum
 import { expect, fixture, html, waitUntil } from '@open-wc/testing';
 import sinon from 'sinon';
 
@@ -6,21 +7,27 @@ import type SlDialog from './dialog';
 
 describe('<sl-dialog>', () => {
   it('should be visible with the open attribute', async () => {
-    const el = await fixture<SlDialog>(html` <sl-dialog open>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</sl-dialog> `);
+    const el = await fixture<SlDialog>(html`
+      <sl-dialog open>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</sl-dialog>
+    `);
     const base = el.shadowRoot?.querySelector('[part="base"]') as HTMLElement;
 
     expect(base.hidden).to.be.false;
   });
 
   it('should not be visible without the open attribute', async () => {
-    const el = await fixture<SlDialog>(html` <sl-dialog>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</sl-dialog> `);
+    const el = await fixture<SlDialog>(
+      html` <sl-dialog>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</sl-dialog> `
+    );
     const base = el.shadowRoot?.querySelector('[part="base"]') as HTMLElement;
 
     expect(base.hidden).to.be.true;
   });
 
   it('should emit sl-show and sl-after-show when calling show()', async () => {
-    const el = await fixture<SlDialog>(html` <sl-dialog>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</sl-dialog> `);
+    const el = await fixture<SlDialog>(html`
+      <sl-dialog>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</sl-dialog>
+    `);
     const base = el.shadowRoot?.querySelector('[part="base"]') as HTMLElement;
     const showHandler = sinon.spy();
     const afterShowHandler = sinon.spy();
@@ -56,7 +63,9 @@ describe('<sl-dialog>', () => {
   });
 
   it('should emit sl-show and sl-after-show when setting open = true', async () => {
-    const el = await fixture<SlDialog>(html` <sl-dialog>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</sl-dialog> `);
+    const el = await fixture<SlDialog>(html`
+      <sl-dialog>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</sl-dialog>
+    `);
     const base = el.shadowRoot?.querySelector('[part="base"]') as HTMLElement;
     const showHandler = sinon.spy();
     const afterShowHandler = sinon.spy();
@@ -74,7 +83,9 @@ describe('<sl-dialog>', () => {
   });
 
   it('should emit sl-hide and sl-after-hide when setting open = false', async () => {
-    const el = await fixture<SlDialog>(html` <sl-dialog open>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</sl-dialog> `);
+    const el = await fixture<SlDialog>(html`
+      <sl-dialog open>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</sl-dialog>
+    `);
     const base = el.shadowRoot?.querySelector('[part="base"]') as HTMLElement;
     const hideHandler = sinon.spy();
     const afterHideHandler = sinon.spy();
@@ -92,7 +103,9 @@ describe('<sl-dialog>', () => {
   });
 
   it('should not close when sl-request-close is prevented', async () => {
-    const el = await fixture<SlDialog>(html` <sl-dialog open>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</sl-dialog> `);
+    const el = await fixture<SlDialog>(html`
+      <sl-dialog open>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</sl-dialog>
+    `);
     const overlay = el.shadowRoot?.querySelector('[part="overlay"]') as HTMLElement;
 
     el.addEventListener('sl-request-close', event => event.preventDefault());

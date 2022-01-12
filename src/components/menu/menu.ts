@@ -184,7 +184,14 @@ export default class SlMenu extends LitElement {
 
   render() {
     return html`
-      <div part="base" class="menu" role="menu" @click=${this.handleClick} @keydown=${this.handleKeyDown} @keyup=${this.handleKeyUp} @mousedown=${this.handleMouseDown}>
+      <div
+        part="base"
+        class="menu"
+        @click=${this.handleClick}
+        @keydown=${this.handleKeyDown}
+        @keyup=${this.handleKeyUp}
+        @mousedown=${this.handleMouseDown}
+      >
         <slot @slotchange=${this.handleSlotChange}></slot>
       </div>
     `;

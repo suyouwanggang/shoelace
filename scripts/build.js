@@ -5,8 +5,8 @@ import copy from 'recursive-copy';
 import del from 'del';
 import esbuild from 'esbuild';
 import fs from 'fs';
-import getPort from 'get-port';
-import glob from 'globby';
+import getPort, { portNumbers } from 'get-port';
+import { globby } from 'globby';
 import mkdirp from 'mkdirp';
 import path from 'path';
 import { URL } from 'url';
@@ -26,8 +26,7 @@ const { bundle, copydir, dir, serve, types } = commandLineArgs([
 const outdir = dir;
 
 del.sync(outdir);
-del.sync('/docs/dist');
-mkdirp.sync(outdir);
+fs.mkdirSync(outdir, { recursive: true });
 
 (async () => {
   try {
@@ -52,15 +51,17 @@ mkdirp.sync(outdir);
         // The whole shebang
         './src/shoelace.ts',
         // Components
-        ...(await glob('./src/components/**/!(*.(style|test)).ts')),
+        ...(await globby('./src/components/**/!(*.(style|test)).ts')),
+	 // Translations
+        ...(await globby('./src/translations/**/*.ts')),
         //资源文件
-        ...(await glob('./src/resources/**/!(*.(style|test)).ts')),
+        ...(await globby('./src/resources/**/!(*.(style|test)).ts')),
         // Public utilities
-        ...(await glob('./src/utilities/**/!(*.(style|test)).ts')),
+        ...(await globby('./src/utilities/**/!(*.(style|test)).ts')),
         // Theme stylesheets
-        ...(await glob('./src/themes/**/!(*.test).ts')),
+        ...(await globby('./src/themes/**/!(*.test).ts')),
         // React wrappers
-        ...(await glob('./src/react/**/*.ts'))
+        ...(await globby('./src/react/**/*.ts'))
       ],
       outdir: outdir,
       chunkNames: 'chunks/[name].[hash]',
@@ -76,7 +77,9 @@ mkdirp.sync(outdir);
       //
       // We never bundle React or @lit-labs/react though!
       //
-      external: bundle ? alwaysExternal : [...alwaysExternal, '@popperjs/core', '@shoelace-style/animations', 'lit', 'qr-creator'],
+      external: bundle
+        ? alwaysExternal
+        : [...alwaysExternal, '@popperjs/core', '@shoelace-style/animations', 'lit', 'qr-creator'],
       splitting: true,
       plugins: [listCssPlugin({ filter: /\.litcss$/, specifier: 'lit', tag: 'css', uglify: true })]
     })
@@ -96,7 +99,7 @@ mkdirp.sync(outdir);
   // Dev server
   if (serve) {
     const port = await getPort({
-      port: getPort.makeRange(4000, 4999)
+      port: portNumbers(4000, 4999)
     });
 
     // Make sure docs/dist is empty since we're serving it virtually

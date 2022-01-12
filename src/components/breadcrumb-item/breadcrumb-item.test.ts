@@ -15,7 +15,7 @@ describe('<sl-breadcrumb-item>', () => {
       await expect(el).to.be.accessible();
     });
 
-    it('should hide the seperator from screen readers', async () => {
+    it('should hide the separator from screen readers', async () => {
       const separator: HTMLSpanElement = el.shadowRoot.querySelector('[part="separator"]');
       expect(separator).attribute('aria-hidden', 'true');
     });
@@ -30,7 +30,9 @@ describe('<sl-breadcrumb-item>', () => {
   describe('when provided a href attribute', async () => {
     describe('and no target', () => {
       before(async () => {
-        el = await fixture<SlBreadcrumbItem>(html` <sl-breadcrumb-item href="https://jsonplaceholder.typicode.com/">Home</sl-breadcrumb-item> `);
+        el = await fixture<SlBreadcrumbItem>(html`
+          <sl-breadcrumb-item href="https://jsonplaceholder.typicode.com/">Home</sl-breadcrumb-item>
+        `);
       });
 
       it('should render a component that passes accessibility test', async () => {
@@ -119,7 +121,7 @@ describe('<sl-breadcrumb-item>', () => {
 
     it('should append class "breadcrumb-item--has-prefix" to "base" part', () => {
       const part = el.shadowRoot?.querySelector('[part="base"]') as HTMLElement;
-      expect(part.classList.value).to.equal('breadcrumb-item breadcrumb-item--has-prefix');
+      expect(part.classList.value.trim()).to.equal('breadcrumb-item breadcrumb-item--has-prefix');
     });
   });
 
@@ -146,7 +148,7 @@ describe('<sl-breadcrumb-item>', () => {
 
     it('should append class "breadcrumb-item--has-suffix" to "base" part', () => {
       const part = el.shadowRoot?.querySelector('[part="base"]') as HTMLElement;
-      expect(part.classList.value).to.equal('breadcrumb-item breadcrumb-item--has-suffix');
+      expect(part.classList.value.trim()).to.equal('breadcrumb-item breadcrumb-item--has-suffix');
     });
   });
 });

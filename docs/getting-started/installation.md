@@ -17,7 +17,7 @@ The easiest way to install Shoelace is with the CDN. Just add the following tags
 
 ### Dark Theme
 
-If you prefer to use the dark theme instead, use this. Note the `sl-theme-dark` class on the `<html>` element. [Learn more about the Dark Theme.](/getting-started/themes#dark-theme)
+If you prefer to use the [dark theme](/getting-started/themes#dark-theme) instead, use this code and add `<html class="sl-theme-dark">` to the page.
 
 ```html
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@%VERSION%/dist/themes/dark.css">
@@ -67,13 +67,13 @@ However, if you're [cherry picking](#cherry-picking) or [bundling](#bundling) Sh
 
 ```html
 <!-- Option 1: the data-shoelace attribute -->
-<script src="bundle.js" data-shoelace="/path/to/shoelace"></script>
+<script src="bundle.js" data-shoelace="/path/to/shoelace/dist"></script>
 
 <!-- Option 2: the setBasePath() method -->
 <script src="bundle.js"></script>
 <script type="module">
   import { setBasePath } from '@shoelace-style/shoelace/dist/utilities/base-path.js';
-  setBasePath('/path/to/shoelace');
+  setBasePath('/path/to/shoelace/dist');
 </script>
 ```
 
@@ -88,9 +88,9 @@ Cherry picking can be done from your local install or [directly from the CDN](ht
 Here's an example that loads only the button component. Again, if you're not using a module resolver, you'll need to adjust the path to point to the folder Shoelace is in.
 
 ```html
-<link rel="stylesheet" href="@shoelace-style/shoelace/dist/themes/light.css">
+<link rel="stylesheet" href="/path/to/shoelace/dist/themes/light.css">
 
-<script type="module" data-shoelace="/path/to/shoelace">
+<script type="module" data-shoelace="/path/to/shoelace/dist">
   import '@shoelace-style/shoelace/dist/components/button/button.js';
 
   // <sl-button> is ready to use!
@@ -129,7 +129,7 @@ import '@shoelace-style/shoelace/dist/components/rating/rating.js';
 import { setBasePath } from '@shoelace-style/shoelace/dist/utilities/base-path.js';
 
 // Set the base path to the folder you copied Shoelace's assets to
-setBasePath('/dist/shoelace');
+setBasePath('/path/to/shoelace/dist');
 
 // <sl-button>, <sl-icon>, <sl-input>, and <sl-rating> are ready to use!
 ```

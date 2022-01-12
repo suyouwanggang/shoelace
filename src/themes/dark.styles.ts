@@ -10,7 +10,7 @@ export default css`
     /* Gray */
     --sl-color-gray-50: hsl(240 5.1% 15%);
     --sl-color-gray-100: hsl(240 5.7% 18.2%);
-    --sl-color-gray-200: hsl(240 4.6% 21.5%);
+    --sl-color-gray-200: hsl(240 4.6% 22%);
     --sl-color-gray-300: hsl(240 5% 27.6%);
     --sl-color-gray-400: hsl(240 5% 35.5%);
     --sl-color-gray-500: hsl(240 3.7% 44%);
@@ -422,8 +422,8 @@ export default css`
     --sl-input-height-large: 3.125rem; /* 50px */
 
     --sl-input-background-color: var(--sl-color-neutral-0);
-    --sl-input-background-color-hover: var(--sl-color-neutral-0);
-    --sl-input-background-color-focus: var(--sl-color-neutral-0);
+    --sl-input-background-color-hover: var(--sl-input-background-color);
+    --sl-input-background-color-focus: var(--sl-input-background-color);
     --sl-input-background-color-disabled: var(--sl-color-neutral-100);
     --sl-input-border-color: var(--sl-color-neutral-300);
     --sl-input-border-color-hover: var(--sl-color-neutral-400);
@@ -457,7 +457,7 @@ export default css`
 
     --sl-input-filled-background-color: var(--sl-color-neutral-100);
     --sl-input-filled-background-color-hover: var(--sl-color-neutral-100);
-    --sl-input-filled-background-color-focus: var(--sl-color-neutral-0);
+    --sl-input-filled-background-color-focus: var(--sl-color-neutral-100);
     --sl-input-filled-background-color-disabled: var(--sl-color-neutral-100);
     --sl-input-filled-color: var(--sl-color-neutral-800);
     --sl-input-filled-color-hover: var(--sl-color-neutral-800);
@@ -511,7 +511,7 @@ export default css`
     --sl-tooltip-arrow-start-end-offset: 8px;
 
     /*
-     * Z-index tokens
+     * Z-indexes
      */
 
     --sl-z-index-drawer: 700;

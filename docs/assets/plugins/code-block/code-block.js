@@ -86,7 +86,9 @@
         <button
           type="button"
           title="Show React code"
-          class="code-block__button code-block__button--react ${flavor === 'react' ? 'code-block__button--selected' : ''}"
+          class="code-block__button code-block__button--react ${
+            flavor === 'react' ? 'code-block__button--selected' : ''
+          }"
         >
           React
         </button>
@@ -250,8 +252,12 @@
 
     // Update flavor buttons
     [...document.querySelectorAll('.code-block')].map(codeBlock => {
-      codeBlock.querySelector('.code-block__button--html')?.classList.toggle('code-block__button--selected', flavor === 'html');
-      codeBlock.querySelector('.code-block__button--react')?.classList.toggle('code-block__button--selected', flavor === 'react');
+      codeBlock
+        .querySelector('.code-block__button--html')
+        ?.classList.toggle('code-block__button--selected', flavor === 'html');
+      codeBlock
+        .querySelector('.code-block__button--react')
+        ?.classList.toggle('code-block__button--selected', flavor === 'react');
     });
   });
 
@@ -287,6 +293,9 @@
       const htmlExample = codeBlock.querySelector('.code-block__source--html > pre > code')?.textContent;
       const reactExample = codeBlock.querySelector('.code-block__source--react > pre > code')?.textContent;
       const isReact = flavor === 'react' && typeof reactExample === 'string';
+      const theme = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const isDark = theme === 'dark' || (theme === 'auto' && prefersDark);
       const editors = isReact ? '0010' : '1000';
       let htmlTemplate = '';
       let jsTemplate = '';
@@ -299,7 +308,10 @@
 
       // HTML templates
       if (!isReact) {
-        htmlTemplate = `<script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@${version}/dist/shoelace.js"></script>\n` + '\n' + htmlExample;
+        htmlTemplate =
+          `<script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@${version}/dist/shoelace.js"></script>\n` +
+          '\n' +
+          htmlExample;
         jsTemplate = '';
       }
 
@@ -321,7 +333,17 @@
       }
 
       // CSS templates
-      cssTemplate = `@import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@${version}/dist/themes/light.css';\n` + '\n' + 'body {\n' + '  font: 16px sans-serif;\n' + '  padding: 1rem;\n' + '}';
+      cssTemplate =
+        `@import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@${version}/dist/themes/${
+          isDark ? 'dark' : 'light'
+        }.css';\n` +
+        '\n' +
+        'body {\n' +
+        '  font: 16px sans-serif;\n' +
+        '  background-color: var(--sl-color-neutral-0);\n' +
+        '  color: var(--sl-color-neutral-900);\n' +
+        '  padding: 1rem;\n' +
+        '}';
 
       // Docs: https://blog.codepen.io/documentation/prefill/
       const data = {
@@ -330,6 +352,7 @@
         tags: ['shoelace', 'web components'],
         editors,
         head: `<meta name="viewport" content="width=device-width">`,
+        html_classes: `sl-theme-${isDark ? 'dark' : 'light'}`,
         css_external: ``,
         js_external: ``,
         js_module: true,

@@ -8,8 +8,8 @@ The mutation observer will report changes to the content it wraps through the `s
 
 ```html preview
 <div class="mutation-overview">
-  <sl-mutation-observer attr="type">
-    <sl-button type="primary">Click to mutate</sl-button>
+  <sl-mutation-observer attr="variant">
+    <sl-button variant="primary">Click to mutate</sl-button>
   </sl-mutation-observer>
 
   <br>
@@ -19,13 +19,13 @@ The mutation observer will report changes to the content it wraps through the `s
     const container = document.querySelector('.mutation-overview');
     const mutationObserver = container.querySelector('sl-mutation-observer');
     const button = container.querySelector('sl-button');
-    const types = ['primary', 'success', 'neutral', 'warning', 'danger']; 
+    const variants = ['primary', 'success', 'neutral', 'warning', 'danger']; 
     let clicks = 0;
 
-    // Change the button's type attribute
+    // Change the button's variant attribute
     button.addEventListener('click', () => {
       clicks++;
-      button.setAttribute('type', types[clicks % types.length]);
+      button.setAttribute('variant', variants[clicks % variants.length]);
     });
 
     // Log mutations
@@ -95,7 +95,7 @@ Use the `child-list` attribute to watch for new child elements that are added or
 <div class="mutation-child-list">
   <sl-mutation-observer child-list>
     <div class="buttons">
-      <sl-button type="primary">Add button</sl-button>
+      <sl-button variant="primary">Add button</sl-button>
     </div>
   </sl-mutation-observer>
 
@@ -105,7 +105,7 @@ Use the `child-list` attribute to watch for new child elements that are added or
     const container = document.querySelector('.mutation-child-list');
     const mutationObserver = container.querySelector('sl-mutation-observer');
     const buttons = container.querySelector('.buttons');
-    const button = container.querySelector('sl-button[type="primary"]');
+    const button = container.querySelector('sl-button[variant="primary"]');
     let i = 0;
 
     // Add a button
@@ -117,7 +117,7 @@ Use the `child-list` attribute to watch for new child elements that are added or
 
     // Remove a button
     buttons.addEventListener('click', event => {
-      const target = event.target.closest('sl-button:not([type="primary"])');
+      const target = event.target.closest('sl-button:not([variant="primary"])');
       event.stopPropagation();
 
       if (target) {
@@ -176,9 +176,9 @@ const App = () => {
           onSlMutation={event => console.log(event.detail)}
         >
           <div className="buttons">
-            <SlButton type="primary" onClick={addButton}>Add button</SlButton>
+            <SlButton variant="primary" onClick={addButton}>Add button</SlButton>
             {buttonIds.map(id => (
-              <SlButton key={id} type="default" onClick={() => removeButton(id)}>
+              <SlButton key={id} variant="default" onClick={() => removeButton(id)}>
                 {id}
               </SlButton>
             ))}

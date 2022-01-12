@@ -66,15 +66,17 @@
 
       // Toggle themes when pressing backslash
       document.addEventListener('keydown', event => {
-        if (event.key === '\\' && !event.composedPath().some(el => ['input', 'textarea'].includes(el?.tagName?.toLowerCase()))) {
+        if (
+          event.key === '\\' &&
+          !event.composedPath().some(el => ['input', 'textarea'].includes(el?.tagName?.toLowerCase()))
+        ) {
           event.preventDefault();
 
           setTheme(isDark() ? 'light' : 'dark');
-          show();
         }
       });
 
-      // Set the intial theme and sync the UI
+      // Set the initial theme and sync the UI
       setTheme(theme);
     });
   });

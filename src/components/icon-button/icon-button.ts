@@ -50,12 +50,18 @@ export default class SlIconButton extends LitElement {
   render() {
     const isLink = this.href ? true : false;
 
-    const interior = html` <sl-icon name=${ifDefined(this.name)} library=${ifDefined(this.library)} src=${ifDefined(this.src)} aria-hidden="true"></sl-icon> `;
+    const interior = html`
+      <sl-icon
+        name=${ifDefined(this.name)}
+        library=${ifDefined(this.library)}
+        src=${ifDefined(this.src)}
+        aria-hidden="true"
+      ></sl-icon>
+    `;
 
     return isLink
       ? html`
           <a
-            ref=${(el: HTMLLinkElement) => (this.button = el)}
             part="base"
             class="icon-button"
             href=${ifDefined(this.href)}

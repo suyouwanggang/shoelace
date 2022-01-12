@@ -188,7 +188,7 @@ export default class SlRouter extends LitElement {
     for (let temp of matchItems) {
       let tempResult: any;
       if (temp.import) {
-        tempResult = isFunction(temp.import) ? await temp.import() : await import(temp.import);
+        tempResult = isFunction(temp.import) ? /* @vite-ignore */  await temp.import() : /* @vite-ignore */  await import(temp.import);
       }
       importResult.push(tempResult);
     }
@@ -256,8 +256,8 @@ export default class SlRouter extends LitElement {
       } as RouterContextData;
       this.beforeRouter
         ? this.beforeRouter({ item: item, data: currentData }, this.routerItem ? { item: this.routerItem, data: this.routerData } : undefined, async () => {
-            this.excuteRouterComponenent(matchItems, pattern);
-          })
+          this.excuteRouterComponenent(matchItems, pattern);
+        })
         : this.excuteRouterComponenent(matchItems, pattern);
     } else {
       emit(this, 'not-found');

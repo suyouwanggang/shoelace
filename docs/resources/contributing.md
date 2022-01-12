@@ -104,7 +104,7 @@ This will generate a source file, a stylesheet, and a docs page for you. When yo
 
 Component development occurs _within_ the local docs site. I've found that offering common variations _in the docs_ is more beneficial for users than segmenting demos and code examples into separate tools such as Storybook. This encourages more thorough documentation, streamlines development for maintainers, and simplifies how the project is built. It also reduces installation and startup times significantly.
 
-There is currently no hot module reloading (HMR), as browsers don't provide a way to unregister custom elements. However, most changes to the source will reload the browser automatically. 
+There is currently no hot module reloading (HMR), as browsers don't provide a way to unregister custom elements. However, most changes to the source will reload the browser automatically.
 
 For more information about running and building the project locally, refer to `README.md` in the project's root.
 
@@ -171,7 +171,7 @@ Components should be composable, meaning you can easily reuse them with and with
 
 The `<sl-select>` component, for example, makes use of the dropdown, input, menu, and menu item components. Because it's offloading most of its functionality and styles to lower-level components, the select component remains lightweight and its appearance is consistent with other form controls and menus.
 
-### Component Stucture
+### Component Structure
 
 All components have a host element, which is a reference to the `<sl-*>` element itself. Make sure to always set the host element's `display` property to the appropriate value depending on your needs, as the default is `inline` per the custom element spec.
 
@@ -225,7 +225,7 @@ Then use the following syntax for comments so they appear in the generated docs.
 ```js
 /**
  * @cssproperty --color: The component's text color.
- * @cssproperty --background-color: The component's background color. 
+ * @cssproperty --background-color: The component's background color.
  */
 @customElement('sl-example')
 export default class SlExample {
@@ -251,10 +251,11 @@ This convention can be relaxed when the developer experience is greatly improved
 
 ### Form Controls
 
-Form controls should support validation through the following conventions:
+Form controls should support submission and validation through the following conventions:
 
-- All form controls must have an `invalid` property that reflects their validity
+- All form controls must use `name`, `value`, and `disabled` properties in the same manner as `HTMLInputElement`
 - All form controls must have a `setCustomValidity()` method so the user can set a custom validation message
 - All form controls must have a `reportValidity()` method that report their validity during form submission
+- All form controls must have an `invalid` property that reflects their validity
 - All form controls should mirror their native validation attributes such as `required`, `pattern`, `minlength`, `maxlength`, etc. when possible
-- All form controls must be serialized by `<sl-form>`
+- All form controls must be tested to work with the standard `<form>` element

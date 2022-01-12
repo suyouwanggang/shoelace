@@ -47,7 +47,9 @@
                 <td>
                   ${escapeHtml(prop.description)}
                 </td>
-                <td style="text-align: center;">${prop.reflects ? '<sl-icon label="yes" name="check"></sl-icon>' : ''}</td>
+                <td style="text-align: center;">${
+                  prop.reflects ? '<sl-icon label="yes" name="check"></sl-icon>' : ''
+                }</td>
                 <td>${prop.type?.text ? `<code>${escapeHtml(prop.type?.text || '')}</code>` : '-'}</td>
                 <td>${prop.default ? `<code>${escapeHtml(prop.default)}</code>` : '-'}</td>
               </tr>
@@ -65,7 +67,8 @@
     table.innerHTML = `
       <thead>
         <tr>
-          <th data-flavor="rect">Name</th>
+          <th data-flavor="html">Name</th>
+          <th data-flavor="react">React Event</th>
           <th>Description</th>
           <th>Event Detail</th>
         </tr>
@@ -75,9 +78,8 @@
           .map(
             event => `
               <tr>
-                <td data-flavor="rect">
-                <sl-tooltip content='reactName:${escapeHtml(event.reactName)}' ><code class="nowrap">${escapeHtml(event.name)}</code>
-                </sl-tooltip></td>
+                <td data-flavor="html"><code class="nowrap">${escapeHtml(event.name)}</code></td>
+                <td data-flavor="react"><code class="nowrap">${escapeHtml(event.reactName)}</code></td>
                 <td>${escapeHtml(event.description)}</td>
                 <td>${event.type?.text ? `<code>${escapeHtml(event.type?.text)}` : '-'}</td>
               </tr>
@@ -111,7 +113,9 @@
                   ${
                     method.parameters?.length
                       ? `
-                        <code>${escapeHtml(method.parameters.map(param => `${param.name}: ${param.type && param.type.text ? param.type.text : ''}`).join(', '))}</code>
+                        <code>${escapeHtml(
+                          method.parameters.map(param => `${param.name}: ${param.type.text}`).join(', ')
+                        )}</code>
                       `
                       : '-'
                   }
@@ -159,6 +163,7 @@
         <tr>
           <th>Name</th>
           <th>Description</th>
+          <th>Default</th>
         </tr>
       </thead>
       <tbody>
@@ -166,8 +171,9 @@
           .map(
             style => `
               <tr>
-                <td><code>${escapeHtml(style.name)}</code></td>
+                <td class="nowrap"><code>${escapeHtml(style.name)}</code></td>
                 <td>${escapeHtml(style.description)}</td>
+                <td><code>${escapeHtml(style.default)}</code></td>
               </tr>
             `
           )
@@ -234,7 +240,7 @@
     const ul = document.createElement('ul');
     const dependencies = [];
 
-    // Recursively fetch subdependencies
+    // Recursively fetch sub-dependencies
     function getDependencies(tag) {
       const component = allComponents.find(c => c.tagName === tag);
       if (!component || !Array.isArray(component.dependencies)) {
@@ -353,11 +359,11 @@
             </div>
 
             <div class="component-header__info">
-              <sl-badge type="neutral" pill>
+              <sl-badge variant="neutral" pill>
                 Since ${component.since || '?'}
               </sl-badge>
 
-              <sl-badge type="${badgeType}" pill style="text-transform: capitalize;">
+              <sl-badge variant="${badgeType}" pill style="text-transform: capitalize;">
                 ${component.status}
               </sl-badge>
             </div>
@@ -518,6 +524,7 @@
     hook.doneEach(function () {
       const content = document.querySelector('.content');
       const tables = [...content.querySelectorAll('table')];
+
       tables.map(table => {
         table.outerHTML = `
           <div class="table-wrapper">

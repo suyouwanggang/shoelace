@@ -1,3 +1,5 @@
+<!-- cspell:dictionaries lorem-ipsum -->
+
 # Dialog
 
 [component-header:sl-dialog]
@@ -7,7 +9,7 @@ Dialogs, sometimes called "modals", appear above the page and require the user's
 ```html preview
 <sl-dialog label="Dialog" class="dialog-overview">
   Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-  <sl-button slot="footer" type="primary">Close</sl-button>
+  <sl-button slot="footer" variant="primary">Close</sl-button>
 </sl-dialog>
 
 <sl-button>Open Dialog</sl-button>
@@ -83,14 +85,9 @@ const App = () => {
 
   return (
     <>
-      <SlDialog 
-        label="Dialog" 
-        open={open} 
-        style={{ '--width': '50vw' }} 
-        onSlAfterHide={() => setOpen(false)}
-      >
+      <SlDialog label="Dialog" open={open} style={{ '--width': '50vw' }} onSlAfterHide={() => setOpen(false)}>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        <SlButton slot="footer" type="primary" onClick={() => setOpen(false)}>
+        <SlButton slot="footer" variant="primary" onClick={() => setOpen(false)}>
           Close
         </SlButton>
       </SlDialog>
@@ -135,15 +132,17 @@ const App = () => {
   return (
     <>
       <SlDialog label="Dialog" open={open} onSlAfterHide={() => setOpen(false)}>
-        <div style={{
-          height: '150vh',
-          border: 'dashed 2px var(--sl-color-neutral-200)',
-          padding: '0 1rem'
-        }}>
+        <div
+          style={{
+            height: '150vh',
+            border: 'dashed 2px var(--sl-color-neutral-200)',
+            padding: '0 1rem'
+          }}
+        >
           <p>Scroll down and give it a try! 👇</p>
         </div>
 
-        <SlButton slot="footer" type="primary" onClick={() => setOpen(false)}>
+        <SlButton slot="footer" variant="primary" onClick={() => setOpen(false)}>
           Close
         </SlButton>
       </SlDialog>
@@ -163,7 +162,7 @@ To keep the dialog open in such cases, you can cancel the `sl-request-close` eve
 ```html preview
 <sl-dialog label="Dialog" class="dialog-deny-close">
   This dialog will not close unless you use the button below.
-  <sl-button slot="footer" type="primary">Save &amp; Close</sl-button>
+  <sl-button slot="footer" variant="primary">Save &amp; Close</sl-button>
 </sl-dialog>
 
 <sl-button>Open Dialog</sl-button>
@@ -196,7 +195,7 @@ const App = () => {
         onSlAfterHide={() => setOpen(false)}
       >
         This dialog will not close unless you use the button below.
-        <SlButton slot="footer" type="primary" onClick={() => setOpen(false)}>
+        <SlButton slot="footer" variant="primary" onClick={() => setOpen(false)}>
           Save &amp; Close
         </SlButton>
       </SlDialog>
@@ -214,7 +213,7 @@ By default, the dialog's panel will gain focus when opened. This allows a subseq
 ```html preview
 <sl-dialog label="Dialog" class="dialog-focus">
   <sl-input placeholder="I will have focus when the dialog is opened"></sl-input>
-  <sl-button slot="footer" type="primary">Close</sl-button>
+  <sl-button slot="footer" variant="primary">Close</sl-button>
 </sl-dialog>
 
 <sl-button>Open Dialog</sl-button>
@@ -237,11 +236,7 @@ By default, the dialog's panel will gain focus when opened. This allows a subseq
 
 ```jsx react
 import { useRef, useState } from 'react';
-import { 
-  SlButton, 
-  SlDialog, 
-  SlInput 
-} from '@shoelace-style/shoelace/dist/react';
+import { SlButton, SlDialog, SlInput } from '@shoelace-style/shoelace/dist/react';
 
 const App = () => {
   const input = useRef(null);
@@ -254,14 +249,9 @@ const App = () => {
 
   return (
     <>
-      <SlDialog 
-        label="Dialog" 
-        open={open} 
-        onSlInitialFocus={handleInitialFocus}
-        onSlAfterHide={() => setOpen(false)}
-      >
+      <SlDialog label="Dialog" open={open} onSlInitialFocus={handleInitialFocus} onSlAfterHide={() => setOpen(false)}>
         <SlInput ref={input} placeholder="I will have focus when the dialog is opened" />
-        <SlButton slot="footer" type="primary" onClick={() => setOpen(false)}>
+        <SlButton slot="footer" variant="primary" onClick={() => setOpen(false)}>
           Close
         </SlButton>
       </SlDialog>

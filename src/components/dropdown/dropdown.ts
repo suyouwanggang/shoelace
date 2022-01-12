@@ -4,7 +4,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import { Instance as PopperInstance, createPopper } from '@popperjs/core/dist/esm';
 import { animateTo, stopAnimations } from '../../internal/animate';
 import { emit } from '../../internal/event';
-import { watch } from '../../internal/watch';
+import { watchProps } from '../../internal/watchProps';
 import { waitForEvent } from '../../internal/event';
 import { scrollIntoView } from '../../internal/scroll';
 import { getTabbableBoundary } from '../../internal/tabbable';
@@ -12,9 +12,7 @@ import { setDefaultAnimation, getAnimation } from '../../utilities/animation-reg
 import type SlMenu from '../menu/menu';
 import type SlMenuItem from '../menu-item/menu-item';
 import styles from './dropdown.styles';
-import { watchProps } from '../../internal/watchProps';
-
-let id = 0;
+import { watch } from '../../internal/watch';
 
 /**
  * @since 2.0
@@ -43,7 +41,6 @@ export default class SlDropdown extends LitElement {
   @query('.dropdown__panel') panel: HTMLElement;
   @query('.dropdown__positioner') positioner: HTMLElement;
 
-  private componentId = `dropdown-${++id}`;
   private popover: PopperInstance;
 
   /** Indicates whether or not the dropdown is open. You can use this in lieu of the show/hide methods. */
@@ -120,7 +117,10 @@ export default class SlDropdown extends LitElement {
   disconnectedCallback() {
     super.disconnectedCallback();
     this.hide();
-    this.popover ? this.popover.destroy() : null;
+
+    if (this.popover) {
+      this.popover.destroy();
+    }
   }
 
   focusOnTrigger() {
@@ -158,7 +158,7 @@ export default class SlDropdown extends LitElement {
       //
       // If the dropdown is used within a shadow DOM, we need to obtain the activeElement within that shadowRoot,
       // otherwise `document.activeElement` will only return the name of the parent shadow DOM element.
-      Promise.resolve(() => {
+      setTimeout(() => {
         const activeElement = this.containingElement.getRootNode() instanceof ShadowRoot ? document.activeElement?.shadowRoot?.activeElement : document.activeElement;
 
         if (activeElement?.closest(this.containingElement.tagName.toLowerCase()) !== this.containingElement) {
@@ -386,7 +386,7 @@ export default class SlDropdown extends LitElement {
     return html`
       <div
         part="base"
-        id=${this.componentId}
+        id="dropdown"
         class=${classMap({
           dropdown: true,
           'dropdown--open': this.open
@@ -399,7 +399,7 @@ export default class SlDropdown extends LitElement {
         <!-- Position the panel with a wrapper since the popover makes use of translate. This let's us add animations
         on the panel without interfering with the position. -->
         <div class="dropdown__positioner">
-          <div part="panel" class="dropdown__panel" role="menu" aria-hidden=${this.open ? 'false' : 'true'} aria-labelledby=${this.componentId}>
+          <div part="panel" class="dropdown__panel" aria-hidden=${this.open ? 'false' : 'true'} aria-labelledby="dropdown">
             <slot></slot>
           </div>
         </div>

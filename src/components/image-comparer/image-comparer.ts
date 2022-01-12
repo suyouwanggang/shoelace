@@ -42,16 +42,14 @@ export default class SlImageComparer extends LitElement {
   handleDrag(event: any) {
     const { width } = this.base.getBoundingClientRect();
 
-    function drag(event: any, container: HTMLElement, onMove: (x: number, y: number) => void) {
+    function drag(event: any, container: HTMLElement, onMove: (x: number) => void) {
       const move = (event: any) => {
-        const dims = container.getBoundingClientRect();
-        const defaultView = container.ownerDocument.defaultView!;
-        const offsetX = dims.left + defaultView.pageXOffset;
-        const offsetY = dims.top + defaultView.pageYOffset;
+        const { left } = container.getBoundingClientRect();
+        const { pageXOffset } = container.ownerDocument.defaultView!;
+        const offsetX = left + pageXOffset;
         const x = (event.changedTouches ? event.changedTouches[0].pageX : event.pageX) - offsetX;
-        const y = (event.changedTouches ? event.changedTouches[0].pageY : event.pageY) - offsetY;
 
-        onMove(x, y);
+        onMove(x);
       };
 
       // Move on init
@@ -107,13 +105,31 @@ export default class SlImageComparer extends LitElement {
             <slot name="before"></slot>
           </div>
 
-          <div part="after" class="image-comparer__after" style=${styleMap({ clipPath: `inset(0 ${100 - this.position}% 0 0)` })}>
+          <div
+            part="after"
+            class="image-comparer__after"
+            style=${styleMap({ clipPath: `inset(0 ${100 - this.position}% 0 0)` })}
+          >
             <slot name="after"></slot>
           </div>
         </div>
 
-        <div part="divider" class="image-comparer__divider" style=${styleMap({ left: this.position + '%' })} @mousedown=${this.handleDrag} @touchstart=${this.handleDrag}>
-          <div part="handle" class="image-comparer__handle" role="scrollbar" aria-valuenow=${this.position} aria-valuemin="0" aria-valuemax="100" tabindex="0">
+        <div
+          part="divider"
+          class="image-comparer__divider"
+          style=${styleMap({ left: this.position + '%' })}
+          @mousedown=${this.handleDrag}
+          @touchstart=${this.handleDrag}
+        >
+          <div
+            part="handle"
+            class="image-comparer__handle"
+            role="scrollbar"
+            aria-valuenow=${this.position}
+            aria-valuemin="0"
+            aria-valuemax="100"
+            tabindex="0"
+          >
             <slot name="handle-icon">
               <sl-icon class="image-comparer__handle-icon" name="grip-vertical" library="system"></sl-icon>
             </slot>

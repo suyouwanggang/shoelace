@@ -1,20 +1,18 @@
 //
 // This script downloads and generates icons and icon metadata.
 //
-import Promise from 'bluebird';
 import chalk from 'chalk';
 import commandLineArgs from 'command-line-args';
 import copy from 'recursive-copy';
 import del from 'del';
 import download from 'download';
-import mkdirp from 'mkdirp';
 import fm from 'front-matter';
-import { readFileSync } from 'fs';
+import { readFileSync, mkdirSync } from 'fs';
 import { stat, readFile, writeFile } from 'fs/promises';
-import glob from 'globby';
+import { globby } from 'globby';
 import path from 'path';
 
-const { outdir, bundle } = commandLineArgs({ name: 'outdir', type: String }, { name: 'bundle', type: Boolean });
+const { outdir } = commandLineArgs({ name: 'outdir', type: String });
 const iconDir = path.join(outdir, '/assets/icons');
 
 const iconPackageData = JSON.parse(readFileSync('./node_modules/bootstrap-icons/package.json', 'utf8'));
@@ -36,25 +34,32 @@ let numIcons = 0;
 
     // Copy icons
     console.log(`Copying icons and license`);
-    del.sync([iconDir]);
-    await mkdirp(iconDir);
-    await Promise.all([copy(`${srcPath}/icons`, iconDir), copy(`${srcPath}/LICENSE.md`, path.join(iconDir, 'LICENSE.md')), copy(`${srcPath}/bootstrap-icons.svg`, './docs/assets/icons/sprite.svg', { overwrite: true })]);
+    await del([iconDir]);
+    mkdirSync(iconDir, { recursive: true });
+    await Promise.all([
+      copy(`${srcPath}/icons`, iconDir),
+      copy(`${srcPath}/LICENSE.md`, path.join(iconDir, 'LICENSE.md')),
+      copy(`${srcPath}/bootstrap-icons.svg`, './docs/assets/icons/sprite.svg', { overwrite: true })
+    ]);
+
     // Generate metadata
     console.log(`Generating icon metadata`);
-    const files = await glob(`${srcPath}/docs/content/icons/**/*.md`);
+    const files = await globby(`${srcPath}/docs/content/icons/**/*.md`);
 
-    const metadata = await Promise.map(files, async file => {
-      const name = path.basename(file, path.extname(file));
-      const data = fm(await readFile(file, 'utf8')).attributes;
-      numIcons++;
+    const metadata = await Promise.all(
+      files.map(async file => {
+        const name = path.basename(file, path.extname(file));
+        const data = fm(await readFile(file, 'utf8')).attributes;
+        numIcons++;
 
-      return {
-        name,
-        title: data.title,
-        categories: data.categories,
-        tags: data.tags
-      };
-    });
+        return {
+          name,
+          title: data.title,
+          categories: data.categories,
+          tags: data.tags
+        };
+      })
+    );
 
     await writeFile(path.join(iconDir, 'icons.json'), JSON.stringify(metadata, null, 2), 'utf8');
 

@@ -2,11 +2,10 @@ import { LitElement, html } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { emit } from '../../internal/event';
+import { LocalizeController } from '../../utilities/localize';
 import styles from './tab.styles';
 
 import '../icon-button/icon-button';
-
-let id = 0;
 
 /**
  * @since 2.0
@@ -24,10 +23,9 @@ let id = 0;
 @customElement('sl-tab')
 export default class SlTab extends LitElement {
   static styles = styles;
+  private localize = new LocalizeController(this);
 
   @query('.tab') tab: HTMLElement;
-
-  private componentId = `tab-${++id}`;
 
   /** The name of the tab panel the tab will control. The panel must be located in the same tab group. */
   @property({ reflect: true }) panel = '';
@@ -40,6 +38,9 @@ export default class SlTab extends LitElement {
 
   /** Draws the tab in a disabled state. */
   @property({ type: Boolean, reflect: true }) disabled = false;
+
+  /** The locale to render the component in. */
+  @property() lang: string;
 
   /** Sets focus to the tab. */
   focus(options?: FocusOptions) {
@@ -57,9 +58,7 @@ export default class SlTab extends LitElement {
 
   render() {
     // If the user didn't provide an ID, we'll set one so we can link tabs and tab panels with aria labels
-    this.id = this.id || this.componentId;
 
-    // TODO - i18n close label
     return html`
       <div
         part="base"
@@ -75,7 +74,9 @@ export default class SlTab extends LitElement {
         tabindex=${this.disabled || !this.active ? '-1' : '0'}
       >
         <slot></slot>
-        ${this.closable ? html` <sl-icon-button name="x" library="system" label="Close" exportparts="base:close-button" class="tab__close-button" @click=${this.handleCloseClick} tabindex="-1"></sl-icon-button> ` : ''}
+        ${this.closable
+          ? html` <sl-icon-button name="x" library="system" label=${this.localize.term('close')} exportparts="base:close-button" class="tab__close-button" @click=${this.handleCloseClick} tabindex="-1"></sl-icon-button> `
+          : ''}
       </div>
     `;
   }

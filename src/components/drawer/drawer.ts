@@ -1,5 +1,5 @@
 import { LitElement, html } from 'lit';
-import { customElement, property, query, state } from 'lit/decorators.js';
+import { customElement, property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { animateTo, stopAnimations } from '../../internal/animate';
@@ -7,7 +7,7 @@ import { emit } from '../../internal/event';
 import { watch } from '../../internal/watch';
 import { waitForEvent } from '../../internal/event';
 import { lockBodyScrolling, unlockBodyScrolling } from '../../internal/scroll';
-import { hasSlot } from '../../internal/slot';
+import { HasSlotController } from '../../internal/slot';
 import { uppercaseFirstLetter } from '../../internal/string';
 import { isPreventScrollSupported } from '../../internal/support';
 import Modal from '../../internal/modal';
@@ -17,8 +17,6 @@ import styles from './drawer.styles';
 import '../icon-button/icon-button';
 
 const hasPreventScroll = isPreventScrollSupported();
-
-let id = 0;
 
 /**
  * @since 2.0
@@ -75,11 +73,9 @@ export default class SlDrawer extends LitElement {
   @query('.drawer__panel') panel: HTMLElement;
   @query('.drawer__overlay') overlay: HTMLElement;
 
-  private componentId = `drawer-${++id}`;
+  private hasSlotController = new HasSlotController(this, 'footer');
   private modal: Modal;
   private originalTrigger: HTMLElement | null;
-
-  @state() private hasFooter = false;
 
   /** Indicates whether or not the drawer is open. You can use this in lieu of the show/hide methods. */
   @property({ type: Boolean, reflect: true }) open = false;
@@ -107,9 +103,7 @@ export default class SlDrawer extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-
     this.modal = new Modal(this);
-    this.handleSlotChange();
   }
 
   firstUpdated() {
@@ -211,7 +205,10 @@ export default class SlDrawer extends LitElement {
       await Promise.all([stopAnimations(this.drawer), stopAnimations(this.overlay)]);
       const panelAnimation = getAnimation(this, `drawer.hide${uppercaseFirstLetter(this.placement)}`);
       const overlayAnimation = getAnimation(this, 'drawer.overlay.hide');
-      await Promise.all([animateTo(this.panel, panelAnimation.keyframes, panelAnimation.options), animateTo(this.overlay, overlayAnimation.keyframes, overlayAnimation.options)]);
+      await Promise.all([
+        animateTo(this.panel, panelAnimation.keyframes, panelAnimation.options),
+        animateTo(this.overlay, overlayAnimation.keyframes, overlayAnimation.options)
+      ]);
 
       this.drawer.hidden = true;
 
@@ -223,10 +220,6 @@ export default class SlDrawer extends LitElement {
 
       emit(this, 'sl-after-hide');
     }
-  }
-
-  handleSlotChange() {
-    this.hasFooter = hasSlot(this, 'footer');
   }
 
   render() {
@@ -242,7 +235,7 @@ export default class SlDrawer extends LitElement {
           'drawer--start': this.placement === 'start',
           'drawer--contained': this.contained,
           'drawer--fixed': !this.contained,
-          'drawer--has-footer': this.hasFooter
+          'drawer--has-footer': this.hasSlotController.test('footer')
         })}
         @keydown=${this.handleKeyDown}
       >
@@ -255,17 +248,23 @@ export default class SlDrawer extends LitElement {
           aria-modal="true"
           aria-hidden=${this.open ? 'false' : 'true'}
           aria-label=${ifDefined(this.noHeader ? this.label : undefined)}
-          aria-labelledby=${ifDefined(!this.noHeader ? `${this.componentId}-title` : undefined)}
+          aria-labelledby=${ifDefined(!this.noHeader ? 'title' : undefined)}
           tabindex="0"
         >
           ${!this.noHeader
             ? html`
                 <header part="header" class="drawer__header">
-                  <span part="title" class="drawer__title" id=${`${this.componentId}-title`}>
-                    <!-- If there's no label, use an invisible character to prevent the heading from collapsing -->
+                  <span part="title" class="drawer__title" id="title">
+                    <!-- If there's no label, use an invisible character to prevent the header from collapsing -->
                     <slot name="label"> ${this.label || String.fromCharCode(65279)} </slot>
                   </span>
-                  <sl-icon-button exportparts="base:close-button" class="drawer__close" name="x" library="system" @click=${this.requestClose}></sl-icon-button>
+                  <sl-icon-button
+                    exportparts="base:close-button"
+                    class="drawer__close"
+                    name="x"
+                    library="system"
+                    @click=${this.requestClose}
+                  ></sl-icon-button>
                 </header>
               `
             : ''}
@@ -275,7 +274,7 @@ export default class SlDrawer extends LitElement {
           </div>
 
           <footer part="footer" class="drawer__footer">
-            <slot name="footer" @slotchange=${this.handleSlotChange}></slot>
+            <slot name="footer"></slot>
           </footer>
         </div>
       </div>

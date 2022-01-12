@@ -1,44 +1,52 @@
 import { emit } from '../internal/event';
 import resouceZh from '../resources/resource.zh';
+import { isFunction } from './common';
 let currentLocal = 'zh';
-type ResouceType = typeof resouceZh;
 /**
  * 全局 资源改变事件监听..
  */
 const resouce_changeEvent = `window-resouce-change-event`;
+
+/**
+ * 设置语言 资源
+ * @param locale 
+ * @param translateObject 
+ * @returns 
+ */
+const registerTranslator = async (locale: string, translateObject?: any) => {
+  if (!getSupportLocals().includes(locale)) {
+    throw new Error(`不支持的组件语言!支持的语言有${getSupportLocals().join(',')}`);
+  }
+  const localData = await loaderLocal(locale) as Object;
+  if (translateObject) {
+    Object.assign(localData, translateObject);
+    resourceMap[locale] = localData;
+  }
+  if(locale!=currentLocal){
+    currentLocal = locale;
+    emit(window, resouce_changeEvent, {
+      detail: {
+        locale: locale,
+        data: localData
+      }
+    })
+  }
+  return localData;
+}
 /**
  * 设置组件语言,通知加载自定义的语言资源
  * @param locale
  */
-async function setLocal(locale: string, loadOtherResouce?: (data: any) => void) {
-  if (!getSupportLocals().includes(locale)) {
-    throw new Error(`不支持的组件语言!支持的语言有${getSupportLocals().join(',')}`);
-  }
-  const localData = await loaderLocal(locale);
-  if (loadOtherResouce) {
-    loadOtherResouce(localData);
-  }
-  if (locale != currentLocal) {
-    currentLocal = locale;
-    emit(window, resouce_changeEvent, {
-      detail: {
-        local: locale,
-        data: localData
-      }
-    });
-  }
-  return localData;
-}
-type ResouceMapType = {
-  [key in string]: ResouceType;
-};
-const resourceMap: ResouceMapType = { zh: resouceZh };
+const setLocal = registerTranslator;
+
+
+const resourceMap: any = { zh: resouceZh };
 async function loaderLocal(locale: string) {
   if (resourceMap[locale]) {
-    return resourceMap[locale] as ResouceType;
+    return resourceMap[locale];
   }
   return import(`../resources/resource.${locale}.js`).then(ret => {
-    resourceMap[locale] = ret.default as ResouceType;
+    resourceMap[locale] = ret.default;
     return resourceMap[locale];
   });
 }
@@ -58,39 +66,38 @@ function getSupportLocals() {
   return supportLocals;
 }
 function setSupportLocals(...locale: string[]) {
+  supportLocals.splice(0, supportLocals.length);
   supportLocals.push(...locale);
 }
 
-const resultCache: {
-  [key: string]: Map<string, any>;
-} = {};
+
 /**
  * 获取资源数据
  * @param path,支持用'.' 分隔的路径
  * @returns
  */
 function getResouceValue(keys: string): any {
-  let resultMap = resultCache[getLocal()];
-  if (resultMap && resultMap.has(keys)) {
-    return resultMap.get(keys);
-  }
   let array = keys.split('.');
   let obj = resourceMap[getLocal()];
-  if (!obj) {
-    obj = resouceZh;
-  }
   let result = obj as any;
   for (let k of array) {
     result = result[k];
   }
-  if (!resultMap) {
-    resultMap = new Map<string, any>();
-    resultCache[getLocal()] = resultMap;
-  }
-  if (result != undefined) {
-    resultMap.set(keys, result);
-  }
   return result;
 }
+const translate = (resourceKey: string, ...args: any): any => {
+  const value = getResouceValue(resourceKey);
+  if (typeof value != 'undefined') {
+    if (isFunction(value)) {
+      return value(...args);
+    } else {
+      return value;
+    }
+  } else {
+    console.warn(`resource ${resourceKey} is not registor!`);
+  }
+  return undefined;
+}
 (window as any).setLocal = setLocal;
-export { setLocal, getLocal, getSupportLocals, setSupportLocals, getResouceValue, resouce_changeEvent };
+(window as any).getResouceValue = getResouceValue;
+export { setLocal, getLocal, getSupportLocals, setSupportLocals, getResouceValue, resouce_changeEvent, translate, registerTranslator };

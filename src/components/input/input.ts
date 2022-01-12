@@ -5,8 +5,8 @@ import { classMap } from 'lit/directives/class-map.js';
 import { live } from 'lit/directives/live.js';
 import { emit } from '../../internal/event';
 import { watch } from '../../internal/watch';
-import { getLabelledBy, renderFormControl } from '../../internal/form-control';
-import { hasSlot } from '../../internal/slot';
+import { FormSubmitController, getLabelledBy, renderFormControl } from '../../internal/form-control';
+import { HasSlotController } from '../../internal/slot';
 import styles from './input.styles';
 
 import '../icon/icon';
@@ -49,17 +49,19 @@ export default class SlInput extends LitElement {
 
   @query('.input__control') input: HTMLInputElement;
 
+  // @ts-ignore
+  private formSubmitController = new FormSubmitController(this);
+  private hasSlotController = new HasSlotController(this, 'help-text', 'label');
   private inputId = `input-${++id}`;
   private helpTextId = `input-help-text-${id}`;
   private labelId = `input-label-${id}`;
 
   @state() private hasFocus = false;
-  @state() private hasHelpTextSlot = false;
-  @state() private hasLabelSlot = false;
   @state() private isPasswordVisible = false;
 
   /** The input's type. */
-  @property({ reflect: true }) type: 'date' | 'email' | 'number' | 'password' | 'search' | 'tel' | 'text' | 'url' = 'text';
+  @property({ reflect: true }) type: 'date' | 'email' | 'number' | 'password' | 'search' | 'tel' | 'text' | 'url' =
+    'text';
 
   /** The input's size. */
   @property({ reflect: true }) size: 'small' | 'medium' | 'large' = 'medium';
@@ -124,7 +126,7 @@ export default class SlInput extends LitElement {
    */
   @property({ type: Boolean, reflect: true }) invalid = false;
 
-  /** The input's autocaptialize attribute. */
+  /** The input's autocapitalize attribute. */
   @property() autocapitalize: 'off' | 'none' | 'on' | 'sentences' | 'words' | 'characters';
 
   /** The input's autocorrect attribute. */
@@ -142,19 +144,28 @@ export default class SlInput extends LitElement {
   /** The input's inputmode attribute. */
   @property() inputmode: 'none' | 'text' | 'decimal' | 'numeric' | 'tel' | 'search' | 'email' | 'url';
 
-  connectedCallback() {
-    super.connectedCallback();
-    this.handleSlotChange = this.handleSlotChange.bind(this);
-    this.shadowRoot!.addEventListener('slotchange', this.handleSlotChange);
+  /** Gets or sets the current value as a `Date` object. Only valid when `type` is `date`. */
+  get valueAsDate() {
+    return this.input.valueAsDate as Date;
+  }
+
+  set valueAsDate(newValue: Date) {
+    this.input.valueAsDate = newValue;
+    this.value = this.input.value;
+  }
+
+  /** Gets or sets the current value as a number. */
+  get valueAsNumber() {
+    return this.input.valueAsNumber as number;
+  }
+
+  set valueAsNumber(newValue: number) {
+    this.input.valueAsNumber = newValue;
+    this.value = this.input.value;
   }
 
   firstUpdated() {
     this.invalid = !this.input.checkValidity();
-  }
-
-  disconnectedCallback() {
-    super.disconnectedCallback();
-    this.shadowRoot!.removeEventListener('slotchange', this.handleSlotChange);
   }
 
   /** Sets focus on the input. */
@@ -173,12 +184,21 @@ export default class SlInput extends LitElement {
   }
 
   /** Sets the start and end positions of the text selection (0-based). */
-  setSelectionRange(selectionStart: number, selectionEnd: number, selectionDirection: 'forward' | 'backward' | 'none' = 'none') {
+  setSelectionRange(
+    selectionStart: number,
+    selectionEnd: number,
+    selectionDirection: 'forward' | 'backward' | 'none' = 'none'
+  ) {
     return this.input.setSelectionRange(selectionStart, selectionEnd, selectionDirection);
   }
 
   /** Replaces a range of text with a new string. */
-  setRangeText(replacement: string, start: number, end: number, selectMode: 'select' | 'start' | 'end' | 'preserve' = 'preserve') {
+  setRangeText(
+    replacement: string,
+    start: number,
+    end: number,
+    selectMode: 'select' | 'start' | 'end' | 'preserve' = 'preserve'
+  ) {
     this.input.setRangeText(replacement, start, end, selectMode);
 
     if (this.value !== this.input.value) {
@@ -246,13 +266,6 @@ export default class SlInput extends LitElement {
     this.isPasswordVisible = !this.isPasswordVisible;
   }
 
-  @watch('helpText')
-  @watch('label')
-  handleSlotChange() {
-    this.hasHelpTextSlot = hasSlot(this, 'help-text');
-    this.hasLabelSlot = hasSlot(this, 'label');
-  }
-
   @watch('value')
   handleValueChange() {
     if (this.input) {
@@ -261,16 +274,19 @@ export default class SlInput extends LitElement {
   }
 
   render() {
+    const hasLabelSlot = this.hasSlotController.test('label');
+    const hasHelpTextSlot = this.hasSlotController.test('help-text');
+
     // NOTE - always bind value after min/max, otherwise it will be clamped
     return renderFormControl(
       {
         inputId: this.inputId,
         label: this.label,
         labelId: this.labelId,
-        hasLabelSlot: this.hasLabelSlot,
+        hasLabelSlot,
         helpTextId: this.helpTextId,
         helpText: this.helpText,
-        hasHelpTextSlot: this.hasHelpTextSlot,
+        hasHelpTextSlot,
         size: this.size
       },
       html`
@@ -325,10 +341,10 @@ export default class SlInput extends LitElement {
               getLabelledBy({
                 label: this.label,
                 labelId: this.labelId,
-                hasLabelSlot: this.hasLabelSlot,
+                hasLabelSlot,
                 helpText: this.helpText,
                 helpTextId: this.helpTextId,
-                hasHelpTextSlot: this.hasHelpTextSlot
+                hasHelpTextSlot
               })
             )}
             aria-invalid=${this.invalid ? 'true' : 'false'}
@@ -341,7 +357,13 @@ export default class SlInput extends LitElement {
 
           ${this.clearable && this.value?.length > 0
             ? html`
-                <button part="clear-button" class="input__clear" type="button" @click=${this.handleClearClick} tabindex="-1">
+                <button
+                  part="clear-button"
+                  class="input__clear"
+                  type="button"
+                  @click=${this.handleClearClick}
+                  tabindex="-1"
+                >
                   <slot name="clear-icon">
                     <sl-icon name="x-circle-fill" library="system"></sl-icon>
                   </slot>
@@ -350,7 +372,13 @@ export default class SlInput extends LitElement {
             : ''}
           ${this.togglePassword
             ? html`
-                <button part="password-toggle-button" class="input__password-toggle" type="button" @click=${this.handlePasswordToggle} tabindex="-1">
+                <button
+                  part="password-toggle-button"
+                  class="input__password-toggle"
+                  type="button"
+                  @click=${this.handlePasswordToggle}
+                  tabindex="-1"
+                >
                   ${this.isPasswordVisible
                     ? html`
                         <slot name="show-password-icon">

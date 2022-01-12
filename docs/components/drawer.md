@@ -1,3 +1,5 @@
+<!-- cspell:dictionaries lorem-ipsum -->
+
 # Drawer
 
 [component-header:sl-drawer]
@@ -7,7 +9,7 @@ Drawers slide in from a container to expose additional options and information.
 ```html preview
 <sl-drawer label="Drawer" class="drawer-overview">
   Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-  <sl-button slot="footer" type="primary">Close</sl-button>
+  <sl-button slot="footer" variant="primary">Close</sl-button>
 </sl-drawer>
 
 <sl-button>Open Drawer</sl-button>
@@ -15,7 +17,7 @@ Drawers slide in from a container to expose additional options and information.
 <script>
   const drawer = document.querySelector('.drawer-overview');
   const openButton = drawer.nextElementSibling;
-  const closeButton = drawer.querySelector('sl-button[type="primary"]');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
 
   openButton.addEventListener('click', () => drawer.show());
   closeButton.addEventListener('click', () => drawer.hide());
@@ -33,7 +35,7 @@ const App = () => {
     <>
       <SlDrawer label="Drawer" open={open} onSlAfterHide={() => setOpen(false)}>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        <SlButton slot="footer" type="primary" onClick={() => setOpen(false)}>
+        <SlButton slot="footer" variant="primary" onClick={() => setOpen(false)}>
           Close
         </SlButton>
       </SlDrawer>
@@ -53,7 +55,7 @@ By default, drawers slide in from the end. To make the drawer slide in from the 
 ```html preview
 <sl-drawer label="Drawer" placement="start" class="drawer-placement-start">
   This drawer slides in from the start.
-  <sl-button slot="footer" type="primary">Close</sl-button>
+  <sl-button slot="footer" variant="primary">Close</sl-button>
 </sl-drawer>
 
 <sl-button>Open Drawer</sl-button>
@@ -77,14 +79,9 @@ const App = () => {
 
   return (
     <>
-      <SlDrawer 
-        label="Drawer" 
-        placement="start" 
-        open={open} 
-        onSlAfterHide={() => setOpen(false)}
-      >
+      <SlDrawer label="Drawer" placement="start" open={open} onSlAfterHide={() => setOpen(false)}>
         This drawer slides in from the start.
-        <SlButton slot="footer" type="primary" onClick={() => setOpen(false)}>
+        <SlButton slot="footer" variant="primary" onClick={() => setOpen(false)}>
           Close
         </SlButton>
       </SlDrawer>
@@ -102,7 +99,7 @@ To make the drawer slide in from the top, set the `placement` attribute to `top`
 ```html preview
 <sl-drawer label="Drawer" placement="top" class="drawer-placement-top">
   This drawer slides in from the top.
-  <sl-button slot="footer" type="primary">Close</sl-button>
+  <sl-button slot="footer" variant="primary">Close</sl-button>
 </sl-drawer>
 
 <sl-button>Open Drawer</sl-button>
@@ -110,7 +107,7 @@ To make the drawer slide in from the top, set the `placement` attribute to `top`
 <script>
   const drawer = document.querySelector('.drawer-placement-top');
   const openButton = drawer.nextElementSibling;
-  const closeButton = drawer.querySelector('sl-button[type="primary"]');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
 
   openButton.addEventListener('click', () => drawer.show());
   closeButton.addEventListener('click', () => drawer.hide());
@@ -126,14 +123,9 @@ const App = () => {
 
   return (
     <>
-      <SlDrawer 
-        label="Drawer" 
-        placement="top" 
-        open={open} 
-        onSlAfterHide={() => setOpen(false)}
-      >
+      <SlDrawer label="Drawer" placement="top" open={open} onSlAfterHide={() => setOpen(false)}>
         This drawer slides in from the top.
-        <SlButton slot="footer" type="primary" onClick={() => setOpen(false)}>
+        <SlButton slot="footer" variant="primary" onClick={() => setOpen(false)}>
           Close
         </SlButton>
       </SlDrawer>
@@ -151,7 +143,7 @@ To make the drawer slide in from the bottom, set the `placement` attribute to `b
 ```html preview
 <sl-drawer label="Drawer" placement="bottom" class="drawer-placement-bottom">
   This drawer slides in from the bottom.
-  <sl-button slot="footer" type="primary">Close</sl-button>
+  <sl-button slot="footer" variant="primary">Close</sl-button>
 </sl-drawer>
 
 <sl-button>Open Drawer</sl-button>
@@ -159,7 +151,7 @@ To make the drawer slide in from the bottom, set the `placement` attribute to `b
 <script>
   const drawer = document.querySelector('.drawer-placement-bottom');
   const openButton = drawer.nextElementSibling;
-  const closeButton = drawer.querySelector('sl-button[type="primary"]');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
 
   openButton.addEventListener('click', () => drawer.show());
   closeButton.addEventListener('click', () => drawer.hide());
@@ -175,14 +167,9 @@ const App = () => {
 
   return (
     <>
-      <SlDrawer 
-        label="Drawer" 
-        placement="bottom" 
-        open={open} 
-        onSlAfterHide={() => setOpen(false)}
-      >
+      <SlDrawer label="Drawer" placement="bottom" open={open} onSlAfterHide={() => setOpen(false)}>
         This drawer slides in from the bottom.
-        <SlButton slot="footer" type="primary" onClick={() => setOpen(false)}>
+        <SlButton slot="footer" variant="primary" onClick={() => setOpen(false)}>
           Close
         </SlButton>
       </SlDrawer>
@@ -205,7 +192,7 @@ By default, the drawer slides out of its [containing block](https://developer.mo
 
   <sl-drawer label="Drawer" contained class="drawer-contained" style="--size: 50%;">
     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-    <sl-button slot="footer" type="primary">Close</sl-button>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
   </sl-drawer>
 </div>
 
@@ -268,7 +255,7 @@ Use the `--size` custom property to set the drawer's size. This will be applied 
 ```html preview
 <sl-drawer label="Drawer" class="drawer-custom-size" style="--size: 50vw;">
   This drawer is always 50% of the viewport.
-  <sl-button slot="footer" type="primary">Close</sl-button>
+  <sl-button slot="footer" variant="primary">Close</sl-button>
 </sl-drawer>
 
 <sl-button>Open Drawer</sl-button>
@@ -276,7 +263,7 @@ Use the `--size` custom property to set the drawer's size. This will be applied 
 <script>
   const drawer = document.querySelector('.drawer-custom-size');
   const openButton = drawer.nextElementSibling;
-  const closeButton = drawer.querySelector('sl-button[type="primary"]');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
 
   openButton.addEventListener('click', () => drawer.show());
   closeButton.addEventListener('click', () => drawer.hide());
@@ -318,7 +305,7 @@ By design, a drawer's height will never exceed 100% of its container. As such, d
   <div style="height: 150vh; border: dashed 2px var(--sl-color-neutral-200); padding: 0 1rem;">
     <p>Scroll down and give it a try! 👇</p>
   </div>
-  <sl-button slot="footer" type="primary">Close</sl-button>
+  <sl-button slot="footer" variant="primary">Close</sl-button>
 </sl-drawer>
 
 <sl-button>Open Drawer</sl-button>
@@ -326,7 +313,7 @@ By design, a drawer's height will never exceed 100% of its container. As such, d
 <script>
   const drawer = document.querySelector('.drawer-scrolling');
   const openButton = drawer.nextElementSibling;
-  const closeButton = drawer.querySelector('sl-button[type="primary"]');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
 
   openButton.addEventListener('click', () => drawer.show());
   closeButton.addEventListener('click', () => drawer.hide());
@@ -369,11 +356,10 @@ By default, drawers will close when the user clicks the close button, clicks the
 
 To keep the drawer open in such cases, you can cancel the `sl-request-close` event. When canceled, the drawer will remain open and pulse briefly to draw the user's attention to it.
 
-
 ```html preview
 <sl-drawer label="Drawer" class="drawer-deny-close">
   This drawer will not close unless you use the button below.
-  <sl-button slot="footer" type="primary">Save &amp; Close</sl-button>
+  <sl-button slot="footer" variant="primary">Save &amp; Close</sl-button>
 </sl-drawer>
 
 <sl-button>Open Drawer</sl-button>
@@ -381,7 +367,7 @@ To keep the drawer open in such cases, you can cancel the `sl-request-close` eve
 <script>
   const drawer = document.querySelector('.drawer-deny-close');
   const openButton = drawer.nextElementSibling;
-  const closeButton = drawer.querySelector('sl-button[type="primary"]');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
 
   openButton.addEventListener('click', () => drawer.show());
   closeButton.addEventListener('click', () => drawer.hide());
@@ -406,7 +392,7 @@ const App = () => {
         onSlAfterHide={() => setOpen(false)}
       >
         This drawer will not close unless you use the button below.
-        <SlButton slot="footer" type="primary" onClick={() => setOpen(false)}>
+        <SlButton slot="footer" variant="primary" onClick={() => setOpen(false)}>
           Save &amp; Close
         </SlButton>
       </SlDrawer>
@@ -424,7 +410,7 @@ By default, the drawer's panel will gain focus when opened. This allows the firs
 ```html preview
 <sl-drawer label="Drawer" class="drawer-focus">
   <sl-input placeholder="I will have focus when the drawer is opened"></sl-input>
-  <sl-button slot="footer" type="primary">Close</sl-button>
+  <sl-button slot="footer" variant="primary">Close</sl-button>
 </sl-drawer>
 
 <sl-button>Open Drawer</sl-button>
@@ -433,7 +419,7 @@ By default, the drawer's panel will gain focus when opened. This allows the firs
   const drawer = document.querySelector('.drawer-focus');
   const input = drawer.querySelector('sl-input');
   const openButton = drawer.nextElementSibling;
-  const closeButton = drawer.querySelector('sl-button[type="primary"]');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
 
   openButton.addEventListener('click', () => drawer.show());
   closeButton.addEventListener('click', () => drawer.hide());
@@ -441,17 +427,13 @@ By default, the drawer's panel will gain focus when opened. This allows the firs
   drawer.addEventListener('sl-initial-focus', event => {
     event.preventDefault();
     input.focus({ preventScroll: true });
-  });    
+  });
 </script>
 ```
 
 ```jsx react
 import { useRef, useState } from 'react';
-import { 
-  SlButton, 
-  SlDrawer, 
-  SlInput 
-} from '@shoelace-style/shoelace/dist/react';
+import { SlButton, SlDrawer, SlInput } from '@shoelace-style/shoelace/dist/react';
 
 const App = () => {
   const input = useRef(null);
@@ -464,14 +446,9 @@ const App = () => {
 
   return (
     <>
-      <SlDrawer 
-        label="Drawer" 
-        open={open} 
-        onSlInitialFocus={handleInitialFocus}
-        onSlAfterHide={() => setOpen(false)}
-      >
+      <SlDrawer label="Drawer" open={open} onSlInitialFocus={handleInitialFocus} onSlAfterHide={() => setOpen(false)}>
         <SlInput ref={input} placeholder="I will have focus when the drawer is opened" />
-        <SlButton slot="footer" type="primary" onClick={() => setOpen(false)}>
+        <SlButton slot="footer" variant="primary" onClick={() => setOpen(false)}>
           Close
         </SlButton>
       </SlDrawer>

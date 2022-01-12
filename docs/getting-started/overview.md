@@ -9,13 +9,14 @@
 - Fully customizable with CSS 🎨
 - Includes a dark theme 🌛
 - Built with accessibility in mind ♿️
-- First-class [React support](/frameworks/react)
+- First-class [React support](/frameworks/react) ⚛️
+- Built-in localization 💬
 - Open source 😸
 
 Designed in New Hampshire by [Cory LaViska](https://twitter.com/claviska).
 </div>
 <div class="splash-end">
-<img class="splash-image" src="assets/images/undraw-content-team.svg" alt="Cartoon of people assembling components while standing on a giant laptop.">
+<img class="splash-image" src="/assets/images/undraw-content-team.svg" alt="Cartoon of people assembling components while standing on a giant laptop.">
 </div>
 </div>
 

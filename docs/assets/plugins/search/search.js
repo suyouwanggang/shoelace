@@ -89,7 +89,7 @@
     let map;
 
     // Load search data
-    const searchData = fetch('search.json')
+    const searchData = fetch('../../../search.json')
       .then(res => res.json())
       .then(data => {
         searchIndex = lunr.Index.load(data.searchIndex);
@@ -248,7 +248,7 @@
           if (page.url.includes('utilities/')) icon = 'wrench';
           if (page.url.includes('tutorials/')) icon = 'joystick';
 
-          a.href = $docsify.routerMode === 'hash' ? `#/${page.url}` : `/${page.url}`;
+          a.href = $docsify.routerMode === 'hash' ? `/#/${page.url}` : `/${page.url}`;
           a.innerHTML = `
             <div class="site-search__result-icon">
               <sl-icon name="${icon}" aria-hidden="true"></sl-icon>
@@ -271,7 +271,11 @@
 
     // Show the search panel slash is pressed outside of a form element
     document.addEventListener('keydown', event => {
-      if (!isShowing && event.key === '/' && !event.composedPath().some(el => ['input', 'textarea'].includes(el?.tagName?.toLowerCase()))) {
+      if (
+        !isShowing &&
+        event.key === '/' &&
+        !event.composedPath().some(el => ['input', 'textarea'].includes(el?.tagName?.toLowerCase()))
+      ) {
         event.preventDefault();
         show();
       }

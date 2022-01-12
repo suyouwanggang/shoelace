@@ -92,8 +92,8 @@ export default class SlAlert extends LitElement {
   /** Makes the alert closable. */
   @property({ type: Boolean, reflect: true }) closable = false;
 
-  /** The type of alert. */
-  @property({ reflect: true }) type: 'primary' | 'success' | 'neutral' | 'warning' | 'danger' = 'primary';
+  /** The alert's variant. */
+  @property({ reflect: true }) variant: 'primary' | 'success' | 'neutral' | 'warning' | 'danger' = 'primary';
 
   /**
    * The length of time, in milliseconds, the alert will show before closing itself. If the user interacts with
@@ -221,11 +221,11 @@ export default class SlAlert extends LitElement {
           alert: true,
           'alert--open': this.open,
           'alert--closable': this.closable,
-          'alert--primary': this.type === 'primary',
-          'alert--success': this.type === 'success',
-          'alert--neutral': this.type === 'neutral',
-          'alert--warning': this.type === 'warning',
-          'alert--danger': this.type === 'danger'
+          'alert--primary': this.variant === 'primary',
+          'alert--success': this.variant === 'success',
+          'alert--neutral': this.variant === 'neutral',
+          'alert--warning': this.variant === 'warning',
+          'alert--danger': this.variant === 'danger'
         })}
         role="alert"
         aria-live="assertive"
@@ -244,7 +244,12 @@ export default class SlAlert extends LitElement {
         ${this.closable
           ? html`
               <span class="alert__close">
-                <sl-icon-button exportparts="base:close-button" name="x" library="system" @click=${this.handleCloseClick}></sl-icon-button>
+                <sl-icon-button
+                  exportparts="base:close-button"
+                  name="x"
+                  library="system"
+                  @click=${this.handleCloseClick}
+                ></sl-icon-button>
               </span>
             `
           : ''}

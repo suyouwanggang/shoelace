@@ -25,7 +25,12 @@ export function unlockBodyScrolling(lockingEl: HTMLElement) {
 //
 // Scrolls an element into view of its container. If the element is already in view, nothing will happen.
 //
-export function scrollIntoView(element: HTMLElement, container: HTMLElement, direction: 'horizontal' | 'vertical' | 'both' = 'vertical', behavior: 'smooth' | 'auto' = 'smooth') {
+export function scrollIntoView(
+  element: HTMLElement,
+  container: HTMLElement,
+  direction: 'horizontal' | 'vertical' | 'both' = 'vertical',
+  behavior: 'smooth' | 'auto' = 'smooth'
+) {
   const offset = getOffset(element, container);
   const offsetTop = offset.top + container.scrollTop;
   const offsetLeft = offset.left + container.scrollLeft;

@@ -4,6 +4,8 @@
   - [Usage](/getting-started/usage)
   - [Themes](/getting-started/themes)
   - [Customizing](/getting-started/customizing)
+  - [Form Controls](/getting-started/form-controls)
+  - [Localization](/getting-started/localization)
 
 - Frameworks
   - [React](/frameworks/react)
@@ -50,6 +52,7 @@
   - [Select](/components/select)
   - [Skeleton](/components/skeleton)
   - [Spinner](/components/spinner)
+  - [Split Panel](/components/split-panel)
   - [Switch](/components/switch)
   - [Tab Group](/components/tab-group)
   - [Tab](/components/tab)

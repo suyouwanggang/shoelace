@@ -16,9 +16,9 @@ export const setLocalCache = (key: string, value: any) => {
  */
 export const getLocalCache = (key: string) => {
   let value = localStorage.getItem(key);
-  if (value) {
+  if (value != null) {
     value = unWrapData(value);
-    value = JSON.parse(value);
+    value = value != null ? JSON.parse(value) : value;
   } else {
     value = null;
   }

@@ -21,7 +21,9 @@ describe('<sl-progress-bar>', () => {
     let indicator: HTMLDivElement;
 
     before(async () => {
-      el = await fixture<SlProgressBar>(html`<sl-progress-bar title="Titled Progress Ring" value="25"></sl-progress-bar>`);
+      el = await fixture<SlProgressBar>(
+        html`<sl-progress-bar title="Titled Progress Ring" value="25"></sl-progress-bar>`
+      );
       base = el.shadowRoot?.querySelector('[part="base"]') as HTMLDivElement;
       indicator = el.shadowRoot?.querySelector('[part="indicator"]') as HTMLDivElement;
     });
@@ -43,7 +45,9 @@ describe('<sl-progress-bar>', () => {
     let base: HTMLDivElement;
 
     before(async () => {
-      el = await fixture<SlProgressBar>(html`<sl-progress-bar title="Titled Progress Ring" indeterminate></sl-progress-bar>`);
+      el = await fixture<SlProgressBar>(
+        html`<sl-progress-bar title="Titled Progress Ring" indeterminate></sl-progress-bar>`
+      );
       base = el.shadowRoot?.querySelector('[part="base"]') as HTMLDivElement;
     });
 
@@ -58,7 +62,9 @@ describe('<sl-progress-bar>', () => {
 
   describe('when provided a ariaLabel, and value parameter', async () => {
     before(async () => {
-      el = await fixture<SlProgressBar>(html`<sl-progress-bar ariaLabel="Labelled Progress Ring" value="25"></sl-progress-bar>`);
+      el = await fixture<SlProgressBar>(
+        html`<sl-progress-bar ariaLabel="Labelled Progress Ring" value="25"></sl-progress-bar>`
+      );
     });
 
     it('should render a component that passes accessibility test.', async () => {

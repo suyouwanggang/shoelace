@@ -8,8 +8,6 @@ import { watch } from '../../internal/watch';
 import { setDefaultAnimation, getAnimation } from '../../utilities/animation-registry';
 import styles from './tooltip.styles';
 
-let id = 0;
-
 /**
  * @since 2.0
  * @status stable
@@ -40,7 +38,6 @@ export default class SlTooltip extends LitElement {
   @query('.tooltip-positioner') positioner: HTMLElement;
   @query('.tooltip') tooltip: HTMLElement;
 
-  private componentId = `tooltip-${++id}`;
   private target: HTMLElement;
   private popover: PopperInstance;
   private hoverTimeout: any;
@@ -52,12 +49,19 @@ export default class SlTooltip extends LitElement {
    * The preferred placement of the tooltip. Note that the actual placement may vary as needed to keep the tooltip
    * inside of the viewport.
    */
-  @property() placement: 'top' | 'top-start' | 'top-end' | 'right' | 'right-start' | 'right-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'left' | 'left-start' | 'left-end' = 'top';
-
-  /**
-   *  tooltip theme type .
-   */
-  @property({ attribute: true, reflect: true }) type: 'default' | 'primary' | 'success' | 'warning' | 'danger' = 'default';
+  @property() placement:
+    | 'top'
+    | 'top-start'
+    | 'top-end'
+    | 'right'
+    | 'right-start'
+    | 'right-end'
+    | 'bottom'
+    | 'bottom-start'
+    | 'bottom-end'
+    | 'left'
+    | 'left-start'
+    | 'left-end' = 'top';
 
   /** Disables the tooltip so it won't show when triggered. */
   @property({ type: Boolean, reflect: true }) disabled = false;
@@ -146,7 +150,9 @@ export default class SlTooltip extends LitElement {
 
   getTarget() {
     // Get the first child that isn't a <style> or content slot
-    const target = [...this.children].find(el => el.tagName.toLowerCase() !== 'style' && el.getAttribute('slot') !== 'content') as HTMLElement;
+    const target = [...this.children].find(
+      el => el.tagName.toLowerCase() !== 'style' && el.getAttribute('slot') !== 'content'
+    ) as HTMLElement;
 
     if (!target) {
       throw new Error('Invalid tooltip target: no child element was found.');
@@ -262,22 +268,17 @@ export default class SlTooltip extends LitElement {
     this.syncOptions();
   }
 
+  @watch('content')
+  handleContentChange() {
+    if (this.popover && this.open) {
+      this.popover.update();
+    }
+  }
+
   @watch('disabled')
   handleDisabledChange() {
     if (this.disabled && this.open) {
       this.hide();
-    }
-  }
-
-  handleSlotChange() {
-    const oldTarget = this.target;
-    const newTarget = this.getTarget();
-
-    if (newTarget !== oldTarget) {
-      if (oldTarget) {
-        oldTarget.removeAttribute('aria-describedby');
-      }
-      newTarget.setAttribute('aria-describedby', this.componentId);
     }
   }
 
@@ -311,12 +312,14 @@ export default class SlTooltip extends LitElement {
 
   render() {
     return html`
-      <slot @slotchange=${this.handleSlotChange}></slot>
+      <div class="tooltip-content" aria-described-by="tooltip">
+        <slot></slot>
+      </div>
 
       <div class="tooltip-positioner">
         <div
           part="base"
-          id=${this.componentId}
+          id="tooltip"
           class=${classMap({
             tooltip: true,
             'tooltip--open': this.open
@@ -324,7 +327,7 @@ export default class SlTooltip extends LitElement {
           role="tooltip"
           aria-hidden=${this.open ? 'false' : 'true'}
         >
-          <slot name="content">${this.content}</slot>
+          <slot name="content"> ${this.content} </slot>
         </div>
       </div>
     `;

@@ -1,6 +1,6 @@
 import { LitElement, html } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
-import { ifDefined } from 'lit/directives/if-defined.js';
+import { LocalizeController } from '../../utilities/localize';
 import styles from './progress-ring.styles';
 
 /**
@@ -20,6 +20,7 @@ import styles from './progress-ring.styles';
 @customElement('sl-progress-ring')
 export default class SlProgressRing extends LitElement {
   static styles = styles;
+  private localize = new LocalizeController(this);
 
   @query('.progress-ring__indicator') indicator: SVGCircleElement;
 
@@ -28,15 +29,18 @@ export default class SlProgressRing extends LitElement {
   /** The current progress, 0 to 100. */
   @property({ type: Number, reflect: true }) value = 0;
 
-  /** The progress ring's aria label. */
-  @property() label = 'Progress'; // TODO - i18n
+  /** A custom label for the progress ring's aria label. */
+  @property() label: string;
+
+  /** The locale to render the component in. */
+  @property() lang: string;
 
   updated(changedProps: Map<string, any>) {
     super.updated(changedProps);
 
     //
     // This block is only required for Safari because it doesn't transition the circle when the custom properties
-    // change, possibly because of a mix of pixel + unitless values in the calc() function. It seems like a Safari bug,
+    // change, possibly because of a mix of pixel + unit-less values in the calc() function. It seems like a Safari bug,
     // but I couldn't pinpoint it so this works around the problem.
     //
     if (changedProps.has('percentage')) {
@@ -50,7 +54,16 @@ export default class SlProgressRing extends LitElement {
 
   render() {
     return html`
-      <div part="base" class="progress-ring" role="progressbar" aria-label=${ifDefined(this.label)} aria-valuemin="0" aria-valuemax="100" aria-valuenow="${this.value}" style="--percentage: ${this.value / 100}">
+      <div
+        part="base"
+        class="progress-ring"
+        role="progressbar"
+        aria-label=${this.label || this.localize.term('progress')}
+        aria-valuemin="0"
+        aria-valuemax="100"
+        aria-valuenow="${this.value}"
+        style="--percentage: ${this.value / 100}"
+      >
         <svg class="progress-ring__image">
           <circle class="progress-ring__track"></circle>
           <circle class="progress-ring__indicator" style="stroke-dashoffset: ${this.indicatorOffset}"></circle>

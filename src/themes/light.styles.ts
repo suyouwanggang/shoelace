@@ -368,7 +368,8 @@ export default css`
 
     /* Fonts */
     --sl-font-mono: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
-    --sl-font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+    --sl-font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif,
+      'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
     --sl-font-serif: Georgia, 'Times New Roman', serif;
 
     /* Font sizes */
@@ -457,7 +458,7 @@ export default css`
 
     --sl-input-filled-background-color: var(--sl-color-neutral-100);
     --sl-input-filled-background-color-hover: var(--sl-color-neutral-100);
-    --sl-input-filled-background-color-focus: var(--sl-color-neutral-0);
+    --sl-input-filled-background-color-focus: var(--sl-color-neutral-100);
     --sl-input-filled-background-color-disabled: var(--sl-color-neutral-100);
     --sl-input-filled-color: var(--sl-color-neutral-800);
     --sl-input-filled-color-hover: var(--sl-color-neutral-800);

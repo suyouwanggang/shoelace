@@ -5,11 +5,9 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import { live } from 'lit/directives/live.js';
 import { emit } from '../../internal/event';
 import { watch } from '../../internal/watch';
+import { FormSubmitController } from '../../internal/form-control';
 import styles from './radio.styles';
-import { hasSlot } from '../../internal/slot';
-
-let id = 0;
-
+import { HasSlotController } from '../../internal/slot';
 /**
  * @since 2.0
  * @status stable
@@ -31,8 +29,11 @@ export default class SlRadio extends LitElement {
 
   @query('input[type="radio"]') input: HTMLInputElement;
 
-  private inputId = `radio-${++id}`;
-  private labelId = `radio-label-${id}`;
+  // @ts-ignore
+  private formSubmitController = new FormSubmitController(this, {
+    value: (control: SlRadio) => (control.checked ? control.value : undefined)
+  });
+  private hasSlotController = new HasSlotController(this, '[default]');
 
   @state() private hasFocus = false;
 
@@ -53,6 +54,23 @@ export default class SlRadio extends LitElement {
    * provided by the `setCustomValidity` method.
    */
   @property({ type: Boolean, reflect: true }) invalid = false;
+
+  firstUpdated() {
+    const radios = this.getAllRadios();
+    const checkedRadio = radios.find(radio => radio.checked);
+
+    radios.map(radio => {
+      if (radio.input) {
+        radio.input.tabIndex = -1;
+      }
+    });
+
+    if (checkedRadio) {
+      checkedRadio.input.tabIndex = 0;
+    } else if (radios.length) {
+      radios[0].input.tabIndex = 0;
+    }
+  }
 
   /** Simulates a click on the radio. */
   click() {
@@ -103,7 +121,12 @@ export default class SlRadio extends LitElement {
   @watch('checked', { waitUntilFirstUpdate: true })
   handleCheckedChange() {
     if (this.checked) {
-      this.getSiblingRadios().map(radio => (radio.checked = false));
+      this.input.tabIndex = 0;
+
+      this.getSiblingRadios().map(radio => {
+        radio.input.tabIndex = -1;
+        radio.checked = false;
+      });
     }
   }
 
@@ -134,20 +157,26 @@ export default class SlRadio extends LitElement {
       if (index < 0) index = radios.length - 1;
       if (index > radios.length - 1) index = 0;
 
-      this.getAllRadios().map(radio => (radio.checked = false));
+      this.getAllRadios().map(radio => {
+        radio.checked = false;
+        radio.input.tabIndex = -1;
+      });
+
       radios[index].focus();
       radios[index].checked = true;
+      radios[index].input.tabIndex = 0;
+
       emit(radios[index], 'sl-change');
 
       event.preventDefault();
     }
   }
-  @state()
-  private hasSlotLabel = false;
-  private slotChangeHandler() {
-    this.hasSlotLabel = hasSlot(this);
-  }
+
   render() {
+    this.setAttribute('role', 'radio');
+    this.setAttribute('aria-checked', this.checked ? 'true' : 'false');
+    this.setAttribute('aria-disabled', this.disabled ? 'true' : 'false');
+
     return html`
       <label
         part="base"
@@ -157,20 +186,16 @@ export default class SlRadio extends LitElement {
           'radio--disabled': this.disabled,
           'radio--focused': this.hasFocus
         })}
-        for=${this.inputId}
         @keydown=${this.handleKeyDown}
       >
         <input
-          id=${this.inputId}
           class="radio__input"
           type="radio"
           name=${ifDefined(this.name)}
           value=${ifDefined(this.value)}
           .checked=${live(this.checked)}
           .disabled=${this.disabled}
-          aria-checked=${this.checked ? 'true' : 'false'}
-          aria-disabled=${this.disabled ? 'true' : 'false'}
-          aria-labelledby=${this.labelId}
+          aria-hidden="true"
           @click=${this.handleClick}
           @blur=${this.handleBlur}
           @focus=${this.handleFocus}
@@ -188,8 +213,8 @@ export default class SlRadio extends LitElement {
           </span>
         </span>
 
-        <span part="label" id=${this.labelId} class="radio__label ${this.hasSlotLabel ? ' radio_label_has' : ''}">
-          <slot @slotchange=${this.slotChangeHandler}></slot>
+        <span part="label" class="radio__label ${this.hasSlotController.hasDefaultSlot() ? ' radio_label_has' : ''}">
+          <slot></slot>
         </span>
       </label>
     `;

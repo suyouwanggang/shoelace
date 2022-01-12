@@ -1,15 +1,16 @@
-import { html, LitElement } from 'lit';
+import { LitElement, html } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { live } from 'lit/directives/live.js';
 import { emit } from '../../internal/event';
-import { hasSlot } from '../../internal/slot';
 import { watch } from '../../internal/watch';
+import { FormSubmitController } from '../../internal/form-control';
 import { isArray, isObject } from '../../utilities/common';
 import '../ripple/ripple';
 import SlRipple from '../ripple/ripple';
 import styles from './checkbox.styles';
+import { HasSlotController } from '../../internal/slot';
 
 let id = 0;
 
@@ -36,7 +37,11 @@ export default class SlCheckbox extends LitElement {
 
   @query('input[type="checkbox"]') input: HTMLInputElement;
   @query('sl-ripple') ripple: SlRipple;
-
+  // @ts-ignore
+  private formSubmitController = new FormSubmitController(this, {
+    value: (control: SlCheckbox) => (control.checked ? control.value : undefined)
+  });
+  private hasSlotController = new HasSlotController(this, '[defaut]', 'label');
   private inputId = `checkbox-${++id}`;
   private labelId = `checkbox-label-${id}`;
 
@@ -132,11 +137,6 @@ export default class SlCheckbox extends LitElement {
   handleStateChange() {
     this.invalid = !this.input.checkValidity();
   }
-  @state()
-  private hasLabelSlot = false;
-  labelSlotChange() {
-    this.hasLabelSlot = hasSlot(this);
-  }
 
   render() {
     return html`
@@ -203,8 +203,8 @@ export default class SlCheckbox extends LitElement {
               : ''}
           </span>
         </sl-ripple>
-        <span part="label" id=${this.labelId} class="checkbox__label ${this.hasLabelSlot ? 'checkbox_label_hasSlot' : ''}">
-          <slot @slotchange=${this.labelSlotChange}></slot>
+        <span part="label" id=${this.labelId} class="checkbox__label ${this.hasSlotController.test('default') ? 'checkbox_label_hasSlot' : ''}">
+          <slot></slot>
         </span>
       </label>
     `;

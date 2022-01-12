@@ -6,7 +6,8 @@ import { emit } from '../../internal/event';
 import { watch } from '../../internal/watch';
 import { getLabelledBy, renderFormControl } from '../../internal/form-control';
 import { getTextContent } from '../../internal/slot';
-import { hasSlot } from '../../internal/slot';
+import { FormSubmitController } from '../../internal/form-control';
+import { HasSlotController } from '../../internal/slot';
 import type SlDropdown from '../dropdown/dropdown';
 import type SlIconButton from '../icon-button/icon-button';
 import type SlMenu from '../menu/menu';
@@ -66,19 +67,20 @@ export default class SlSelect extends LitElement {
   @query('.select__hidden-select') input: HTMLInputElement;
   @query('.select__menu') menu: SlMenu;
 
+  // @ts-ignore
+  private formSubmitController = new FormSubmitController(this);
+  private hasSlotController = new HasSlotController(this, 'help-text', 'label');
   private inputId = `select-${++id}`;
   private helpTextId = `select-help-text-${id}`;
   private labelId = `select-label-${id}`;
   private resizeObserver: ResizeObserver;
 
   @state() private hasFocus = false;
-  @state() private hasHelpTextSlot = false;
-  @state() private hasLabelSlot = false;
   @state() private isOpen = false;
   @state() private displayLabel = '';
   @state() private displayTags: TemplateResult[] = [];
 
-  /** Enables multiselect. With this enabled, value will be an array. */
+  /** Enables multi select. With this enabled, value will be an array. */
   @property({ type: Boolean, reflect: true }) multiple = false;
 
   /**
@@ -131,14 +133,11 @@ export default class SlSelect extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    this.handleSlotChange = this.handleSlotChange.bind(this);
+    this.handleMenuSlotChange = this.handleMenuSlotChange.bind(this);
     this.resizeObserver = new ResizeObserver(() => this.resizeMenu());
 
     this.updateComplete.then(() => {
       this.resizeObserver.observe(this);
-      const box = this.shadowRoot?.querySelector('.select__control') as HTMLElement;
-      this.resizeObserver.observe(box);
-      this.shadowRoot!.addEventListener('slotchange', this.handleSlotChange);
       this.syncItemsFromValue();
     });
   }
@@ -150,9 +149,6 @@ export default class SlSelect extends LitElement {
   disconnectedCallback() {
     super.disconnectedCallback();
     this.resizeObserver.unobserve(this);
-    const box = this.shadowRoot?.querySelector('.select__control') as HTMLElement;
-    this.resizeObserver.observe(box);
-    this.shadowRoot!.removeEventListener('slotchange', this.handleSlotChange);
   }
 
   /** Checks for validity and shows the browser's validation message if the control is invalid. */
@@ -182,6 +178,16 @@ export default class SlSelect extends LitElement {
     }
 
     return Array.isArray(this.value) ? this.value : [this.value];
+  }
+
+  /** Sets focus on the control. */
+  focus(options?: FocusOptions) {
+    this.control.focus(options);
+  }
+
+  /** Removes focus from the control. */
+  blur() {
+    this.control.blur();
   }
 
   handleBlur() {
@@ -276,15 +282,14 @@ export default class SlSelect extends LitElement {
   }
 
   handleLabelClick() {
-    const box = this.shadowRoot?.querySelector('.select__control') as HTMLElement;
-    box.focus();
+    this.focus();
   }
 
   handleMenuSelect(event: CustomEvent) {
     const item = event.detail.item;
 
     if (this.multiple) {
-      this.value = (this.value as Array<string | number>)?.includes(item.value) ? (this.value as []).filter(v => v !== item.value) : [...(this.value as Array<string | number>), item.value];
+      this.value = (this.value as Array<string | number>)?.includes(item.value) ? (this.value as []).filter(v => v !== item.value) : [...(this.value as any), item.value];
     } else {
       this.value = item.value;
     }
@@ -312,12 +317,7 @@ export default class SlSelect extends LitElement {
     this.syncItemsFromValue();
   }
 
-  @watch('helpText')
-  @watch('label')
-  async handleSlotChange() {
-    this.hasHelpTextSlot = hasSlot(this, 'help-text');
-    this.hasLabelSlot = hasSlot(this, 'label');
-
+  async handleMenuSlotChange() {
     // Wait for items to render before gathering labels otherwise the slot won't exist
     const items = this.getItems();
 
@@ -383,7 +383,7 @@ export default class SlSelect extends LitElement {
         return html`
           <sl-tag
             exportparts="base:tag"
-            type="neutral"
+            variant="neutral"
             size=${this.size}
             ?pill=${this.pill}
             removable
@@ -406,7 +406,7 @@ export default class SlSelect extends LitElement {
         const total = this.displayTags.length;
         this.displayLabel = '';
         this.displayTags = this.displayTags.slice(0, this.maxTagsVisible);
-        this.displayTags.push(html` <sl-tag exportparts="base:tag" type="neutral" size=${this.size}> +${total - this.maxTagsVisible} </sl-tag> `);
+        this.displayTags.push(html` <sl-tag exportparts="base:tag" variant="neutral" size=${this.size}> +${total - this.maxTagsVisible} </sl-tag> `);
       }
     } else {
       const checkedItem = items.filter(item => item.value === value[0])[0];
@@ -427,15 +427,10 @@ export default class SlSelect extends LitElement {
       this.value = checkedValues.length > 0 ? checkedValues[0] : '';
     }
   }
-  focus(option: FocusOptions) {
-    this.updateComplete.then(() => {
-      const input = this.renderRoot.querySelector(`div#${this.inputId}`) as HTMLLIElement;
-      if (input) {
-        input.focus(option);
-      }
-    });
-  }
+
   render() {
+    const hasLabelSlot = this.hasSlotController.test('label');
+    const hasHelpTextSlot = this.hasSlotController.test('help-text');
     const hasSelection = this.multiple ? (this.value as Array<string | number>)?.length > 0 : this.value !== '';
 
     return renderFormControl(
@@ -443,10 +438,10 @@ export default class SlSelect extends LitElement {
         inputId: this.inputId,
         label: this.label,
         labelId: this.labelId,
-        hasLabelSlot: this.hasLabelSlot,
+        hasLabelSlot,
         helpTextId: this.helpTextId,
         helpText: this.helpText,
-        hasHelpTextSlot: this.hasHelpTextSlot,
+        hasHelpTextSlot,
         size: this.size,
         onLabelClick: () => this.handleLabelClick()
       },
@@ -455,7 +450,7 @@ export default class SlSelect extends LitElement {
           part="base"
           .hoist=${this.hoist}
           .stayOpenOnSelect=${this.multiple}
-          .containingElement=${this}
+          .containingElement=${this as HTMLElement}
           ?disabled=${this.disabled}
           class=${classMap({
             select: true,
@@ -488,10 +483,10 @@ export default class SlSelect extends LitElement {
               getLabelledBy({
                 label: this.label,
                 labelId: this.labelId,
-                hasLabelSlot: this.hasLabelSlot,
+                hasLabelSlot,
                 helpText: this.helpText,
                 helpTextId: this.helpTextId,
-                hasHelpTextSlot: this.hasHelpTextSlot
+                hasHelpTextSlot
               })
             )}
             aria-haspopup="true"
@@ -531,7 +526,7 @@ export default class SlSelect extends LitElement {
           </div>
 
           <sl-menu part="menu" class="select__menu" @sl-select=${this.handleMenuSelect}>
-            <slot @slotchange=${this.handleSlotChange}></slot>
+            <slot @slotchange=${this.handleMenuSlotChange}></slot>
           </sl-menu>
         </sl-dropdown>
       `

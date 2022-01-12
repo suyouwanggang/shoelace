@@ -31,8 +31,6 @@ To customize a design token, simply override it in your stylesheet using a `:roo
 
 Many design tokens are described further along in this documentation. For a complete list, refer to `src/themes/light.styles.ts` in the project's [source code](https://github.com/shoelace-style/shoelace/blob/current/src/themes/light.styles.ts).
 
-!> **Never modify variables directly in `src/themes/light.styles.ts`** because your changes will be overwritten when you upgrade Shoelace. Even if you don't plan on upgrading, it's always better to override design tokens in your own stylesheet for better maintainability.
-
 ## Component Parts
 
 Whereas design tokens offer a high-level way to customize the library, component parts offer a low-level way to customize individual components. Again, this is done with pure CSS — no preprocessor required.
@@ -42,25 +40,24 @@ Shoelace components use a [shadow DOM](https://developer.mozilla.org/en-US/docs/
 Here's an example that modifies buttons with the `tomato-button` class.
 
 ```html preview
-<sl-button class="tomato-button">
-  Tomato Button
-</sl-button>
+<sl-button class="tomato-button"> Tomato Button </sl-button>
 
 <style>
   .tomato-button::part(base) {
-    background: rgb(var(--sl-color-neutral-0));    border: solid 1px tomato;
+    background: var(--sl-color-neutral-0);
+    border: solid 1px tomato;
   }
 
   .tomato-button::part(base):hover {
-    background: rgba(255, 99, 71, .1);
-  }  
+    background: rgba(255, 99, 71, 0.1);
+  }
 
   .tomato-button::part(base):active {
-    background: rgba(255, 99, 71, .2);
-  }    
+    background: rgba(255, 99, 71, 0.2);
+  }
 
-  .tomato-button::part(base):focus {
-    box-shadow: 0 0 0 3px rgba(255, 99, 71, .33);
+  .tomato-button::part(base):focus-visible {
+    box-shadow: 0 0 0 3px rgba(255, 99, 71, 0.33);
   }
 
   .tomato-button::part(label) {
@@ -75,9 +72,9 @@ At first glance, this approach might seem a bit verbose or even limiting, but it
 
 - The internal structure of a component will likely change as it evolves. By exposing component parts through an API, the internals can be reworked without fear of breaking customizations as long as its parts remain intact.
 
-- It encourages us to think more about how components are designed and how customizations should be allowed before users can take advantage of them. Once we opt a part into the component's API, it's guaranteed to be supported and can't be removed until a major version of the library is released.
+- It encourages us to think more about how components are designed and how customizations should be allowed before users can take advantage of them. Once we opt a part into the component's API, it's guaranteed to be supported and can't be removed until a major version of the library is released.
 
-Most (but not all) components expose parts. You can find them in each component's API documention under the "CSS Parts" section.
+Most (but not all) components expose parts. You can find them in each component's API documentation under the "CSS Parts" section.
 
 ## Custom Properties
 

@@ -4,7 +4,7 @@
 
 Icons are symbols that can be used to represent various options within an application.
 
-Shoelace comes bundled with over 1,300 icons courtesy of the [Bootstrap Icons](https://icons.getbootstrap.com/) project. These icons are part of the `default` icon library. If you prefer, you can register [custom icon libraries](#icon-libraries) as well.
+Shoelace comes bundled with over 1,500 icons courtesy of the [Bootstrap Icons](https://icons.getbootstrap.com/) project. These icons are part of the `default` icon library. If you prefer, you can register [custom icon libraries](#icon-libraries) as well.
 
 Click or tap on an icon below to copy its name and use it like this.
 
@@ -40,6 +40,7 @@ Icons are sized relative to the current font size. To change their size, set the
   <sl-icon name="battery-charging"></sl-icon>
   <sl-icon name="bell"></sl-icon>
   <sl-icon name="clock"></sl-icon>
+  <sl-icon name="cloud"></sl-icon>
   <sl-icon name="download"></sl-icon>
   <sl-icon name="file-earmark"></sl-icon>
   <sl-icon name="flag"></sl-icon>
@@ -50,8 +51,32 @@ Icons are sized relative to the current font size. To change their size, set the
   <sl-icon name="search"></sl-icon>
   <sl-icon name="star"></sl-icon>
   <sl-icon name="trash"></sl-icon>
-  <sl-icon name="x-circle"></sl-icon>
 </div>
+```
+
+```jsx react
+import { SlIcon } from '@shoelace-style/shoelace/dist/react';
+
+const App = () => (
+  <div style={{ fontSize: '32px' }}>
+    <SlIcon name="exclamation-triangle" />
+    <SlIcon name="archive" />
+    <SlIcon name="battery-charging" />
+    <SlIcon name="bell" />
+    <SlIcon name="clock" />
+    <SlIcon name="cloud" />
+    <SlIcon name="download" />
+    <SlIcon name="file-earmark" />
+    <SlIcon name="flag" />
+    <SlIcon name="heart" />
+    <SlIcon name="image" />
+    <SlIcon name="lightning" />
+    <SlIcon name="mic" />
+    <SlIcon name="search" />
+    <SlIcon name="star" />
+    <SlIcon name="trash" />
+  </div>  
+);
 ```
 
 ### Labels
@@ -75,7 +100,16 @@ const App = () => (
 Custom icons can be loaded individually with the `src` attribute. Only SVGs on a local or CORS-enabled endpoint are supported. If you're using more than one custom icon, it might make sense to register a [custom icon library](#icon-libraries).
 
 ```html preview
-<sl-icon src="assets/images/shoe.svg" style="font-size: 8rem;"></sl-icon>
+<sl-icon src="https://shoelace.style/assets/images/shoe.svg" style="font-size: 8rem;"></sl-icon>
+```
+
+
+```jsx react
+import { SlIcon } from '@shoelace-style/shoelace/dist/react';
+
+const App = () => (
+  <SlIcon src="https://shoelace.style/assets/images/shoe.svg" style={{ fontSize: '8rem' }}></SlIcon>
+);
 ```
 
 ## Icon Libraries

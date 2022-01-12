@@ -219,6 +219,4 @@
 }
 
 /* We can apply data-flavor="html|react" to any element on the page to toggle it when the user's flavor changes */
-body.flavor-html [data-flavor]:not([data-flavor='html']) {
-  display: none;
-}
+

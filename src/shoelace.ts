@@ -16,7 +16,6 @@ export { default as SlDialog } from './components/dialog/dialog';
 export { default as SlDivider } from './components/divider/divider';
 export { default as SlDrawer } from './components/drawer/drawer';
 export { default as SlDropdown } from './components/dropdown/dropdown';
-export { default as SlForm } from './components/form/form';
 export { default as SlFormatBytes } from './components/format-bytes/format-bytes';
 export { default as SlFormatDate } from './components/format-date/format-date';
 export { default as SlFormatNumber } from './components/format-number/format-number';
@@ -42,6 +41,7 @@ export { default as SlResponsiveMedia } from './components/responsive-media/resp
 export { default as SlSelect } from './components/select/select';
 export { default as SlSkeleton } from './components/skeleton/skeleton';
 export { default as SlSpinner } from './components/spinner/spinner';
+export { default as SlSplitPanel } from './components/split-panel/split-panel';
 export { default as SlSwitch } from './components/switch/switch';
 export { default as SlTab } from './components/tab/tab';
 export { default as SlTabGroup } from './components/tab-group/tab-group';

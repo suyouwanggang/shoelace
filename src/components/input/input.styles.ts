@@ -23,7 +23,8 @@ export default css`
     vertical-align: middle;
     overflow: hidden;
     cursor: text;
-    transition: var(--sl-transition-fast) color, var(--sl-transition-fast) border, var(--sl-transition-fast) box-shadow, var(--sl-transition-fast) background-color;
+    transition: var(--sl-transition-fast) color, var(--sl-transition-fast) border, var(--sl-transition-fast) box-shadow,
+      var(--sl-transition-fast) background-color;
   }
 
   /* Standard inputs */
@@ -114,6 +115,14 @@ export default css`
   .input__control:-webkit-autofill:active {
     box-shadow: 0 0 0 var(--sl-input-height-large) var(--sl-input-background-color-hover) inset !important;
     -webkit-text-fill-color: var(--sl-color-primary-500);
+    caret-color: var(--sl-input-color);
+  }
+
+  .input--filled .input__control:-webkit-autofill,
+  .input--filled .input__control:-webkit-autofill:hover,
+  .input--filled .input__control:-webkit-autofill:focus,
+  .input--filled .input__control:-webkit-autofill:active {
+    box-shadow: 0 0 0 var(--sl-input-height-large) var(--sl-input-filled-background-color) inset !important;
   }
 
   .input__control::placeholder {
@@ -154,20 +163,20 @@ export default css`
 
   .input--small .input__control {
     height: calc(var(--sl-input-height-small) - var(--sl-input-border-width) * 2);
-    margin: 0 var(--sl-input-spacing-small);
+    padding: 0 var(--sl-input-spacing-small);
   }
 
   .input--small .input__clear,
   .input--small .input__password-toggle {
-    margin-right: var(--sl-input-spacing-small);
+    width: calc(1em + var(--sl-input-spacing-small) * 2);
   }
 
   .input--small .input__prefix ::slotted(*) {
-    margin-left: var(--sl-input-spacing-small);
+    padding-left: var(--sl-input-spacing-small);
   }
 
   .input--small .input__suffix ::slotted(*) {
-    margin-right: var(--sl-input-spacing-small);
+    padding-right: var(--sl-input-spacing-small);
   }
 
   .input--medium {
@@ -178,20 +187,20 @@ export default css`
 
   .input--medium .input__control {
     height: calc(var(--sl-input-height-medium) - var(--sl-input-border-width) * 2);
-    margin: 0 var(--sl-input-spacing-medium);
+    padding: 0 var(--sl-input-spacing-medium);
   }
 
   .input--medium .input__clear,
   .input--medium .input__password-toggle {
-    margin-right: var(--sl-input-spacing-medium);
+    width: calc(1em + var(--sl-input-spacing-medium) * 2);
   }
 
   .input--medium .input__prefix ::slotted(*) {
-    margin-left: var(--sl-input-spacing-medium);
+    padding-left: var(--sl-input-spacing-medium);
   }
 
   .input--medium .input__suffix ::slotted(*) {
-    margin-right: var(--sl-input-spacing-medium);
+    padding-right: var(--sl-input-spacing-medium);
   }
 
   .input--large {
@@ -202,20 +211,20 @@ export default css`
 
   .input--large .input__control {
     height: calc(var(--sl-input-height-large) - var(--sl-input-border-width) * 2);
-    margin: 0 var(--sl-input-spacing-large);
+    padding: 0 var(--sl-input-spacing-large);
   }
 
   .input--large .input__clear,
   .input--large .input__password-toggle {
-    margin-right: var(--sl-input-spacing-large);
+    width: calc(1em + var(--sl-input-spacing-large) * 2);
   }
 
   .input--large .input__prefix ::slotted(*) {
-    margin-left: var(--sl-input-spacing-large);
+    padding-left: var(--sl-input-spacing-large);
   }
 
   .input--large .input__suffix ::slotted(*) {
-    margin-right: var(--sl-input-spacing-large);
+    padding-right: var(--sl-input-spacing-large);
   }
 
   /*
@@ -242,6 +251,7 @@ export default css`
   .input__password-toggle {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     font-size: inherit;
     color: var(--sl-input-icon-color);
     border: none;

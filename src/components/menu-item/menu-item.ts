@@ -54,8 +54,7 @@ export default class SlMenuItem extends LitElement {
     this.setAttribute('aria-disabled', String(this.disabled));
   }
 
-  @query('.menu-item')
-  private baseDiv: HTMLDivElement;
+
   render() {
     return html`
       <div
@@ -67,10 +66,13 @@ export default class SlMenuItem extends LitElement {
           'menu-item--disabled': this.disabled
         })}
       >
-        <sl-ripple class="ripple-wrap" .target=${this.baseDiv} overlay ?disabled=${this.disabled || this.disableRipple}></sl-ripple>
-        <span part="checked-icon" class="menu-item__check">
-          <sl-icon name="check" library="system" aria-hidden="true"></sl-icon>
-        </span>
+        <sl-icon
+          part="checked-icon"
+          class="menu-item__check"
+          name="check"
+          library="system"
+          aria-hidden="true"
+        ></sl-icon>
 
         <span part="prefix" class="menu-item__prefix">
           <slot name="prefix"></slot>
