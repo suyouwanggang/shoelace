@@ -1,0 +1,10 @@
+import { css, html, LitElement, render } from 'lit';
+import { restoreFromLocalCache, restoreTableDefault } from './components/table/tableCacheHelper';
+import { onEvent } from './utilities/common';
+globalThis.LitElement = LitElement;
+globalThis.css = css;
+globalThis.html = html;
+globalThis.onEvent = onEvent;
+globalThis.LitRender = render;
+globalThis.restoreTableDefault = restoreTableDefault;
+globalThis.restoreFromLocalCache = restoreFromLocalCache;

@@ -1,9 +1,11 @@
 import { html, LitElement, PropertyValues } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+import { styleMap } from 'lit/directives/style-map.js';
 import { emit } from '../../internal/event';
 import { watch } from '../../internal/watch';
 import { getCssValue } from '../../utilities/common';
 import { dragHandler } from '../../utilities/dragHelper';
+import { isNumberWidth } from '../table/tableHelper';
 import styles from './splitter.styles';
 
 /**
@@ -33,8 +35,8 @@ export default class SlSplitter extends LitElement {
   /** 是否允许拖动改变位置 */
   @property({ type: Boolean, attribute: 'split-able' }) splitAble = true;
   /**分隔允许的最小位置  */
-  @property({ type: Number, attribute: 'min-size', reflect: true }) minSize?: number;
-  @property({ type: Number, attribute: 'max-size', reflect: true }) maxSize?: number;
+  @property({ type: String, attribute: 'min-size', reflect: true }) minSize?: number|string;
+  @property({ type: String, attribute: 'max-size', reflect: true }) maxSize?: number|string;
 
   /**整体是否显示边框  */
   @property({ type: Boolean, attribute: true }) border: boolean = true;
@@ -97,12 +99,6 @@ export default class SlSplitter extends LitElement {
           }
           break;
       }
-      if (this.minSize && value < this.minSize) {
-        value = this.minSize;
-      }
-      if (this.maxSize && value > this.maxSize) {
-        value = this.maxSize;
-      }
       exta.style.flexBasis = value + 'px';
       emit(this, 'sl-splitter-change', {
         detail: {
@@ -111,9 +107,30 @@ export default class SlSplitter extends LitElement {
       });
     });
   }
+  private _getExtaStyle(){
+    const extaStyle: any={ };
+    if(this.minSize){
+      if(this.splitType=='bottom'||this.splitType=='top'){
+        extaStyle['min-height']=isNumberWidth(this.minSize)? this.minSize+'px':this.minSize;
+      }if(this.splitType=='left'||this.splitType=='right'){
+        extaStyle['min-width']=isNumberWidth(this.minSize)? this.minSize+'px':this.minSize;
+      }
+    }
+    if(this.maxSize){
+      if(this.splitType=='bottom'||this.splitType=='top'){
+        extaStyle['max-height']=isNumberWidth(this.maxSize)? this.maxSize+'px':this.maxSize;
+      }if(this.splitType=='left'||this.splitType=='right'){
+        extaStyle['max-width']=isNumberWidth(this.maxSize)? this.maxSize+'px':this.maxSize;
+      }
+    }
+    return extaStyle;
+  }
   render() {
+   
+     
+   
     return html`<div part="base" class="base" type=${this.splitType}>
-      <div part="exta">
+      <div part="exta" style=${styleMap(this._getExtaStyle())}>
         <slot name="exta"></slot>
       </div>
       <div part="spliter"></div>

@@ -87,7 +87,7 @@ const setColumnCacheData = (column: SlColumn, key: keyof ColumnCacheData, value:
     data = {};
     columnCacheData.set(column, data);
   }
-  data[key] = value;
+  (data as any)[key] = value;
 };
 const getColumnCacheDataKey = (column: SlColumn, key: keyof ColumnCacheData) => {
   let data = getColumnCacheData(column);

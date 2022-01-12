@@ -116,13 +116,13 @@ export default class SlScroll extends LitElement {
   @query('#right-bottom', true)
   public rightBottom: HTMLElement;
 
-  @query('#content', true)
+  @query('#content')
   public contentDIV: HTMLDivElement;
 
-  @query('#content-wrap', true)
+  @query('#content-wrap')
   public content_wrap_DIV: HTMLDivElement;
 
-  @query('#container', true)
+  @query('#container')
   public containerDIV: HTMLDivElement;
 
   @query('div[part=scroll-y]', true)
@@ -137,28 +137,34 @@ export default class SlScroll extends LitElement {
   @query('div[part=scroll-x-handler]', true)
   public partXHandler: HTMLDivElement;
 
-  private _obersver: ResizeObserver | undefined;
+  private _obersver: ResizeObserver ;
   firstUpdated(_changedProperties: PropertyValues) {
     super.firstUpdated(_changedProperties);
-    this._intiKeyEvent();
     this._initScrollBarEvent();
     this.contentDIV.scrollTop = 0;
     this.contentDIV.scrollLeft = 0;
-    this._obersver = new ResizeObserver(() => {
-      this.resize();
-    });
-    this._obersver.observe(this);
-    this._obersver.observe(this.content_wrap_DIV);
-    this.renderRoot.querySelector('#contentSlot')?.addEventListener('slotchange', () => {
-      this.resize();
-    });
-    this.resize();
+  }
+  connectedCallback(): void {
+      super.connectedCallback();
+      this._intiKeyEvent();
+      this._obersver = new ResizeObserver(() => {
+        this.resize();
+      });
+      this._obersver.observe(this);
+      this.getUpdateComplete().then(()=>{
+        this.resize();
+        this._obersver.observe(this.containerDIV);
+        this._obersver.observe(this.content_wrap_DIV);
+        this.renderRoot.querySelector('#contentSlot')?.addEventListener('slotchange', () => {
+          this.resize();
+        });
+      });
   }
   disconnectedCallback() {
     super.disconnectedCallback();
-    this._obersver?.unobserve(this.content_wrap_DIV);
-    this._obersver?.unobserve(this);
-    this._obersver = undefined;
+    this.content_wrap_DIV?this._obersver.unobserve(this.content_wrap_DIV):null;
+    this.containerDIV?this._obersver.unobserve(this.containerDIV):null;
+    this._obersver.unobserve(this);
     this.removeEventListener('mouseover', this._MouseOnEventHandler);
     this.removeEventListener('mouseout', this._MouseOutEventHandler);
     document.removeEventListener('keydown', this._docEventHandler);

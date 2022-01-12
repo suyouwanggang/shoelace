@@ -63,6 +63,11 @@ export default class SlTooltip extends LitElement {
     | 'left-start'
     | 'left-end' = 'top';
 
+  /**
+   *  tooltip theme type .
+   */
+  @property({ attribute: true, reflect: true }) type: 'default' | 'primary' | 'success' | 'warning' | 'danger'|'blank' = 'default';
+
   /** Disables the tooltip so it won't show when triggered. */
   @property({ type: Boolean, reflect: true }) disabled = false;
 

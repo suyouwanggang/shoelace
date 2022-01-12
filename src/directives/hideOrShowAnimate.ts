@@ -114,13 +114,13 @@ class AnimateDirective extends Directive {
   }
   update(_part: ElementPart, [_option]: Parameters<this['render']>) {
     if (!_option || !_option.name) {
-      return;
+      return nothing;
     }
-    requestNextFrame(() => {
+    requestNextFrame(()=>{
       const element = _part.element as HTMLElement;
       let frames = (animations as any)[_option.name];
       if (!frames) {
-        return;
+        return nothing;
       }
       animateTo(element, (animations as any)[_option.name], {
         easing: _option && _option.easing ? _option.easing : 'ease',
@@ -131,6 +131,7 @@ class AnimateDirective extends Directive {
           _option.onComplete(element);
         }
       });
+      return nothing;
     });
     return nothing;
   }

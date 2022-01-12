@@ -55,11 +55,14 @@ export default class SlTabGroup extends LitElement {
   /** The placement of the tabs. */
   @property() placement: 'top' | 'bottom' | 'start' | 'end' = 'top';
 
+  
+  @property({type:Boolean}) maxBodyHeight=false;
   /**
    * When set to auto, navigating tabs with the arrow keys will instantly show the corresponding tab panel. When set to
    * manual, the tab will receive focus but will not show until the user presses spacebar or enter.
    */
   @property() activation: 'auto' | 'manual' = 'auto';
+
 
   /** Disables the scroll arrows that appear when tabs overflow. */
   @property({ attribute: 'no-scroll-controls', type: Boolean }) noScrollControls = false;
@@ -350,6 +353,7 @@ export default class SlTabGroup extends LitElement {
         part="base"
         class=${classMap({
           'tab-group': true,
+          'tab-group-max':this.maxBodyHeight,
           'tab-group--top': this.placement === 'top',
           'tab-group--bottom': this.placement === 'bottom',
           'tab-group--start': this.placement === 'start',

@@ -72,6 +72,9 @@ export default class SlInput extends LitElement {
   /** The input's value attribute. */
   @property() value = '';
 
+   /** render form_item_able. */
+   @property({ type: Boolean, reflect: true }) form_able = false;
+
   /** Draws a filled input. */
   @property({ type: Boolean, reflect: true }) filled = false;
 
@@ -133,7 +136,7 @@ export default class SlInput extends LitElement {
   @property() autocorrect: string;
 
   /** The input's autocomplete attribute. */
-  @property() autocomplete: string;
+  @property() autocomplete: 'off'|'on';
 
   /** The input's autofocus attribute. */
   @property({ type: Boolean }) autofocus: boolean;

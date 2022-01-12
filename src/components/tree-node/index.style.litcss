@@ -15,6 +15,8 @@
 }
 .node-icon{
     position: relative;
+    flex: 0 0 auto;
+    font-size:var(--sl-node-icon-size,14px);
     vertical-align: middle;
     top:var(--node-icon-top,0);
     color:var(--node-icon-color,inherit );
@@ -25,16 +27,16 @@
 }   
 div[part=base]{
     white-space: nowrap;
-
     div[part=node]{
-        display:flex;
+        display:inline-flex;
+        min-width: 100%;
         position: relative;
         align-items: center;
         padding:5px 0;
         /** 节点按照层次收缩 **/
         padding-left:calc( var(--sl-node-level,0) * 0.8em);
         sl-icon[part=node-icon]{
-            margin-right:var(--sl-spacing-2x-small);
+            margin-right:var(--sl-spacing-x-small);
         }
         transition: background-color ease 0.3ms ;
         div[part=node-span]{

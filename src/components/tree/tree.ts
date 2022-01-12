@@ -46,6 +46,7 @@ import styles from './tree.styles';
 @customElement('sl-tree')
 export default class SlTree extends LitElement {
   static styles = styles;
+  public static TREE_NODE_ICON_LIBARARY='system';
 
   /** tree 选中方式 selectMode：支持的值为：check, radio,single,none （none,表示不支持选中,single) */
   @property({ reflect: true }) selectMode: 'check' | 'radio' | 'single' | 'none' = 'single';

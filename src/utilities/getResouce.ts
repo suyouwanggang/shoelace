@@ -1,5 +1,6 @@
 import { emit } from '../internal/event';
 import resouceZh from '../resources/resource.zh';
+import resourceEn from '../resources/resource.en';
 import { isFunction } from './common';
 let currentLocal = 'zh';
 /**
@@ -8,47 +9,58 @@ let currentLocal = 'zh';
 const resouce_changeEvent = `window-resouce-change-event`;
 
 /**
- * 设置语言 资源
+ * 加载资源文件
  * @param locale 
  * @param translateObject 
  * @returns 
  */
-const registerTranslator = async (locale: string, translateObject?: any) => {
+const loadTranslator=async (locale:string,translateObject? :any)=>{
   if (!getSupportLocals().includes(locale)) {
     throw new Error(`不支持的组件语言!支持的语言有${getSupportLocals().join(',')}`);
   }
-  const localData = await loaderLocal(locale) as Object;
+  const localData = getCurrentLocalData(locale) as Object;
   if (translateObject) {
-    Object.assign(localData, translateObject);
-    resourceMap[locale] = localData;
+    const result=await translateObject;
+    Object.assign(localData, result);
   }
-  if(locale!=currentLocal){
-    currentLocal = locale;
-    emit(window, resouce_changeEvent, {
-      detail: {
-        locale: locale,
-        data: localData
-      }
-    })
-  }
-  return localData;
+  emit(window, resouce_changeEvent, {
+    detail: {
+      old:currentLocal,
+      locale: locale,
+      data: getCurrentLocalData(currentLocal)
+    }
+  })
+  return true;
 }
 /**
- * 设置组件语言,通知加载自定义的语言资源
- * @param locale
+ * 设置当前语言，同时触发 window  resouce_changeEvent 事件
+ * @param locale 
+ * @returns 
  */
-const setLocal = registerTranslator;
-
-
-const resourceMap: any = { zh: resouceZh };
-async function loaderLocal(locale: string) {
-  if (resourceMap[locale]) {
-    return resourceMap[locale];
+const setLocal = (locale: string) => {
+  if (!getSupportLocals().includes(locale)) {
+    throw new Error(`不支持的组件语言!支持的语言有${getSupportLocals().join(',')}`);
   }
-  return import(`../resources/resource.${locale}.js`).then(ret => {
-    resourceMap[locale] = ret.default;
-    return resourceMap[locale];
-  });
+  const data=getCurrentLocalData(currentLocal);
+  currentLocal = locale;
+  emit(window, resouce_changeEvent, {
+    detail: {
+      old:currentLocal,
+      locale: locale,
+      data: getCurrentLocalData(currentLocal)
+    }
+  })
+  
+  return data;
+}
+
+const resourceMap: any = { zh: resouceZh,en:resourceEn };
+function getCurrentLocalData(locale: string) {
+  let result=  resourceMap[locale];
+  if (typeof result=='undefined') {
+    result=resourceMap[locale]={};
+  }
+  return result;
 }
 /**
  * 获取组件语言
@@ -100,4 +112,4 @@ const translate = (resourceKey: string, ...args: any): any => {
 }
 (window as any).setLocal = setLocal;
 (window as any).getResouceValue = getResouceValue;
-export { setLocal, getLocal, getSupportLocals, setSupportLocals, getResouceValue, resouce_changeEvent, translate, registerTranslator };
+export { setLocal, getLocal, getSupportLocals, setSupportLocals, getResouceValue, resouce_changeEvent, translate, loadTranslator };

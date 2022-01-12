@@ -34,12 +34,12 @@ export type MessageType = {
 };
 const notify = (message: MessageType | string, type: 'primary' | 'success' | 'neutral' | 'warning' | 'danger' = 'primary', icon = 'info-circle', duration = 3000) => {
   const isString = typeof message == 'string';
-  const messageObj = message as any;
+  const messageObj = message as MessageType;
   let alert: SlAlert;
   const messageText = !isString ? messageObj.text : message;
   const alterTemplat = html`<sl-alert
     closable
-    .type=${!isString && messageObj.type ? messageObj.type : type}
+    .variant=${!isString && messageObj.type ? messageObj.type : type}
     .duration=${!isString && typeof messageObj.duration != 'undefined' ? messageObj.duration : duration}
     @sl-after-show=${() => (!isString && messageObj.afterShow ? messageObj.afterShow(alert) : '')}
     @sl-after-hide=${() => (!isString && messageObj.afterHide ? messageObj.afterHide(alert) : '')}

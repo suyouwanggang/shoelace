@@ -1,5 +1,6 @@
 import { html, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import { emit } from '../../internal/event';
 import { PathNameResult } from './pathResovle';
 import { getRouterByName } from './router';
@@ -18,6 +19,13 @@ export default class SlRouterLink extends LitElement {
   @property({ attribute: false })
   external: boolean = false;
 
+    /**是否允许拖动 */
+    @property({ reflect:true ,type:Boolean})
+    draggable: boolean = false;
+
+    @property({ reflect:true,type:String })
+    target:'_blank'|'_parent'|'_self'|'_top';
+
   /**匹配SlRouter 路由，如果未指定则等同default */
   @property({ attribute: false })
   routerName: string;
@@ -26,8 +34,8 @@ export default class SlRouterLink extends LitElement {
   @property({ type: Object, attribute: false })
   data: PathNameResult;
   render() {
-    return html`<a part="link" @click=${this.goToLink} .href=${this.src} .data=${this.data}><slot></slot></a>`;
-  }
+    return html`<a part="link"  .draggable=${this.draggable} target=${ifDefined(this.target)} @click=${this.goToLink} .href=${this.src} .data=${this.data}><slot></slot></a>`;
+  } 
   public get router() {
     return getRouterByName(this.routerName);
   }

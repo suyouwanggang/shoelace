@@ -92,6 +92,9 @@ export default class SlSelect extends LitElement {
   /** Disables the select control. */
   @property({ type: Boolean, reflect: true }) disabled = false;
 
+  /** render form_able. */
+  @property({ type: Boolean, reflect: true }) form_able = false;
+
   /** The select's name. */
   @property() name = '';
 
@@ -182,7 +185,9 @@ export default class SlSelect extends LitElement {
 
   /** Sets focus on the control. */
   focus(options?: FocusOptions) {
-    this.control.focus(options);
+    this.updateComplete.then(() => {
+      this.control.focus(options);
+    });
   }
 
   /** Removes focus from the control. */
@@ -427,7 +432,6 @@ export default class SlSelect extends LitElement {
       this.value = checkedValues.length > 0 ? checkedValues[0] : '';
     }
   }
-
   render() {
     const hasLabelSlot = this.hasSlotController.test('label');
     const hasHelpTextSlot = this.hasSlotController.test('help-text');
@@ -437,6 +441,7 @@ export default class SlSelect extends LitElement {
       {
         inputId: this.inputId,
         label: this.label,
+        form_able:this.form_able,
         labelId: this.labelId,
         hasLabelSlot,
         helpTextId: this.helpTextId,

@@ -198,7 +198,7 @@ export default class SlTreeNode extends LitElement {
         </sl-icon>`);
       }
       if (this.nodeData.icon) {
-        result.push(html`<sl-icon class="node-icon" part="node-icon" name=${this.nodeData.icon} library="system"> </sl-icon>`);
+        result.push(html`<sl-icon class="node-icon" part="node-icon" name=${this.nodeData.icon} library=${SlTree.TREE_NODE_ICON_LIBARARY}> </sl-icon>`);
       }
       let indexStr = this.getAttribute('index');
       let index = 0;

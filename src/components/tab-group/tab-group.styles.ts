@@ -10,13 +10,18 @@ export default css`
 
     display: block;
   }
-
   .tab-group {
     display: flex;
     border: solid 1px transparent;
     border-radius: 0;
   }
-
+.tab-group-max{
+    height:100%;
+}
+.tab-group-max .tab-group__body{
+  overflow:auto;
+  flex:1;
+}
   .tab-group .tab-group__tabs {
     display: flex;
     position: relative;

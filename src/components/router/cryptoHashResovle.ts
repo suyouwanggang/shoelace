@@ -10,7 +10,7 @@ export const CryptoHashResovle: ResovlePathInterface = {
   },
   toPath(url, jsonData) {
     const result = defaultResove.toPath(url, jsonData);
-    const enryptText = wrapData(result);
+    const enryptText =wrapData(result);
     return enryptText;
   }
 };

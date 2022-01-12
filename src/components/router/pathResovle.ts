@@ -8,11 +8,11 @@ const stripExtraTrailingSlash = (path: string) => {
   if (!path) {
     return '/';
   }
-  if (path.substr(0, 1) != '/') {
+  if (path.substring(0, 1) != '/') {
     path = '/' + path;
   }
-  if (path.length !== 1 && path.substr(-1) === '/') {
-    path = path.substr(0, path.length - 1);
+  if (path.length !== 1 && path.substring(-1) === '/') {
+    path = path.substring(0, path.length - 1);
   }
   path = path.replace(REG_REMOVE, '/');
   return path;
@@ -25,6 +25,13 @@ const REG_REMOVE = /[\/]{2,}/;
 
 /**
  * 将查询字符串 转换为 json Object
+ * 
+ * @example
+ * ```ts
+ * getQueryData('id=2000&name=10001') ==> {id:2000,name:10001}
+ * getQueryData('id=abc&name=%E7%8E%8B%E5%88%9A') ==> {id:'abc',name:'王刚'}
+ * ```
+ * 
  * @param queryString  查询字符串 ，类似 'a=b&c=d&asd=d'
  * @returns
  */
@@ -49,6 +56,13 @@ type ParamterData = {
 };
 /**
  * 将 json data 转化为queryString
+ * 
+ * @example
+ * ```ts
+ * toQueryString({id:2000,name:1000}) ==> id=2000&name=10001
+ * toQueryString({id:'abc',name:'王刚'}) ==> id=abc&name=%E7%8E%8B%E5%88%9A
+ * ```
+ * 
  * @param data jsonObject
  * @returns
  */
@@ -68,10 +82,13 @@ const toQueryString = (data: ParamterData) => {
   }
   return array.join('&');
 };
-
+/**
+ * 缓存所有的pattern , key :pattern, value :{reg:正则表达式，keys:参数列表}
+ */
 const matchResultCache = new Map<string, MatchFunction>();
 /**
  * 判断路径 path ,是否匹配pattern 路径
+ * @link 
  * @param path
  * @param pattern
  * @returns
@@ -79,16 +96,18 @@ const matchResultCache = new Map<string, MatchFunction>();
 const isPathURLMatchPattern = (path: string, pattern: string) => {
   let matchFun = matchResultCache.get(pattern);
   if (!matchFun) {
-    matchFun = match(pattern, {
-      decode: decodeURIComponent
-    });
-    matchResultCache.set(pattern, matchFun);
+    try{
+      matchFun = match(pattern, {
+        decode: decodeURIComponent
+      });
+      matchResultCache.set(pattern, matchFun);
+    }catch(exe){
+      console.log(exe, 'pattern is not valid ',pattern);
+    }
   }
   return matchFun(path) != false;
 };
-/**
- * 缓存所有的pattern , key :pattern, value :{reg:正则表达式，keys:参数列表}
- */
+
 
 /**
  * 判断指定路径 ，是否匹配 pattern路径，如果匹配，则返回object, 包含所有的命名参数，
@@ -99,8 +118,19 @@ const isPathURLMatchPattern = (path: string, pattern: string) => {
  */
 
 export type PathNameResult = {
-  [key in string]: string | number;
+  [key in string]: string|number ;
 };
+/**
+ * 解析路径的 参数值
+ * 
+ * ``` ts
+ * getPathNames('/project/info/10001','/project/info/:projectID')
+ * 结果为 {projectID: 10001}
+ * ```
+ * @param path  
+ * @param pattern 
+ * @returns 
+ */
 const getPathNames = (path: string, pattern: string) => {
   let matchFun = matchResultCache.get(pattern);
   if (!matchFun) {
@@ -125,10 +155,11 @@ export interface ResovlePathInterface {
    * 将hash 路径，转为对象 path,queryString, queryData
    * ```
    * #/wanggang/list?id=232&name=test --> {path:'/wanggang/list', queryData:{id:'232',name:'test'}}
+   * 
    * ```
    * @param hash
    */
-  resolvePath(hash: string): { path: string; queryString: string; queryData: { [key: string]: string | number | string[] | number[] } };
+  resolvePath(hash: string): { path: string; queryString: string; queryData: { [key: string]: string | string[]  } };
   /**
    * 将url 和jsonData 转化为 hash 路径
    * 例如：url='/wanggang/list' ,jsonData={id:1,b:2}==>   #/wanggang/list?id=1&b=2

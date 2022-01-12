@@ -109,6 +109,8 @@ export const renderFormControl = (
     /** The input id, used to map the input to the label */
     inputId: string;
 
+    /***ÊÇ·ñäÖÈ¾item ²¼¾Ö */
+    form_able?:boolean;
     /** The size of the form control */
     size: 'small' | 'medium' | 'large';
 
@@ -137,7 +139,10 @@ export const renderFormControl = (
 ) => {
   const hasLabel = props.label ? true : !!props.hasLabelSlot;
   const hasHelpText = props.helpText ? true : !!props.hasHelpTextSlot;
-
+  const form_able=props.form_able;
+  if(!form_able){
+    return html`${input}`;
+  }
   return html`
     <div
       part="form-control"

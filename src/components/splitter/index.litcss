@@ -9,7 +9,7 @@ div[part=spliter]{
     background-color: #FFF;
     transition: background-color 0.2ms cubic-bezier(0.075, 0.82, 0.165, 1)  ;
     &:hover, &:focus-visible{
-        background-color:rgb(var(--sl-split-hover-color));
+        background-color:var(--sl-split-hover-color);
     }
     flex:0 0 auto;
 }
@@ -33,7 +33,7 @@ div[part=base]{
         }
         div[part=spliter]{
             width:var(--sl-split-width);
-            border-left:solid 1px rgb(var(--sl-color-neutral-200));
+            border-left:solid 1px var(--sl-color-neutral-200);
             order:1;
             cursor: w-resize;
         }

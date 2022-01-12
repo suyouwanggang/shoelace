@@ -55,7 +55,7 @@ export default class SlFormatDate extends LitElement {
 
     // Check for an invalid date
     if (isNaN(date.getMilliseconds())) {
-      return;
+      return '';
     }
 
     return this.localize.date(date, {

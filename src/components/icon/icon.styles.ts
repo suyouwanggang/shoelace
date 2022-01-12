@@ -3,7 +3,9 @@ import componentStyles from '../../styles/component.styles';
 
 export default css`
   ${componentStyles}
-
+  :host([library=pm]){
+    color:var(--pm-icon-color,#959ca7);
+ }
   :host {
     display: inline-block;
     width: 1em;

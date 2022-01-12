@@ -154,7 +154,7 @@ export default class SlTextarea extends LitElement {
     if (position) {
       if (typeof position.top === 'number') this.input.scrollTop = position.top;
       if (typeof position.left === 'number') this.input.scrollLeft = position.left;
-      return;
+      return void 0;
     }
 
     return {

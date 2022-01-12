@@ -1,5 +1,9 @@
 //
-// Emits a custom event with more convenient defaults.
+
+import { ReactiveController, ReactiveElement } from "lit";
+import { addEvent } from "../utilities/common";
+import { DisposeObject } from "../utilities/resize.util";
+
 //
 export function emit(el: HTMLElement | Window, name: string, options?: CustomEventInit) {
   const event = new CustomEvent(
@@ -17,6 +21,27 @@ export function emit(el: HTMLElement | Window, name: string, options?: CustomEve
   el.dispatchEvent(event);
   return event;
 }
+export { emit as emitEvent };
+/**
+ * 给组件绑定 全局对象(例如window,document)的事件
+ * @param el 组件
+ * @param target  事件对象
+ * @param eventType 事件类型
+ * @param handler  处理器(注意，handler this 等于参数el)
+ */
+export function addEventController(el:ReactiveElement,target:Document|Window|Element,eventType:string, handler:(this:ReactiveElement,event:Event)=>void){
+  let dispose:DisposeObject;
+  const hand=handler.bind(el);
+  const controller:ReactiveController={
+    hostConnected(){
+      dispose= addEvent(target,eventType,hand);
+    },
+    hostDisconnected(){
+      dispose.dispose();
+    }
+  };  
+  el.addController(controller);
+}
 
 //
 // Waits for a specific event to be emitted from an element. Ignores events that bubble up from child elements.
@@ -29,7 +54,6 @@ export function waitForEvent(el: HTMLElement, eventName: string) {
         resolve();
       }
     }
-
     el.addEventListener(eventName, done);
   });
 }

@@ -33,6 +33,14 @@ export default css`
     color: var(--sl-tooltip-color);
     padding: var(--sl-tooltip-padding);
   }
+  .tooltip--open{
+     border:var(--sl-tooltip-border);
+     box-shadow:var(--sl-tooltip-box-shadow);
+  }
+  :host([type=blank]){
+    --sl-tooltip-background-color: #FFF;
+    --sl-tooltip-color: #333;
+  }
   :host([type='primary']) {
     --sl-tooltip-background-color: var(--sl-color-primary-500);
     --sl-tooltip-color: var(--sl-color-neutral-1000);
@@ -57,6 +65,7 @@ export default css`
     position: absolute;
     width: 0;
     height: 0;
+    z-index:1;
   }
 
   .tooltip-positioner[data-popper-placement^='top'] .tooltip {
