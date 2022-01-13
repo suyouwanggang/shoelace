@@ -5,11 +5,12 @@ export default css`
   ${componentStyles}
 
   :host {
-    --width: 31rem;
+   
     --header-spacing: var(--sl-spacing-large);
     --body-spacing: var(--sl-spacing-large);
     --footer-spacing: var(--sl-spacing-large);
-
+    --header-bottom-border:1px solid #f0f0f0;
+    --footer-top-border:1px solid #f0f0f0;
     display: contents;
   }
 
@@ -27,15 +28,18 @@ export default css`
 
   .dialog__panel {
     display: flex;
+    overflow:hidden;
+    position:relative;
     flex-direction: column;
     z-index: 2;
-    width: var(--width);
+    width: var(--width,auto);
     max-width: calc(100% - var(--sl-spacing-2x-large));
     max-height: calc(100% - var(--sl-spacing-2x-large));
     background-color: var(--sl-panel-background-color);
     border-radius: var(--sl-border-radius-medium);
     box-shadow: var(--sl-shadow-x-large);
   }
+  
 
   .dialog__panel:focus {
     outline: none;
@@ -57,6 +61,11 @@ export default css`
   .dialog__header {
     flex: 0 0 auto;
     display: flex;
+    border-bottom:var(--header-bottom-border);
+    align-items: center;
+    font-size: var(--sl-font-size-x-large);
+    padding: 0 var(--header-spacing);
+    padding-right:50px;
   }
 
   .dialog__title {
@@ -67,11 +76,16 @@ export default css`
   }
 
   .dialog__close {
+    right:0;
+    padding-left: var(--sl-dialog-close-icon,0.8rem);
+    padding-right:var(--sl-dialog-close-icon,0.9rem);
     flex: 0 0 auto;
+    position:absolute;
+    justify-content:center;
     display: flex;
-    align-items: center;
-    font-size: var(--sl-font-size-x-large);
-    padding: 0 var(--header-spacing);
+  }
+  .closeImg{
+    font-size:2rem;
   }
 
   .dialog__body {
@@ -82,6 +96,7 @@ export default css`
   }
 
   .dialog__footer {
+    border-top:var(--footer-top-border);
     flex: 0 0 auto;
     text-align: right;
     padding: var(--footer-spacing);
