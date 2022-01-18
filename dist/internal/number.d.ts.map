@@ -1,1 +1,0 @@
-{"version":3,"file":"number.d.ts","sourceRoot":"","sources":["../../src/internal/number.ts"],"names":[],"mappings":"AAGA,wBAAgB,WAAW,CAAC,KAAK,EAAE,MAAM,EAAE,OAAO,EAAE,kBAAkB,UAuBrE;AAED,UAAU,kBAAkB;IAC1B,IAAI,CAAC,EAAE,OAAO,GAAG,MAAM,CAAC;IACxB,SAAS,CAAC,EAAE,CAAC,MAAM,EAAE,MAAM,KAAK,MAAM,CAAC;CACxC"}

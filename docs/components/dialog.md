@@ -7,7 +7,7 @@
 Dialogs, sometimes called "modals", appear above the page and require the user's immediate attention.
 
 ```html preview
-<sl-dialog label="Dialog" class="dialog-overview">
+<sl-dialog label="Dialog" class="dialog-overview" drag-head resize-able>
   Lorem ipsum dolor sit amet, consectetur adipiscing elit.
   <sl-button slot="footer" variant="primary">Close</sl-button>
 </sl-dialog>

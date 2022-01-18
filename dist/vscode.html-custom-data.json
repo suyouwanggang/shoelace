@@ -1,37 +1,6 @@
 {
   "tags": [
     {
-      "name": "sl-ac-panel",
-      "attributes": [
-        {
-          "name": "active"
-        },
-        {
-          "name": "key"
-        },
-        {
-          "name": "header"
-        }
-      ]
-    },
-    {
-      "name": "sl-animated-image",
-      "attributes": [
-        {
-          "name": "src",
-          "description": "The image's src attribute."
-        },
-        {
-          "name": "alt",
-          "description": "The image's alt attribute."
-        },
-        {
-          "name": "play",
-          "description": "When set, the image will animate. Otherwise, it will be paused."
-        }
-      ]
-    },
-    {
       "name": "sl-alert",
       "attributes": [
         {
@@ -66,6 +35,37 @@
         {
           "name": "duration",
           "description": "The length of time, in milliseconds, the alert will show before closing itself. If the user interacts with\nthe alert before it closes (e.g. moves the mouse over it), the timer will restart. Defaults to `Infinity`."
+        }
+      ]
+    },
+    {
+      "name": "sl-ac-panel",
+      "attributes": [
+        {
+          "name": "active"
+        },
+        {
+          "name": "key"
+        },
+        {
+          "name": "header"
+        }
+      ]
+    },
+    {
+      "name": "sl-animated-image",
+      "attributes": [
+        {
+          "name": "src",
+          "description": "The image's src attribute."
+        },
+        {
+          "name": "alt",
+          "description": "The image's alt attribute."
+        },
+        {
+          "name": "play",
+          "description": "When set, the image will animate. Otherwise, it will be paused."
         }
       ]
     },
@@ -635,6 +635,30 @@
       ]
     },
     {
+      "name": "sl-date-panel",
+      "attributes": [
+        {
+          "name": "value",
+          "description": "选中日期 ,格式：2018，2018-02, 2018/01， 2018/02/02 ,2018-01-02"
+        },
+        {
+          "name": "mode",
+          "description": "选择模式，年，月，日",
+          "values": [
+            {
+              "name": "year"
+            },
+            {
+              "name": "month"
+            },
+            {
+              "name": "date"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "name": "sl-date",
       "attributes": [
         {
@@ -745,30 +769,6 @@
       ]
     },
     {
-      "name": "sl-date-panel",
-      "attributes": [
-        {
-          "name": "value",
-          "description": "选中日期 ,格式：2018，2018-02, 2018/01， 2018/02/02 ,2018-01-02"
-        },
-        {
-          "name": "mode",
-          "description": "选择模式，年，月，日",
-          "values": [
-            {
-              "name": "year"
-            },
-            {
-              "name": "month"
-            },
-            {
-              "name": "date"
-            }
-          ]
-        }
-      ]
-    },
-    {
       "name": "sl-details",
       "attributes": [
         {
@@ -791,6 +791,42 @@
         {
           "name": "open",
           "description": "Indicates whether or not the dialog is open. You can use this in lieu of the show/hide methods."
+        },
+        {
+          "name": "drag-head",
+          "description": "Indicates whether or not the dialog is can drag position."
+        },
+        {
+          "name": "resize-able",
+          "description": "Indicates whether or not the dialog is can resize"
+        },
+        {
+          "name": "min-width",
+          "description": "控制 dialog  拖动改变 大小的是 min-width ，例如： 500,50% ,500px"
+        },
+        {
+          "name": "max-width",
+          "description": "控制 dialog  拖动改变 大小的是  dialog max-width  例如： 500,50% ,500px"
+        },
+        {
+          "name": "min-height",
+          "description": "控制 dialog  拖动改变 大小的是  dialog 最小高度 min-height"
+        },
+        {
+          "name": "max-height",
+          "description": "控制 dialog  拖动改变 大小的是  dialog 最大高度 max-height"
+        },
+        {
+          "name": "mask",
+          "description": "是否支持遮罩层"
+        },
+        {
+          "name": "mask-closeable",
+          "description": "是否允许遮罩层来自动关闭"
+        },
+        {
+          "name": "esc-closeable",
+          "description": "当显示遮罩层的时候， 是否允许 esc 键来关闭 弹出框 （待实现）"
         },
         {
           "name": "label",
@@ -1250,6 +1286,27 @@
       ]
     },
     {
+      "name": "sl-icon",
+      "attributes": [
+        {
+          "name": "name",
+          "description": "The name of the icon to draw."
+        },
+        {
+          "name": "src",
+          "description": "An external URL of an SVG file."
+        },
+        {
+          "name": "label",
+          "description": "An alternate description to use for accessibility. If omitted, the icon will be ignored by assistive devices."
+        },
+        {
+          "name": "library",
+          "description": "The name of a registered custom icon library."
+        }
+      ]
+    },
+    {
       "name": "sl-gallery",
       "attributes": [
         {
@@ -1288,27 +1345,6 @@
         {
           "name": "imageRender",
           "description": "当前图片自定义显示"
-        }
-      ]
-    },
-    {
-      "name": "sl-icon",
-      "attributes": [
-        {
-          "name": "name",
-          "description": "The name of the icon to draw."
-        },
-        {
-          "name": "src",
-          "description": "An external URL of an SVG file."
-        },
-        {
-          "name": "label",
-          "description": "An alternate description to use for accessibility. If omitted, the icon will be ignored by assistive devices."
-        },
-        {
-          "name": "library",
-          "description": "The name of a registered custom icon library."
         }
       ]
     },
@@ -1748,6 +1784,26 @@
       ]
     },
     {
+      "name": "sl-org-tree",
+      "attributes": [
+        {
+          "name": "rootData",
+          "description": "组织架构节点数据"
+        },
+        {
+          "name": "center",
+          "description": "是否居中"
+        },
+        {
+          "name": "horizontal",
+          "description": "是否是水平布局 组织架构"
+        },
+        {
+          "name": "nodeRender"
+        }
+      ]
+    },
+    {
       "name": "sl-org-node",
       "attributes": [
         {
@@ -1769,26 +1825,6 @@
         {
           "name": "nodeRender",
           "description": "节点自定义渲染"
-        }
-      ]
-    },
-    {
-      "name": "sl-org-tree",
-      "attributes": [
-        {
-          "name": "rootData",
-          "description": "组织架构节点数据"
-        },
-        {
-          "name": "center",
-          "description": "是否居中"
-        },
-        {
-          "name": "horizontal",
-          "description": "是否是水平布局 组织架构"
-        },
-        {
-          "name": "nodeRender"
         }
       ]
     },
@@ -2049,6 +2085,15 @@
       ]
     },
     {
+      "name": "sl-resize-observer",
+      "attributes": [
+        {
+          "name": "disabled",
+          "description": "Disables the observer."
+        }
+      ]
+    },
+    {
       "name": "sl-relative-time",
       "attributes": [
         {
@@ -2089,15 +2134,6 @@
         {
           "name": "sync",
           "description": "Keep the displayed value up to date as time passes."
-        }
-      ]
-    },
-    {
-      "name": "sl-resize-observer",
-      "attributes": [
-        {
-          "name": "disabled",
-          "description": "Disables the observer."
         }
       ]
     },
@@ -2448,27 +2484,6 @@
       ]
     },
     {
-      "name": "sl-step",
-      "attributes": [
-        {
-          "name": "icon",
-          "description": "图标"
-        },
-        {
-          "name": "description",
-          "description": "描述"
-        },
-        {
-          "name": "title",
-          "description": "标题"
-        },
-        {
-          "name": "index",
-          "description": "顺序号"
-        }
-      ]
-    },
-    {
       "name": "sl-steps",
       "attributes": [
         {
@@ -2497,6 +2512,27 @@
               "name": "larger"
             }
           ]
+        }
+      ]
+    },
+    {
+      "name": "sl-step",
+      "attributes": [
+        {
+          "name": "icon",
+          "description": "图标"
+        },
+        {
+          "name": "description",
+          "description": "描述"
+        },
+        {
+          "name": "title",
+          "description": "标题"
+        },
+        {
+          "name": "index",
+          "description": "顺序号"
         }
       ]
     },

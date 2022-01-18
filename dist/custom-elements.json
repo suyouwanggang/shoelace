@@ -4,6 +4,278 @@
   "modules": [
     {
       "kind": "javascript-module",
+      "path": "src/components/alert/alert.styles.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "module": "src/components/alert/alert.styles.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/alert/alert.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "SlAlert",
+          "cssProperties": [
+            {
+              "description": "The alert's box shadow.",
+              "name": "--box-shadow"
+            }
+          ],
+          "cssParts": [
+            {
+              "description": "The component's base wrapper.",
+              "name": "base"
+            },
+            {
+              "description": "The container that wraps the alert icon.",
+              "name": "icon"
+            },
+            {
+              "description": "The alert message.",
+              "name": "message"
+            },
+            {
+              "description": "The close button.",
+              "name": "close-button"
+            }
+          ],
+          "slots": [
+            {
+              "description": "The alert's content.",
+              "name": ""
+            },
+            {
+              "description": "An icon to show in the alert.",
+              "name": "icon"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "autoHideTimeout",
+              "type": {
+                "text": "any"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "base",
+              "type": {
+                "text": "HTMLElement"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Indicates whether or not the alert is open. You can use this in lieu of the show/hide methods.",
+              "attribute": "open",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "closable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Makes the alert closable.",
+              "attribute": "closable",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "variant",
+              "type": {
+                "text": "'primary' | 'success' | 'neutral' | 'warning' | 'danger'"
+              },
+              "default": "'primary'",
+              "description": "The alert's variant.",
+              "attribute": "variant",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "duration",
+              "type": {
+                "text": "number"
+              },
+              "default": "Infinity",
+              "description": "The length of time, in milliseconds, the alert will show before closing itself. If the user interacts with\nthe alert before it closes (e.g. moves the mouse over it), the timer will restart. Defaults to `Infinity`.",
+              "attribute": "duration"
+            },
+            {
+              "kind": "method",
+              "name": "show",
+              "description": "Shows the alert."
+            },
+            {
+              "kind": "method",
+              "name": "hide",
+              "description": "Hides the alert"
+            },
+            {
+              "kind": "method",
+              "name": "toast",
+              "parameters": [
+                {
+                  "name": "stack",
+                  "default": "'top-right'",
+                  "type": {
+                    "text": "StackPosition"
+                  }
+                }
+              ],
+              "description": "Displays the alert as a toast notification. This will move the alert out of its position in the DOM and, when\ndismissed, it will be removed from the DOM completely. By storing a reference to the alert, you can reuse it by\ncalling this method again. The returned promise will resolve after the alert is hidden."
+            },
+            {
+              "kind": "method",
+              "name": "restartAutoHide"
+            },
+            {
+              "kind": "method",
+              "name": "handleCloseClick"
+            },
+            {
+              "kind": "method",
+              "name": "handleMouseMove"
+            },
+            {
+              "kind": "method",
+              "name": "handleOpenChange"
+            },
+            {
+              "kind": "method",
+              "name": "handleDurationChange"
+            },
+            {
+              "kind": "field",
+              "name": "notify",
+              "static": true,
+              "default": "notify",
+              "description": "发送全局message 消息"
+            }
+          ],
+          "events": [
+            {
+              "description": "Emitted when the alert opens.",
+              "name": "sl-show",
+              "reactName": "onSlShow"
+            },
+            {
+              "description": "Emitted after the alert opens and all animations are complete.",
+              "name": "sl-after-show",
+              "reactName": "onSlAfterShow"
+            },
+            {
+              "description": "Emitted when the alert closes.",
+              "name": "sl-hide",
+              "reactName": "onSlHide"
+            },
+            {
+              "description": "Emitted after the alert closes and all animations are complete.",
+              "name": "sl-after-hide",
+              "reactName": "onSlAfterHide"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Indicates whether or not the alert is open. You can use this in lieu of the show/hide methods.",
+              "fieldName": "open"
+            },
+            {
+              "name": "closable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Makes the alert closable.",
+              "fieldName": "closable"
+            },
+            {
+              "name": "variant",
+              "type": {
+                "text": "'primary' | 'success' | 'neutral' | 'warning' | 'danger'"
+              },
+              "default": "'primary'",
+              "description": "The alert's variant.",
+              "fieldName": "variant"
+            },
+            {
+              "name": "duration",
+              "type": {
+                "text": "number"
+              },
+              "default": "Infinity",
+              "description": "The length of time, in milliseconds, the alert will show before closing itself. If the user interacts with\nthe alert before it closes (e.g. moves the mouse over it), the timer will restart. Defaults to `Infinity`.",
+              "resolveInitializer": {
+                "module": "src/components/alert/alert.ts"
+              },
+              "fieldName": "duration"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "since": "2.0",
+          "status": "stable",
+          "dependencies": [
+            "sl-icon-button"
+          ],
+          "animations": [
+            {
+              "name": "alert.show",
+              "description": "The animation to use when showing the alert."
+            },
+            {
+              "name": "alert.hide",
+              "description": "The animation to use when hiding the alert."
+            }
+          ],
+          "tagName": "sl-alert",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "SlAlert",
+            "module": "src/components/alert/alert.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "sl-alert",
+          "declaration": {
+            "name": "SlAlert",
+            "module": "src/components/alert/alert.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/components/ac-panel/ac-panel.styles.ts",
       "declarations": [],
       "exports": [
@@ -374,278 +646,6 @@
           "declaration": {
             "name": "SlAnimatedImage",
             "module": "src/components/animated-image/animated-image.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/components/alert/alert.styles.ts",
-      "declarations": [],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "module": "src/components/alert/alert.styles.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/components/alert/alert.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "",
-          "name": "SlAlert",
-          "cssProperties": [
-            {
-              "description": "The alert's box shadow.",
-              "name": "--box-shadow"
-            }
-          ],
-          "cssParts": [
-            {
-              "description": "The component's base wrapper.",
-              "name": "base"
-            },
-            {
-              "description": "The container that wraps the alert icon.",
-              "name": "icon"
-            },
-            {
-              "description": "The alert message.",
-              "name": "message"
-            },
-            {
-              "description": "The close button.",
-              "name": "close-button"
-            }
-          ],
-          "slots": [
-            {
-              "description": "The alert's content.",
-              "name": ""
-            },
-            {
-              "description": "An icon to show in the alert.",
-              "name": "icon"
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "autoHideTimeout",
-              "type": {
-                "text": "any"
-              },
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "base",
-              "type": {
-                "text": "HTMLElement"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "open",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Indicates whether or not the alert is open. You can use this in lieu of the show/hide methods.",
-              "attribute": "open",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "closable",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Makes the alert closable.",
-              "attribute": "closable",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "variant",
-              "type": {
-                "text": "'primary' | 'success' | 'neutral' | 'warning' | 'danger'"
-              },
-              "default": "'primary'",
-              "description": "The alert's variant.",
-              "attribute": "variant",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "duration",
-              "type": {
-                "text": "number"
-              },
-              "default": "Infinity",
-              "description": "The length of time, in milliseconds, the alert will show before closing itself. If the user interacts with\nthe alert before it closes (e.g. moves the mouse over it), the timer will restart. Defaults to `Infinity`.",
-              "attribute": "duration"
-            },
-            {
-              "kind": "method",
-              "name": "show",
-              "description": "Shows the alert."
-            },
-            {
-              "kind": "method",
-              "name": "hide",
-              "description": "Hides the alert"
-            },
-            {
-              "kind": "method",
-              "name": "toast",
-              "parameters": [
-                {
-                  "name": "stack",
-                  "default": "'top-right'",
-                  "type": {
-                    "text": "StackPosition"
-                  }
-                }
-              ],
-              "description": "Displays the alert as a toast notification. This will move the alert out of its position in the DOM and, when\ndismissed, it will be removed from the DOM completely. By storing a reference to the alert, you can reuse it by\ncalling this method again. The returned promise will resolve after the alert is hidden."
-            },
-            {
-              "kind": "method",
-              "name": "restartAutoHide"
-            },
-            {
-              "kind": "method",
-              "name": "handleCloseClick"
-            },
-            {
-              "kind": "method",
-              "name": "handleMouseMove"
-            },
-            {
-              "kind": "method",
-              "name": "handleOpenChange"
-            },
-            {
-              "kind": "method",
-              "name": "handleDurationChange"
-            },
-            {
-              "kind": "field",
-              "name": "notify",
-              "static": true,
-              "default": "notify",
-              "description": "发送全局message 消息"
-            }
-          ],
-          "events": [
-            {
-              "description": "Emitted when the alert opens.",
-              "name": "sl-show",
-              "reactName": "onSlShow"
-            },
-            {
-              "description": "Emitted after the alert opens and all animations are complete.",
-              "name": "sl-after-show",
-              "reactName": "onSlAfterShow"
-            },
-            {
-              "description": "Emitted when the alert closes.",
-              "name": "sl-hide",
-              "reactName": "onSlHide"
-            },
-            {
-              "description": "Emitted after the alert closes and all animations are complete.",
-              "name": "sl-after-hide",
-              "reactName": "onSlAfterHide"
-            }
-          ],
-          "attributes": [
-            {
-              "name": "open",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Indicates whether or not the alert is open. You can use this in lieu of the show/hide methods.",
-              "fieldName": "open"
-            },
-            {
-              "name": "closable",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Makes the alert closable.",
-              "fieldName": "closable"
-            },
-            {
-              "name": "variant",
-              "type": {
-                "text": "'primary' | 'success' | 'neutral' | 'warning' | 'danger'"
-              },
-              "default": "'primary'",
-              "description": "The alert's variant.",
-              "fieldName": "variant"
-            },
-            {
-              "name": "duration",
-              "type": {
-                "text": "number"
-              },
-              "default": "Infinity",
-              "description": "The length of time, in milliseconds, the alert will show before closing itself. If the user interacts with\nthe alert before it closes (e.g. moves the mouse over it), the timer will restart. Defaults to `Infinity`.",
-              "resolveInitializer": {
-                "module": "src/components/alert/alert.ts"
-              },
-              "fieldName": "duration"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "since": "2.0",
-          "status": "stable",
-          "dependencies": [
-            "sl-icon-button"
-          ],
-          "animations": [
-            {
-              "name": "alert.show",
-              "description": "The animation to use when showing the alert."
-            },
-            {
-              "name": "alert.hide",
-              "description": "The animation to use when hiding the alert."
-            }
-          ],
-          "tagName": "sl-alert",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "name": "SlAlert",
-            "module": "src/components/alert/alert.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "sl-alert",
-          "declaration": {
-            "name": "SlAlert",
-            "module": "src/components/alert/alert.ts"
           }
         }
       ]
@@ -4085,6 +4085,278 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/components/date-panel/date-panel.styles.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "module": "src/components/date-panel/date-panel.styles.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/date-panel/date-panel.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "SlDatePanel",
+          "cssProperties": [
+            {
+              "description": "An example CSS custom property.",
+              "name": "--example"
+            }
+          ],
+          "cssParts": [
+            {
+              "description": "The component's base wrapper.",
+              "name": "base"
+            },
+            {
+              "description": "The component's prevButton .",
+              "name": "prevButton"
+            },
+            {
+              "description": "The component's prevButton .",
+              "name": "nextButton"
+            },
+            {
+              "description": "The component's  panel wrap select DIV.",
+              "name": "panel-base"
+            },
+            {
+              "description": "The component's  select date panel.",
+              "name": "date-date"
+            },
+            {
+              "description": "The component's  select month panel.",
+              "name": "date-month"
+            },
+            {
+              "description": "The component's  select year panel.",
+              "name": "date-year"
+            },
+            {
+              "description": "The component's year panel item: item year.",
+              "name": "item-year"
+            },
+            {
+              "description": "The component's month panel item: item month.",
+              "name": "item-month"
+            },
+            {
+              "description": "The component's day panel item: item day .",
+              "name": "item-date"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string | undefined"
+              },
+              "description": "选中日期 ,格式：2018，2018-02, 2018/01， 2018/02/02 ,2018-01-02",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "mode",
+              "type": {
+                "text": "'year' | 'month' | 'date'"
+              },
+              "default": "'date'",
+              "description": "选择模式，年，月，日",
+              "attribute": "mode"
+            },
+            {
+              "kind": "field",
+              "name": "min",
+              "type": {
+                "text": "string | number | undefined"
+              },
+              "description": "最小值"
+            },
+            {
+              "kind": "field",
+              "name": "max",
+              "type": {
+                "text": "string | number | undefined"
+              },
+              "description": "最大值"
+            },
+            {
+              "kind": "field",
+              "name": "maxDate"
+            },
+            {
+              "kind": "field",
+              "name": "minDate"
+            },
+            {
+              "kind": "field",
+              "name": "innerMode",
+              "type": {
+                "text": "'year' | 'month' | 'date'"
+              },
+              "privacy": "private",
+              "default": "'date'"
+            },
+            {
+              "kind": "field",
+              "name": "_innerYear",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_innerMonth",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "valueDate",
+              "type": {
+                "text": "Date | undefined"
+              },
+              "description": "内部 value 所对应的日期"
+            },
+            {
+              "kind": "field",
+              "name": "valueDateString",
+              "privacy": "public"
+            },
+            {
+              "kind": "field",
+              "name": "innerDate",
+              "type": {
+                "text": "Date"
+              },
+              "privacy": "private",
+              "default": "new Date()",
+              "description": "内部：维护切换上下面板后显示的时间"
+            },
+            {
+              "kind": "method",
+              "name": "watchSelectModeChange"
+            },
+            {
+              "kind": "field",
+              "name": "innerDisplayDateStr",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "renderHeader",
+              "privacy": "private",
+              "description": "渲染顶部"
+            },
+            {
+              "kind": "method",
+              "name": "renderDatePanel",
+              "privacy": "private",
+              "description": "渲染 周和月的天"
+            },
+            {
+              "kind": "method",
+              "name": "renderMonthBody",
+              "privacy": "private",
+              "description": "渲染 年选月Body"
+            },
+            {
+              "kind": "method",
+              "name": "emitValueSelectEvent",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "detail",
+                  "default": "{}"
+                }
+              ],
+              "description": "触发 date-select 事件"
+            },
+            {
+              "kind": "method",
+              "name": "renderYearBody",
+              "privacy": "private",
+              "description": "渲染 年选月Body"
+            },
+            {
+              "kind": "method",
+              "name": "naviagtorByKeyCode",
+              "parameters": [
+                {
+                  "name": "keyCode",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            }
+          ],
+          "events": [
+            {
+              "description": "Emitted when a date select.",
+              "name": "sl-date-select",
+              "reactName": "onSlDateSelect"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "value",
+              "type": {
+                "text": "string | undefined"
+              },
+              "description": "选中日期 ,格式：2018，2018-02, 2018/01， 2018/02/02 ,2018-01-02",
+              "fieldName": "value"
+            },
+            {
+              "name": "mode",
+              "type": {
+                "text": "'year' | 'month' | 'date'"
+              },
+              "default": "'date'",
+              "description": "选择模式，年，月，日",
+              "fieldName": "mode"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "since": "2.0",
+          "status": "experimental",
+          "tagName": "sl-date-panel",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "SlDatePanel",
+            "module": "src/components/date-panel/date-panel.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "sl-date-panel",
+          "declaration": {
+            "name": "SlDatePanel",
+            "module": "src/components/date-panel/date-panel.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/components/date/date.styles.ts",
       "declarations": [],
       "exports": [
@@ -4510,278 +4782,6 @@
     },
     {
       "kind": "javascript-module",
-      "path": "src/components/date-panel/date-panel.styles.ts",
-      "declarations": [],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "module": "src/components/date-panel/date-panel.styles.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/components/date-panel/date-panel.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "",
-          "name": "SlDatePanel",
-          "cssProperties": [
-            {
-              "description": "An example CSS custom property.",
-              "name": "--example"
-            }
-          ],
-          "cssParts": [
-            {
-              "description": "The component's base wrapper.",
-              "name": "base"
-            },
-            {
-              "description": "The component's prevButton .",
-              "name": "prevButton"
-            },
-            {
-              "description": "The component's prevButton .",
-              "name": "nextButton"
-            },
-            {
-              "description": "The component's  panel wrap select DIV.",
-              "name": "panel-base"
-            },
-            {
-              "description": "The component's  select date panel.",
-              "name": "date-date"
-            },
-            {
-              "description": "The component's  select month panel.",
-              "name": "date-month"
-            },
-            {
-              "description": "The component's  select year panel.",
-              "name": "date-year"
-            },
-            {
-              "description": "The component's year panel item: item year.",
-              "name": "item-year"
-            },
-            {
-              "description": "The component's month panel item: item month.",
-              "name": "item-month"
-            },
-            {
-              "description": "The component's day panel item: item day .",
-              "name": "item-date"
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "value",
-              "type": {
-                "text": "string | undefined"
-              },
-              "description": "选中日期 ,格式：2018，2018-02, 2018/01， 2018/02/02 ,2018-01-02",
-              "attribute": "value"
-            },
-            {
-              "kind": "field",
-              "name": "mode",
-              "type": {
-                "text": "'year' | 'month' | 'date'"
-              },
-              "default": "'date'",
-              "description": "选择模式，年，月，日",
-              "attribute": "mode"
-            },
-            {
-              "kind": "field",
-              "name": "min",
-              "type": {
-                "text": "string | number | undefined"
-              },
-              "description": "最小值"
-            },
-            {
-              "kind": "field",
-              "name": "max",
-              "type": {
-                "text": "string | number | undefined"
-              },
-              "description": "最大值"
-            },
-            {
-              "kind": "field",
-              "name": "maxDate"
-            },
-            {
-              "kind": "field",
-              "name": "minDate"
-            },
-            {
-              "kind": "field",
-              "name": "innerMode",
-              "type": {
-                "text": "'year' | 'month' | 'date'"
-              },
-              "privacy": "private",
-              "default": "'date'"
-            },
-            {
-              "kind": "field",
-              "name": "_innerYear",
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "_innerMonth",
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "valueDate",
-              "type": {
-                "text": "Date | undefined"
-              },
-              "description": "内部 value 所对应的日期"
-            },
-            {
-              "kind": "field",
-              "name": "valueDateString",
-              "privacy": "public"
-            },
-            {
-              "kind": "field",
-              "name": "innerDate",
-              "type": {
-                "text": "Date"
-              },
-              "privacy": "private",
-              "default": "new Date()",
-              "description": "内部：维护切换上下面板后显示的时间"
-            },
-            {
-              "kind": "method",
-              "name": "watchSelectModeChange"
-            },
-            {
-              "kind": "field",
-              "name": "innerDisplayDateStr",
-              "type": {
-                "text": "string"
-              },
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "renderHeader",
-              "privacy": "private",
-              "description": "渲染顶部"
-            },
-            {
-              "kind": "method",
-              "name": "renderDatePanel",
-              "privacy": "private",
-              "description": "渲染 周和月的天"
-            },
-            {
-              "kind": "method",
-              "name": "renderMonthBody",
-              "privacy": "private",
-              "description": "渲染 年选月Body"
-            },
-            {
-              "kind": "method",
-              "name": "emitValueSelectEvent",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "detail",
-                  "default": "{}"
-                }
-              ],
-              "description": "触发 date-select 事件"
-            },
-            {
-              "kind": "method",
-              "name": "renderYearBody",
-              "privacy": "private",
-              "description": "渲染 年选月Body"
-            },
-            {
-              "kind": "method",
-              "name": "naviagtorByKeyCode",
-              "parameters": [
-                {
-                  "name": "keyCode",
-                  "type": {
-                    "text": "string"
-                  }
-                }
-              ]
-            }
-          ],
-          "events": [
-            {
-              "description": "Emitted when a date select.",
-              "name": "sl-date-select",
-              "reactName": "onSlDateSelect"
-            }
-          ],
-          "attributes": [
-            {
-              "name": "value",
-              "type": {
-                "text": "string | undefined"
-              },
-              "description": "选中日期 ,格式：2018，2018-02, 2018/01， 2018/02/02 ,2018-01-02",
-              "fieldName": "value"
-            },
-            {
-              "name": "mode",
-              "type": {
-                "text": "'year' | 'month' | 'date'"
-              },
-              "default": "'date'",
-              "description": "选择模式，年，月，日",
-              "fieldName": "mode"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "since": "2.0",
-          "status": "experimental",
-          "tagName": "sl-date-panel",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "name": "SlDatePanel",
-            "module": "src/components/date-panel/date-panel.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "sl-date-panel",
-          "declaration": {
-            "name": "SlDatePanel",
-            "module": "src/components/date-panel/date-panel.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
       "path": "src/components/details/details.styles.ts",
       "declarations": [],
       "exports": [
@@ -5072,6 +5072,10 @@
               "name": "title"
             },
             {
+              "description": "The dialog title exta.",
+              "name": "title-exta"
+            },
+            {
               "description": "The close button.",
               "name": "close-button"
             },
@@ -5094,6 +5098,10 @@
               "name": "label"
             },
             {
+              "description": "The dialog's title exta.",
+              "name": "title-exta"
+            },
+            {
               "description": "The dialog's footer, usually one or more buttons representing various options.",
               "name": "footer"
             }
@@ -5108,14 +5116,14 @@
             },
             {
               "kind": "field",
-              "name": "panel",
+              "name": "panelElement",
               "type": {
                 "text": "HTMLElement"
               }
             },
             {
               "kind": "field",
-              "name": "overlay",
+              "name": "overlayElement",
               "type": {
                 "text": "HTMLElement"
               }
@@ -5128,7 +5136,7 @@
             },
             {
               "kind": "field",
-              "name": "modal",
+              "name": "modalObj",
               "type": {
                 "text": "Modal"
               },
@@ -5151,6 +5159,101 @@
               "default": "false",
               "description": "Indicates whether or not the dialog is open. You can use this in lieu of the show/hide methods.",
               "attribute": "open",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "dragHead",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Indicates whether or not the dialog is can drag position.",
+              "attribute": "drag-head",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "resizeAble",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Indicates whether or not the dialog is can resize",
+              "attribute": "resize-able",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "minWidth",
+              "type": {
+                "text": "string|number"
+              },
+              "description": "控制 dialog  拖动改变 大小的是 min-width ，例如： 500,50% ,500px",
+              "attribute": "min-width",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "maxWidth",
+              "type": {
+                "text": "string|number"
+              },
+              "description": "控制 dialog  拖动改变 大小的是  dialog max-width  例如： 500,50% ,500px",
+              "attribute": "max-width",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "minHeight",
+              "type": {
+                "text": "string|number"
+              },
+              "description": "控制 dialog  拖动改变 大小的是  dialog 最小高度 min-height",
+              "attribute": "min-height",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "maxHeight",
+              "type": {
+                "text": "string|number"
+              },
+              "description": "控制 dialog  拖动改变 大小的是  dialog 最大高度 max-height",
+              "attribute": "max-height",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "mask",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "是否支持遮罩层",
+              "attribute": "mask",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "maskClosable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "是否允许遮罩层来自动关闭",
+              "attribute": "mask-closeable",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "escCloseable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "当显示遮罩层的时候， 是否允许 esc 键来关闭 弹出框 （待实现）",
+              "attribute": "esc-closeable",
               "reflects": true
             },
             {
@@ -5178,6 +5281,15 @@
             {
               "kind": "method",
               "name": "show",
+              "parameters": [
+                {
+                  "name": "pos",
+                  "optional": true,
+                  "type": {
+                    "text": "{x?:number,y?:number}"
+                  }
+                }
+              ],
               "description": "Shows the dialog."
             },
             {
@@ -5188,6 +5300,11 @@
             {
               "kind": "method",
               "name": "requestClose",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "requestIconClose",
               "privacy": "private"
             },
             {
@@ -5205,6 +5322,11 @@
             {
               "kind": "method",
               "name": "handleOpenChange"
+            },
+            {
+              "kind": "field",
+              "name": "panelStyle",
+              "privacy": "private"
             }
           ],
           "events": [
@@ -5237,6 +5359,16 @@
               "description": "Emitted when the user attempts to close the dialog by clicking the close button, clicking the overlay, or pressing the escape key. Calling `event.preventDefault()` will prevent the dialog from closing. Avoid using this unless closing the dialog will result in destructive behavior such as data loss.",
               "name": "sl-request-close",
               "reactName": "onSlRequestClose"
+            },
+            {
+              "description": "Emitted before when the user want to drag to change dialog size",
+              "name": "sl-resize-position-before",
+              "reactName": "onSlResizePositionBefore"
+            },
+            {
+              "description": "Emitted after  the user  drag  dialog size",
+              "name": "sl-resize-position",
+              "reactName": "onSlResizePosition"
             }
           ],
           "attributes": [
@@ -5248,6 +5380,83 @@
               "default": "false",
               "description": "Indicates whether or not the dialog is open. You can use this in lieu of the show/hide methods.",
               "fieldName": "open"
+            },
+            {
+              "name": "drag-head",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Indicates whether or not the dialog is can drag position.",
+              "fieldName": "dragHead"
+            },
+            {
+              "name": "resize-able",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Indicates whether or not the dialog is can resize",
+              "fieldName": "resizeAble"
+            },
+            {
+              "name": "min-width",
+              "type": {
+                "text": "string|number"
+              },
+              "description": "控制 dialog  拖动改变 大小的是 min-width ，例如： 500,50% ,500px",
+              "fieldName": "minWidth"
+            },
+            {
+              "name": "max-width",
+              "type": {
+                "text": "string|number"
+              },
+              "description": "控制 dialog  拖动改变 大小的是  dialog max-width  例如： 500,50% ,500px",
+              "fieldName": "maxWidth"
+            },
+            {
+              "name": "min-height",
+              "type": {
+                "text": "string|number"
+              },
+              "description": "控制 dialog  拖动改变 大小的是  dialog 最小高度 min-height",
+              "fieldName": "minHeight"
+            },
+            {
+              "name": "max-height",
+              "type": {
+                "text": "string|number"
+              },
+              "description": "控制 dialog  拖动改变 大小的是  dialog 最大高度 max-height",
+              "fieldName": "maxHeight"
+            },
+            {
+              "name": "mask",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "是否支持遮罩层",
+              "fieldName": "mask"
+            },
+            {
+              "name": "mask-closeable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "是否允许遮罩层来自动关闭",
+              "fieldName": "maskClosable"
+            },
+            {
+              "name": "esc-closeable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "当显示遮罩层的时候， 是否允许 esc 键来关闭 弹出框 （待实现）",
+              "fieldName": "escCloseable"
             },
             {
               "name": "label",
@@ -5318,6 +5527,46 @@
           "declaration": {
             "name": "SlDialog",
             "module": "src/components/dialog/dialog.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/dialog/dragRender.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "renderResizeAble"
+        },
+        {
+          "kind": "function",
+          "name": "dragResizeController",
+          "parameters": [
+            {
+              "name": "el",
+              "type": {
+                "text": "ReactiveElement"
+              }
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "renderResizeAble",
+          "declaration": {
+            "name": "renderResizeAble",
+            "module": "src/components/dialog/dragRender.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "dragResizeController",
+          "declaration": {
+            "name": "dragResizeController",
+            "module": "src/components/dialog/dragRender.ts"
           }
         }
       ]
@@ -7139,6 +7388,370 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/components/icon/icon.styles.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "module": "src/components/icon/icon.styles.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/icon/icon.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "SlIcon",
+          "cssParts": [
+            {
+              "description": "The component's base wrapper.",
+              "name": "base"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "svg",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "''"
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "description": "The name of the icon to draw.",
+              "attribute": "name"
+            },
+            {
+              "kind": "field",
+              "name": "src",
+              "type": {
+                "text": "string"
+              },
+              "description": "An external URL of an SVG file.",
+              "attribute": "src"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "description": "An alternate description to use for accessibility. If omitted, the icon will be ignored by assistive devices.",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "library",
+              "type": {
+                "text": "string"
+              },
+              "default": "'default'",
+              "description": "The name of a registered custom icon library.",
+              "attribute": "library"
+            },
+            {
+              "kind": "method",
+              "name": "getUrl",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "setIcon"
+            },
+            {
+              "kind": "method",
+              "name": "handleChange"
+            }
+          ],
+          "events": [
+            {
+              "description": "Emitted when the icon has loaded.",
+              "name": "sl-load",
+              "reactName": "onSlLoad"
+            },
+            {
+              "type": {
+                "text": "{ status: number }"
+              },
+              "description": "Emitted when the icon fails to load due to an error.",
+              "name": "sl-error",
+              "reactName": "onSlError"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "description": "The name of the icon to draw.",
+              "fieldName": "name"
+            },
+            {
+              "name": "src",
+              "type": {
+                "text": "string"
+              },
+              "description": "An external URL of an SVG file.",
+              "fieldName": "src"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "description": "An alternate description to use for accessibility. If omitted, the icon will be ignored by assistive devices.",
+              "fieldName": "label"
+            },
+            {
+              "name": "library",
+              "type": {
+                "text": "string"
+              },
+              "default": "'default'",
+              "description": "The name of a registered custom icon library.",
+              "fieldName": "library"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "since": "2.0",
+          "status": "stable",
+          "tagName": "sl-icon",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "SlIcon",
+            "module": "src/components/icon/icon.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "sl-icon",
+          "declaration": {
+            "name": "SlIcon",
+            "module": "src/components/icon/icon.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/icon/library.default.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "library",
+          "type": {
+            "text": "IconLibrary"
+          },
+          "default": "{\n  name: 'default',\n  resolver: name => `${getBasePath()}/assets/icons/${name}.svg`\n}"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "library",
+            "module": "src/components/icon/library.default.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/icon/library.system.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "systemLibrary",
+          "type": {
+            "text": "IconLibrary"
+          },
+          "default": "{\n  name: 'system',\n  resolver: (name: keyof typeof icons) => {\n    if (icons[name]) {\n      return `data:image/svg+xml,${encodeURIComponent(icons[name])}`;\n    } else {\n      return '';\n    }\n  }\n}"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "systemLibrary",
+            "module": "src/components/icon/library.system.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/icon/library.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "watchIcon",
+          "parameters": [
+            {
+              "name": "icon",
+              "type": {
+                "text": "SlIcon"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "unwatchIcon",
+          "parameters": [
+            {
+              "name": "icon",
+              "type": {
+                "text": "SlIcon"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "getIconLibrary",
+          "parameters": [
+            {
+              "name": "name",
+              "optional": true,
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "registerIconLibrary",
+          "parameters": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "options",
+              "type": {
+                "text": "{ resolver: IconLibraryResolver; mutator?: IconLibraryMutator }"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "unregisterIconLibrary",
+          "parameters": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "watchIcon",
+          "declaration": {
+            "name": "watchIcon",
+            "module": "src/components/icon/library.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "unwatchIcon",
+          "declaration": {
+            "name": "unwatchIcon",
+            "module": "src/components/icon/library.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "getIconLibrary",
+          "declaration": {
+            "name": "getIconLibrary",
+            "module": "src/components/icon/library.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "registerIconLibrary",
+          "declaration": {
+            "name": "registerIconLibrary",
+            "module": "src/components/icon/library.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "unregisterIconLibrary",
+          "declaration": {
+            "name": "unregisterIconLibrary",
+            "module": "src/components/icon/library.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/icon/request.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "requestIcon",
+          "parameters": [
+            {
+              "name": "url",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "requestIcon",
+          "declaration": {
+            "name": "requestIcon",
+            "module": "src/components/icon/request.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/components/gallery/gallery.styles.ts",
       "declarations": [],
       "exports": [
@@ -7554,370 +8167,6 @@
           "declaration": {
             "name": "SlGallery",
             "module": "src/components/gallery/gallery.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/components/icon/icon.styles.ts",
-      "declarations": [],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "module": "src/components/icon/icon.styles.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/components/icon/icon.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "",
-          "name": "SlIcon",
-          "cssParts": [
-            {
-              "description": "The component's base wrapper.",
-              "name": "base"
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "svg",
-              "type": {
-                "text": "string"
-              },
-              "privacy": "private",
-              "default": "''"
-            },
-            {
-              "kind": "field",
-              "name": "name",
-              "type": {
-                "text": "string"
-              },
-              "description": "The name of the icon to draw.",
-              "attribute": "name"
-            },
-            {
-              "kind": "field",
-              "name": "src",
-              "type": {
-                "text": "string"
-              },
-              "description": "An external URL of an SVG file.",
-              "attribute": "src"
-            },
-            {
-              "kind": "field",
-              "name": "label",
-              "type": {
-                "text": "string"
-              },
-              "description": "An alternate description to use for accessibility. If omitted, the icon will be ignored by assistive devices.",
-              "attribute": "label"
-            },
-            {
-              "kind": "field",
-              "name": "library",
-              "type": {
-                "text": "string"
-              },
-              "default": "'default'",
-              "description": "The name of a registered custom icon library.",
-              "attribute": "library"
-            },
-            {
-              "kind": "method",
-              "name": "getUrl",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "string"
-                }
-              }
-            },
-            {
-              "kind": "method",
-              "name": "setIcon"
-            },
-            {
-              "kind": "method",
-              "name": "handleChange"
-            }
-          ],
-          "events": [
-            {
-              "description": "Emitted when the icon has loaded.",
-              "name": "sl-load",
-              "reactName": "onSlLoad"
-            },
-            {
-              "type": {
-                "text": "{ status: number }"
-              },
-              "description": "Emitted when the icon fails to load due to an error.",
-              "name": "sl-error",
-              "reactName": "onSlError"
-            }
-          ],
-          "attributes": [
-            {
-              "name": "name",
-              "type": {
-                "text": "string"
-              },
-              "description": "The name of the icon to draw.",
-              "fieldName": "name"
-            },
-            {
-              "name": "src",
-              "type": {
-                "text": "string"
-              },
-              "description": "An external URL of an SVG file.",
-              "fieldName": "src"
-            },
-            {
-              "name": "label",
-              "type": {
-                "text": "string"
-              },
-              "description": "An alternate description to use for accessibility. If omitted, the icon will be ignored by assistive devices.",
-              "fieldName": "label"
-            },
-            {
-              "name": "library",
-              "type": {
-                "text": "string"
-              },
-              "default": "'default'",
-              "description": "The name of a registered custom icon library.",
-              "fieldName": "library"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "since": "2.0",
-          "status": "stable",
-          "tagName": "sl-icon",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "name": "SlIcon",
-            "module": "src/components/icon/icon.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "sl-icon",
-          "declaration": {
-            "name": "SlIcon",
-            "module": "src/components/icon/icon.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/components/icon/library.default.ts",
-      "declarations": [
-        {
-          "kind": "variable",
-          "name": "library",
-          "type": {
-            "text": "IconLibrary"
-          },
-          "default": "{\n  name: 'default',\n  resolver: name => `${getBasePath()}/assets/icons/${name}.svg`\n}"
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "name": "library",
-            "module": "src/components/icon/library.default.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/components/icon/library.system.ts",
-      "declarations": [
-        {
-          "kind": "variable",
-          "name": "systemLibrary",
-          "type": {
-            "text": "IconLibrary"
-          },
-          "default": "{\n  name: 'system',\n  resolver: (name: keyof typeof icons) => {\n    if (icons[name]) {\n      return `data:image/svg+xml,${encodeURIComponent(icons[name])}`;\n    } else {\n      return '';\n    }\n  }\n}"
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "name": "systemLibrary",
-            "module": "src/components/icon/library.system.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/components/icon/library.ts",
-      "declarations": [
-        {
-          "kind": "function",
-          "name": "watchIcon",
-          "parameters": [
-            {
-              "name": "icon",
-              "type": {
-                "text": "SlIcon"
-              }
-            }
-          ]
-        },
-        {
-          "kind": "function",
-          "name": "unwatchIcon",
-          "parameters": [
-            {
-              "name": "icon",
-              "type": {
-                "text": "SlIcon"
-              }
-            }
-          ]
-        },
-        {
-          "kind": "function",
-          "name": "getIconLibrary",
-          "parameters": [
-            {
-              "name": "name",
-              "optional": true,
-              "type": {
-                "text": "string"
-              }
-            }
-          ]
-        },
-        {
-          "kind": "function",
-          "name": "registerIconLibrary",
-          "parameters": [
-            {
-              "name": "name",
-              "type": {
-                "text": "string"
-              }
-            },
-            {
-              "name": "options",
-              "type": {
-                "text": "{ resolver: IconLibraryResolver; mutator?: IconLibraryMutator }"
-              }
-            }
-          ]
-        },
-        {
-          "kind": "function",
-          "name": "unregisterIconLibrary",
-          "parameters": [
-            {
-              "name": "name",
-              "type": {
-                "text": "string"
-              }
-            }
-          ]
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "watchIcon",
-          "declaration": {
-            "name": "watchIcon",
-            "module": "src/components/icon/library.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "unwatchIcon",
-          "declaration": {
-            "name": "unwatchIcon",
-            "module": "src/components/icon/library.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "getIconLibrary",
-          "declaration": {
-            "name": "getIconLibrary",
-            "module": "src/components/icon/library.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "registerIconLibrary",
-          "declaration": {
-            "name": "registerIconLibrary",
-            "module": "src/components/icon/library.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "unregisterIconLibrary",
-          "declaration": {
-            "name": "unregisterIconLibrary",
-            "module": "src/components/icon/library.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/components/icon/request.ts",
-      "declarations": [
-        {
-          "kind": "function",
-          "name": "requestIcon",
-          "parameters": [
-            {
-              "name": "url",
-              "type": {
-                "text": "string"
-              }
-            }
-          ]
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "requestIcon",
-          "declaration": {
-            "name": "requestIcon",
-            "module": "src/components/icon/request.ts"
           }
         }
       ]
@@ -10369,6 +10618,199 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/components/org-tree/org-tree.styles.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "module": "src/components/org-tree/org-tree.styles.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/org-tree/org-tree.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "SlOrgTree",
+          "cssProperties": [
+            {
+              "description": "An example CSS custom property.",
+              "name": "--example"
+            }
+          ],
+          "cssParts": [
+            {
+              "description": "The component's container wrapper.",
+              "name": "container"
+            },
+            {
+              "description": "The component's tree wrapper.",
+              "name": "tree"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "rootData",
+              "type": {
+                "text": "OrgNodeDataType"
+              },
+              "description": "组织架构节点数据",
+              "attribute": "rootData"
+            },
+            {
+              "kind": "field",
+              "name": "center",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "是否居中",
+              "attribute": "center",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "horizontal",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "是否是水平布局 组织架构",
+              "attribute": "horizontal",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "nodeRender",
+              "type": {
+                "text": "(node: OrgNodeDataType) => TemplateResult<1> | TemplateResult<1>[]"
+              },
+              "default": "defaultRoleRender",
+              "attribute": "nodeRender"
+            },
+            {
+              "kind": "field",
+              "name": "containerEl",
+              "type": {
+                "text": "HTMLDivElement"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "rootNode",
+              "type": {
+                "text": "SlOrgNode"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "handNodeEvent",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "CustomEvent"
+                  }
+                }
+              ]
+            }
+          ],
+          "events": [
+            {
+              "type": {
+                "text": "{ node: SlOrgNode,nodeData:OrgNodeDataType }"
+              },
+              "description": "Emitted when node click.",
+              "name": "sl-org-tree-node-click",
+              "reactName": "onSlOrgTreeNodeClick"
+            },
+            {
+              "type": {
+                "text": "{ node: SlOrgNode,nodeData:OrgNodeDataType }"
+              },
+              "description": "Emitted when node toogle changed.",
+              "name": "sl-org-tree-node-toogle",
+              "reactName": "onSlOrgTreeNodeToogle"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "rootData",
+              "type": {
+                "text": "OrgNodeDataType"
+              },
+              "description": "组织架构节点数据",
+              "fieldName": "rootData"
+            },
+            {
+              "name": "center",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "是否居中",
+              "fieldName": "center"
+            },
+            {
+              "name": "horizontal",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "是否是水平布局 组织架构",
+              "fieldName": "horizontal"
+            },
+            {
+              "name": "nodeRender",
+              "type": {
+                "text": "(node: OrgNodeDataType) => TemplateResult<1> | TemplateResult<1>[]"
+              },
+              "default": "defaultRoleRender",
+              "resolveInitializer": {
+                "module": "/src/components/org-node/org-node"
+              },
+              "fieldName": "nodeRender"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "since": "2.0",
+          "status": "experimental",
+          "tagName": "sl-org-tree",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "SlOrgTree",
+            "module": "src/components/org-tree/org-tree.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "sl-org-tree",
+          "declaration": {
+            "name": "SlOrgTree",
+            "module": "src/components/org-tree/org-tree.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/components/org-node/org-node.styles.ts",
       "declarations": [],
       "exports": [
@@ -10616,199 +11058,6 @@
           "declaration": {
             "name": "SlOrgNode",
             "module": "src/components/org-node/org-node.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/components/org-tree/org-tree.styles.ts",
-      "declarations": [],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "module": "src/components/org-tree/org-tree.styles.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/components/org-tree/org-tree.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "",
-          "name": "SlOrgTree",
-          "cssProperties": [
-            {
-              "description": "An example CSS custom property.",
-              "name": "--example"
-            }
-          ],
-          "cssParts": [
-            {
-              "description": "The component's container wrapper.",
-              "name": "container"
-            },
-            {
-              "description": "The component's tree wrapper.",
-              "name": "tree"
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "rootData",
-              "type": {
-                "text": "OrgNodeDataType"
-              },
-              "description": "组织架构节点数据",
-              "attribute": "rootData"
-            },
-            {
-              "kind": "field",
-              "name": "center",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "true",
-              "description": "是否居中",
-              "attribute": "center",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "horizontal",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "是否是水平布局 组织架构",
-              "attribute": "horizontal",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "nodeRender",
-              "type": {
-                "text": "(node: OrgNodeDataType) => TemplateResult<1> | TemplateResult<1>[]"
-              },
-              "default": "defaultRoleRender",
-              "attribute": "nodeRender"
-            },
-            {
-              "kind": "field",
-              "name": "containerEl",
-              "type": {
-                "text": "HTMLDivElement"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "rootNode",
-              "type": {
-                "text": "SlOrgNode"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "handNodeEvent",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "event",
-                  "type": {
-                    "text": "CustomEvent"
-                  }
-                }
-              ]
-            }
-          ],
-          "events": [
-            {
-              "type": {
-                "text": "{ node: SlOrgNode,nodeData:OrgNodeDataType }"
-              },
-              "description": "Emitted when node click.",
-              "name": "sl-org-tree-node-click",
-              "reactName": "onSlOrgTreeNodeClick"
-            },
-            {
-              "type": {
-                "text": "{ node: SlOrgNode,nodeData:OrgNodeDataType }"
-              },
-              "description": "Emitted when node toogle changed.",
-              "name": "sl-org-tree-node-toogle",
-              "reactName": "onSlOrgTreeNodeToogle"
-            }
-          ],
-          "attributes": [
-            {
-              "name": "rootData",
-              "type": {
-                "text": "OrgNodeDataType"
-              },
-              "description": "组织架构节点数据",
-              "fieldName": "rootData"
-            },
-            {
-              "name": "center",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "true",
-              "description": "是否居中",
-              "fieldName": "center"
-            },
-            {
-              "name": "horizontal",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "是否是水平布局 组织架构",
-              "fieldName": "horizontal"
-            },
-            {
-              "name": "nodeRender",
-              "type": {
-                "text": "(node: OrgNodeDataType) => TemplateResult<1> | TemplateResult<1>[]"
-              },
-              "default": "defaultRoleRender",
-              "resolveInitializer": {
-                "module": "/src/components/org-node/org-node"
-              },
-              "fieldName": "nodeRender"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "since": "2.0",
-          "status": "experimental",
-          "tagName": "sl-org-tree",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "name": "SlOrgTree",
-            "module": "src/components/org-tree/org-tree.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "sl-org-tree",
-          "declaration": {
-            "name": "SlOrgTree",
-            "module": "src/components/org-tree/org-tree.ts"
           }
         }
       ]
@@ -13009,6 +13258,130 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/components/resize-observer/resize-observer.styles.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "module": "src/components/resize-observer/resize-observer.styles.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/resize-observer/resize-observer.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "SlResizeObserver",
+          "slots": [
+            {
+              "description": "One or more elements to watch for resizing.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "resizeObserver",
+              "type": {
+                "text": "ResizeObserver"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "observedElements",
+              "type": {
+                "text": "HTMLElement[]"
+              },
+              "privacy": "private",
+              "default": "[]"
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Disables the observer.",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "method",
+              "name": "handleSlotChange"
+            },
+            {
+              "kind": "method",
+              "name": "startObserver"
+            },
+            {
+              "kind": "method",
+              "name": "stopObserver"
+            },
+            {
+              "kind": "method",
+              "name": "handleDisabledChange"
+            }
+          ],
+          "events": [
+            {
+              "type": {
+                "text": "{ entries: ResizeObserverEntry[] }"
+              },
+              "description": "Emitted when the element is resized.",
+              "name": "sl-resize",
+              "reactName": "onSlResize"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Disables the observer.",
+              "fieldName": "disabled"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "since": "2.0",
+          "status": "stable",
+          "tagName": "sl-resize-observer",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "SlResizeObserver",
+            "module": "src/components/resize-observer/resize-observer.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "sl-resize-observer",
+          "declaration": {
+            "name": "SlResizeObserver",
+            "module": "src/components/resize-observer/resize-observer.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/components/relative-time/relative-time.ts",
       "declarations": [
         {
@@ -13176,130 +13549,6 @@
           "declaration": {
             "name": "SlRelativeTime",
             "module": "src/components/relative-time/relative-time.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/components/resize-observer/resize-observer.styles.ts",
-      "declarations": [],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "module": "src/components/resize-observer/resize-observer.styles.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/components/resize-observer/resize-observer.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "",
-          "name": "SlResizeObserver",
-          "slots": [
-            {
-              "description": "One or more elements to watch for resizing.",
-              "name": ""
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "resizeObserver",
-              "type": {
-                "text": "ResizeObserver"
-              },
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "observedElements",
-              "type": {
-                "text": "HTMLElement[]"
-              },
-              "privacy": "private",
-              "default": "[]"
-            },
-            {
-              "kind": "field",
-              "name": "disabled",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Disables the observer.",
-              "attribute": "disabled",
-              "reflects": true
-            },
-            {
-              "kind": "method",
-              "name": "handleSlotChange"
-            },
-            {
-              "kind": "method",
-              "name": "startObserver"
-            },
-            {
-              "kind": "method",
-              "name": "stopObserver"
-            },
-            {
-              "kind": "method",
-              "name": "handleDisabledChange"
-            }
-          ],
-          "events": [
-            {
-              "type": {
-                "text": "{ entries: ResizeObserverEntry[] }"
-              },
-              "description": "Emitted when the element is resized.",
-              "name": "sl-resize",
-              "reactName": "onSlResize"
-            }
-          ],
-          "attributes": [
-            {
-              "name": "disabled",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Disables the observer.",
-              "fieldName": "disabled"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "since": "2.0",
-          "status": "stable",
-          "tagName": "sl-resize-observer",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "name": "SlResizeObserver",
-            "module": "src/components/resize-observer/resize-observer.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "sl-resize-observer",
-          "declaration": {
-            "name": "SlResizeObserver",
-            "module": "src/components/resize-observer/resize-observer.ts"
           }
         }
       ]
@@ -16996,6 +17245,179 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/components/steps/steps.styles.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "module": "src/components/steps/steps.styles.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/steps/steps.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "SlSteps",
+          "cssProperties": [
+            {
+              "description": "An example CSS custom property.",
+              "name": "--example"
+            }
+          ],
+          "cssParts": [
+            {
+              "description": "The component's container wrapper.",
+              "name": "container"
+            }
+          ],
+          "slots": [
+            {
+              "description": "The default slot accept <sl-step> chilldrens.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "current",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "description": "当前步骤，默认从0",
+              "attribute": "current",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "vertical",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "是否为竖直",
+              "attribute": "vertical",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "startIndex",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "description": "起始节点显示 序号，默认为1",
+              "attribute": "startIndex",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "'small' | 'mid' | 'larger'"
+              },
+              "description": "进度点 圆圈大小",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "method",
+              "name": "_setChildStepCss",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "childStep",
+              "type": {
+                "text": "Array<SlStep>"
+              }
+            }
+          ],
+          "events": [
+            {
+              "description": "Emitted as current step change.",
+              "name": "sl-change",
+              "reactName": "onSlChange"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "current",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "description": "当前步骤，默认从0",
+              "fieldName": "current"
+            },
+            {
+              "name": "vertical",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "是否为竖直",
+              "fieldName": "vertical"
+            },
+            {
+              "name": "startIndex",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "description": "起始节点显示 序号，默认为1",
+              "fieldName": "startIndex"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "'small' | 'mid' | 'larger'"
+              },
+              "description": "进度点 圆圈大小",
+              "fieldName": "size"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "since": "2.0",
+          "status": "experimental",
+          "dependencies": [
+            "sl-step,sl-icon"
+          ],
+          "tagName": "sl-steps",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "SlSteps",
+            "module": "src/components/steps/steps.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "sl-steps",
+          "declaration": {
+            "name": "SlSteps",
+            "module": "src/components/steps/steps.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/components/step/step.styles.ts",
       "declarations": [],
       "exports": [
@@ -17193,179 +17615,6 @@
           "declaration": {
             "name": "SlStep",
             "module": "src/components/step/step.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/components/steps/steps.styles.ts",
-      "declarations": [],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "module": "src/components/steps/steps.styles.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/components/steps/steps.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "",
-          "name": "SlSteps",
-          "cssProperties": [
-            {
-              "description": "An example CSS custom property.",
-              "name": "--example"
-            }
-          ],
-          "cssParts": [
-            {
-              "description": "The component's container wrapper.",
-              "name": "container"
-            }
-          ],
-          "slots": [
-            {
-              "description": "The default slot accept <sl-step> chilldrens.",
-              "name": ""
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "current",
-              "type": {
-                "text": "number"
-              },
-              "default": "0",
-              "description": "当前步骤，默认从0",
-              "attribute": "current",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "vertical",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "是否为竖直",
-              "attribute": "vertical",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "startIndex",
-              "type": {
-                "text": "number"
-              },
-              "default": "1",
-              "description": "起始节点显示 序号，默认为1",
-              "attribute": "startIndex",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "size",
-              "type": {
-                "text": "'small' | 'mid' | 'larger'"
-              },
-              "description": "进度点 圆圈大小",
-              "attribute": "size",
-              "reflects": true
-            },
-            {
-              "kind": "method",
-              "name": "_setChildStepCss",
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "childStep",
-              "type": {
-                "text": "Array<SlStep>"
-              }
-            }
-          ],
-          "events": [
-            {
-              "description": "Emitted as current step change.",
-              "name": "sl-change",
-              "reactName": "onSlChange"
-            }
-          ],
-          "attributes": [
-            {
-              "name": "current",
-              "type": {
-                "text": "number"
-              },
-              "default": "0",
-              "description": "当前步骤，默认从0",
-              "fieldName": "current"
-            },
-            {
-              "name": "vertical",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "是否为竖直",
-              "fieldName": "vertical"
-            },
-            {
-              "name": "startIndex",
-              "type": {
-                "text": "number"
-              },
-              "default": "1",
-              "description": "起始节点显示 序号，默认为1",
-              "fieldName": "startIndex"
-            },
-            {
-              "name": "size",
-              "type": {
-                "text": "'small' | 'mid' | 'larger'"
-              },
-              "description": "进度点 圆圈大小",
-              "fieldName": "size"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "since": "2.0",
-          "status": "experimental",
-          "dependencies": [
-            "sl-step,sl-icon"
-          ],
-          "tagName": "sl-steps",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "name": "SlSteps",
-            "module": "src/components/steps/steps.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "sl-steps",
-          "declaration": {
-            "name": "SlSteps",
-            "module": "src/components/steps/steps.ts"
           }
         }
       ]

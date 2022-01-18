@@ -141,11 +141,17 @@ export default class SlDialog extends LitElement {
   }
 
   /** Shows the dialog. */
-  async show() {
+  async show(pos?:{x?:number,y?:number}) {
+
     if (this.open) {
       return;
     }
-
+    if(pos&&pos.x){
+      this.panelElement.style.left=pos.x+'px';
+    }
+    if(pos&&pos.y){
+      this.panelElement.style.top=pos.y+'px';
+    }
     this.open = true;
     return waitForEvent(this, 'sl-after-show');
   }
